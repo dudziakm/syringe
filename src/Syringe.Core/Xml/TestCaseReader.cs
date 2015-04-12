@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Xml;
 
-namespace Syringe.Core
+namespace Syringe.Core.Xml
 {
 	public class TestCaseReader
 	{
@@ -86,12 +85,54 @@ namespace Syringe.Core
 			testCase.LogRequest = YesToBool(element, "logrequest");
 			testCase.LogResponse = YesToBool(element, "logresponse");
 			testCase.Sleep = AttributeAsInt(element, "sleep");
+			testCase.AddHeader = ParseAddHeader(element);
 
 			// Numbered attributes
 			testCase.Descriptions = GetNumberedAttributes(element, "description");
-			
+			testCase.ParseResponses = GetNumberedAttributes(element, "parseresponse");
+			testCase.VerifyPositives = GetNumberedAttributes(element, "verifypositive");
+			testCase.VerifyNegatives = GetNumberedAttributes(element, "verifynegative");
 
 			return testCase;
+		}
+
+		private List<KeyValuePair<string, string>> ParseAddHeader(XElement element)
+		{
+			var addHeaders = new List<KeyValuePair<string, string>>();
+
+			// Headers are in the format mykey: 12345|bar: foo
+			string attributeValue = XmlHelper.GetOptionalAttribute(element, "addheader");
+			if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(":"))
+			{
+				if (attributeValue.Contains(":"))
+				{
+					if (attributeValue.Contains("|"))
+					{
+						string[] headers = attributeValue.Split('|');
+						foreach (string item in headers)
+						{
+							addHeaders.Add(GetHeaderPair(item));
+						}
+					}
+					else
+					{
+						addHeaders.Add(GetHeaderPair(attributeValue));
+					}
+				}
+			}
+
+			return addHeaders;
+		}
+
+		private KeyValuePair<string, string> GetHeaderPair(string header)
+		{
+			string[] parts = header.Split(':');
+			if (parts.Length == 2)
+			{
+				return new KeyValuePair<string, string>(parts[0].Trim(), parts[1].Trim());
+			}
+
+			return new KeyValuePair<string, string>();
 		}
 
 		private bool YesToBool(XElement element, string attributeName)

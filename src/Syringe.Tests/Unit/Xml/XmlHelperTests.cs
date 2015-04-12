@@ -79,6 +79,22 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
+		public void ReEncodeAttributeValues_should_ignore_empty_attribute_value()
+		{
+			// Arrange
+			string xml = GetInvalidXml();
+			xml = xml.Replace(@"verifypositive=""\<SELECT\>somequerystring=a&anotherquerystring=b&nbsp;""", "verifypositive=\"\"");
+
+			// Act
+			string validXml = XmlHelper.ReEncodeAttributeValues(xml);
+
+			// Assert
+			XDocument document = XDocument.Parse(validXml);
+			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute("verifypositive");
+			Assert.That(verifyPositive.Value, Is.EqualTo(""));
+		}
+
+		[Test]
 		[TestCase("verifypositive")]
 		[TestCase("verifypositive99")]
 		[TestCase("verifynegative")]

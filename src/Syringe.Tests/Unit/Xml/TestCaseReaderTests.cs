@@ -409,6 +409,120 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
+		public void Read_should_parse_addheader_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.AddHeader[0].Key, Is.EqualTo("mykey"));
+			Assert.That(testcase.AddHeader[0].Value, Is.EqualTo("12345"));
+
+			Assert.That(testcase.AddHeader[1].Key, Is.EqualTo("bar"));
+			Assert.That(testcase.AddHeader[1].Value, Is.EqualTo("foo"));
+
+			Assert.That(testcase.AddHeader[2].Key, Is.EqualTo("emptyvalue"));
+			Assert.That(testcase.AddHeader[2].Value, Is.EqualTo(""));
+
+			Assert.That(testcase.AddHeader[3].Key, Is.EqualTo("Cookie"));
+			Assert.That(testcase.AddHeader[3].Value, Is.EqualTo("referer=harrispilton.com"));
+		}
+
+		[Test]
+		public void Read_should_parse_single_addheader_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "User-Agent: Mozilla/5.0");
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.AddHeader[0].Key, Is.EqualTo("User-Agent"));
+			Assert.That(testcase.AddHeader[0].Value, Is.EqualTo("Mozilla/5.0"));
+		}
+
+		[Test]
+		public void Read_should_parse_empty_addheader()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "");
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.AddHeader.Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void Read_should_populate_parseresponse()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.ParseResponses[0], Is.EqualTo("parse 1"));
+			Assert.That(testcase.ParseResponses[1], Is.EqualTo("parse 11"));
+			Assert.That(testcase.ParseResponses[2], Is.EqualTo("parse 99"));
+		}
+
+		[Test]
+		public void Read_should_populate_verifypositive()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.VerifyPositives[0], Is.EqualTo("positive 1"));
+			Assert.That(testcase.VerifyPositives[1], Is.EqualTo("positive 22"));
+			Assert.That(testcase.VerifyPositives[2], Is.EqualTo("positive 99"));
+		}
+
+		[Test]
+		public void Read_should_populate_verifynegative()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.VerifyNegatives[0], Is.EqualTo("negative 1"));
+			Assert.That(testcase.VerifyNegatives[1], Is.EqualTo("negative 6"));
+			Assert.That(testcase.VerifyNegatives[2], Is.EqualTo("negative 66"));
+		}
+		[Test]
 		public void GetNumberedAttributes_should_return_attributes_ordered_numerically()
 		{
 			// Arrange

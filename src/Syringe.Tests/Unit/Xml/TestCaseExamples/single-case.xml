@@ -8,20 +8,23 @@
 		url="http://myserver"
 		method="post"
 		posttype="text/xml" 
-		addheader="mykey: 12345|bar: foo"
+		addheader="mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com"
 		postbody="username=corey&password=welcome"
 		verifyresponsecode="404"
-		verifypositive1="verify this string exists 1"
-		verifypositive99="verify this string exists 99"
-		verifynegative="verify this string does not exist 1"
-		verifynegative66="verify this string does not exist 66"
+		verifypositive="positive 1"
+		verifypositive99="positive 99"
+		verifypositive2="positive 22"	
+		verifynegative="negative 1"
+		verifynegative66="negative 66"
+		verifynegative6="negative 6"		
 		parseresponse="parse 1"
-		parseresponse2="parse 2"
+		parseresponse99="parse 99"
+		parseresponse11="parse 11"
 		errormessage="my error message"
 		logrequest="no"
 		logresponse="no"
 		sleep="3"
 	/>
-	<!--posttype Defaults to "application/x-www-form-urlencoded" if this parameter is omitted.-->
-	<!-- verifynegative: Note: Because your verification string is used as a regex, the following characters within it must be escaped with a backslash: {}[]()^$.|*+?\ -->
+	<!-- verifynegative: Note: Because your verification string is used as a regex, 
+	the following characters within it must be escaped with a backslash: {}[]()^$.|*+?\ -->
 </testcases>

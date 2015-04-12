@@ -64,8 +64,12 @@ namespace Syringe.Core.Xml
 			foreach (Match match in _attributeRegex.Matches(xml))
 			{
 				string attvalue = match.Groups[2].Value;
-				string valid = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attvalue));
-				xml = xml.Replace(attvalue, valid);
+
+				if (!string.IsNullOrEmpty(attvalue))
+				{
+					string valid = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attvalue));
+					xml = xml.Replace(attvalue, valid);
+				}
 			}
 
 			return xml;
