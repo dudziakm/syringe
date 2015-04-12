@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Syringe.Tests.Integration.Http
 			var runner = new RestSharpRunner(new Config());
 
 			// Act
-			runner.Run(@"Integration\wikipedia-example.xml");
+			runner.Run(Path.Combine("Integration" ,"wikipedia-example.xml"));
 
 			// Assert
 		}
