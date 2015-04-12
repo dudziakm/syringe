@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Unit\XmlHelperTests.cs" />
-    <Compile Include="Unit\ConfigReaderTests.cs" />
+    <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
+    <Compile Include="Unit\Xml\XmlHelperTests.cs" />
+    <Compile Include="Unit\Xml\ConfigReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\full-example.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\invalid-xml.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\multiple-attributes.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

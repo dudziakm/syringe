@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Syringe.Core.Xml;
 
-namespace Syringe.Tests.Unit
+namespace Syringe.Tests.Unit.Xml
 {
     public class ConfigReaderTests
     {

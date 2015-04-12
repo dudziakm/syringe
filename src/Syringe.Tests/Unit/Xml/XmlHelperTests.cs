@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
 
-namespace Syringe.Tests.Unit
+namespace Syringe.Tests.Unit.Xml
 {
     public class XmlHelperTests
     {
@@ -58,7 +58,7 @@ namespace Syringe.Tests.Unit
 			var element = XElement.Parse(xml);
 
 			// Act + Assert
-			Assert.Throws<ConfigurationException>(() => XmlHelper.GetRequiredElementValue(element, "foobar"));
+			Assert.Throws<XmlException>(() => XmlHelper.GetRequiredElementValue(element, "foobar"));
 	    }
 
 		[Test]
@@ -100,6 +100,59 @@ namespace Syringe.Tests.Unit
 			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b"));
 		}
 
+		[Test]
+		public void GetRequiredAttribute_should_return_attribute_value()
+		{
+			// Arrange
+			string xml = GetXmlWithAttributes();
+			var element = XElement.Parse(xml);
+
+			// Act
+			string actualValue = XmlHelper.GetRequiredAttribute(element, "repeat");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo("1333"));
+		}
+
+		[Test]
+		public void GetRequiredAttribute_should_throw_exception_when_attribute_does_not_exist()
+		{
+			// Arrange
+			string xml = GetXmlWithAttributes();
+			var element = XElement.Parse(xml);
+
+			// Act + Assert
+			Assert.Throws<XmlException>(() => XmlHelper.GetRequiredAttribute(element, "blah"));
+		}
+
+		[Test]
+		public void GetOptionalAttribute_should_return_attribute_value()
+		{
+			// Arrange
+			string xml = GetXmlWithAttributes();
+			var element = XElement.Parse(xml);
+
+			// Act
+			string actualValue = XmlHelper.GetOptionalAttribute(element, "repeat");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo("1333"));
+		}
+
+		[Test]
+		public void GetOptionalAttribute_should_return_empty_string_when_attribute_does_not_exist()
+		{
+			// Arrange
+			string xml = GetXmlWithAttributes();
+			var element = XElement.Parse(xml);
+
+			// Act
+			string actualValue = XmlHelper.GetOptionalAttribute(element, "blah");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo(""));
+		}
+
 	    private string GetBasicXml()
 	    {
 		    return @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -108,16 +161,28 @@ namespace Syringe.Tests.Unit
 					</root>";
 	    }
 
+		private string GetXmlWithAttributes()
+		{
+			return @"<?xml version=""1.0"" encoding=""utf-8""?>
+		            <testcases repeat=""1333"">
+							<case
+								id=""2""
+								verifypositive=""verify this string exists""
+								verifynextpositive=""{TIMESTAMP}""
+							/>
+					</testcases>";
+		}
+
 		private string GetXmlWithAmpersands(string attributeName = "verifypositive")
 		{
 			const string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
-		            <cases>
+		            <testcases>
 						<case
 							id=""1""
 							description1=""short description""
 							{attributeName}=""\<SELECT\>somequerystring=a&anotherquerystring=b""
 						/>
-					</cases>";
+					</testcases>";
 			return  xml.Replace("{attributeName}", attributeName);
 		}
     }
