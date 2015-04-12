@@ -1,11 +1,24 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {
     public class ConfigReaderTests
     {
+		[Test]
+		public void Read_should_throw_exception_when_root_element_is_missing()
+		{
+			// Arrange
+			string xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?><something></something>";
+			var stringReader = new StringReader(xml);
+			var configReader = new ConfigReader();
+
+			// Act + Assert
+			Assert.Throws<ConfigurationException>(() => configReader.Read(stringReader));
+		}
+
 		[Test]
 		public void Read_should_populate_known_properties()
 	    {

@@ -6,6 +6,9 @@ namespace Syringe.Core.Xml
 	{
 		public int Id { get; set; }
 		public List<string> Descriptions { get; internal set; }
+		public string Method { get; set; }
+		public string Url { get; set; }
+		public string PostBody { get; set; }
 
 		public TestCase()
 		{

@@ -1,8 +1,9 @@
 ﻿using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
+using XmlException = Syringe.Core.Exceptions.XmlException;
 
 namespace Syringe.Tests.Unit.Xml
 {
@@ -65,7 +66,8 @@ namespace Syringe.Tests.Unit.Xml
 		public void ReEncodeAttributeValues_should_change_invalid_xml_into_valid_xml()
 		{
 			// Arrange
-			string invalidXml = GetXmlWithAmpersands();
+			string invalidXml = GetInvalidXml();
+			string nbsp = XmlConvert.EncodeName("&nbsp;");
 
 			// Act
 			string validXml = XmlHelper.ReEncodeAttributeValues(invalidXml);
@@ -73,7 +75,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			XDocument document = XDocument.Parse(validXml);
 			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute("verifypositive");
-			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b"));
+			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b" +nbsp));
 		}
 
 		[Test]
@@ -89,7 +91,8 @@ namespace Syringe.Tests.Unit.Xml
 		public void ReEncodeAttributeValues_should_transform_all_known_webinject_attributes(string attributeName)
 		{
 			// Arrange
-			string invalidXml = GetXmlWithAmpersands(attributeName);
+			string invalidXml = GetInvalidXml(attributeName);
+			string nbsp = XmlConvert.EncodeName("&nbsp;");
 
 			// Act
 			string validXml = XmlHelper.ReEncodeAttributeValues(invalidXml);
@@ -97,7 +100,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			XDocument document = XDocument.Parse(validXml);
 			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute(attributeName);
-			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b"));
+			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b" + nbsp));
 		}
 
 		[Test]
@@ -153,6 +156,20 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(actualValue, Is.EqualTo(""));
 		}
 
+		[Test]
+		public void GetOptionalAttribute_should_return_defaultvalue_when_attribute_does_not_exist()
+		{
+			// Arrange
+			string xml = GetXmlWithAttributes();
+			var element = XElement.Parse(xml);
+
+			// Act
+			string actualValue = XmlHelper.GetOptionalAttribute(element, "blah", "default value");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo("default value"));
+		}
+
 	    private string GetBasicXml()
 	    {
 		    return @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -173,14 +190,14 @@ namespace Syringe.Tests.Unit.Xml
 					</testcases>";
 		}
 
-		private string GetXmlWithAmpersands(string attributeName = "verifypositive")
+		private string GetInvalidXml(string attributeName = "verifypositive")
 		{
 			const string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 		            <testcases>
 						<case
 							id=""1""
 							description1=""short description""
-							{attributeName}=""\<SELECT\>somequerystring=a&anotherquerystring=b""
+							{attributeName}=""\<SELECT\>somequerystring=a&anotherquerystring=b&nbsp;""
 						/>
 					</testcases>";
 			return  xml.Replace("{attributeName}", attributeName);

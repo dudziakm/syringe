@@ -4,7 +4,7 @@
 	<testvar varname="LOGIN1">bob</testvar>
 	<testvar varname="PASSWD1">sponge</testvar>
 	<testvar varname="SUCCESSFULL_TEST_TEXT">Welcome Bob</testvar>
-	
+
 	<case
 		id="1"
 		description1="short description 1"

@@ -22,7 +22,7 @@ namespace Syringe.Core.Xml
 			XDocument doc = XDocument.Load(stringReader);
 
 			// Check for <testcases>
-			XElement rootElement = doc.Root;
+			XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "testcases");
 			if (rootElement == null)
 				throw new TestCaseException("<testcases> node is missing from the config file.");
 
@@ -75,6 +75,14 @@ namespace Syringe.Core.Xml
 			int id = 0;
 			int.TryParse(idValue, out id);
 			testcase.Id = id;
+
+			// Properties
+			testcase.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
+			testcase.Url = XmlHelper.GetOptionalAttribute(element, "url");
+			if (string.IsNullOrEmpty(testcase.Url))
+				throw new TestCaseException("The url parameter is missing for test case {0}", id);
+
+			testcase.PostBody = XmlHelper.GetOptionalAttribute(element, "postbody");
 
 			// Descriptions
 			testcase.Descriptions = GetOrderedAttributes(element, "description");

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 
@@ -17,15 +18,15 @@ namespace Syringe.Core.Xml
 			{
 				if (_attributeRegex == null)
 				{
-					string attributes = "verifypositive[0-9]{0,}|" +
-					                    "verifynegative[0-9]{0,}|" +
-					                    "parseresponse[0-9]{0,1}|" +
+					string attributes = "verifypositive[0-9]*|" +
+					                    "verifynegative[0-9]*|" +
+					                    "parseresponse[0-9]*|" +
 										"verifynextpositive|" +
 										"verifynextnegative|" +
 					                    "url|" +
 										"addheader|" +
 					                    "postbody";
-					_attributeRegex = new Regex("(" +attributes+ @")+=\""(.*?)\""", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+					_attributeRegex = new Regex("(" + attributes + @")+=[""|'](.*?)[""']", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 				}
 
 				return _attributeRegex;
@@ -36,7 +37,7 @@ namespace Syringe.Core.Xml
 		{
 			var element = rootElement.Elements().FirstOrDefault(x => x.Name.LocalName == name);
 			if (element == null)
-				throw new XmlException("The element <{0}> is missing", name);
+				throw new Syringe.Core.Exceptions.XmlException("The element <{0}> is missing", name);
 
 			return element.Value;
 		}
@@ -54,38 +55,42 @@ namespace Syringe.Core.Xml
 		{
 			XAttribute attribute = rootElement.Attribute(attributeName);
 			if (attribute == null)
-				throw new XmlException("The {0} attribute is missing", attributeName);
+				throw new Syringe.Core.Exceptions.XmlException("The {0} attribute is missing", attributeName);
 
 			return attribute.Value;
 		}
 
-		public static string GetOptionalAttribute(XElement rootElement, string attributeName)
+		public static string GetOptionalAttribute(XElement rootElement, string attributeName, string defaultValue = "")
 		{
 			XAttribute attribute = rootElement.Attribute(attributeName);
 			if (attribute != null)
 				return attribute.Value;
 
-			return "";
+			return defaultValue;
 		}
 
-		public static string ReEncodeAttributeValues(string xmlElement)
+		public static string ReEncodeAttributeValues(string xml)
 		{
 			// See 3.7: http://www.webinject.org/manual.html#tcvalidxml
 			// - webinject allows & and "\<" "\>" in attribute values (so it's more readable), which is invalid XML.
-			string result = AttributeRegex.Replace(xmlElement, match =>
+
+			// Do a cheap replace
+			xml = xml.Replace(@"=>", "=&gt;");
+			xml = xml.Replace(@"\<", "&lt;");
+			xml = xml.Replace(@"\>", "&gt;");
+			xml = xml.Replace(@"\""", "&quot;");
+			xml = xml.Replace("&nbsp;", XmlConvert.EncodeName("&nbsp;")); // TODO: replace back to &nbsp;
+
+			// Go through all attributes, and re-encode them.
+			var regex = new Regex("=([\"']){1}(.*?)\\1");
+			foreach (Match match in regex.Matches(xml))
 			{
-				string attributeName = match.Groups[1].Value;
-				string attributeValue = match.Groups[2].Value;
-				attributeValue = attributeValue.Replace(@"\<", "&lt;")
-											   .Replace(@"\>", "&gt;");
+				string attvalue = match.Groups[2].Value;
+				string valid = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attvalue));
+				xml = xml.Replace(attvalue, valid);
+			}
 
-				attributeValue = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attributeValue));
-
-				return attributeName+ "=\"" + attributeValue + "\"";
-			});
-
-
-			return result;
+			return xml;
 		}
 
 		public static List<string> GetOrderedAttributes(XElement element, string attributeName)
