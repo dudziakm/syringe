@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core
 {
 	public class Config
 	{

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
 

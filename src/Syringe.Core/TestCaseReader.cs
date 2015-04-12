@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Xml;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core
 {
 	public class TestCaseReader
 	{
@@ -32,10 +32,10 @@ namespace Syringe.Core.Xml
 			int.TryParse(repeatAttribute, out repeatValue);
 			testCaseContainer.Repeat = repeatValue;
 
-			// Testvars: all <testvar varname="LOGIN_URL">x</testvar>
+			// <testvar>
 			testCaseContainer.Variables = GetTestVars(rootElement);
 
-			// Each <case> - order them by id="" attribute.
+			// <case> - add each  one and re-order them by their id="" attribute.
 			var testCases = new List<TestCase>();
 			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "case"))
 			{
@@ -49,6 +49,7 @@ namespace Syringe.Core.Xml
 
 		private Dictionary<string, string> GetTestVars(XElement rootElement)
 		{
+			// Example: <testvar varname="LOGIN_URL">x</testvar>
 			var variables = new Dictionary<string, string>();
 
 			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))
@@ -68,30 +69,61 @@ namespace Syringe.Core.Xml
 
 		private TestCase GetTestCase(XElement element)
 		{
-			var testcase = new TestCase();
+			var testCase = new TestCase();
 
-			// Id
-			string idValue = XmlHelper.GetOptionalAttribute(element, "id");
-			int id = 0;
-			int.TryParse(idValue, out id);
-			testcase.Id = id;
+			// Required Properties
+			testCase.Id = AttributeAsInt(element, "id");
+			testCase.Url = XmlHelper.GetOptionalAttribute(element, "url");
+			if (string.IsNullOrEmpty(testCase.Url))
+				throw new TestCaseException("The url parameter is missing for test case {0}", testCase.Id);
 
-			// Properties
-			testcase.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
-			testcase.Url = XmlHelper.GetOptionalAttribute(element, "url");
-			if (string.IsNullOrEmpty(testcase.Url))
-				throw new TestCaseException("The url parameter is missing for test case {0}", id);
+			// Optionals
+			testCase.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
+			testCase.PostBody = XmlHelper.GetOptionalAttribute(element, "postbody");
+			testCase.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
+			testCase.PostType = XmlHelper.GetOptionalAttribute(element, "posttype", "application/x-www-form-urlencoded");
+			testCase.VerifyResponseCode = GetVerifyResponseCode(element);
+			testCase.LogRequest = YesToBool(element, "logrequest");
+			testCase.LogResponse = YesToBool(element, "logresponse");
+			testCase.Sleep = AttributeAsInt(element, "sleep");
 
-			testcase.PostBody = XmlHelper.GetOptionalAttribute(element, "postbody");
-
-			// Descriptions
-			testcase.Descriptions = GetOrderedAttributes(element, "description");
+			// Numbered attributes
+			testCase.Descriptions = GetNumberedAttributes(element, "description");
 			
 
-			return testcase;
+			return testCase;
 		}
 
-		internal List<string> GetOrderedAttributes(XElement element, string attributeName)
+		private bool YesToBool(XElement element, string attributeName)
+		{
+			string attributeValue = XmlHelper.GetOptionalAttribute(element, attributeName, "yes");
+			return (attributeValue == "yes");
+		}
+
+		private HttpStatusCode GetVerifyResponseCode(XElement element)
+		{
+			int attributeValue = AttributeAsInt(element, "verifyresponsecode", 200);
+
+			HttpStatusCode statusCode = HttpStatusCode.OK;
+			if (Enum.IsDefined(typeof(HttpStatusCode), attributeValue))
+			{
+				Enum.TryParse(attributeValue.ToString(), out statusCode);
+			}
+
+			return statusCode;
+		}
+
+		private int AttributeAsInt(XElement element, string attributeName, int defaultValue = 0)
+		{
+			string idValue = XmlHelper.GetOptionalAttribute(element, attributeName);
+			int result = 0;
+			if (!int.TryParse(idValue, out result))
+				result = defaultValue;
+
+			return result;
+		}
+
+		internal List<string> GetNumberedAttributes(XElement element, string attributeName)
 		{
 			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
 				return new List<string>();

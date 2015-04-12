@@ -61,16 +61,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\full-example.xml" />
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\full.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\TestCaseExamples\invalid-xml.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\multiple-attributes.xml" />
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\single-case.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\single-case.xml" />
+    <EmbeddedResource Include="Unit\Xml\TestCaseExamples\ordered-attributes.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

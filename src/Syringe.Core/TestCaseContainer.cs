@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Syringe.Core.Xml;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core
 {
 	public class TestCaseContainer
 	{

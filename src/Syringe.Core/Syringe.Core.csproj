@@ -43,12 +43,12 @@
     <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestCaseException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
-    <Compile Include="Xml\Config.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Xml\ConfigReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\TestCase.cs" />
-    <Compile Include="Xml\TestCaseContainer.cs" />
-    <Compile Include="Xml\TestCaseReader.cs" />
+    <Compile Include="TestCase.cs" />
+    <Compile Include="TestCaseContainer.cs" />
+    <Compile Include="TestCaseReader.cs" />
     <Compile Include="Xml\VariableReplacer.cs" />
     <Compile Include="Xml\XmlHelper.cs" />
   </ItemGroup>

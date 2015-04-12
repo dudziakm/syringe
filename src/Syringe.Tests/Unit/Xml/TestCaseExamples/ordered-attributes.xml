@@ -2,26 +2,17 @@
 <testcases repeat="10">	
 	<case
 		id="1"
+		description="description with no number"
 		description1="description 1"
 		description99="description 99"
 		description2="description 2"
 		url="http://myserver"
-		method="post"
-		posttype="text/xml" 
 		addheader="mykey: 12345|bar: foo"
-		postbody="username=corey&password=welcome"
-		verifyresponsecode="404"
 		verifypositive1="verify this string exists 1"
 		verifypositive99="verify this string exists 99"
 		verifynegative="verify this string does not exist 1"
 		verifynegative66="verify this string does not exist 66"
 		parseresponse="parse 1"
 		parseresponse2="parse 2"
-		errormessage="my error message"
-		logrequest="no"
-		logresponse="no"
-		sleep="3"
 	/>
-	<!--posttype Defaults to "application/x-www-form-urlencoded" if this parameter is omitted.-->
-	<!-- verifynegative: Note: Because your verification string is used as a regex, the following characters within it must be escaped with a backslash: {}[]()^$.|*+?\ -->
 </testcases>

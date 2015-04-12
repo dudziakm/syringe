@@ -10,28 +10,7 @@ namespace Syringe.Core.Xml
 {
 	internal class XmlHelper
 	{
-		private static Regex _attributeRegex;
-
-		private static Regex AttributeRegex
-		{
-			get
-			{
-				if (_attributeRegex == null)
-				{
-					string attributes = "verifypositive[0-9]*|" +
-					                    "verifynegative[0-9]*|" +
-					                    "parseresponse[0-9]*|" +
-										"verifynextpositive|" +
-										"verifynextnegative|" +
-					                    "url|" +
-										"addheader|" +
-					                    "postbody";
-					_attributeRegex = new Regex("(" + attributes + @")+=[""|'](.*?)[""']", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-				}
-
-				return _attributeRegex;
-			}
-		}
+		private static readonly Regex _attributeRegex = new Regex("=([\"']){1}(.*?)\\1", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		public static string GetRequiredElementValue(XElement rootElement, string name)
 		{
@@ -82,8 +61,7 @@ namespace Syringe.Core.Xml
 			xml = xml.Replace("&nbsp;", XmlConvert.EncodeName("&nbsp;")); // TODO: replace back to &nbsp;
 
 			// Go through all attributes, and re-encode them.
-			var regex = new Regex("=([\"']){1}(.*?)\\1");
-			foreach (Match match in regex.Matches(xml))
+			foreach (Match match in _attributeRegex.Matches(xml))
 			{
 				string attvalue = match.Groups[2].Value;
 				string valid = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attvalue));

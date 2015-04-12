@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
 
@@ -12,7 +14,7 @@ namespace Syringe.Tests.Unit.Xml
 {
 	public class TestCaseReaderTests
 	{
-		private string GetExample(string file)
+		private string ReadEmbeddedFile(string file)
 		{
 			string path = string.Format("Syringe.Tests.Unit.Xml.TestCaseExamples.{0}", file);
 
@@ -31,12 +33,12 @@ namespace Syringe.Tests.Unit.Xml
 
 		private string GetSingleCaseExample()
 		{
-			return GetExample("single-case.xml");
+			return ReadEmbeddedFile("single-case.xml");
 		}
 
 		private string GetFullExample()
 		{
-			return GetExample("full-example.xml");
+			return ReadEmbeddedFile("full.xml");
 		}
 
 		[Test]
@@ -55,7 +57,7 @@ namespace Syringe.Tests.Unit.Xml
 		public void Read_should_cleanse_invalid_xml()
 		{
 			// Arrange
-			string xml = GetExample("invalid-xml.xml");
+			string xml = ReadEmbeddedFile("invalid-xml.xml");
 			var stringReader = new StringReader(xml);
 			var testCaseReader = new TestCaseReader();
 
@@ -67,7 +69,7 @@ namespace Syringe.Tests.Unit.Xml
 		public void Read_should_parse_repeat_attribute()
 		{
 			// Arrange
-			string xml = GetExample("full-example.xml");
+			string xml = GetFullExample();
 			var stringReader = new StringReader(xml);;
 			var testCaseReader = new TestCaseReader();
 
@@ -166,7 +168,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			TestCase testcase = container.TestCases.First();
-			Assert.That(testcase.Url, Is.EqualTo("http://server"));
+			Assert.That(testcase.Url, Is.EqualTo("http://myserver"));
 		}
 
 		[Test]
@@ -174,7 +176,7 @@ namespace Syringe.Tests.Unit.Xml
 		{
 			// Arrange
 			string xml = GetSingleCaseExample();
-			xml = xml.Replace(@"url=""http://server""", "");
+			xml = xml.Replace(@"url=""http://myserver""", "");
 
 			var stringReader = new StringReader(xml);
 			var testCaseReader = new TestCaseReader();
@@ -200,22 +202,230 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void GetOrderedAttributes_should_return_attributes_ordered_numerically()
+		public void Read_should_parse_errormessage_attribute()
 		{
 			// Arrange
-			string xml = GetExample("multiple-attributes.xml");
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.ErrorMessage, Is.EqualTo("my error message"));
+		}
+
+		[Test]
+		public void Read_should_parse_posttype_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.PostType, Is.EqualTo("text/xml"));
+		}
+
+		[Test]
+		public void Read_should_use_default_posttype_value_when_attribute_is_empty()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("posttype=\"text/xml\"", "");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.PostType, Is.EqualTo("application/x-www-form-urlencoded"));
+		}
+
+		[Test]
+		public void Read_should_parse_responsecode_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+			var expectedCode = HttpStatusCode.NotFound;
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
+		}
+
+		[Test]
+		public void Read_should_use_default_responsecode_value_when_attribute_is_empty()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("verifyresponsecode=\"404\"", "");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+			var expectedCode = HttpStatusCode.OK;
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
+		}
+
+		[Test]
+		public void Read_should_use_default_responsecode_value_when_attribute_is_invalid_code()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("verifyresponsecode=\"404\"", "verifyresponsecode=\"20000000\"");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+			var expectedCode = HttpStatusCode.OK;
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
+		}
+
+		[Test]
+		public void Read_should_parse_logrequest_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.LogRequest, Is.False);
+		}
+
+		[Test]
+		public void Read_should_set_logrequest_to_true_value_when_attribute_is_missing()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("logrequest=\"no\"", "");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.LogRequest, Is.True);
+		}
+
+		[Test]
+		public void Read_should_parse_logresponse_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.LogResponse, Is.False);
+		}
+
+		[Test]
+		public void Read_should_set_logresponse_to_true_value_when_attribute_is_missing()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("logresponse=\"no\"", "");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.LogResponse, Is.True);
+		}
+
+		[Test]
+		public void Read_should_parse_sleep_attribute()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.Sleep, Is.EqualTo(3));
+		}
+
+		[Test]
+		public void Read_should_set_default_sleep_to_zero_when_attribute_is_missing()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("sleep=\"3\"", "");
+
+			var stringReader = new StringReader(xml);
+			var testCaseReader = new TestCaseReader();
+
+			// Act
+			TestCaseContainer container = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = container.TestCases.First();
+			Assert.That(testcase.Sleep, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void GetNumberedAttributes_should_return_attributes_ordered_numerically()
+		{
+			// Arrange
+			string xml = ReadEmbeddedFile("ordered-attributes.xml");
 			XDocument document = XDocument.Parse(xml);
 			var firstTestCase = document.Root.Elements().First(x => x.Name.LocalName == "case");
 
 			var testCaseReader = new TestCaseReader();
 
 			// Act
-			List<string> descriptions = testCaseReader.GetOrderedAttributes(firstTestCase, "description");
+			List<string> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "description");
 
 			// Assert
-			Assert.That(descriptions[0], Is.EqualTo("description 1"));
-			Assert.That(descriptions[1], Is.EqualTo("description 2"));
-			Assert.That(descriptions[2], Is.EqualTo("description 99"));
+			Assert.That(descriptions[0], Is.EqualTo("description with no number"));
+			Assert.That(descriptions[1], Is.EqualTo("description 1"));
+			Assert.That(descriptions[2], Is.EqualTo("description 2"));
+			Assert.That(descriptions[3], Is.EqualTo("description 99"));
 		}
 	}
 }
