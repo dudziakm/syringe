@@ -59,6 +59,8 @@ namespace Syringe.Core.Http
 
 					if (response.StatusCode == testCase.VerifyResponseCode)
 					{
+						response.ResponseUri
+
 						string content = response.Content;
 						int counter = 0;
 						var failedPositives = new List<int>();

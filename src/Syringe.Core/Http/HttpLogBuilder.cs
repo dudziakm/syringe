@@ -8,6 +8,7 @@ namespace Syringe.Core.Http
 {
 	public class HttpLogBuilder
 	{
+		// Examples
 		public void LogRequest()
 		{
 //GET http://en.wikipedia.org/wiki/Microsoft HTTP/1.1
