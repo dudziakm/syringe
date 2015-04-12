@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="10">	
+	<case
+		id="1"
+		description1="description 1"
+		url="http://en.wikipedia.org/wiki/Microsoft"
+		verifypositive="Microsoft Corporation"
+		verifypositive1="xboox"
+		verifypositive2="Wikipedia"
+	/>
+</testcases>

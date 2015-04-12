@@ -5,7 +5,7 @@ using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 
 namespace Syringe.Core.Xml
 {
-	internal class ConfigReader
+	public class ConfigReader
 	{
 		public Config Read(TextReader textReader)
 		{
@@ -37,6 +37,15 @@ namespace Syringe.Core.Xml
 			}
 
 			return config;
+		}
+
+		public static Config Load(string configFilename)
+		{
+			using (var stringReader = new StringReader(File.ReadAllText(configFilename)))
+			{
+				var configReader = new ConfigReader();
+				return configReader.Read(stringReader);
+			}
 		}
 	}
 }

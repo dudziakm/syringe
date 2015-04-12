@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\Http\RestSharpRunnerTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
     <Compile Include="Unit\Xml\ConfigReaderTests.cs" />
@@ -54,10 +55,9 @@
       <Name>Syringe.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Integration\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\TestCaseExamples\ordered-attributes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Integration\wikipedia-example.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
