@@ -7,3 +7,5 @@ install:
 script:
   - xbuild /p:Configuration=Release Syringe.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/Syringe.Tests/bin/Release/Syringe.Tests.dll
+notifications:
+  email: false
