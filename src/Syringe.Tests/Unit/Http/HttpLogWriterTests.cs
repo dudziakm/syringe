@@ -19,70 +19,70 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void LogRequest_should_ignore_null_method_parameter()
+		public void WriteRequest_should_ignore_null_method_parameter()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.LogRequest(null, "b", new List<KeyValuePair<string, string>>());
+			logWriter.WriteRequest(null, "b", new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void LogRequest_should_ignore_null_url_parameter()
+		public void WriteRequest_should_ignore_null_url_parameter()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.LogRequest("http://www.google.com", null, new List<KeyValuePair<string, string>>());
+			logWriter.WriteRequest("http://www.google.com", null, new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void LogRequest_should_ignore_invalid_url_parameter()
+		public void WriteRequest_should_ignore_invalid_url_parameter()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.LogRequest("not a valid url", null, new List<KeyValuePair<string, string>>());
+			logWriter.WriteRequest("not a valid url", null, new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void LogRequest_should_allow_null_for_headers()
+		public void WriteRequest_should_allow_null_for_headers()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.LogRequest("http://www.uri", "b", null);
+			logWriter.WriteRequest("http://www.uri", "b", null);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void LogRequest_should_write_request_line_and_host_and_extra_newline_at_end()
+		public void WriteRequest_should_write_request_line_and_host_and_extra_newline_at_end()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.LogRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", new List<KeyValuePair<string, string>>());
+			logWriter.WriteRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", new List<KeyValuePair<string, string>>());
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -93,7 +93,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void LogRequest_should_append_headers_after_host()
+		public void WriteRequest_should_append_headers_after_host()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
@@ -106,7 +106,7 @@ namespace Syringe.Tests.Unit.Http
 			};
 
 			// Act	
-			logWriter.LogRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", headers);
+			logWriter.WriteRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", headers);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);

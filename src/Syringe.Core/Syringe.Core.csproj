@@ -48,7 +48,9 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Http\HttpLogWriter.cs" />
+    <Compile Include="Http\ITextWriterFactory.cs" />
     <Compile Include="Http\RestSharpRunner.cs" />
+    <Compile Include="Http\StreamWriterFactory.cs" />
     <Compile Include="Xml\ConfigReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCase.cs" />

@@ -19,7 +19,12 @@ namespace Syringe.Core.Http
 			_textWriterFactory = textWriterFactory;
 		}
 
-		public void LogRequest(string method, string url, IEnumerable<KeyValuePair<string, string>> headers)
+		public void WriteHeader()
+		{
+
+		}
+
+		public void WriteRequest(string method, string url, IEnumerable<KeyValuePair<string, string>> headers)
 		{
 			if (string.IsNullOrEmpty(method))
 				return;
@@ -73,26 +78,6 @@ namespace Syringe.Core.Http
 //<!DOCTYPE html>
 //<html lang="en" dir="ltr" class="client-nojs">
 
-		}
-	}
-
-	public interface ITextWriterFactory
-	{
-		TextWriter GetWriter();
-	}
-
-	public class StreamWriterFactory : ITextWriterFactory
-	{
-		private readonly string _filename;
-
-		public StreamWriterFactory(string filename)
-		{
-			_filename = filename;
-		}
-
-		public TextWriter GetWriter()
-		{
-			return new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write));
 		}
 	}
 }
