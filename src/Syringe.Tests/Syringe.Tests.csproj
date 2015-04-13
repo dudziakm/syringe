@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\Http\RestSharpRunnerTests.cs" />
+    <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
     <Compile Include="Unit\Xml\ConfigReaderTests.cs" />
