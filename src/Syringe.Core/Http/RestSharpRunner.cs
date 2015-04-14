@@ -23,16 +23,21 @@ namespace Syringe.Core.Http
 		// TODO: config.xml takes <testcases>
 
 		private readonly Config _config;
+		private readonly IHttpLogWriter _logWriter;
 		private readonly CookieContainer _cookieContainer;
 
-		public RestSharpRunner(Config config)
+		public RestSharpRunner(Config config, IHttpLogWriter logWriter)
 		{
 			_config = config;
+			_logWriter = logWriter;
 			_cookieContainer = new CookieContainer();
 		}
 
 		public void Run(string testCaseFilename)
 		{
+			bool logRequests = _config.GlobalHttpLog;
+			bool logResponses = _config.GlobalHttpLog;
+
 			using (var stringReader = new StringReader(File.ReadAllText(testCaseFilename)))
 			{
 				var testCaseReader = new TestCaseReader();

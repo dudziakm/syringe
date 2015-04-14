@@ -71,7 +71,7 @@ namespace Syringe.Core.Xml
 			var testCase = new TestCase();
 
 			// Required Properties
-			testCase.Id = AttributeAsInt(element, "id");
+			testCase.Id = XmlHelper.AttributeAsInt(element, "id");
 			testCase.Url = XmlHelper.GetOptionalAttribute(element, "url");
 			if (string.IsNullOrEmpty(testCase.Url))
 				throw new TestCaseException("The url parameter is missing for test case {0}", testCase.Id);
@@ -84,7 +84,7 @@ namespace Syringe.Core.Xml
 			testCase.VerifyResponseCode = GetVerifyResponseCode(element);
 			testCase.LogRequest = YesToBool(element, "logrequest");
 			testCase.LogResponse = YesToBool(element, "logresponse");
-			testCase.Sleep = AttributeAsInt(element, "sleep");
+			testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
 			testCase.AddHeader = ParseAddHeader(element);
 
 			// Numbered attributes
@@ -143,7 +143,7 @@ namespace Syringe.Core.Xml
 
 		private HttpStatusCode GetVerifyResponseCode(XElement element)
 		{
-			int attributeValue = AttributeAsInt(element, "verifyresponsecode", 200);
+			int attributeValue = XmlHelper.AttributeAsInt(element, "verifyresponsecode", 200);
 
 			HttpStatusCode statusCode = HttpStatusCode.OK;
 			if (Enum.IsDefined(typeof(HttpStatusCode), attributeValue))
@@ -152,16 +152,6 @@ namespace Syringe.Core.Xml
 			}
 
 			return statusCode;
-		}
-
-		private int AttributeAsInt(XElement element, string attributeName, int defaultValue = 0)
-		{
-			string idValue = XmlHelper.GetOptionalAttribute(element, attributeName);
-			int result = 0;
-			if (!int.TryParse(idValue, out result))
-				result = defaultValue;
-
-			return result;
 		}
 
 		internal List<string> GetNumberedAttributes(XElement element, string attributeName)

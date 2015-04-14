@@ -10,10 +10,10 @@ namespace Syringe.Core
 		public string Proxy { get; set; }
 		public string Useragent { get; set; }
 		public string Httpauth { get; set; }
-		public string GlobalHttpLog { get; set; }
+		public bool GlobalHttpLog { get; set; }
 		public string Comment { get; set; }
-		public string Timeout { get; set; }
-		public string GlobalTimeout { get; set; }
+		public int Timeout { get; set; }
+		public int GlobalTimeout { get; set; }
 
 		// Custom variables, e.g. <baseurl3>
 		public Dictionary<string, string> Variables { get; set; }

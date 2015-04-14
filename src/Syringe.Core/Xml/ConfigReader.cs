@@ -22,10 +22,10 @@ namespace Syringe.Core.Xml
 			config.Proxy = XmlHelper.GetOptionalElementValue(rootElement, "proxy");
 			config.Useragent = XmlHelper.GetOptionalElementValue(rootElement, "useragent");
 			config.Httpauth = XmlHelper.GetOptionalElementValue(rootElement, "httpauth");
-			config.GlobalHttpLog = XmlHelper.GetOptionalElementValue(rootElement, "globalhttplog");
+			config.GlobalHttpLog = XmlHelper.ElementAsBool(rootElement, "globalhttplog");
 			config.Comment = XmlHelper.GetOptionalElementValue(rootElement, "comment");
-			config.Timeout = XmlHelper.GetOptionalElementValue(rootElement, "timeout");
-			config.GlobalTimeout = XmlHelper.GetOptionalElementValue(rootElement, "globaltimeout");
+			config.Timeout = XmlHelper.ElementAsInt(rootElement, "timeout");
+			config.GlobalTimeout = XmlHelper.ElementAsInt(rootElement, "globaltimeout");
 
 			// All elements get stored in the variables, for custom variables.
 			foreach (XElement element in rootElement.Elements())

@@ -63,6 +63,90 @@ namespace Syringe.Tests.Unit.Xml
 	    }
 
 		[Test]
+		public void AttributeAsInt_should_parse_attribute_value()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml).Elements("foo").First();
+
+			// Act
+			int actualValue = XmlHelper.AttributeAsInt(element, "id");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo(3));
+		}
+
+		[Test]
+		public void AttributeAsInt_should_use_default_value_when_attribute_doesnt_exist()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml).Elements("foo").First();
+
+			// Act
+			int actualValue = XmlHelper.AttributeAsInt(element, "doesntexist", 99);
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo(99));
+		}
+
+		[Test]
+		public void ElementAsInt_should_parse_element_value()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml);
+
+			// Act
+			int actualValue = XmlHelper.ElementAsInt(element, "somenumber");
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo(13));
+		}
+
+		[Test]
+		public void ElementAsInt_should_use_default_value_when_element_doesnt_exist()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml);
+
+			// Act
+			int actualValue = XmlHelper.ElementAsInt(element, "doesntexist", 77);
+
+			// Assert
+			Assert.That(actualValue, Is.EqualTo(77));
+		}
+
+		[Test]
+		public void ElementAsBool_should_parse_element_value()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml);
+
+			// Act
+			bool actualValue = XmlHelper.ElementAsBool(element, "somebool");
+
+			// Assert
+			Assert.That(actualValue, Is.True);
+		}
+
+		[Test]
+		public void ElementAsBool_should_use_default_value_when_element_doesnt_exist()
+		{
+			// Arrange
+			string xml = GetBasicXml();
+			var element = XElement.Parse(xml);
+
+			// Act
+			bool actualValue = XmlHelper.ElementAsBool(element, "doesntexist", true);
+
+			// Assert
+			Assert.That(actualValue, Is.True);
+		}
+
+		[Test]
 		public void ReEncodeAttributeValues_should_change_invalid_xml_into_valid_xml()
 		{
 			// Arrange
@@ -191,6 +275,9 @@ namespace Syringe.Tests.Unit.Xml
 		    return @"<?xml version=""1.0"" encoding=""utf-8""?>
 		            <root>
 						<baseurl>a value</baseurl>
+						<foo id=""3"" />
+						<somenumber>13</somenumber>
+						<somebool>true</somebool>
 					</root>";
 	    }
 

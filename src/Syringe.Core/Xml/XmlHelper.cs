@@ -48,6 +48,36 @@ namespace Syringe.Core.Xml
 			return defaultValue;
 		}
 
+		public static int AttributeAsInt(XElement element, string attributeName, int defaultValue = 0)
+		{
+			string value = XmlHelper.GetOptionalAttribute(element, attributeName);
+			int result = 0;
+			if (!int.TryParse(value, out result))
+				result = defaultValue;
+
+			return result;
+		}
+
+		public static int ElementAsInt(XElement element, string elementName, int defaultValue = 0)
+		{
+			string value = XmlHelper.GetOptionalElementValue(element, elementName);
+			int result = 0;
+			if (!int.TryParse(value, out result))
+				result = defaultValue;
+
+			return result;
+		}
+
+		public static bool ElementAsBool(XElement element, string elementName, bool defaultValue = false)
+		{
+			string value = XmlHelper.GetOptionalElementValue(element, elementName);
+			bool result = false;
+			if (!bool.TryParse(value, out result))
+				result = defaultValue;
+
+			return result;
+		}
+
 		public static string ReEncodeAttributeValues(string xml)
 		{
 			// See 3.7: http://www.webinject.org/manual.html#tcvalidxml
