@@ -37,10 +37,10 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(config.Proxy, Is.EqualTo("my proxy"));
 			Assert.That(config.Useragent, Is.EqualTo("AOL IE 6"));
 			Assert.That(config.Httpauth, Is.EqualTo("http://username:password@127.0.0.1:8080"));
-			Assert.That(config.GlobalHttpLog, Is.EqualTo("onfail"));
+			Assert.That(config.GlobalHttpLog, Is.EqualTo(LogType.OnFail));
 			Assert.That(config.Comment, Is.EqualTo("My config comment"));
-			Assert.That(config.Timeout, Is.EqualTo("44"));
-			Assert.That(config.GlobalTimeout, Is.EqualTo("88"));
+			Assert.That(config.Timeout, Is.EqualTo(44));
+			Assert.That(config.GlobalTimeout, Is.EqualTo(88));
 	    }
 
 	    [Test]

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Http;
+using Syringe.Core.Http.Logging;
 using Syringe.Tests.Unit.StubsMocks;
 
 namespace Syringe.Tests.Unit.Http

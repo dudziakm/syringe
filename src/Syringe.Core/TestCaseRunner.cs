@@ -1,43 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using RestSharp;
+using Syringe.Core.Http;
 using Syringe.Core.Xml;
+using HttpResponse = Syringe.Core.Http.HttpResponse;
 
-namespace Syringe.Core.Http
+namespace Syringe.Core
 {
-	public class RestSharpRunner
+	public class TestCaseRunner
 	{
-		// Turn into interface
-		// bool addTestCase
-		// TODO: check for global
-		// TODO: check per case
-		// TODO: check onfail
-
+		// TODO: variables on URL
 		// TODO: logger for cases output (StdOut,Xml etc.)
 		// TODO: config.xml takes <testcases>
 
 		private readonly Config _config;
+		private readonly IHttpClient _httpClient;
 		private readonly IHttpLogWriter _logWriter;
-		private readonly CookieContainer _cookieContainer;
 
-		public RestSharpRunner(Config config, IHttpLogWriter logWriter)
+		public TestCaseRunner(Config config, IHttpClient httpClient,  IHttpLogWriter logWriter)
 		{
 			_config = config;
+			_httpClient = httpClient;
 			_logWriter = logWriter;
-			_cookieContainer = new CookieContainer();
 		}
 
 		public void Run(string testCaseFilename)
 		{
-			bool logRequests = _config.GlobalHttpLog;
-			bool logResponses = _config.GlobalHttpLog;
-
 			using (var stringReader = new StringReader(File.ReadAllText(testCaseFilename)))
 			{
 				var testCaseReader = new TestCaseReader();
@@ -45,29 +36,9 @@ namespace Syringe.Core.Http
 
 				foreach (TestCase testCase in testCaseContainer.TestCases)
 				{
-					// TODO: variables on URL
-
-					var client = new RestClient(testCase.Url); 
-					client.CookieContainer = _cookieContainer;
-
-					Method method = GetMethodEnum(testCase);
-					var request = new RestRequest(method);
-					if (method == Method.POST)
-					{
-						request.AddParameter(testCase.PostType, testCase.PostBody, ParameterType.RequestBody);
-					}
-
-					foreach (var keyValuePair in testCase.AddHeader) // TODO: change property name to Headers ?
-					{
-						request.AddHeader(keyValuePair.Key, keyValuePair.Value);
-					}
-
-					// TODO: Log the HTTP request to memory, unless the testcase has turned it off
-
 					// TODO: Add a new TestCaseResult to the collection
 
-					// TODO: Log the HTTP response to memory, unless the testcase has turned it off
-					IRestResponse response = client.Execute(request);
+					HttpResponse response = _httpClient.MakeRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.AddHeader);
 
 					// TODO: populate global variables from parseresponse (is parseresponse only when the status code is ok?)
 
@@ -100,21 +71,24 @@ namespace Syringe.Core.Http
 						// TODO: Set the Testcaseresult.haserrors to true
 					}
 
+					// Log request
+					if (_config.GlobalHttpLog == LogType.All || testCase.LogRequest)
+					{
+						// TODO: On fail support (or a smarter way to log this earlier)
+						_logWriter.WriteRequest(testCase.Method, testCase.Url, testCase.AddHeader);
+					}
+
+					// Log response
+					if (_config.GlobalHttpLog != LogType.None || testCase.LogResponse)
+					{
+						// TODO: On fail support
+						_logWriter.WriteResponse(response.StatusCode, response.Headers, response.Content);
+					}
+
 					// TODO: sleep if sleep is set (Thread.Sleep?)
+					_logWriter.WriteSeperator();
 				}
 			}
-		}
-
-		private Method GetMethodEnum(TestCase testCase)
-		{
-			var method = Method.GET;
-
-			if (Enum.IsDefined(typeof(Method), testCase.Method))
-			{
-				Enum.TryParse(testCase.Method, out method);
-			}
-
-			return method;
 		}
 	}
 }

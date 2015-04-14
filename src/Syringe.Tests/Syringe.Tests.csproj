@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\Http\RestSharpRunnerTests.cs" />
+    <Compile Include="Integration\Http\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\TextWriterFactoryMock.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />

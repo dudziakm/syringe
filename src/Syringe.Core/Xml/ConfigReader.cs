@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
@@ -22,10 +23,17 @@ namespace Syringe.Core.Xml
 			config.Proxy = XmlHelper.GetOptionalElementValue(rootElement, "proxy");
 			config.Useragent = XmlHelper.GetOptionalElementValue(rootElement, "useragent");
 			config.Httpauth = XmlHelper.GetOptionalElementValue(rootElement, "httpauth");
-			config.GlobalHttpLog = XmlHelper.ElementAsBool(rootElement, "globalhttplog");
 			config.Comment = XmlHelper.GetOptionalElementValue(rootElement, "comment");
 			config.Timeout = XmlHelper.ElementAsInt(rootElement, "timeout");
 			config.GlobalTimeout = XmlHelper.ElementAsInt(rootElement, "globaltimeout");
+
+			var logType = LogType.None;
+			string httpLog = XmlHelper.GetOptionalElementValue(rootElement, "globalhttplog");
+			if (!string.IsNullOrEmpty(httpLog))
+			{
+				Enum.TryParse(httpLog, true, out logType);	
+			}
+			config.GlobalHttpLog = logType;
 
 			// All elements get stored in the variables, for custom variables.
 			foreach (XElement element in rootElement.Elements())

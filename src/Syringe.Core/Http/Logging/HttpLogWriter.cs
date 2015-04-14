@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Web;
 
-namespace Syringe.Core.Http
+namespace Syringe.Core.Http.Logging
 {
 	public class HttpLogWriter : IHttpLogWriter
 	{
