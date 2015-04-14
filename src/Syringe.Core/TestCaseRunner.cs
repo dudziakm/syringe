@@ -60,8 +60,6 @@ namespace Syringe.Core
 
 						// TODO: Parse the response into parsedresponses
 
-						// TODO: 
-
 						// TODO: Do lots of verify positive, verifynegative (regexes)
 
 					}

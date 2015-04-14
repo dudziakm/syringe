@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet">
+      <HintPath>..\..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\Http\TestCaseRunnerTests.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
     <Compile Include="Unit\Xml\ConfigReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Yaml\QuickYamlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
@@ -77,6 +81,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Unit\Yaml\TestCaseExamples\full.yaml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

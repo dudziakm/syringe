@@ -6,10 +6,10 @@ namespace Syringe.Core
 	public class TestCaseContainer
 	{
 		public int Repeat { get; set; }
-		public IEnumerable<TestCase> TestCases { get; internal set; }
+		public IEnumerable<TestCase> TestCases { get; set; }
 
 		// Custom variables, e.g. <testvar varname="LOGIN_URL">http://myserver/login.php</testvar>
-		public Dictionary<string, string> Variables { get; internal set; }
+		public Dictionary<string, string> Variables { get; set; }
 
 		public TestCaseContainer()
 		{

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
-using Syringe.Core.Exceptions;
+using XmlException = Syringe.Core.Exceptions.XmlException;
 
 namespace Syringe.Core.Xml
 {
@@ -16,7 +16,7 @@ namespace Syringe.Core.Xml
 		{
 			var element = rootElement.Elements().FirstOrDefault(x => x.Name.LocalName == name);
 			if (element == null)
-				throw new Syringe.Core.Exceptions.XmlException("The element <{0}> is missing", name);
+				throw new XmlException("The element <{0}> is missing", name);
 
 			return element.Value;
 		}
@@ -34,7 +34,7 @@ namespace Syringe.Core.Xml
 		{
 			XAttribute attribute = rootElement.Attribute(attributeName);
 			if (attribute == null)
-				throw new Syringe.Core.Exceptions.XmlException("The {0} attribute is missing", attributeName);
+				throw new XmlException("The {0} attribute is missing", attributeName);
 
 			return attribute.Value;
 		}
@@ -50,7 +50,7 @@ namespace Syringe.Core.Xml
 
 		public static int AttributeAsInt(XElement element, string attributeName, int defaultValue = 0)
 		{
-			string value = XmlHelper.GetOptionalAttribute(element, attributeName);
+			string value = GetOptionalAttribute(element, attributeName);
 			int result = 0;
 			if (!int.TryParse(value, out result))
 				result = defaultValue;
@@ -60,7 +60,7 @@ namespace Syringe.Core.Xml
 
 		public static int ElementAsInt(XElement element, string elementName, int defaultValue = 0)
 		{
-			string value = XmlHelper.GetOptionalElementValue(element, elementName);
+			string value = GetOptionalElementValue(element, elementName);
 			int result = 0;
 			if (!int.TryParse(value, out result))
 				result = defaultValue;
@@ -70,7 +70,7 @@ namespace Syringe.Core.Xml
 
 		public static bool ElementAsBool(XElement element, string elementName, bool defaultValue = false)
 		{
-			string value = XmlHelper.GetOptionalElementValue(element, elementName);
+			string value = GetOptionalElementValue(element, elementName);
 			bool result = false;
 			if (!bool.TryParse(value, out result))
 				result = defaultValue;

@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet">
+      <HintPath>..\..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\XmlException.cs" />
@@ -51,6 +54,7 @@
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
     <Compile Include="Http\Response.cs" />
     <Compile Include="Http\Logging\ITextWriterFactory.cs" />
+    <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestCaseRunner.cs" />
     <Compile Include="Http\RestSharpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
