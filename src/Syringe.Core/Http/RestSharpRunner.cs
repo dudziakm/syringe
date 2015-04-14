@@ -13,6 +13,15 @@ namespace Syringe.Core.Http
 {
 	public class RestSharpRunner
 	{
+		// Turn into interface
+		// bool addTestCase
+		// TODO: check for global
+		// TODO: check per case
+		// TODO: check onfail
+
+		// TODO: logger for cases output (StdOut,Xml etc.)
+		// TODO: config.xml takes <testcases>
+
 		private readonly Config _config;
 		private readonly CookieContainer _cookieContainer;
 

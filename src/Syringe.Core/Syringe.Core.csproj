@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Http\HttpLogWriter.cs" />
+    <Compile Include="Http\IHttpLogWriter.cs" />
     <Compile Include="Http\ITextWriterFactory.cs" />
     <Compile Include="Http\RestSharpRunner.cs" />
     <Compile Include="Http\StreamWriterFactory.cs" />
