@@ -9,18 +9,18 @@ namespace Syringe.Core.Xml
 	internal class VariableReplacer
 	{
 		private readonly Config _config;
-		private readonly TestCaseContainer _container;
+		private readonly TestCaseCollection _testCollection;
 		private StringBuilder _stringBuilder;
 
-		public VariableReplacer(Config config, TestCaseContainer container)
+		public VariableReplacer(Config config, TestCaseCollection testCollection)
 		{
 			_config = config;
-			_container = container;
+			_testCollection = testCollection;
 		}
 
 		private void Replace()
 		{
-			foreach (TestCase testCase in _container.TestCases)
+			foreach (TestCase testCase in _testCollection.TestCases)
 			{
 				_stringBuilder = new StringBuilder("");
 
@@ -32,12 +32,12 @@ namespace Syringe.Core.Xml
 		{
 			foreach (string key in _config.Variables.Keys)
 			{
-				ReplaceValue(key, _container.Variables[key]);
+				ReplaceValue(key, _testCollection.Variables[key]);
 			}
 
-			foreach (string key in _container.Variables.Keys)
+			foreach (string key in _testCollection.Variables.Keys)
 			{
-				ReplaceValue(key, _container.Variables[key]);
+				ReplaceValue(key, _testCollection.Variables[key]);
 			}
 		}
 

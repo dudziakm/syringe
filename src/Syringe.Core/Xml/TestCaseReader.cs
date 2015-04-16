@@ -10,14 +10,14 @@ namespace Syringe.Core.Xml
 {
 	public class TestCaseReader
 	{
-		public TestCaseContainer Read(TextReader textReader)
+		public TestCaseCollection Read(TextReader textReader)
 		{
 			// Clean up any invalid XML
 			string originalXml = textReader.ReadToEnd();
 			string validXml = XmlHelper.ReEncodeAttributeValues(originalXml);
 			var stringReader = new StringReader(validXml);
 
-			var testCaseContainer = new TestCaseContainer();
+			var testCollection = new TestCaseCollection();
 			XDocument doc = XDocument.Load(stringReader);
 
 			// Check for <testcases>
@@ -29,10 +29,10 @@ namespace Syringe.Core.Xml
 			int repeatValue = 0;
 			string repeatAttribute = XmlHelper.GetOptionalAttribute(rootElement, "repeat");
 			int.TryParse(repeatAttribute, out repeatValue);
-			testCaseContainer.Repeat = repeatValue;
+			testCollection.Repeat = repeatValue;
 
 			// <testvar>
-			testCaseContainer.Variables = GetTestVars(rootElement);
+			testCollection.Variables = GetTestVars(rootElement);
 
 			// <case> - add each  one and re-order them by their id="" attribute.
 			var testCases = new List<TestCase>();
@@ -41,9 +41,9 @@ namespace Syringe.Core.Xml
 				TestCase testCase = GetTestCase(element);
 				testCases.Add(testCase);
 			}
-			testCaseContainer.TestCases = testCases.OrderBy(x => x.Id);
+			testCollection.TestCases = testCases.OrderBy(x => x.Id);
 
-			return testCaseContainer;
+			return testCollection;
 		}
 
 		private Dictionary<string, string> GetTestVars(XElement rootElement)

@@ -3,7 +3,7 @@ using Syringe.Core.Xml;
 
 namespace Syringe.Core
 {
-	public class TestCaseContainer
+	public class TestCaseCollection
 	{
 		public int Repeat { get; set; }
 		public IEnumerable<TestCase> TestCases { get; set; }
@@ -11,7 +11,7 @@ namespace Syringe.Core
 		// Custom variables, e.g. <testvar varname="LOGIN_URL">http://myserver/login.php</testvar>
 		public Dictionary<string, string> Variables { get; set; }
 
-		public TestCaseContainer()
+		public TestCaseCollection()
 		{
 			Variables = new Dictionary<string, string>();
 			TestCases = new List<TestCase>();

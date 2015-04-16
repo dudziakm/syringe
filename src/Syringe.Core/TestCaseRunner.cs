@@ -32,9 +32,9 @@ namespace Syringe.Core
 			using (var stringReader = new StringReader(File.ReadAllText(testCaseFilename)))
 			{
 				var testCaseReader = new TestCaseReader();
-				TestCaseContainer testCaseContainer = testCaseReader.Read(stringReader);
+				TestCaseCollection testCollection = testCaseReader.Read(stringReader);
 
-				foreach (TestCase testCase in testCaseContainer.TestCases)
+				foreach (TestCase testCase in testCollection.TestCases)
 				{
 					// TODO: Add a new TestCaseResult to the collection
 
