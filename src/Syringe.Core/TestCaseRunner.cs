@@ -38,7 +38,7 @@ namespace Syringe.Core
 				{
 					// TODO: Add a new TestCaseResult to the collection
 
-					HttpResponse response = _httpClient.MakeRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.AddHeader);
+					HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.AddHeader);
 
 					// TODO: populate global variables from parseresponse (is parseresponse only when the status code is ok?)
 

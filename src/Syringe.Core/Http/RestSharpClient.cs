@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using RestSharp;
 
 namespace Syringe.Core.Http
@@ -16,11 +15,12 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public HttpResponse MakeRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
+		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
 		{
 			var client = new RestClient(url);
 			client.CookieContainer = _cookieContainer;
 
+			// Make the request adding the content-type, body and headers
 			Method method = GetMethodEnum(httpMethod);
 			var request = new RestRequest(method);
 			if (method == Method.POST)
@@ -33,6 +33,7 @@ namespace Syringe.Core.Http
 				request.AddHeader(keyValuePair.Key, keyValuePair.Value);
 			}
 
+			// Get the response back, parsing the headers
 			IRestResponse response = client.Execute(request);
 			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
 			if (response.Headers != null)

@@ -4,6 +4,6 @@ namespace Syringe.Core.Http
 {
 	public interface IHttpClient
 	{
-		HttpResponse MakeRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers);
+		HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers);
 	}
 }
