@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="10">
+    <case
+        id="1"
+        shortdescription="description1"
+        longdescription="description2"
+        url="http://myserver"
+        method="post"
+        posttype="text/xml"
+        verifyresponsecode="404"
+        errormessage="my error message"
+        logrequest="no"
+        logresponse="no"
+        sleep="3"
+	    >
+
+        <headers>
+            <header name="mykey">12345</header>
+            <header name="bar">foo</header>
+            <header name="emptyvalue"></header>
+            <header name="Cookie">referer=harrispilton.com</header>
+        </headers>
+
+        <postbody>
+            <![CDATA[
+            username=corey&password=welcome
+            ]]>
+        </postbody>
+
+        <parseresponses>
+            <parseresponse id="1">parse 1</parseresponse>
+            <parseresponse id="2">parse 11</parseresponse>
+            <parseresponse id="3">parse 99</parseresponse>
+        </parseresponses>
+
+        <verifypositives>
+            <verify id="1">positive 1</verify>
+            <verify id="2">positive 22</verify>
+            <verify id="3">positive 99</verify>
+        </verifypositives>
+
+        <verifynegatives>
+            <verify id="1">negative 1</verify>
+            <verify id="2">negative 6</verify>
+            <verify id="3">negative 66</verify>
+        </verifynegatives>
+    </case>
+</testcases>

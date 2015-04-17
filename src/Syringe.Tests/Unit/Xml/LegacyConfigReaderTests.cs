@@ -6,7 +6,7 @@ using Syringe.Core.Xml.LegacyConverter;
 
 namespace Syringe.Tests.Unit.Xml.LegacyConverter
 {
-    public class ConfigReaderTests
+    public class LegacyConfigReaderTests
     {
 		[Test]
 		public void Read_should_throw_exception_when_root_element_is_missing()
@@ -14,7 +14,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?><something></something>";
 			var stringReader = new StringReader(xml);
-			var configReader = new ConfigReader();
+			var configReader = new LegacyConfigReader();
 
 			// Act + Assert
 			Assert.Throws<ConfigurationException>(() => configReader.Read(stringReader));
@@ -24,7 +24,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 		public void Read_should_populate_known_properties()
 	    {
 		    // Arrange
-			var configReader = new ConfigReader();
+			var configReader = new LegacyConfigReader();
 			string xml = GetConfigXml();
 			StringReader stringReader = new StringReader(xml);
 
@@ -47,7 +47,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 	    public void Read_should_populate_custom_variables()
 	    {
 		    // Arrange
-		    var configReader = new ConfigReader();
+		    var configReader = new LegacyConfigReader();
 		    string xml = GetConfigXmlWithCustomVariables();
 		    StringReader stringReader = new StringReader(xml);
 

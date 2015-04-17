@@ -10,13 +10,23 @@ using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml.LegacyConverter;
 
-namespace Syringe.Tests.Unit.Xml.LegacyConverter
+namespace Syringe.Tests.Unit.Xml
 {
 	public class TestCaseReaderTests
 	{
-		private string ReadEmbeddedFile(string file)
+	    protected virtual string XmlExamplesFolder
+	    {
+	        get { return "Syringe.Tests.Unit.Xml.XmlExamples."; }
+	    }
+
+        protected virtual ITestCaseReader GetReader()
+        {
+            return new TestCaseReader();
+        }
+
+		protected string ReadEmbeddedFile(string file)
 		{
-            string path = string.Format("Syringe.Tests.Unit.Xml.LegacyConverter.TestCaseExamples.{0}", file);
+            string path = string.Format("{0}{1}", XmlExamplesFolder, file);
 
 			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
 			if (stream == null)
@@ -31,12 +41,12 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			return result;
 		}
 
-		private string GetSingleCaseExample()
+        protected string GetSingleCaseExample()
 		{
 			return ReadEmbeddedFile("single-case.xml");
 		}
 
-		private string GetFullExample()
+        protected string GetFullExample()
 		{
 			return ReadEmbeddedFile("full.xml");
 		}
@@ -47,22 +57,10 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?><something></something>";
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act + Assert
 			Assert.Throws<TestCaseException>(() => testCaseReader.Read(stringReader));
-		}
-
-		[Test]
-		public void Read_should_cleanse_invalid_xml()
-		{
-			// Arrange
-			string xml = ReadEmbeddedFile("invalid-xml.xml");
-			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
-
-			// Act + Assert
-			testCaseReader.Read(stringReader);
 		}
 
 		[Test]
@@ -71,7 +69,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetFullExample();
 			var stringReader = new StringReader(xml);;
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -86,7 +84,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetFullExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -105,7 +103,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetFullExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -125,7 +123,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -144,7 +142,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace(@"method=""post""", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -161,7 +159,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -179,7 +177,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace(@"url=""http://myserver""", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act + Assert
 			Assert.Throws<TestCaseException>(() => testCaseReader.Read(stringReader));
@@ -191,7 +189,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -207,7 +205,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -223,7 +221,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -241,7 +239,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("posttype=\"text/xml\"", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -257,7 +255,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 			var expectedCode = HttpStatusCode.NotFound;
 
 			// Act
@@ -276,7 +274,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("verifyresponsecode=\"404\"", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 			var expectedCode = HttpStatusCode.OK;
 
 			// Act
@@ -295,7 +293,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("verifyresponsecode=\"404\"", "verifyresponsecode=\"20000000\"");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 			var expectedCode = HttpStatusCode.OK;
 
 			// Act
@@ -312,7 +310,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -330,7 +328,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("logrequest=\"no\"", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -346,7 +344,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -364,7 +362,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("logresponse=\"no\"", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -380,7 +378,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -398,7 +396,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			xml = xml.Replace("sleep=\"3\"", "");
 
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -414,7 +412,7 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
@@ -435,53 +433,19 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 		}
 
 		[Test]
-		public void Read_should_parse_single_addheader_attribute()
-		{
-			// Arrange
-			string xml = GetSingleCaseExample();
-			xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "User-Agent: Mozilla/5.0");
-			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
-
-			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
-
-			// Assert
-			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.AddHeader[0].Key, Is.EqualTo("User-Agent"));
-			Assert.That(testcase.AddHeader[0].Value, Is.EqualTo("Mozilla/5.0"));
-		}
-
-		[Test]
-		public void Read_should_parse_empty_addheader()
-		{
-			// Arrange
-			string xml = GetSingleCaseExample();
-			xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "");
-			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
-
-			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
-
-			// Assert
-			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.AddHeader.Count, Is.EqualTo(0));
-		}
-
-		[Test]
 		public void Read_should_populate_parseresponse()
 		{
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
+            Assert.That(testcase.ParseResponses.Count, Is.EqualTo(3));
 			Assert.That(testcase.ParseResponses[0].Value, Is.EqualTo("parse 1"));
             Assert.That(testcase.ParseResponses[1].Value, Is.EqualTo("parse 11"));
             Assert.That(testcase.ParseResponses[2].Value, Is.EqualTo("parse 99"));
@@ -493,13 +457,14 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
+            Assert.That(testcase.VerifyPositives.Count, Is.EqualTo(3));
             Assert.That(testcase.VerifyPositives[0].Value, Is.EqualTo("positive 1"));
             Assert.That(testcase.VerifyPositives[1].Value, Is.EqualTo("positive 22"));
             Assert.That(testcase.VerifyPositives[2].Value, Is.EqualTo("positive 99"));
@@ -511,29 +476,32 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 			// Arrange
 			string xml = GetSingleCaseExample();
 			var stringReader = new StringReader(xml);
-			var testCaseReader = new TestCaseReader();
+			var testCaseReader = GetReader();
 
 			// Act
 			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
+            Assert.That(testcase.VerifyNegatives.Count, Is.EqualTo(3));
 			Assert.That(testcase.VerifyNegatives[0].Value, Is.EqualTo("negative 1"));
             Assert.That(testcase.VerifyNegatives[1].Value, Is.EqualTo("negative 6"));
             Assert.That(testcase.VerifyNegatives[2].Value, Is.EqualTo("negative 66"));
 		}
+
 		[Test]
-		public void GetNumberedAttributes_should_return_attributes_ordered_numerically()
+        [Ignore("TODO")]
+        public void GetElementCollection_should_return_attributes_ordered_numerically()
 		{
 			// Arrange
 			string xml = ReadEmbeddedFile("ordered-attributes.xml");
 			XDocument document = XDocument.Parse(xml);
 			var firstTestCase = document.Root.Elements().First(x => x.Name.LocalName == "case");
 
-			var testCaseReader = new TestCaseReader();
+		    var testCaseReader = new TestCaseReader();
 
 			// Act
-            List<NumberedAttribute> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "description");
+            List<NumberedAttribute> descriptions = testCaseReader.GetElementCollection(firstTestCase, "description", "descriptions", "description");
 
 			// Assert
             Assert.That(descriptions[1].Name, Is.EqualTo("description"));

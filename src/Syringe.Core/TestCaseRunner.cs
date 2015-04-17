@@ -36,7 +36,7 @@ namespace Syringe.Core
 
 			using (var stringReader = new StringReader(File.ReadAllText(testCaseFilename)))
 			{
-				var testCaseReader = new TestCaseReader();
+				var testCaseReader = new LegacyTestCaseReader();
 				TestCaseCollection testCollection = testCaseReader.Read(stringReader);
 
 				foreach (TestCase testCase in testCollection.TestCases)

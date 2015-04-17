@@ -8,7 +8,7 @@ using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Xml.LegacyConverter
 {
-	public class TestCaseReader
+	public class LegacyTestCaseReader : ITestCaseReader
 	{
 		public TestCaseCollection Read(TextReader textReader)
 		{
@@ -48,7 +48,10 @@ namespace Syringe.Core.Xml.LegacyConverter
 
 		private Dictionary<string, string> GetTestVars(XElement rootElement)
 		{
-			// Example: <testvar varname="LOGIN_URL">x</testvar>
+            // <variables>
+            //  <variable name="login"></variable>
+            // </variables>
+
 			var variables = new Dictionary<string, string>();
 
 			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))

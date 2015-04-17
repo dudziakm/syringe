@@ -6,7 +6,7 @@ using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 
 namespace Syringe.Core.Xml.LegacyConverter
 {
-	public class ConfigReader
+	public class LegacyConfigReader
 	{
 		public Config Read(TextReader textReader)
 		{
@@ -51,7 +51,7 @@ namespace Syringe.Core.Xml.LegacyConverter
 		{
 			using (var stringReader = new StringReader(File.ReadAllText(configFilename)))
 			{
-				var configReader = new ConfigReader();
+				var configReader = new LegacyConfigReader();
 				return configReader.Read(stringReader);
 			}
 		}
