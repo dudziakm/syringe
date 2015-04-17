@@ -10,6 +10,7 @@ namespace Syringe.Service.Api
         //{
         //    //MessageQueue.Messages.Add(message);
         //}
+
         [Route("api/test")]
         [HttpGet]
         public void Test()
