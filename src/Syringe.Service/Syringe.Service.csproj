@@ -73,6 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\TeamController.cs" />
     <Compile Include="Api\MessageController.cs" />
     <Compile Include="Api\TeamController.cs" />
     <Compile Include="Models\MessageDetails.cs" />
