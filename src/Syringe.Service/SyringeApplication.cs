@@ -1,15 +1,19 @@
-﻿namespace Syringe.Service
+﻿using System;
+using Microsoft.Owin.Hosting;
+
+namespace Syringe.Service
 {
     public class SyringeApplication
     {
+        protected IDisposable WebApplication;
         public void Start()
         {
-            
+            WebApplication = WebApp.Start<WebPipeline>("http://localhost:5000");
         }
 
         public void Stop()
         {
-
+            WebApplication.Dispose();
         }
     }
 }
