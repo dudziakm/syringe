@@ -6,7 +6,7 @@ using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Xml.LegacyConverter
 {
 	public class TestCaseReader
 	{
@@ -126,6 +126,7 @@ namespace Syringe.Core.Xml
 
 		private KeyValuePair<string, string> GetHeaderPair(string header)
 		{
+            // Parses the header, which is in the format "mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com"
 			string[] parts = header.Split(':');
 			if (parts.Length == 2)
 			{
@@ -154,10 +155,10 @@ namespace Syringe.Core.Xml
 			return statusCode;
 		}
 
-		internal List<string> GetNumberedAttributes(XElement element, string attributeName)
+		internal List<NumberedAttribute> GetNumberedAttributes(XElement element, string attributeName)
 		{
 			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
-				return new List<string>();
+                return new List<NumberedAttribute>();
 
 			var items = new List<KeyValuePair<int, string>>();
 
@@ -180,7 +181,7 @@ namespace Syringe.Core.Xml
 			}
 
 			return items.OrderBy(x => x.Key)
-						.Select(x => x.Value)
+						.Select(x => new NumberedAttribute(x.Key, attributeName, x.Value))
 						.ToList();
 		}
 	}

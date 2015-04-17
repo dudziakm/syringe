@@ -54,16 +54,18 @@
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
     <Compile Include="Http\HttpResponse.cs" />
     <Compile Include="Http\Logging\ITextWriterFactory.cs" />
-    <Compile Include="TestCaseResult.cs" />
+    <Compile Include="Results\TestCaseResult.cs" />
+    <Compile Include="Results\TestCaseRunSummary.cs" />
     <Compile Include="TestCaseRunner.cs" />
     <Compile Include="Http\RestSharpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Http\Logging\StreamWriterFactory.cs" />
-    <Compile Include="Xml\ConfigReader.cs" />
+    <Compile Include="Xml\LegacyConverter\ConfigReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseCollection.cs" />
-    <Compile Include="Xml\TestCaseReader.cs" />
+    <Compile Include="Xml\LegacyConverter\NumberedAttribute.cs" />
+    <Compile Include="Xml\LegacyConverter\TestCaseReader.cs" />
     <Compile Include="Xml\VariableReplacer.cs" />
     <Compile Include="Xml\XmlHelper.cs" />
   </ItemGroup>

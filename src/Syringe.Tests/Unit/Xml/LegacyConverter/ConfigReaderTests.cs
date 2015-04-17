@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Xml;
+using Syringe.Core.Xml.LegacyConverter;
 
-namespace Syringe.Tests.Unit.Xml
+namespace Syringe.Tests.Unit.Xml.LegacyConverter
 {
     public class ConfigReaderTests
     {
