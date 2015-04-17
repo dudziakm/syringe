@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\MessageController.cs" />
+    <Compile Include="Api\TeamController.cs" />
     <Compile Include="Models\MessageDetails.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
