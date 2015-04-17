@@ -8,7 +8,7 @@ namespace Syringe.Service
         protected IDisposable WebApplication;
         public void Start()
         {
-            WebApplication = WebApp.Start<WebPipeline>("http://localhost:5000");
+            WebApplication = WebApp.Start<WebPipeline>("http://localhost:1232");
         }
 
         public void Stop()
