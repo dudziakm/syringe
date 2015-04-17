@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Xml.LegacyConverter
 {
 	public class ConfigReader
 	{

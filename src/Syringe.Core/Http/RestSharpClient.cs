@@ -34,7 +34,10 @@ namespace Syringe.Core.Http
 			}
 
 			// Get the response back, parsing the headers
+            DateTime startTime = DateTime.UtcNow;
 			IRestResponse response = client.Execute(request);
+		    TimeSpan responseTime = DateTime.UtcNow - startTime;
+
 			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
 			if (response.Headers != null)
 			{ 
@@ -46,7 +49,8 @@ namespace Syringe.Core.Http
 			{
 				StatusCode = response.StatusCode,
 				Content = response.Content,
-				Headers = keyvaluePairs
+				Headers = keyvaluePairs,
+                ResponseTime = responseTime
 			};
 		}
 

@@ -8,15 +8,15 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Xml;
+using Syringe.Core.Xml.LegacyConverter;
 
-namespace Syringe.Tests.Unit.Xml
+namespace Syringe.Tests.Unit.Xml.LegacyConverter
 {
 	public class TestCaseReaderTests
 	{
 		private string ReadEmbeddedFile(string file)
 		{
-			string path = string.Format("Syringe.Tests.Unit.Xml.TestCaseExamples.{0}", file);
+            string path = string.Format("Syringe.Tests.Unit.Xml.LegacyConverter.TestCaseExamples.{0}", file);
 
 			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
 			if (stream == null)
@@ -482,9 +482,9 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.ParseResponses[0], Is.EqualTo("parse 1"));
-			Assert.That(testcase.ParseResponses[1], Is.EqualTo("parse 11"));
-			Assert.That(testcase.ParseResponses[2], Is.EqualTo("parse 99"));
+			Assert.That(testcase.ParseResponses[0].Value, Is.EqualTo("parse 1"));
+            Assert.That(testcase.ParseResponses[1].Value, Is.EqualTo("parse 11"));
+            Assert.That(testcase.ParseResponses[2].Value, Is.EqualTo("parse 99"));
 		}
 
 		[Test]
@@ -500,9 +500,9 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.VerifyPositives[0], Is.EqualTo("positive 1"));
-			Assert.That(testcase.VerifyPositives[1], Is.EqualTo("positive 22"));
-			Assert.That(testcase.VerifyPositives[2], Is.EqualTo("positive 99"));
+            Assert.That(testcase.VerifyPositives[0].Value, Is.EqualTo("positive 1"));
+            Assert.That(testcase.VerifyPositives[1].Value, Is.EqualTo("positive 22"));
+            Assert.That(testcase.VerifyPositives[2].Value, Is.EqualTo("positive 99"));
 		}
 
 		[Test]
@@ -518,9 +518,9 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.VerifyNegatives[0], Is.EqualTo("negative 1"));
-			Assert.That(testcase.VerifyNegatives[1], Is.EqualTo("negative 6"));
-			Assert.That(testcase.VerifyNegatives[2], Is.EqualTo("negative 66"));
+			Assert.That(testcase.VerifyNegatives[0].Value, Is.EqualTo("negative 1"));
+            Assert.That(testcase.VerifyNegatives[1].Value, Is.EqualTo("negative 6"));
+            Assert.That(testcase.VerifyNegatives[2].Value, Is.EqualTo("negative 66"));
 		}
 		[Test]
 		public void GetNumberedAttributes_should_return_attributes_ordered_numerically()
@@ -533,13 +533,24 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = new TestCaseReader();
 
 			// Act
-			List<string> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "description");
+            List<NumberedAttribute> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "description");
 
 			// Assert
-			Assert.That(descriptions[0], Is.EqualTo("description with no number"));
-			Assert.That(descriptions[1], Is.EqualTo("description 1"));
-			Assert.That(descriptions[2], Is.EqualTo("description 2"));
-			Assert.That(descriptions[3], Is.EqualTo("description 99"));
+            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
+            Assert.That(descriptions[0].Index, Is.EqualTo(0));
+			Assert.That(descriptions[0].Value, Is.EqualTo("description with no number"));
+
+            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
+            Assert.That(descriptions[1].Index, Is.EqualTo(1));
+            Assert.That(descriptions[1].Value, Is.EqualTo("description 1"));
+
+            Assert.That(descriptions[2].Name, Is.EqualTo("description"));
+            Assert.That(descriptions[2].Index, Is.EqualTo(2));
+            Assert.That(descriptions[2].Value, Is.EqualTo("description 2"));
+
+            Assert.That(descriptions[3].Name, Is.EqualTo("description"));
+            Assert.That(descriptions[3].Index, Is.EqualTo(99));
+            Assert.That(descriptions[3].Value, Is.EqualTo("description 99"));
 		}
 	}
 }
