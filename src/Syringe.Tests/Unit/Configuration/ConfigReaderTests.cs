@@ -84,6 +84,7 @@ namespace Syringe.Tests.Unit.Configuration
 							<proxy>my proxy</proxy>
 							<Variables>
 								<Variable name=""baseurl"">http://www.google.com</Variable>
+								<Variable name=""baseurl"">http://www.google2.com</Variable>
 								<Variable name=""baseurl1"">http://www.bing.com</Variable>
 								<Variable name=""baseurl88"">http://www.yahoo.com</Variable>
 								<Variable name=""myvariable"">http://www.dogpile.com</Variable>
