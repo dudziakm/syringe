@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
-using Syringe.Core.Exceptions;
 using Syringe.Core.Xml.LegacyConverter;
 
-namespace Syringe.Tests.Unit.Xml.LegacyConverter
+namespace Syringe.Tests.Unit.Xml
 {
     public class LegacyTestCaseReaderTests : TestCaseReaderTests
 	{

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Syringe.Core.Xml;
 using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 
-namespace Syringe.Core.Xml.LegacyConverter
+namespace Syringe.Core.Configuration
 {
 	public class LegacyConfigReader
 	{
@@ -38,10 +40,7 @@ namespace Syringe.Core.Xml.LegacyConverter
 			// All elements get stored in the variables, for custom variables.
 			foreach (XElement element in rootElement.Elements())
 			{
-				if (!config.Variables.ContainsKey(element.Name.LocalName))
-				{
-					config.Variables.Add(element.Name.LocalName, element.Value);
-				}
+				config.Variables.Add(new Variable(element.Name.LocalName, element.Value)); 
 			}
 
 			return config;

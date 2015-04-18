@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Syringe.Core.Configuration;
 
 namespace Syringe.Core.Xml
 {
@@ -30,9 +31,9 @@ namespace Syringe.Core.Xml
 
 		private void ReplaceCustomVariables()
 		{
-			foreach (string key in _config.Variables.Keys)
+			foreach (Variable variable in _config.Variables)
 			{
-				ReplaceValue(key, _testCollection.Variables[key]);
+				ReplaceValue(variable.Name, _testCollection.Variables[variable.Value]);
 			}
 
 			foreach (string key in _testCollection.Variables.Keys)

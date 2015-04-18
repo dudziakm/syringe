@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using RestSharp;
 using RestSharp.Contrib;
+using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Xml;
 using Syringe.Core.Xml.LegacyConverter;

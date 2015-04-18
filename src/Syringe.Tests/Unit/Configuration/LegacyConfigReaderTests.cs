@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Syringe.Core;
+using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Xml.LegacyConverter;
+using Syringe.Core.Extensions;
 
-namespace Syringe.Tests.Unit.Xml.LegacyConverter
+namespace Syringe.Tests.Unit.Configuration
 {
     public class LegacyConfigReaderTests
     {
@@ -55,10 +57,10 @@ namespace Syringe.Tests.Unit.Xml.LegacyConverter
 		    Config config = configReader.Read(stringReader);
 
 		    // Assert
-			Assert.That(config.Variables["baseurl"], Is.EqualTo("http://www.google.com"));
-		    Assert.That(config.Variables["baseurl1"], Is.EqualTo("http://www.bing.com"));
-			Assert.That(config.Variables["baseurl88"], Is.EqualTo("http://www.yahoo.com"));
-			Assert.That(config.Variables["myvariable"], Is.EqualTo("http://www.dogpile.com"));
+			Assert.That(config.Variables.ByName("baseurl"), Is.EqualTo("http://www.google.com"));
+			Assert.That(config.Variables.ByName("baseurl1"), Is.EqualTo("http://www.bing.com"));
+			Assert.That(config.Variables.ByName("baseurl88"), Is.EqualTo("http://www.yahoo.com"));
+			Assert.That(config.Variables.ByName("myvariable"), Is.EqualTo("http://www.dogpile.com"));
 	    }
 
 	    private string GetConfigXml()

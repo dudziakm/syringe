@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
-namespace Syringe.Core
+namespace Syringe.Core.Configuration
 {
 	public class Config
 	{
@@ -15,19 +14,12 @@ namespace Syringe.Core
 		public int Timeout { get; set; }
 		public int GlobalTimeout { get; set; }
 
-		// Custom variables, e.g. <baseurl3>
-		public Dictionary<string, string> Variables { get; set; }
+		// Custom variables, e.g. <baseurl3> - can contain duplicate keys
+		public List<Variable> Variables { get; set; }
 
 		public Config()
 		{
-			Variables = new Dictionary<string, string>();
+			Variables = new List<Variable>();
 		}
-	}
-
-	public enum LogType
-	{
-		None,
-		OnFail,
-		All
 	}
 }
