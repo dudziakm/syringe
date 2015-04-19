@@ -44,10 +44,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 
 			Assert.That(testcase.ShortDescription, Is.EqualTo("short description"));
 			Assert.That(testcase.LongDescription, Is.EqualTo("long description"));
@@ -75,10 +75,10 @@ namespace Syringe.Tests.Unit.Xml
             var testCaseReader = GetReader();
 
             // Act
-            TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+            CaseCollection testCollection = testCaseReader.Read(stringReader);
 
             // Assert
-            TestCase testcase = testCollection.TestCases.First();
+            Case testcase = testCollection.TestCases.First();
             Assert.That(testcase.Headers.Count, Is.EqualTo(0));
         }
 
@@ -92,10 +92,10 @@ namespace Syringe.Tests.Unit.Xml
             var testCaseReader = GetReader();
 
             // Act
-            TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+            CaseCollection testCollection = testCaseReader.Read(stringReader);
 
             // Assert
-            TestCase testcase = testCollection.TestCases.First();
+            Case testcase = testCollection.TestCases.First();
             Assert.That(testcase.Headers.Count, Is.EqualTo(1));
             Assert.That(testcase.Headers[0].Key, Is.EqualTo("User-Agent"));
             Assert.That(testcase.Headers[0].Value, Is.EqualTo("Mozilla/5.0"));

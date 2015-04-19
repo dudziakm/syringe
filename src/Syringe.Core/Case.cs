@@ -5,7 +5,7 @@ using Syringe.Core.Xml;
 
 namespace Syringe.Core
 {
-	public class TestCase
+	public class Case
 	{
 		public int Id { get; set; }
 		public string Method { get; set; }
@@ -26,7 +26,7 @@ namespace Syringe.Core
 		public List<RegexItem> VerifyPositives { get; set; }
 		public List<RegexItem> VerifyNegatives { get; set; }
 
-		public TestCase()
+		public Case()
 		{
 			Headers = new List<KeyValuePair<string, string>>();
 			ParseResponses = new List<RegexItem>();

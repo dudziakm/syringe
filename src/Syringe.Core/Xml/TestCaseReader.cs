@@ -10,9 +10,9 @@ namespace Syringe.Core.Xml
 {
     public class TestCaseReader : ITestCaseReader
     {
-		public TestCaseCollection Read(TextReader textReader)
+		public CaseCollection Read(TextReader textReader)
 		{
-			var testCollection = new TestCaseCollection();
+			var testCollection = new CaseCollection();
             XDocument doc = XDocument.Load(textReader);
 
 			// Check for <testcases>
@@ -30,10 +30,10 @@ namespace Syringe.Core.Xml
 			testCollection.Variables = GetTestVars(rootElement);
 
 			// <case> - add each  one and re-order them by their id="" attribute.
-			var testCases = new List<TestCase>();
+			var testCases = new List<Case>();
 			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "case"))
 			{
-				TestCase testCase = GetTestCase(element);
+				Case testCase = GetTestCase(element);
 				testCases.Add(testCase);
 			}
 			testCollection.TestCases = testCases.OrderBy(x => x.Id);
@@ -65,9 +65,9 @@ namespace Syringe.Core.Xml
 			return variables;
 		}
 
-		private TestCase GetTestCase(XElement element)
+		private Case GetTestCase(XElement element)
 		{
-			var testCase = new TestCase();
+			var testCase = new Case();
 
 			// Required Properties
 			testCase.Id = XmlHelper.AttributeAsInt(element, "id");

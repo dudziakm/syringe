@@ -72,7 +72,7 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
 			Assert.That(testCollection.Repeat, Is.EqualTo(10));
@@ -87,7 +87,7 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
 			Assert.That(testCollection.Variables.Count, Is.EqualTo(4));
@@ -106,10 +106,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			List<TestCase> testCases = testCollection.TestCases.ToList();
+			List<Case> testCases = testCollection.TestCases.ToList();
 
 			Assert.That(testCases[0].Id, Is.EqualTo(1));
 			Assert.That(testCases[1].Id, Is.EqualTo(9));
@@ -126,10 +126,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 
 			Assert.That(testcase.ShortDescription, Is.EqualTo("short description"));
 			Assert.That(testcase.LongDescription, Is.EqualTo("long description"));
@@ -144,10 +144,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 
 			Assert.That(testcase.Method, Is.EqualTo("post"));
 		}
@@ -163,10 +163,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 
 			Assert.That(testcase.Method, Is.EqualTo("get"));
 		}
@@ -180,10 +180,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.Url, Is.EqualTo("http://myserver"));
 		}
 
@@ -210,10 +210,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.PostBody, Is.EqualTo("username=corey&password=welcome"));
 		}
 
@@ -226,10 +226,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.ErrorMessage, Is.EqualTo("my error message"));
 		}
 
@@ -242,10 +242,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.PostType, Is.EqualTo("text/xml"));
 		}
 
@@ -260,10 +260,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.PostType, Is.EqualTo("application/x-www-form-urlencoded"));
 		}
 
@@ -277,10 +277,10 @@ namespace Syringe.Tests.Unit.Xml
 			var expectedCode = HttpStatusCode.NotFound;
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
 		}
 
@@ -296,10 +296,10 @@ namespace Syringe.Tests.Unit.Xml
 			var expectedCode = HttpStatusCode.OK;
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
 		}
 
@@ -315,10 +315,10 @@ namespace Syringe.Tests.Unit.Xml
 			var expectedCode = HttpStatusCode.OK;
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.VerifyResponseCode, Is.EqualTo(expectedCode));
 		}
 
@@ -331,10 +331,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.LogRequest, Is.False);
 		}
 
@@ -349,10 +349,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.LogRequest, Is.True);
 		}
 
@@ -365,10 +365,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.LogResponse, Is.False);
 		}
 
@@ -383,10 +383,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.LogResponse, Is.True);
 		}
 
@@ -399,10 +399,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.Sleep, Is.EqualTo(3));
 		}
 
@@ -417,10 +417,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.Sleep, Is.EqualTo(0));
 		}
 
@@ -433,10 +433,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
 			Assert.That(testcase.Headers[0].Key, Is.EqualTo("mykey"));
 			Assert.That(testcase.Headers[0].Value, Is.EqualTo("12345"));
 
@@ -459,10 +459,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
             Assert.That(testcase.ParseResponses.Count, Is.EqualTo(3));
 			Assert.That(testcase.ParseResponses[0].Regex, Is.EqualTo("parse 1"));
 			Assert.That(testcase.ParseResponses[1].Regex, Is.EqualTo("parse 11"));
@@ -478,10 +478,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
             Assert.That(testcase.VerifyPositives.Count, Is.EqualTo(3));
 			Assert.That(testcase.VerifyPositives[0].Regex, Is.EqualTo("positive 1"));
 			Assert.That(testcase.VerifyPositives[1].Regex, Is.EqualTo("positive 22"));
@@ -497,10 +497,10 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = GetReader();
 
 			// Act
-			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read(stringReader);
 
 			// Assert
-			TestCase testcase = testCollection.TestCases.First();
+			Case testcase = testCollection.TestCases.First();
             Assert.That(testcase.VerifyNegatives.Count, Is.EqualTo(3));
 			Assert.That(testcase.VerifyNegatives[0].Regex, Is.EqualTo("negative 1"));
 			Assert.That(testcase.VerifyNegatives[1].Regex, Is.EqualTo("negative 6"));

@@ -18,7 +18,7 @@ namespace Syringe.Core.Results
     //    <min-response-time>2.233</min-response-time>
     //    <sanity-check-passed>true</sanity-check-passed>
     //</test-summary>
-    public class TestCaseRunSummary
+    public class TestCaseSession
     {
         public List<TestCaseResult> TestCaseResults { get; set; }
 
@@ -32,7 +32,7 @@ namespace Syringe.Core.Results
         public TimeSpan MaxResponseTime { get; set; }
         public TimeSpan MinResponseTime { get; set; }
 
-        public TestCaseRunSummary()
+        public TestCaseSession()
         {
             TestCaseResults = new List<TestCaseResult>();
         }

@@ -22,11 +22,11 @@
         </postbody>
         
         <verifypositives>
-            <verify id="1">verify this string exists</verify>
+            <verify description="1">verify this string exists</verify>
         </verifypositives>
 
         <verifynegatives>
-            <verify id="1">verify this string does not exist</verify>
+            <verify description="1">verify this string does not exist</verify>
         </verifynegatives>
     </case>
 
@@ -52,7 +52,7 @@
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
         <verifypositives>
-            <verify id="1">verify this string exists</verify>
+            <verify description="1">verify this string exists</verify>
         </verifypositives>
     </case>
 
@@ -64,7 +64,7 @@
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
         <verifypositives>
-            <verify id="1">verify this string exists</verify>
+            <verify description="1">verify this string exists</verify>
         </verifypositives>
     </case>
 </testcases>

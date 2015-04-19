@@ -28,7 +28,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteSeperator();
+			logWriter.AppendSeperator();
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.EqualTo(logWriter.Seperator + Environment.NewLine));
@@ -42,7 +42,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteRequest(null, "b", new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest(null, "b", new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -56,7 +56,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteRequest("http://www.google.com", null, new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest("http://www.google.com", null, new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteRequest("not a valid url", null, new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest("not a valid url", null, new List<KeyValuePair<string, string>>());
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -84,7 +84,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteRequest("http://www.uri", "b", null);
+			logWriter.AppendRequest("http://www.uri", "b", null);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -98,7 +98,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act
-			logWriter.WriteRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", new List<KeyValuePair<string, string>>());
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -122,7 +122,7 @@ namespace Syringe.Tests.Unit.Http
 			};
 
 			// Act	
-			logWriter.WriteRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", headers);
+			logWriter.AppendRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", headers);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -143,7 +143,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act	
-			logWriter.WriteResponse(HttpStatusCode.NotFound, new List<KeyValuePair<string, string>>(), "");
+			logWriter.AppendResponse(HttpStatusCode.NotFound, new List<KeyValuePair<string, string>>(), "");
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -167,7 +167,7 @@ namespace Syringe.Tests.Unit.Http
 			};
 
 			// Act	
-			logWriter.WriteResponse(HttpStatusCode.OK, headers, "<html><body></body></html>");
+			logWriter.AppendResponse(HttpStatusCode.OK, headers, "<html><body></body></html>");
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -189,7 +189,7 @@ namespace Syringe.Tests.Unit.Http
 			var logWriter = GetHttpLogWriter(stringBuilder);
 
 			// Act	
-			logWriter.WriteResponse(HttpStatusCode.OK, null, "");
+			logWriter.AppendResponse(HttpStatusCode.OK, null, "");
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);

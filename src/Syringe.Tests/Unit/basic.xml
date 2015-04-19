@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="10">
+    <variables>
+        <variable name="MyVariable">hidden</variable>
+		<variable name="SomeOther">blah</variable>
+    </variables>
+
+    <case
+		id="1"
+		shortdescription="short description 1"
+		longdescription="long description"
+		url="http://notused"
+	>
+        
+        <verifypositives>
+            <verify description="1">__VIEWSTATE ++++</verify>
+			<verify description="2">{parsedresponse1}</verify>
+        </verifypositives>
+
+        <verifynegatives>
+            <verify description="1">Cache-Control: public</verify>
+        </verifynegatives>
+
+		<parseresponses>
+			<parseresponse description="1">__VIEWSTATE" value="(.*?)"</parseresponse>
+		</parseresponses>
+    </case>
+</testcases>

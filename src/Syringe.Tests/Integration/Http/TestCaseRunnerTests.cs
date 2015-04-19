@@ -9,6 +9,7 @@ using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Runner;
 using Syringe.Tests.Unit.StubsMocks;
 
 namespace Syringe.Tests.Integration.Http
@@ -25,10 +26,10 @@ namespace Syringe.Tests.Integration.Http
 			var textWriterFactoryMock = new TextWriterFactoryMock(stringBuilder);
 			var httpLogWriter = new HttpLogWriter(textWriterFactoryMock);
 
-			var runner = new TestCaseRunner(config, restSharpClient, httpLogWriter);
+			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
 
 			// Act
-			runner.Run(Path.Combine("Integration", "wikipedia-example.xml"));
+			//runner.Run(Path.Combine("Integration", "wikipedia-example.xml"));
 
 			// Assert
 			Console.WriteLine(stringBuilder);
@@ -44,10 +45,10 @@ namespace Syringe.Tests.Integration.Http
 			var textWriterFactoryMock = new TextWriterFactoryMock(stringBuilder);
 			var httpLogWriter = new HttpLogWriter(textWriterFactoryMock);
 
-			var runner = new TestCaseRunner(config, restSharpClient, httpLogWriter);
+			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
 
 			// Act
-			runner.Run(Path.Combine("Integration" ,"wikipedia-example.xml"));
+			//runner.Run(Path.Combine("Integration" ,"wikipedia-example.xml"));
 
 			// Assert
 			Console.WriteLine(stringBuilder);

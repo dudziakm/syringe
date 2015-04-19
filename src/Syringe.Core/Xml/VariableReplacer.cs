@@ -10,10 +10,10 @@ namespace Syringe.Core.Xml
 	internal class VariableReplacer
 	{
 		private readonly Config _config;
-		private readonly TestCaseCollection _testCollection;
+		private readonly CaseCollection _testCollection;
 		private StringBuilder _stringBuilder;
 
-		public VariableReplacer(Config config, TestCaseCollection testCollection)
+		public VariableReplacer(Config config, CaseCollection testCollection)
 		{
 			_config = config;
 			_testCollection = testCollection;
@@ -21,7 +21,7 @@ namespace Syringe.Core.Xml
 
 		private void Replace()
 		{
-			foreach (TestCase testCase in _testCollection.TestCases)
+			foreach (Case testCase in _testCollection.TestCases)
 			{
 				_stringBuilder = new StringBuilder("");
 

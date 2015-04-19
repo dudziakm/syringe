@@ -21,7 +21,7 @@ namespace Syringe.Core.Http.Logging
 			Seperator = "************************* LOG SEPARATOR *************************";
 		}
 
-		public virtual void WriteSeperator()
+		public virtual void AppendSeperator()
 		{
 			using (TextWriter textWriter = TextWriterFactory.GetWriter())
 			{
@@ -29,7 +29,7 @@ namespace Syringe.Core.Http.Logging
 			}
 		}
 
-		public virtual void WriteRequest(string method, string url, IEnumerable<KeyValuePair<string, string>> headers)
+		public virtual void AppendRequest(string method, string url, IEnumerable<KeyValuePair<string, string>> headers)
 		{
 			if (string.IsNullOrEmpty(method))
 				return;
@@ -58,7 +58,7 @@ namespace Syringe.Core.Http.Logging
 			}
 		}
 
-		public virtual void WriteResponse(HttpStatusCode status, IEnumerable<KeyValuePair<string, string>> headers, string bodyResponse)
+		public virtual void AppendResponse(HttpStatusCode status, IEnumerable<KeyValuePair<string, string>> headers, string bodyResponse)
 		{
 			using (TextWriter textWriter = TextWriterFactory.GetWriter())
 			{

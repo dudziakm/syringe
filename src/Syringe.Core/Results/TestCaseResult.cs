@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syringe.Core.Xml;
 
 namespace Syringe.Core.Results
 {
@@ -21,12 +22,12 @@ namespace Syringe.Core.Results
     //    </testcase>
 	public class TestCaseResult
 	{
-	    public TestCase TestCase { get; set; }
+	    public Case TestCase { get; set; }
 	    public bool Success { get; set; }
 	    public string Message { get; set; }
 	    public TimeSpan ResponseTime { get; set; }
 
-        public Dictionary<string, bool> VerifyPositiveResults { get; set; }
-        public Dictionary<string, bool> VerifyNegativeResults { get; set; }
+        public List<RegexItem> VerifyPositiveResults { get; set; }
+		public List<RegexItem> VerifyNegativeResults { get; set; }
 	}
 }
