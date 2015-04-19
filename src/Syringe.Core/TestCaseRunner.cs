@@ -46,7 +46,7 @@ namespace Syringe.Core
 					var testResult = new TestCaseResult();
 					testResult.TestCase = testCase;
 
-					HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.AddHeader);
+					HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.Headers);
 					testResult.ResponseTime = response.ResponseTime;
 
 					// TODO: populate global variables from parseresponse (is parseresponse only when the status code is ok?)
@@ -75,7 +75,7 @@ namespace Syringe.Core
 					if (_config.GlobalHttpLog == LogType.All || testCase.LogRequest)
 					{
 						// TODO: On fail support
-						_logWriter.WriteRequest(testCase.Method, testCase.Url, testCase.AddHeader);
+						_logWriter.WriteRequest(testCase.Method, testCase.Url, testCase.Headers);
 					}
 
 					// Log response

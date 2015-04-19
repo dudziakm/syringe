@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
@@ -19,6 +20,19 @@ namespace Syringe.Tests.Unit.Xml
         {
             return new LegacyTestCaseReader();
         }
+
+		private string GetInvalidXml(string attributeName = "verifypositive")
+		{
+			const string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+		            <testcases>
+						<case
+							id=""1""
+							description1=""short description""
+							{attributeName}=""\<SELECT\>somequerystring=a&anotherquerystring=b&nbsp;""
+						/>
+					</testcases>";
+			return xml.Replace("{attributeName}", attributeName);
+		}
 
 		[Test]
 		public void Read_should_parse_description_attributes_when_numbers_are_omitted()
@@ -65,7 +79,7 @@ namespace Syringe.Tests.Unit.Xml
 
             // Assert
             TestCase testcase = testCollection.TestCases.First();
-            Assert.That(testcase.AddHeader.Count, Is.EqualTo(0));
+            Assert.That(testcase.Headers.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -82,9 +96,9 @@ namespace Syringe.Tests.Unit.Xml
 
             // Assert
             TestCase testcase = testCollection.TestCases.First();
-            Assert.That(testcase.AddHeader.Count, Is.EqualTo(1));
-            Assert.That(testcase.AddHeader[0].Key, Is.EqualTo("User-Agent"));
-            Assert.That(testcase.AddHeader[0].Value, Is.EqualTo("Mozilla/5.0"));
+            Assert.That(testcase.Headers.Count, Is.EqualTo(1));
+            Assert.That(testcase.Headers[0].Key, Is.EqualTo("User-Agent"));
+            Assert.That(testcase.Headers[0].Value, Is.EqualTo("Mozilla/5.0"));
         }
 
         [Test]
@@ -113,5 +127,62 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(descriptions[3].Description, Is.EqualTo("parseresponse12"));
 			Assert.That(descriptions[3].Regex, Is.EqualTo("parse 12"));
         }
+
+		[Test]
+		public void ReEncodeAttributeValues_should_change_invalid_xml_into_valid_xml()
+		{
+			// Arrange
+			string invalidXml = GetInvalidXml();
+			string nbsp = XmlConvert.EncodeName("&nbsp;");
+
+			// Act
+			string validXml = LegacyTestCaseReader.ReEncodeAttributeValues(invalidXml);
+
+			// Assert
+			XDocument document = XDocument.Parse(validXml);
+			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute("verifypositive");
+			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b" + nbsp));
+		}
+
+		[Test]
+		public void ReEncodeAttributeValues_should_ignore_empty_attribute_value()
+		{
+			// Arrange
+			string xml = GetInvalidXml();
+			xml = xml.Replace(@"verifypositive=""\<SELECT\>somequerystring=a&anotherquerystring=b&nbsp;""", "verifypositive=\"\"");
+
+			// Act
+			string validXml = LegacyTestCaseReader.ReEncodeAttributeValues(xml);
+
+			// Assert
+			XDocument document = XDocument.Parse(validXml);
+			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute("verifypositive");
+			Assert.That(verifyPositive.Value, Is.EqualTo(""));
+		}
+
+		[Test]
+		[TestCase("verifypositive")]
+		[TestCase("verifypositive99")]
+		[TestCase("verifynegative")]
+		[TestCase("verifypositive88")]
+		[TestCase("verifynextpositive")]
+		[TestCase("verifynextnegative")]
+		[TestCase("url")]
+		[TestCase("addheader")]
+		[TestCase("postbody")]
+		public void ReEncodeAttributeValues_should_transform_all_known_webinject_attributes(string attributeName)
+		{
+			// Arrange
+			string invalidXml = GetInvalidXml(attributeName);
+			string nbsp = XmlConvert.EncodeName("&nbsp;");
+
+			// Act
+			string validXml = LegacyTestCaseReader.ReEncodeAttributeValues(invalidXml);
+
+			// Assert
+			XDocument document = XDocument.Parse(validXml);
+			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute(attributeName);
+			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b" + nbsp));
+		}
 	}
 }

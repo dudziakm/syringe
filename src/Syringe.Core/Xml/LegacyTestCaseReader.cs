@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.Xml;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 
@@ -11,11 +13,13 @@ namespace Syringe.Core.Xml
 {
 	public class LegacyTestCaseReader : ITestCaseReader
 	{
+		private static readonly Regex _attributeRegex = new Regex("=([\"']){1}(.*?)\\1", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
 		public TestCaseCollection Read(TextReader textReader)
 		{
 			// Clean up any invalid XML
 			string originalXml = textReader.ReadToEnd();
-			string validXml = XmlHelper.ReEncodeAttributeValues(originalXml);
+			string validXml = ReEncodeAttributeValues(originalXml);
 			var stringReader = new StringReader(validXml);
 
 			var testCollection = new TestCaseCollection();
@@ -66,7 +70,7 @@ namespace Syringe.Core.Xml
 			testCase.LogRequest = YesToBool(element, "logrequest");
 			testCase.LogResponse = YesToBool(element, "logresponse");
 			testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
-			testCase.AddHeader = ParseAddHeader(element);
+			testCase.Headers = ParseAddHeader(element);
 
 			// Descriptions - support either description,description1 or description1/description2
 			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "description1");
@@ -258,6 +262,63 @@ namespace Syringe.Core.Xml
 			}
 
 			return responseVariables;
+		}
+
+		internal static string ReEncodeAttributeValues(string xml)
+		{
+			// See 3.7: http://www.webinject.org/manual.html#tcvalidxml
+			// - webinject allows & and "\<" "\>" in attribute values (so it's more readable), which is invalid XML.
+
+			// Do a cheap replace
+			xml = xml.Replace(@"=>", "=&gt;");
+			xml = xml.Replace(@"\<", "&lt;");
+			xml = xml.Replace(@"\>", "&gt;");
+			xml = xml.Replace(@"\""", "&quot;");
+			xml = xml.Replace("&nbsp;", XmlConvert.EncodeName("&nbsp;")); // TODO: replace back to &nbsp;
+
+			// Go through all attributes, and re-encode them.
+			foreach (Match match in _attributeRegex.Matches(xml))
+			{
+				string attvalue = match.Groups[2].Value;
+
+				if (!string.IsNullOrEmpty(attvalue))
+				{
+					string valid = HttpUtility.HtmlEncode(HttpUtility.HtmlDecode(attvalue));
+					xml = xml.Replace(attvalue, valid);
+				}
+			}
+
+			return xml;
+		}
+
+		internal static List<string> GetOrderedAttributes(XElement element, string attributeName)
+		{
+			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
+				return new List<string>();
+
+			var items = new List<KeyValuePair<int, string>>();
+
+			//
+			// Take the attributes (e.g. description1="", description3="", description2="") and put them into an ordered list
+			//
+			IEnumerable<XAttribute> attributes = element.Attributes().Where(x => x.Name.LocalName.ToLower().StartsWith(attributeName));
+			foreach (XAttribute attribute in attributes)
+			{
+				int index = 0;
+
+				string currentAttributeName = attribute.Name.LocalName.ToLower();
+				currentAttributeName = currentAttributeName.Replace(attributeName, "");
+				if (!string.IsNullOrEmpty(attributeName))
+				{
+					int.TryParse(currentAttributeName, out index);
+				}
+
+				items.Add(new KeyValuePair<int, string>(index, attribute.Value));
+			}
+
+			return items.OrderBy(x => x.Key)
+						.Select(x => x.Value)
+						.ToList();
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace Syringe.Core
 		public bool LogRequest { get; set; }
 		public bool LogResponse { get; set; }
 		public int Sleep { get; set; }
-		public List<KeyValuePair<string, string>> AddHeader { get; set; }
+		public List<KeyValuePair<string, string>> Headers { get; set; }
 
 		public string ShortDescription { get; set; }
 		public string LongDescription { get; set; }
@@ -28,7 +28,7 @@ namespace Syringe.Core
 
 		public TestCase()
 		{
-			AddHeader = new List<KeyValuePair<string, string>>();
+			Headers = new List<KeyValuePair<string, string>>();
 			ParseResponses = new List<RegexItem>();
 			VerifyPositives = new List<RegexItem>();
 			VerifyNegatives = new List<RegexItem>();

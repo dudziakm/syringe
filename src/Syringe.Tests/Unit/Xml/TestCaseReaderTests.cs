@@ -437,17 +437,17 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
-			Assert.That(testcase.AddHeader[0].Key, Is.EqualTo("mykey"));
-			Assert.That(testcase.AddHeader[0].Value, Is.EqualTo("12345"));
+			Assert.That(testcase.Headers[0].Key, Is.EqualTo("mykey"));
+			Assert.That(testcase.Headers[0].Value, Is.EqualTo("12345"));
 
-			Assert.That(testcase.AddHeader[1].Key, Is.EqualTo("bar"));
-			Assert.That(testcase.AddHeader[1].Value, Is.EqualTo("foo"));
+			Assert.That(testcase.Headers[1].Key, Is.EqualTo("bar"));
+			Assert.That(testcase.Headers[1].Value, Is.EqualTo("foo"));
 
-			Assert.That(testcase.AddHeader[2].Key, Is.EqualTo("emptyvalue"));
-			Assert.That(testcase.AddHeader[2].Value, Is.EqualTo(""));
+			Assert.That(testcase.Headers[2].Key, Is.EqualTo("emptyvalue"));
+			Assert.That(testcase.Headers[2].Value, Is.EqualTo(""));
 
-			Assert.That(testcase.AddHeader[3].Key, Is.EqualTo("Cookie"));
-			Assert.That(testcase.AddHeader[3].Value, Is.EqualTo("referer=harrispilton.com"));
+			Assert.That(testcase.Headers[3].Key, Is.EqualTo("Cookie"));
+			Assert.That(testcase.Headers[3].Value, Is.EqualTo("referer=harrispilton.com"));
 		}
 
 		[Test]

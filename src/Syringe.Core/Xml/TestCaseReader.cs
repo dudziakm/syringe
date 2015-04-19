@@ -84,7 +84,7 @@ namespace Syringe.Core.Xml
 			testCase.LogRequest = YesToBool(element, "logrequest");
 			testCase.LogResponse = YesToBool(element, "logresponse");
 			testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
-			testCase.AddHeader = GetHeader(element);
+			testCase.Headers = GetHeader(element);
 
 			// Numbered attributes
 			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
@@ -93,11 +93,6 @@ namespace Syringe.Core.Xml
             testCase.ParseResponses = GetElementCollection(element, "parseresponse", "parseresponses", "parseresponse");
             testCase.VerifyPositives = GetElementCollection(element, "verifypositive", "verifypositives", "verify");
             testCase.VerifyNegatives = GetElementCollection(element, "verifynegative", "verifynegatives", "verify");
-
-            // TODO: change descriptions to LongDescription, ShortDescription
-            // TODO: Rename/refactor numberedattribute
-            // TODO: Change AddHeader to Headers
-            // TODO: allow strings for ids.
 
 			return testCase;
 		}
