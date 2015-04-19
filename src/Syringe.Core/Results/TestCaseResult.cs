@@ -4,10 +4,8 @@ using System.Collections.Generic;
 namespace Syringe.Core.Results
 {
 
-    //<testcases file=".\testcases\totaljobs\MobileClient.xml">
-
+    //<testcases file=".\testcases\MobileClient.xml">
     //    <testcase id="5">
-    //        <section>Totaljobs [JS:tjgtrlwsxt123, RZ:tjgtrlwsxt123, Loki]</section>
     //        <description1>Read saved unique job id</description1>
     //        <description2>Read in storedvalues from Setup</description2>
     //        <verifypositive>_S_</verifypositive>

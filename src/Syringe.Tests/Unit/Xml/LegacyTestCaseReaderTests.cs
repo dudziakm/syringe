@@ -5,7 +5,6 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Xml;
-using Syringe.Core.Xml.LegacyConverter;
 
 namespace Syringe.Tests.Unit.Xml
 {
@@ -20,6 +19,25 @@ namespace Syringe.Tests.Unit.Xml
         {
             return new LegacyTestCaseReader();
         }
+
+		[Test]
+		public void Read_should_parse_description_attributes_when_numbers_are_omitted()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			xml = xml.Replace("description1=", "description=");
+			var stringReader = new StringReader(xml);
+			var testCaseReader = GetReader();
+
+			// Act
+			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = testCollection.TestCases.First();
+
+			Assert.That(testcase.ShortDescription, Is.EqualTo("short description"));
+			Assert.That(testcase.LongDescription, Is.EqualTo("long description"));
+		}
 
         [Test]
         public void Read_should_cleanse_invalid_xml()
@@ -80,24 +98,20 @@ namespace Syringe.Tests.Unit.Xml
             var testCaseReader = new LegacyTestCaseReader();
 
             // Act
-            List<NumberedAttribute> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "description");
+			List<RegexItem> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "parseresponse");
 
             // Assert
-            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[0].Index, Is.EqualTo(0));
-            Assert.That(descriptions[0].Value, Is.EqualTo("description with no number"));
+			Assert.That(descriptions[0].Description, Is.EqualTo("parseresponse0"));
+			Assert.That(descriptions[0].Regex, Is.EqualTo("parse 0"));
 
-            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[1].Index, Is.EqualTo(1));
-            Assert.That(descriptions[1].Value, Is.EqualTo("description 1"));
+			Assert.That(descriptions[1].Description, Is.EqualTo("parseresponse1"));
+			Assert.That(descriptions[1].Regex, Is.EqualTo("parse 1"));
 
-            Assert.That(descriptions[2].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[2].Index, Is.EqualTo(2));
-            Assert.That(descriptions[2].Value, Is.EqualTo("description 2"));
+			Assert.That(descriptions[2].Description, Is.EqualTo("parseresponse2"));
+			Assert.That(descriptions[2].Regex, Is.EqualTo("parse 2"));
 
-            Assert.That(descriptions[3].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[3].Index, Is.EqualTo(99));
-            Assert.That(descriptions[3].Value, Is.EqualTo("description 99"));
+			Assert.That(descriptions[3].Description, Is.EqualTo("parseresponse12"));
+			Assert.That(descriptions[3].Regex, Is.EqualTo("parse 12"));
         }
 	}
 }

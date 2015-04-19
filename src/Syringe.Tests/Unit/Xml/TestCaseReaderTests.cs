@@ -9,7 +9,6 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
-using Syringe.Core.Xml.LegacyConverter;
 
 namespace Syringe.Tests.Unit.Xml
 {
@@ -99,7 +98,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_ids_and_order_numerically()
+		public void Read_should_parse_case_ids_and_order_numerically()
 		{
 			// Arrange
 			string xml = GetFullExample();
@@ -116,6 +115,24 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(testCases[1].Id, Is.EqualTo(9));
 			Assert.That(testCases[2].Id, Is.EqualTo(20));
 			Assert.That(testCases[3].Id, Is.EqualTo(300));
+		}
+
+		[Test]
+		public void Read_should_parse_description_attributes()
+		{
+			// Arrange
+			string xml = GetSingleCaseExample();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = GetReader();
+
+			// Act
+			TestCaseCollection testCollection = testCaseReader.Read(stringReader);
+
+			// Assert
+			TestCase testcase = testCollection.TestCases.First();
+
+			Assert.That(testcase.ShortDescription, Is.EqualTo("short description"));
+			Assert.That(testcase.LongDescription, Is.EqualTo("long description"));
 		}
 
 		[Test]
@@ -447,9 +464,9 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
             Assert.That(testcase.ParseResponses.Count, Is.EqualTo(3));
-			Assert.That(testcase.ParseResponses[0].Value, Is.EqualTo("parse 1"));
-            Assert.That(testcase.ParseResponses[1].Value, Is.EqualTo("parse 11"));
-            Assert.That(testcase.ParseResponses[2].Value, Is.EqualTo("parse 99"));
+			Assert.That(testcase.ParseResponses[0].Regex, Is.EqualTo("parse 1"));
+			Assert.That(testcase.ParseResponses[1].Regex, Is.EqualTo("parse 11"));
+			Assert.That(testcase.ParseResponses[2].Regex, Is.EqualTo("parse 99"));
 		}
 
 		[Test]
@@ -466,9 +483,9 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
             Assert.That(testcase.VerifyPositives.Count, Is.EqualTo(3));
-            Assert.That(testcase.VerifyPositives[0].Value, Is.EqualTo("positive 1"));
-            Assert.That(testcase.VerifyPositives[1].Value, Is.EqualTo("positive 22"));
-            Assert.That(testcase.VerifyPositives[2].Value, Is.EqualTo("positive 99"));
+			Assert.That(testcase.VerifyPositives[0].Regex, Is.EqualTo("positive 1"));
+			Assert.That(testcase.VerifyPositives[1].Regex, Is.EqualTo("positive 22"));
+			Assert.That(testcase.VerifyPositives[2].Regex, Is.EqualTo("positive 99"));
 		}
 
 		[Test]
@@ -485,41 +502,9 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			TestCase testcase = testCollection.TestCases.First();
             Assert.That(testcase.VerifyNegatives.Count, Is.EqualTo(3));
-			Assert.That(testcase.VerifyNegatives[0].Value, Is.EqualTo("negative 1"));
-            Assert.That(testcase.VerifyNegatives[1].Value, Is.EqualTo("negative 6"));
-            Assert.That(testcase.VerifyNegatives[2].Value, Is.EqualTo("negative 66"));
-		}
-
-		[Test]
-        [Ignore("TODO")]
-        public void GetElementCollection_should_return_attributes_ordered_numerically()
-		{
-			// Arrange
-			string xml = ReadEmbeddedFile("ordered-attributes.xml");
-			XDocument document = XDocument.Parse(xml);
-			var firstTestCase = document.Root.Elements().First(x => x.Name.LocalName == "case");
-
-		    var testCaseReader = new TestCaseReader();
-
-			// Act
-            List<NumberedAttribute> descriptions = testCaseReader.GetElementCollection(firstTestCase, "description", "descriptions", "description");
-
-			// Assert
-            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[0].Index, Is.EqualTo(0));
-			Assert.That(descriptions[0].Value, Is.EqualTo("description with no number"));
-
-            Assert.That(descriptions[1].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[1].Index, Is.EqualTo(1));
-            Assert.That(descriptions[1].Value, Is.EqualTo("description 1"));
-
-            Assert.That(descriptions[2].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[2].Index, Is.EqualTo(2));
-            Assert.That(descriptions[2].Value, Is.EqualTo("description 2"));
-
-            Assert.That(descriptions[3].Name, Is.EqualTo("description"));
-            Assert.That(descriptions[3].Index, Is.EqualTo(99));
-            Assert.That(descriptions[3].Value, Is.EqualTo("description 99"));
+			Assert.That(testcase.VerifyNegatives[0].Regex, Is.EqualTo("negative 1"));
+			Assert.That(testcase.VerifyNegatives[1].Regex, Is.EqualTo("negative 6"));
+			Assert.That(testcase.VerifyNegatives[2].Regex, Is.EqualTo("negative 66"));
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Syringe.Core.Xml.LegacyConverter;
+using Syringe.Core.Xml;
 
 namespace Syringe.Core
 {
@@ -19,15 +19,19 @@ namespace Syringe.Core
 		public int Sleep { get; set; }
 		public List<KeyValuePair<string, string>> AddHeader { get; set; }
 
-		public List<NumberedAttribute> Descriptions { get; internal set; }
-        public List<NumberedAttribute> ParseResponses { get; set; }
-        public List<NumberedAttribute> VerifyPositives { get; set; }
-        public List<NumberedAttribute> VerifyNegatives { get; set; }
+		public string ShortDescription { get; set; }
+		public string LongDescription { get; set; }
+
+		public List<RegexItem> ParseResponses { get; set; }
+		public List<RegexItem> VerifyPositives { get; set; }
+		public List<RegexItem> VerifyNegatives { get; set; }
 
 		public TestCase()
 		{
-            Descriptions = new List<NumberedAttribute>();
 			AddHeader = new List<KeyValuePair<string, string>>();
+			ParseResponses = new List<RegexItem>();
+			VerifyPositives = new List<RegexItem>();
+			VerifyNegatives = new List<RegexItem>();
 		}
 	}
 }

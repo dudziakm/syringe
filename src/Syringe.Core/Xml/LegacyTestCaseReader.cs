@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 
-namespace Syringe.Core.Xml.LegacyConverter
+namespace Syringe.Core.Xml
 {
 	public class LegacyTestCaseReader : ITestCaseReader
 	{
@@ -46,29 +47,6 @@ namespace Syringe.Core.Xml.LegacyConverter
 			return testCollection;
 		}
 
-		private Dictionary<string, string> GetTestVars(XElement rootElement)
-		{
-            // <variables>
-            //  <variable name="login"></variable>
-            // </variables>
-
-			var variables = new Dictionary<string, string>();
-
-			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))
-			{
-				XAttribute varnameAttribute = element.Attributes("varname").FirstOrDefault();
-				if (varnameAttribute != null)
-				{
-					if (!variables.ContainsKey(varnameAttribute.Value))
-					{
-						variables.Add(varnameAttribute.Value, element.Value);
-					}
-				}
-			}
-
-			return variables;
-		}
-
 		private TestCase GetTestCase(XElement element)
 		{
 			var testCase = new TestCase();
@@ -90,13 +68,50 @@ namespace Syringe.Core.Xml.LegacyConverter
 			testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
 			testCase.AddHeader = ParseAddHeader(element);
 
+			// Descriptions - support either description,description1 or description1/description2
+			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "description1");
+			testCase.LongDescription = XmlHelper.GetOptionalAttribute(element, "description2");
+
+			if (string.IsNullOrEmpty(testCase.ShortDescription))
+			{
+				testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "description");
+
+				if (string.IsNullOrEmpty(testCase.LongDescription))
+				{
+					testCase.LongDescription = XmlHelper.GetOptionalAttribute(element, "description1");
+				}
+			}
+
 			// Numbered attributes
-			testCase.Descriptions = GetNumberedAttributes(element, "description");
-			testCase.ParseResponses = GetNumberedAttributes(element, "parseresponse");
+			List<RegexItem> parsedResponses = GetNumberedAttributes(element, "parseresponse");
+			testCase.ParseResponses = ConvertParseResponses(parsedResponses);
 			testCase.VerifyPositives = GetNumberedAttributes(element, "verifypositive");
 			testCase.VerifyNegatives = GetNumberedAttributes(element, "verifynegative");
 
 			return testCase;
+		}
+
+		private Dictionary<string, string> GetTestVars(XElement rootElement)
+		{
+            // <variables>
+            //  <variable name="login"></variable>
+            // </variables>
+
+			var variables = new Dictionary<string, string>();
+
+			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))
+			{
+				XAttribute varnameAttribute = element.Attributes("varname").FirstOrDefault();
+				if (varnameAttribute != null)
+				{
+					if (!variables.ContainsKey(varnameAttribute.Value))
+					{
+						variables.Add(varnameAttribute.Value, element.Value);
+					}
+				}
+			}
+
+			return variables;
 		}
 
 		private List<KeyValuePair<string, string>> ParseAddHeader(XElement element)
@@ -158,15 +173,15 @@ namespace Syringe.Core.Xml.LegacyConverter
 			return statusCode;
 		}
 
-		internal List<NumberedAttribute> GetNumberedAttributes(XElement element, string attributeName)
+		internal List<RegexItem> GetNumberedAttributes(XElement element, string attributeName)
 		{
 			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
-                return new List<NumberedAttribute>();
+				return new List<RegexItem>();
 
 			var items = new List<KeyValuePair<int, string>>();
 
 			//
-			// Take the attributes (e.g. description1="", description3="", description2="") and put them into an ordered list
+			// Take the attributes (e.g. verifypositive1="", verifypositive3="", verifypositive2="") and put them into an ordered list
 			//
 			IEnumerable<XAttribute> attributes = element.Attributes().Where(x => x.Name.LocalName.ToLower().StartsWith(attributeName));
 			foreach (XAttribute attribute in attributes)
@@ -184,8 +199,65 @@ namespace Syringe.Core.Xml.LegacyConverter
 			}
 
 			return items.OrderBy(x => x.Key)
-						.Select(x => new NumberedAttribute(x.Key, attributeName, x.Value))
+						.Select(x => new RegexItem(attributeName + x.Key, x.Value))
 						.ToList();
+		}
+
+		internal List<RegexItem> ConvertParseResponses(List<RegexItem> parseResponses)
+		{
+			var responseVariables = new List<RegexItem>();
+
+			// From the manual:
+			// 
+			// Parse a string from the HTTP response for use in subsequent requests. This is mostly used for passing Session ID's, 
+			// but can be applied to any case where you need to pass a dynamically generated value. It takes the arguments in the format 
+			// "leftboundary|rightboundary", and an optional third argument "leftboundary|rightboundary|escape" when you want to 
+			// force escaping of all non-alphanumeric characters
+
+			// Example:
+			//      <input type="hidden" name="__VIEWSTATE" value="dDwtMTA4NzczMzUxMjs7Ps1HmLfiYGewI+2JaAxhcpiCtj52" />
+			//
+			//      parseresponse='__VIEWSTATE" value="|"|escape'
+			//
+			// This is then used by:
+			//      postbody="value=123&__VIEWSTATE={PARSEDRESULT}"
+			//
+			// This as a regex:
+			//		parseresponse='__VIEWSTATE" value="(.*?)'
+
+			for (int i = 0; i < parseResponses.Count; i++)
+			{
+				RegexItem item = parseResponses[i];
+				string parsedResponse = item.Regex;
+				if (parsedResponse.Contains("|"))
+				{
+					string[] parts = parsedResponse.Split('|');
+
+					// Regex escape the 2 chunks
+					string firstChunk = Regex.Escape(parts[0]);
+					string secondChunk = Regex.Escape(parts[1]);
+
+					// Reconstruct as a regex
+					string regexText = string.Format("{0}(.*?){1}", firstChunk, secondChunk);
+					try
+					{
+						var testRegex = new Regex(regexText);
+						responseVariables.Add(new RegexItem("parsedresponse" +i, regexText));
+					}
+					catch (ArgumentException e)
+					{
+						Console.WriteLine("ParsedResponse conversion to a regex failed: {0}", regexText);
+						responseVariables.Add(item);
+					}
+				}
+				else
+				{
+					// What is the behaviour when there is no pipe?
+					responseVariables.Add(item);
+				}
+			}
+
+			return responseVariables;
 		}
 	}
 }

@@ -2,9 +2,8 @@
 <testcases repeat="10">	
 	<case
 		id="1"
-		description1="description 1"
-		description99="description 99"
-		description2="description 2"
+		description1="short description"
+		description2="long description"
 		url="http://myserver"
 		method="post"
 		posttype="text/xml" 

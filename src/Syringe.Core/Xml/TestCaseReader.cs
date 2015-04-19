@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Xml.LegacyConverter;
 
 namespace Syringe.Core.Xml
 {
@@ -88,7 +87,9 @@ namespace Syringe.Core.Xml
 			testCase.AddHeader = GetHeader(element);
 
 			// Numbered attributes
-			testCase.Descriptions = new List<NumberedAttribute>() { new NumberedAttribute(1, "shortdescription", "value")};
+			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
+			testCase.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
+
             testCase.ParseResponses = GetElementCollection(element, "parseresponse", "parseresponses", "parseresponse");
             testCase.VerifyPositives = GetElementCollection(element, "verifypositive", "verifypositives", "verify");
             testCase.VerifyNegatives = GetElementCollection(element, "verifynegative", "verifynegatives", "verify");
@@ -138,26 +139,23 @@ namespace Syringe.Core.Xml
 			return statusCode;
 		}
 
-        internal List<NumberedAttribute> GetElementCollection(XElement caseElement, string name, string parentElementName, string childElementName)
+        private List<RegexItem> GetElementCollection(XElement caseElement, string name, string parentElementName, string childElementName)
 		{
             if (string.IsNullOrEmpty(childElementName))
-                return new List<NumberedAttribute>();
+				return new List<RegexItem>();
 
-            var variables = new List<NumberedAttribute>();
+			var variables = new List<RegexItem>();
             var variableElement = caseElement.Elements().Where(x => x.Name.LocalName == parentElementName);
 
-		    int counter = 0;
             foreach (XElement element in variableElement.Elements().Where(x => x.Name.LocalName == childElementName))
             {
-                XAttribute idAttribute = element.Attributes("id").FirstOrDefault();
-                string id = counter.ToString();
+				XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
+	            string description = "";
 
-                if (idAttribute != null)
-                    id = idAttribute.Value;
+				if (descriptionAttribute != null)
+					description = descriptionAttribute.Value;
 
-                variables.Add(new NumberedAttribute(counter, name, element.Value));
-
-                counter++;
+				variables.Add(new RegexItem(description, element.Value));
             }
 
 		    return variables;
