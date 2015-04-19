@@ -7,6 +7,8 @@ using RestSharp;
 using RestSharp.Contrib;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
+using Syringe.Core.Http.Logging;
+using Syringe.Core.Results;
 using Syringe.Core.Xml;
 using Syringe.Core.Xml.LegacyConverter;
 using HttpResponse = Syringe.Core.Http.HttpResponse;

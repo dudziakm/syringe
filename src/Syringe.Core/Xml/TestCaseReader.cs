@@ -5,8 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Xml.LegacyConverter;
 
-namespace Syringe.Core.Xml.LegacyConverter
+namespace Syringe.Core.Xml
 {
     public class TestCaseReader : ITestCaseReader
     {

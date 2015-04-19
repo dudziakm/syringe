@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
+﻿using System.IO;
 
-namespace Syringe.Core.Xml.LegacyConverter
+namespace Syringe.Core.Xml
 {
     public interface ITestCaseReader
     {

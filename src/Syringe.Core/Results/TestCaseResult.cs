@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Syringe.Core
+namespace Syringe.Core.Results
 {
 
     //<testcases file=".\testcases\totaljobs\MobileClient.xml">

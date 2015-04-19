@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
-namespace Syringe.Core
+namespace Syringe.Core.Results
 {
     //<test-summary>
     //    <start-time>Fri Apr 17 10:51:59 2015</start-time>
