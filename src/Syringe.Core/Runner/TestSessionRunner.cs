@@ -5,7 +5,9 @@ using System.Threading;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Logging;
 using Syringe.Core.Results;
+using Syringe.Core.ResultWriter;
 using Syringe.Core.Xml;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
@@ -13,19 +15,23 @@ namespace Syringe.Core.Runner
 {
 	public class TestSessionRunner
 	{
-		// TODO: variables on URL
 		// TODO: ResultWriter for results output (StdOut,Xml etc.)
 		// TODO: config.xml takes <testcases>
+		// TODO: repeat=10
 
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
 		private readonly IHttpLogWriter _logWriter;
+		private readonly IResultWriter _resultWriter;
 
-		public TestSessionRunner(Config config, IHttpClient httpClient, IHttpLogWriter logWriter)
+		public TestSessionRunner(Config config, IHttpClient httpClient, IHttpLogWriter logWriter)//, IResultWriter resultWriter)
 		{
 			_config = config;
 			_httpClient = httpClient;
 			_logWriter = logWriter;
+			_resultWriter = new ConsoleResultWriter();
+
+			Log.All();
 		}
 
 		public TestCaseSession Run(ITestCaseReader reader, TextReader textReader)
@@ -37,17 +43,19 @@ namespace Syringe.Core.Runner
 
 			var variableManager = new VariableManager();
 			variableManager.AddGlobalVariables(_config);
+			variableManager.AddOrUpdateVariables(testCollection.Variables);
 
 			var verificationMatcher = new VerificationMatcher(variableManager);
 
 			foreach (Case testCase in testCollection.TestCases)
 			{
-				Console.WriteLine("==== Testcase {0}", testCase.Id);
-
 				var testResult = new TestCaseResult();
 				testResult.TestCase = testCase;
 
-				HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, testCase.Url, testCase.PostType, testCase.PostBody, testCase.Headers);
+				string resolvedUrl = variableManager.ReplacePlainTextVariablesIn(testCase.Url);
+				testResult.ActualUrl = resolvedUrl;
+
+				HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
 				testResult.ResponseTime = response.ResponseTime;
 
 				if (response.StatusCode == testCase.VerifyResponseCode)
@@ -75,6 +83,8 @@ namespace Syringe.Core.Runner
 				{
 					LogToWriter(testResult, testCase, response);
 				}
+
+				_resultWriter.Write(testResult);
 
 				if (testCase.Sleep > 0)
 					Thread.Sleep(testCase.Sleep);

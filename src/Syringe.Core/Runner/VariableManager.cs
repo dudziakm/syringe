@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Syringe.Core.Configuration;
+using Syringe.Core.Logging;
 
 namespace Syringe.Core.Runner
 {
@@ -20,6 +21,16 @@ namespace Syringe.Core.Runner
 			{
 				_currentVariables.Add(variable.Name, variable.Value);
 			}
+		}
+
+		public string ReplacePlainTextVariablesIn(string text)
+		{
+			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			{
+				text = text.Replace("{" + keyValuePair.Key + "}", keyValuePair.Value);
+			}
+
+			return text;
 		}
 
 		public string ReplaceVariablesIn(string text)
@@ -54,11 +65,11 @@ namespace Syringe.Core.Runner
 
 		public void Dump()
 		{
-			Console.WriteLine("In my bag of magic variables I have:");
+			Log.Information("In my bag of magic variables I have:");
 
 			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
 			{
-				Console.WriteLine(" - {{{0}}} : {1}", keyValuePair.Key, keyValuePair.Value);
+				Log.Information(" - {{{0}}} : {1}", keyValuePair.Key, keyValuePair.Value);
 			}
 		}
 	}

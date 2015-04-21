@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Syringe.Core.Logging;
 using Syringe.Core.Xml;
 
 namespace Syringe.Core.Runner
@@ -13,9 +14,9 @@ namespace Syringe.Core.Runner
 
 			foreach (RegexItem regexItem in parsedResponses)
 			{
-				Console.WriteLine("---------");
-				Console.WriteLine("Testing {{parsedresponse{0}}}", regexItem.Description);
-				Console.WriteLine(" - Regex: {0}", regexItem.Regex);
+				Log.Information("---------");
+				Log.Information("Testing {{parsedresponse{0}}}", regexItem.Description);
+				Log.Information(" - Regex: {0}", regexItem.Regex);
 
 				string capturedValue = "";
 				try
@@ -30,18 +31,18 @@ namespace Syringe.Core.Runner
 							if (match.Groups.Count > 1)
 							{
 								capturedValue += match.Groups[1];
-								Console.WriteLine(" - Found: {0}", capturedValue);
+								Log.Information(" - Found: {0}", capturedValue);
 							}
 						}
 					}
 					else
 					{
-						Console.WriteLine(" - No match");
+						Log.Information(" - No match");
 					}
 				}
 				catch (ArgumentException e)
 				{
-					Console.WriteLine(" - Invalid regex: {0}", e.Message);
+					Log.Information(" - Invalid regex: {0}", e.Message);
 				}
 
 				variables.Add("parsedresponse" + regexItem.Description, capturedValue);

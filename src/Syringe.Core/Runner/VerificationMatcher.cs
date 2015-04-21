@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Syringe.Core.Logging;
 using Syringe.Core.Xml;
 
 namespace Syringe.Core.Runner
@@ -36,8 +37,8 @@ namespace Syringe.Core.Runner
 
 			foreach (RegexItem regexItem in verifications)
 			{
-				Console.WriteLine("Verifying {0} {1}", behaviour, regexItem.Description);
-				Console.WriteLine("---------");
+				Log.Information("Verifying {0} {1}", behaviour, regexItem.Description);
+				Log.Information("---------");
 
 				string verifyRegex = regexItem.Regex;
 
@@ -45,8 +46,8 @@ namespace Syringe.Core.Runner
 				{
 					verifyRegex = _variableManager.ReplaceVariablesIn(verifyRegex);
 
-					Console.WriteLine("  - Original regex: {0}", regexItem.Regex);
-					Console.WriteLine("  - Transformed regex: {0}", verifyRegex);
+					Log.Information("  - Original regex: {0}", regexItem.Regex);
+					Log.Information("  - Transformed regex: {0}", verifyRegex);
 
 					try
 					{
@@ -56,24 +57,24 @@ namespace Syringe.Core.Runner
 						if (behaviour == VerificationBehaviour.Positive && isMatch == false)
 						{
 							regexItem.Success = false;
-							Console.WriteLine("Positive verification failed: {0} - {1}", regexItem.Description, verifyRegex);
+							Log.Information("Positive verification failed: {0} - {1}", regexItem.Description, verifyRegex);
 						}
 						else if (behaviour == VerificationBehaviour.Negative && isMatch == true)
 						{
 							regexItem.Success = false;
-							Console.WriteLine("Negative verification failed: {0} - {1}", regexItem.Description, verifyRegex);
+							Log.Information("Negative verification failed: {0} - {1}", regexItem.Description, verifyRegex);
 						}
 					}
 					catch (ArgumentException e)
 					{
 						// Invalid regex - ignore.
 						regexItem.Success = false;
-						Console.WriteLine(" - Invalid regex: {0}", e.Message);
+						Log.Information(" - Invalid regex: {0}", e.Message);
 					}
 				}
 				else
 				{
-					Console.WriteLine("  - Skipping as the regex was empty.");
+					Log.Information("  - Skipping as the regex was empty.");
 				}
 
 				matchedItems.Add(regexItem);

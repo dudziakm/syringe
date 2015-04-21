@@ -8,6 +8,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Logging;
 
 namespace Syringe.Core.Xml
 {
@@ -250,7 +251,7 @@ namespace Syringe.Core.Xml
 					}
 					catch (ArgumentException e)
 					{
-						Console.WriteLine("ParsedResponse conversion to a regex failed: {0}", regexText);
+						Log.Information("ParsedResponse conversion to a regex failed: {0}", regexText);
 						responseVariables.Add(item);
 					}
 				}

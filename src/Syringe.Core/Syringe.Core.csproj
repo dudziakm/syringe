@@ -38,6 +38,9 @@
     <Reference Include="Flexo">
       <HintPath>..\..\packages\flexo.1.0.0.18\lib\Flexo.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -68,6 +71,12 @@
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
     <Compile Include="Http\HttpResponse.cs" />
     <Compile Include="Http\Logging\ITextWriterFactory.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\Level.cs" />
+    <Compile Include="ResultWriter\TextFileResultWriter.cs" />
+    <Compile Include="ResultWriter\ConsoleResultWriter.cs" />
+    <Compile Include="ResultWriter\IResultWriter.cs" />
+    <Compile Include="ResultWriter\XmlResultWriter.cs" />
     <Compile Include="Runner\VerificationMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />
     <Compile Include="Results\TestCaseSession.cs" />
@@ -93,7 +102,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Xml\Writer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
