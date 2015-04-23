@@ -52,7 +52,6 @@
     <Compile Include="Unit\StubsMocks\HttpLogWriterStub.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\StubsMocks\TextWriterFactoryMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
     <Compile Include="Unit\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
@@ -86,7 +85,15 @@
     <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\ordered-attributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Integration\wikipedia-example.xml">
+    <Content Include="Integration\roadkill-login.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\wikipedia-parsedresults.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\wikipedia-simple.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

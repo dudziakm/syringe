@@ -24,14 +24,13 @@ namespace Syringe.Tests.Integration.Http
 			var config = new Config();
 			var restSharpClient = new RestSharpClient();
 			var stringBuilder = new StringBuilder();
-			var textWriterFactoryMock = new TextWriterFactoryMock(stringBuilder);
-			var httpLogWriter = new HttpLogWriter(textWriterFactoryMock);
+			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
 
 			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
 
 			// Act
 			var reader = new LegacyTestCaseReader();
-			string xml = File.ReadAllText(Path.Combine("Integration", "wikipedia-example.xml"));
+			string xml = File.ReadAllText(Path.Combine("Integration", "wikipedia-simple.xml"));
 			var stringReader = new StringReader(xml);
 			runner.Run(reader,stringReader);
 
@@ -40,21 +39,25 @@ namespace Syringe.Tests.Integration.Http
 		}
 
 		[Test]
-		public void should_do_something2()
+		public void should_post()
 		{
 			// Arrange
 			var config = new Config();
+			config.GlobalHttpLog = LogType.All;
 			var restSharpClient = new RestSharpClient();
 			var stringBuilder = new StringBuilder();
-			var textWriterFactoryMock = new TextWriterFactoryMock(stringBuilder);
-			var httpLogWriter = new HttpLogWriter(textWriterFactoryMock);
+			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
 
 			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
 
 			// Act
-			//runner.Run(Path.Combine("Integration" ,"wikipedia-example.xml"));
+			var reader = new TestCaseReader();
+			string xml = File.ReadAllText(Path.Combine("Integration", "roadkill-login.xml"));
+			var stringReader = new StringReader(xml);
+			runner.Run(reader, stringReader);
 
 			// Assert
+			Console.WriteLine("==============================");
 			Console.WriteLine(stringBuilder);
 		}
 	}

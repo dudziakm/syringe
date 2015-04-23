@@ -51,7 +51,7 @@ namespace Syringe.Core.Runner
 
 					try
 					{
-						bool isMatch = Regex.IsMatch(content, verifyRegex);
+						bool isMatch = Regex.IsMatch(content, verifyRegex, RegexOptions.IgnoreCase);
 						regexItem.Success = true;
 
 						if (behaviour == VerificationBehaviour.Positive && isMatch == false)

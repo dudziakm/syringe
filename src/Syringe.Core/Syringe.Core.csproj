@@ -70,7 +70,6 @@
     <Compile Include="Http\Logging\HttpLogWriter.cs" />
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
     <Compile Include="Http\HttpResponse.cs" />
-    <Compile Include="Http\Logging\ITextWriterFactory.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="ResultWriter\TextFileResultWriter.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="Runner\TestSessionRunner.cs" />
     <Compile Include="Http\RestSharpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
-    <Compile Include="Http\Logging\StreamWriterFactory.cs" />
     <Compile Include="Runner\VariableManager.cs" />
     <Compile Include="Runner\ParsedResponseMatcher.cs" />
     <Compile Include="Xml\ITestCaseReader.cs" />

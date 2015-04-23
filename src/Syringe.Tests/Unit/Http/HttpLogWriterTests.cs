@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,10 +14,12 @@ namespace Syringe.Tests.Unit.Http
 {
 	public class HttpLogWriterTests
 	{
+		private StringBuilder _httpLogStringBuilder;
+
 		private HttpLogWriter GetHttpLogWriter(StringBuilder stringBuilder)
 		{
-			var factory = new TextWriterFactoryMock(stringBuilder);
-			var logWriter = new HttpLogWriter(factory);
+			_httpLogStringBuilder = new StringBuilder();
+			var logWriter = new HttpLogWriter(new StringWriter(_httpLogStringBuilder));
 			return logWriter;
 		}
 

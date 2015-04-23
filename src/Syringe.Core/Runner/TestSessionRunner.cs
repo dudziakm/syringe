@@ -98,11 +98,11 @@ namespace Syringe.Core.Runner
 			// Log request
 			if (testResult.Success == false && _config.GlobalHttpLog == LogType.OnFail)
 			{
-				_logWriter.AppendRequest(testCase.Method, testCase.Url, testCase.Headers);
+				_logWriter.AppendRequest(testCase.Method, testResult.ActualUrl, testCase.Headers);
 			}
 			else if (_config.GlobalHttpLog == LogType.All || testCase.LogRequest)
 			{
-				_logWriter.AppendRequest(testCase.Method, testCase.Url, testCase.Headers);
+				_logWriter.AppendRequest(testCase.Method, testResult.ActualUrl, testCase.Headers);
 			}
 
 			// Log response

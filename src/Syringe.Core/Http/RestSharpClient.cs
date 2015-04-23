@@ -58,9 +58,9 @@ namespace Syringe.Core.Http
 		{
 			var method = Method.GET;
 
-			if (Enum.IsDefined(typeof(Method), httpMethod))
+			if (!Enum.TryParse(httpMethod, true, out method))
 			{
-				Enum.TryParse(httpMethod, out method);
+				method = Method.GET;
 			}
 
 			return method;
