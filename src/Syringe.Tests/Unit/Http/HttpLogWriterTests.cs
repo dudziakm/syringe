@@ -14,12 +14,9 @@ namespace Syringe.Tests.Unit.Http
 {
 	public class HttpLogWriterTests
 	{
-		private StringBuilder _httpLogStringBuilder;
-
 		private HttpLogWriter GetHttpLogWriter(StringBuilder stringBuilder)
 		{
-			_httpLogStringBuilder = new StringBuilder();
-			var logWriter = new HttpLogWriter(new StringWriter(_httpLogStringBuilder));
+			var logWriter = new HttpLogWriter(new StringWriter(stringBuilder));
 			return logWriter;
 		}
 
