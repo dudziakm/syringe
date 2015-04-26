@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases>
+	<variables>
+		<variable name="baseurl">http://demo.roadkillwiki.net</variable>
+	</variables>
+	
+	<case
+		id="1"
+		shortdescription="login"
+		url="{baseurl}/user/login"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=editor@roadkillwiki.net&password=password]]></postbody>
+
+		<verifynegatives>
+			<verify description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifynegatives>
+	</case>
+
+	<case
+		id="2"
+		shortdescription="Check login success"
+		url="{baseurl}/pages/new"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifypositives>
+			<verify description="Preview exists">Preview</verify>
+			<verify description="Cancel exists">cancel</verify>
+		</verifypositives>
+	</case>
+</testcases>

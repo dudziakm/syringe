@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases>
+	<testvar varname="baseurl">http://en.wikipedia.org</testvar>
+	
+	<case
+		id="1"
+		description1="description 1"
+		url="{baseurl}/wiki/Microsoft"
+		verifypositive="Microsoft Corporation"
+		verifypositive1="xboox"
+		verifypositive2="Wikipedia"
+	/>
+
+	<case
+		id="1"
+		description1="description 1"
+		url="{baseurl}/wiki/Microsoft"
+		verifypositive="Microsoft Corporation"
+		verifypositive1="xboox"
+		verifypositive2="Wikipedia"
+		/>
+</testcases>
