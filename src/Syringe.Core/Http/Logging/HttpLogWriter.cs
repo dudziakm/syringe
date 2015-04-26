@@ -17,8 +17,9 @@ namespace Syringe.Core.Http.Logging
 
 		public HttpLogWriter(TextWriter writer)
 		{
-			//_streamWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write));
 			Writer = writer;
+
+			// Webinject's default seperator
 			Seperator = "************************* LOG SEPARATOR *************************";
 		}
 
@@ -27,41 +28,43 @@ namespace Syringe.Core.Http.Logging
 			Writer.WriteLine(Seperator);
 		}
 
-		public virtual void AppendRequest(string method, string url, IEnumerable<KeyValuePair<string, string>> headers)
+		public virtual void AppendRequest(RequestDetails requestDetails)
 		{
-			if (string.IsNullOrEmpty(method))
+			if (string.IsNullOrEmpty(requestDetails.Method))
 				return;
 
-			if (string.IsNullOrEmpty(url))
+			if (string.IsNullOrEmpty(requestDetails.Url))
 				return;
 
-			if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+			if (!Uri.IsWellFormedUriString(requestDetails.Url, UriKind.Absolute))
 				return;
 
-			Uri uri = new Uri(url);
-			Writer.WriteLine(REQUEST_LINE_FORMAT, method.ToUpper(), url);
+			Uri uri = new Uri(requestDetails.Url);
+			Writer.WriteLine(REQUEST_LINE_FORMAT, requestDetails.Method.ToUpper(), requestDetails.Url);
 			Writer.WriteLine(HEADER_FORMAT, "Host", uri.Host);
 
-
-			if (headers != null)
+			if (requestDetails.Headers != null)
 			{
-				foreach (var keyValuePair in headers)
+				foreach (var keyValuePair in requestDetails.Headers)
 				{
 					Writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
 				}
 			}
+
+			if (!string.IsNullOrEmpty(requestDetails.Body))
+				Writer.WriteLine(requestDetails.Body);
 
 			Writer.WriteLine();
 		}
 
-		public virtual void AppendResponse(HttpStatusCode status, IEnumerable<KeyValuePair<string, string>> headers, string bodyResponse)
+		public virtual void AppendResponse(ResponseDetails responseDetails)
 		{
-			int statusCode = (int)status;
+			int statusCode = (int)responseDetails.Status;
 			Writer.WriteLine(RESPONSE_LINE_FORMAT, statusCode, HttpWorkerRequest.GetStatusDescription(statusCode));
 
-			if (headers != null)
+			if (responseDetails.Headers != null)
 			{
-				foreach (var keyValuePair in headers)
+				foreach (var keyValuePair in responseDetails.Headers)
 				{
 					Writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
 				}
@@ -69,8 +72,8 @@ namespace Syringe.Core.Http.Logging
 
 			Writer.WriteLine();
 
-			if (!string.IsNullOrEmpty(bodyResponse))
-				Writer.WriteLine(bodyResponse);
+			if (!string.IsNullOrEmpty(responseDetails.BodyResponse))
+				Writer.WriteLine(responseDetails.BodyResponse);
 		}
 
 		public void Dispose()

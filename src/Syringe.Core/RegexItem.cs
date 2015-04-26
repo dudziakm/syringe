@@ -1,4 +1,4 @@
-namespace Syringe.Core.Xml
+namespace Syringe.Core
 {
 	public class RegexItem
 	{

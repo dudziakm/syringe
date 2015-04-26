@@ -4,6 +4,6 @@ namespace Syringe.Core.Xml
 {
     public interface ITestCaseReader
     {
-        CaseCollection Read(TextReader textReader);
+        CaseCollection Read();
     }
 }

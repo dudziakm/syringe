@@ -9,7 +9,7 @@ using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
 
-namespace Syringe.Tests.Integration.Http
+namespace Syringe.Tests.Integration
 {
 	public class TestCaseRunnerTests
 	{

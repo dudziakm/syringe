@@ -47,7 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\Http\TestCaseRunnerTests.cs" />
+    <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\HttpTestData.cs" />
     <Compile Include="Unit\StubsMocks\HttpLogWriterStub.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />

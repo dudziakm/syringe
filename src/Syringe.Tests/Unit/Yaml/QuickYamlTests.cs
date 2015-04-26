@@ -1,7 +1,12 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using NUnit.Framework;
+using Syringe.Core;
+using Syringe.Core.Results;
 using YamlDotNet.Serialization;
 
 namespace Syringe.Tests.Unit.Yaml
@@ -47,6 +52,33 @@ namespace Syringe.Tests.Unit.Yaml
 			Assert.That(container["repeat"], Is.EqualTo("10"));
 			Assert.That(container["variables"]["LOGIN1"], Is.EqualTo("bob"));
 			Assert.That(container["testcases"][1]["id"], Is.EqualTo("300"));
+		}
+
+		[Test]
+		public void should_write()
+		{
+			// Arrange
+			var builder = new StringBuilder();
+			var session = new TestCaseSession();
+			session.TestCaseResults.Add(new TestCaseResult()
+			{
+				ActualUrl = "actualurl", 
+				VerifyResponseCodeSuccess = true,
+				TestCase = new Case()
+				{
+					Id = 1,
+					ShortDescription = "My case"
+				}
+			
+			});
+
+			var s = new Serializer();
+			s.Serialize(new IndentedTextWriter(new StringWriter(builder)), session);
+
+			// Act
+
+			// Assert
+			Console.WriteLine(builder);
 		}
 	}
 }

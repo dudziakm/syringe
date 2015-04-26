@@ -1,8 +1,6 @@
-﻿using Syringe.Core.Results;
-
-namespace Syringe.Core.ResultWriter
+﻿namespace Syringe.Core.Results.Writer
 {
-	public class TextFileResultWriter : IResultWriter
+	public class XmlResultWriter : IResultWriter
 	{
 		public void WriteHeader(string format, params object[] args)
 		{

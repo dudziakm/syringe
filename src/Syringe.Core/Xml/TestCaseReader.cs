@@ -8,12 +8,19 @@ using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Xml
 {
-    public class TestCaseReader : ITestCaseReader
+    public class TestCaseReader : ITestCaseReader, IDisposable
     {
-		public CaseCollection Read(TextReader textReader)
+	    private readonly TextReader _textReader;
+
+	    public TestCaseReader(TextReader textReader)
+	    {
+		    _textReader = textReader;
+	    }
+
+	    public CaseCollection Read()
 		{
 			var testCollection = new CaseCollection();
-            XDocument doc = XDocument.Load(textReader);
+			XDocument doc = XDocument.Load(_textReader);
 
 			// Check for <testcases>
 			XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "testcases");
@@ -155,5 +162,10 @@ namespace Syringe.Core.Xml
 
 		    return variables;
 		}
-	}
+
+	    public void Dispose()
+	    {
+		    _textReader.Dispose();
+	    }
+    }
 }
