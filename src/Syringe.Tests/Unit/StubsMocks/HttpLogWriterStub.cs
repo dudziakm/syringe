@@ -8,6 +8,14 @@ namespace Syringe.Tests.Unit
 		{
 		}
 
+		public void AppendRequest(RequestDetails requestDetails)
+		{
+		}
+
+		public void AppendResponse(ResponseDetails responseDetails)
+		{
+		}
+
 		public void AppendRequest(string method, string url, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>> headers)
 		{
 		}

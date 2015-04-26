@@ -16,9 +16,9 @@ namespace Syringe.Tests.Unit.Xml
             get { return "Syringe.Tests.Unit.Xml.LegacyXmlExamples."; }
         }
 
-        protected override ITestCaseReader GetReader()
+        protected override ITestCaseReader GetTestCaseReader(TextReader textReader)
         {
-            return new LegacyTestCaseReader();
+			return new LegacyTestCaseReader(textReader);
         }
 
 		private string GetInvalidXml(string attributeName = "verifypositive")
@@ -41,10 +41,10 @@ namespace Syringe.Tests.Unit.Xml
 			string xml = GetSingleCaseExample();
 			xml = xml.Replace("description1=", "description=");
 			var stringReader = new StringReader(xml);
-			var testCaseReader = GetReader();
+			var testCaseReader = GetTestCaseReader(stringReader);
 
 			// Act
-			CaseCollection testCollection = testCaseReader.Read(stringReader);
+			CaseCollection testCollection = testCaseReader.Read();
 
 			// Assert
 			Case testcase = testCollection.TestCases.First();
@@ -59,10 +59,10 @@ namespace Syringe.Tests.Unit.Xml
             // Arrange
             string xml = ReadEmbeddedFile("invalid-xml.xml");
             var stringReader = new StringReader(xml);
-            var testCaseReader = GetReader();
+			var testCaseReader = GetTestCaseReader(stringReader);
 
             // Act + Assert
-            testCaseReader.Read(stringReader);
+            testCaseReader.Read();
         }
 
         [Test]
@@ -72,10 +72,10 @@ namespace Syringe.Tests.Unit.Xml
             string xml = GetSingleCaseExample();
             xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "");
             var stringReader = new StringReader(xml);
-            var testCaseReader = GetReader();
+			var testCaseReader = GetTestCaseReader(stringReader);
 
             // Act
-            CaseCollection testCollection = testCaseReader.Read(stringReader);
+            CaseCollection testCollection = testCaseReader.Read();
 
             // Assert
             Case testcase = testCollection.TestCases.First();
@@ -89,10 +89,10 @@ namespace Syringe.Tests.Unit.Xml
             string xml = GetSingleCaseExample();
             xml = xml.Replace("mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com", "User-Agent: Mozilla/5.0");
             var stringReader = new StringReader(xml);
-            var testCaseReader = GetReader();
+			var testCaseReader = GetTestCaseReader(stringReader);
 
             // Act
-            CaseCollection testCollection = testCaseReader.Read(stringReader);
+            CaseCollection testCollection = testCaseReader.Read();
 
             // Assert
             Case testcase = testCollection.TestCases.First();
@@ -109,7 +109,7 @@ namespace Syringe.Tests.Unit.Xml
             XDocument document = XDocument.Parse(xml);
             var firstTestCase = document.Root.Elements().First(x => x.Name.LocalName == "case");
 
-            var testCaseReader = new LegacyTestCaseReader();
+			var testCaseReader = new LegacyTestCaseReader(new StringReader(xml));
 
             // Act
 			List<RegexItem> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "parseresponse");

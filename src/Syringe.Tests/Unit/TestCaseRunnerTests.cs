@@ -1,15 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Results;
+using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
 using Syringe.Tests.Unit.StubsMocks;
@@ -41,11 +38,11 @@ namespace Syringe.Tests.Unit
 			// Arrange
 			var mockHttpClient = new HttpClientMock();
 			mockHttpClient.Response = GetHttpResponse();
-			var runner = new TestSessionRunner(new Config(), mockHttpClient, new HttpLogWriterStub());
+			var runner = new TestSessionRunner(new Config(), mockHttpClient, new ConsoleResultWriter());
 			string xml = ReadEmbeddedFile("basic.xml");
 
 			// Act
-			TestCaseSession summary = runner.Run(new TestCaseReader(), new StringReader(xml));
+			TestCaseSession summary = runner.Run(new TestCaseReader(new StringReader(xml)));
 
 			// Assert
 		}

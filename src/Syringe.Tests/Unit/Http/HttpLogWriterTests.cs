@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Tests.Unit.StubsMocks;
 
 namespace Syringe.Tests.Unit.Http
 {
@@ -40,9 +36,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var requestDetails = new RequestDetails()
+			{
+				Method = null,
+				Url = "url",
+				Headers = new List<KeyValuePair<string, string>>()
+			};
 
 			// Act
-			logWriter.AppendRequest(null, "b", new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -54,9 +56,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var requestDetails = new RequestDetails()
+			{
+				Method = "get",
+				Url = null,
+				Headers = new List<KeyValuePair<string, string>>()
+			};
 
 			// Act
-			logWriter.AppendRequest("http://www.google.com", null, new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -68,9 +76,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var requestDetails = new RequestDetails()
+			{
+				Method = null,
+				Url = "not a valid url",
+				Headers = new List<KeyValuePair<string, string>>()
+			};
 
 			// Act
-			logWriter.AppendRequest("not a valid url", null, new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -82,9 +96,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var requestDetails = new RequestDetails()
+			{
+				Method = null,
+				Url = "http://www.uri",
+				Headers = null
+			};
 
 			// Act
-			logWriter.AppendRequest("http://www.uri", "b", null);
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
@@ -96,9 +116,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var requestDetails = new RequestDetails()
+			{
+				Method = "post",
+				Url = "http://en.wikipedia.org/wiki/Microsoft?a=b",
+				Headers = new List<KeyValuePair<string, string>>()
+			};
 
 			// Act
-			logWriter.AppendRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", new List<KeyValuePair<string, string>>());
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -121,8 +147,15 @@ namespace Syringe.Tests.Unit.Http
 				new KeyValuePair<string, string>("Accept", "text/html")
 			};
 
+			var requestDetails = new RequestDetails()
+			{
+				Method = "post",
+				Url = "http://en.wikipedia.org/wiki/Microsoft?a=b",
+				Headers = headers
+			};
+
 			// Act	
-			logWriter.AppendRequest("post", "http://en.wikipedia.org/wiki/Microsoft?a=b", headers);
+			logWriter.AppendRequest(requestDetails);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -141,9 +174,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var responseDetails = new ResponseDetails()
+			{
+				Status = HttpStatusCode.NotFound,
+				BodyResponse = "",
+				Headers = new List<KeyValuePair<string, string>>() 
+			};
 
 			// Act	
-			logWriter.AppendResponse(HttpStatusCode.NotFound, new List<KeyValuePair<string, string>>(), "");
+			logWriter.AppendResponse(responseDetails);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -166,8 +205,15 @@ namespace Syringe.Tests.Unit.Http
 				new KeyValuePair<string, string>("Content-Type", "text/html; charset=UTF-8")
 			};
 
+			var responseDetails = new ResponseDetails()
+			{
+				Status = HttpStatusCode.OK,
+				BodyResponse = "<html><body></body></html>",
+				Headers = headers
+			};
+
 			// Act	
-			logWriter.AppendResponse(HttpStatusCode.OK, headers, "<html><body></body></html>");
+			logWriter.AppendResponse(responseDetails);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -187,9 +233,15 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
+			var responseDetails = new ResponseDetails()
+			{
+				Status = HttpStatusCode.OK,
+				BodyResponse = "",
+				Headers = null
+			};
 
 			// Act	
-			logWriter.AppendResponse(HttpStatusCode.OK, null, "");
+			logWriter.AppendResponse(responseDetails);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);

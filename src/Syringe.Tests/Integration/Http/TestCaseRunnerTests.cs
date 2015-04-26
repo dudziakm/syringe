@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
-using Syringe.Tests.Unit.StubsMocks;
 
 namespace Syringe.Tests.Integration.Http
 {
@@ -21,18 +17,19 @@ namespace Syringe.Tests.Integration.Http
 		public void should_do_something()
 		{
 			// Arrange
-			var config = new Config();
-			var restSharpClient = new RestSharpClient();
 			var stringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
+			var restSharpClient = new RestSharpClient(httpLogWriter);
 
-			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
+			var config = new Config();
+			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
 
-			// Act
-			var reader = new LegacyTestCaseReader();
 			string xml = File.ReadAllText(Path.Combine("Integration", "wikipedia-simple.xml"));
 			var stringReader = new StringReader(xml);
-			runner.Run(reader,stringReader);
+			var reader = new LegacyTestCaseReader(stringReader);
+
+			// Act
+			runner.Run(reader);
 
 			// Assert
 			Console.WriteLine(stringBuilder);
@@ -42,22 +39,27 @@ namespace Syringe.Tests.Integration.Http
 		public void should_post()
 		{
 			// Arrange
+			//_streamWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write));
+			var stringBuilder = new StringBuilder();
+			var stringWriter = new StringWriter(stringBuilder);
+			
 			var config = new Config();
 			config.GlobalHttpLog = LogType.All;
-			var restSharpClient = new RestSharpClient();
-			var stringBuilder = new StringBuilder();
-			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
+			var restSharpClient = new RestSharpClient(new HttpLogWriter(stringWriter));
 
-			var runner = new TestSessionRunner(config, restSharpClient, httpLogWriter);
+			var httpLogWriter = new HttpLogWriter(stringWriter);
+			var resultWriter = new TextWriterResultWriter(stringWriter);
 
-			// Act
-			var reader = new TestCaseReader();
+			var runner = new TestSessionRunner(config, restSharpClient, resultWriter);
+
 			string xml = File.ReadAllText(Path.Combine("Integration", "roadkill-login.xml"));
 			var stringReader = new StringReader(xml);
-			runner.Run(reader, stringReader);
+			var reader = new TestCaseReader(stringReader);
+
+			// Act
+			runner.Run(reader);
 
 			// Assert
-			Console.WriteLine("==============================");
 			Console.WriteLine(stringBuilder);
 		}
 	}

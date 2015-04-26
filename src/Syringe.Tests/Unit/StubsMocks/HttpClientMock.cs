@@ -11,5 +11,13 @@ namespace Syringe.Tests.Unit.StubsMocks
 		{
 			return Response;
 		}
+
+		public void LogLastRequest()
+		{
+		}
+
+		public void LogLastResponse()
+		{
+		}
 	}
 }
