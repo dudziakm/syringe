@@ -6,6 +6,10 @@ namespace Syringe.Core
 		public string Regex { get; set; }
 		public bool Success { get; set; }
 
+		public RegexItem() : this("","")
+		{
+		}
+
 		public RegexItem(string description, string regex)
 		{
 			Description = description;

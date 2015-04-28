@@ -12,22 +12,25 @@ namespace Syringe.Core.Results.Writer
 
 		public void Write(TestCaseResult result)
 		{
+			// Header
 			WriteHeader("Case {0} ({1})", result.TestCase.Id, result.TestCase.ShortDescription);
 			WriteLine("");
+
+			// Result info
 			WriteLine(" - Original url: {0}", result.TestCase.Url);
 			WriteLine(" - Actual url: {0}", result.ActualUrl);
-			WriteLine(" - Success: {0}", (result.Success) ? "Passed" : "Failed");
 			WriteLine(" - Response code success: {0}", (result.VerifyResponseCodeSuccess) ? "Passed" : "Failed");
-
+			WriteLine(" - Time taken: {0}", result.ResponseTime.ToString());
+			WriteLine(" - Success: {0}", (result.Success) ? "Passed" : "Failed");
 			if (!string.IsNullOrEmpty(result.Message))
 				WriteLine(" - Message: {0}", result.Message);
 
-			WriteLine(" - Time taken: {0}", result.ResponseTime.ToString(@"mm\:ss\.FF"));
-
+			// Positives
 			WriteLine("Verify positives");
 			WriteLine(" - Success: {0}", (result.VerifyPositivesSuccess) ? "Passed" : "Failed");
 			WriteVerifies(result.VerifyPositiveResults);
 
+			// Negatives
 			WriteLine("Verify negatives");
 			WriteLine(" - Success: {0}", (result.VerifyNegativeSuccess) ? "Passed" : "Failed");
 			WriteVerifies(result.VerifyNegativeResults);

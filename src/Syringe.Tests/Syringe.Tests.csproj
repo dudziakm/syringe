@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\HttpTestData.cs" />
+    <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpLogWriterStub.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />

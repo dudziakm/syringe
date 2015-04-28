@@ -19,6 +19,7 @@ namespace Syringe.Core.Runner
 		// - VariableManager
 		// - VerificationMatcher
 		// - TestSessionRunner
+		//   - TestCaseSession is being populated correctly.
 		//   - Variables
 		//   - Logging: HTTP/Results
 		//   - Results
@@ -42,6 +43,7 @@ namespace Syringe.Core.Runner
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
 		private readonly IResultWriter _resultWriter;
+		private bool _stopPending;
 
 		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
 		{
@@ -50,8 +52,14 @@ namespace Syringe.Core.Runner
 			_resultWriter = resultWriter;
 		}
 
+		public void Stop()
+		{
+			_stopPending = true;
+		}
+
 		public TestCaseSession Run(ITestCaseReader reader)
 		{
+			_stopPending = false;
 			var runSummary = new TestCaseSession();
 			runSummary.StartTime = DateTime.UtcNow;
 
@@ -63,6 +71,7 @@ namespace Syringe.Core.Runner
 
 			var verificationMatcher = new VerificationMatcher(variableManager);
 
+			// Ensure we loop atleast once:
 			int repeatTotal = (testCollection.Repeat > 0) ? testCollection.Repeat : 1;
 			List<Case> testCases = testCollection.TestCases.ToList();
 			for (int i = 0; i < repeatTotal; i++)
@@ -70,9 +79,17 @@ namespace Syringe.Core.Runner
 				foreach (Case testCase in testCases)
 				{
 					TestCaseResult result = RunCase(testCase, variableManager, verificationMatcher);
+					runSummary.TestCaseResults.Add(result);
 
+					if (_stopPending)
+						break;
 				}
+
+				if (_stopPending)
+					break;
 			}
+
+			runSummary.EndTime = DateTime.UtcNow;
 
 			return runSummary;
 		}

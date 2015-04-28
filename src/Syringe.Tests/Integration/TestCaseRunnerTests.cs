@@ -1,13 +1,19 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
 using NUnit.Framework;
+using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
+using YamlDotNet.Serialization;
 
 namespace Syringe.Tests.Integration
 {
@@ -57,9 +63,29 @@ namespace Syringe.Tests.Integration
 			var reader = new TestCaseReader(stringReader);
 
 			// Act
-			runner.Run(reader);
+			TestCaseSession session = runner.Run(reader);
 
 			// Assert
+			DumpAsXml(session);
+			DumpAsYaml(session);
+
+			Console.WriteLine(stringBuilder);
+		}
+
+		private static void DumpAsYaml(TestCaseSession session)
+		{
+			var stringBuilder = new StringBuilder();
+			var serializer = new Serializer();
+			serializer.Serialize(new IndentedTextWriter(new StringWriter(stringBuilder)), session);
+			Console.WriteLine(stringBuilder);
+		}
+
+		private static void DumpAsXml(TestCaseSession session)
+		{
+			var stringBuilder = new StringBuilder();
+			var serializer = new XmlSerializer(typeof (TestCaseSession));
+			serializer.Serialize(new StringWriter(stringBuilder), session);
+
 			Console.WriteLine(stringBuilder);
 		}
 	}
