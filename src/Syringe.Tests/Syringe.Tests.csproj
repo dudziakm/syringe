@@ -92,6 +92,10 @@
     <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\ordered-attributes.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Integration\parsedresponses.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Integration\roadkill-login.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -20,6 +20,28 @@ namespace Syringe.Tests.Integration
 	public class TestCaseRunnerTests
 	{
 		[Test]
+		public void should_parse_responses()
+		{
+			// Arrange
+			var stringBuilder = new StringBuilder();
+			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
+			var restSharpClient = new RestSharpClient(httpLogWriter);
+
+			var config = new Config();
+			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
+
+			string xml = File.ReadAllText(Path.Combine("Integration", "parsedresponses.xml"));
+			var stringReader = new StringReader(xml);
+			var reader = new TestCaseReader(stringReader);
+
+			// Act
+			TestCaseSession result = runner.Run(reader);
+
+			// Assert
+			DumpAsYaml(result);
+		}
+
+		[Test]
 		public void should_do_something()
 		{
 			// Arrange

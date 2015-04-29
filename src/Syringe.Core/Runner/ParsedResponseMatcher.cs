@@ -21,7 +21,6 @@ namespace Syringe.Core.Runner
 				string capturedValue = "";
 				try
 				{
-
 					var regex = new Regex(regexItem.Regex, RegexOptions.IgnoreCase);
 					if (regex.IsMatch(content))
 					{

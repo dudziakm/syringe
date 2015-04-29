@@ -81,13 +81,13 @@
     <Compile Include="Results\Writer\IResultWriter.cs" />
     <Compile Include="Results\Writer\TextWriterResultWriter.cs" />
     <Compile Include="Results\Writer\XmlResultWriter.cs" />
-    <Compile Include="Runner\VerificationMatcher.cs" />
+    <Compile Include="Runner\VerificationsMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />
     <Compile Include="Results\TestCaseSession.cs" />
     <Compile Include="Runner\TestSessionRunner.cs" />
     <Compile Include="Http\RestSharpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
-    <Compile Include="Runner\VariableManager.cs" />
+    <Compile Include="Runner\SessionVariables.cs" />
     <Compile Include="Runner\ParsedResponseMatcher.cs" />
     <Compile Include="Xml\ITestCaseReader.cs" />
     <Compile Include="Configuration\LegacyConfigReader.cs" />

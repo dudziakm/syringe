@@ -6,11 +6,11 @@ using Syringe.Core.Logging;
 
 namespace Syringe.Core.Runner
 {
-	internal class VariableManager
+	internal class SessionVariables
 	{
 		private readonly Dictionary<string, string> _currentVariables;
 
-		public VariableManager()
+		public SessionVariables()
 		{
 			_currentVariables = new Dictionary<string, string>();
 		}

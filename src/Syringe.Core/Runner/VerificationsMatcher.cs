@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
-using Syringe.Core.Xml;
 
 namespace Syringe.Core.Runner
 {
-	internal class VerificationMatcher
+	internal class VerificationsMatcher
 	{
-		private readonly VariableManager _variableManager;
+		private readonly SessionVariables _variables;
 
 		internal enum VerificationBehaviour
 		{
@@ -16,17 +15,17 @@ namespace Syringe.Core.Runner
 			Positive
 		}
 
-		public VerificationMatcher(VariableManager variableManager)
+		public VerificationsMatcher(SessionVariables variables)
 		{
-			_variableManager = variableManager;
+			_variables = variables;
 		}
 
-		public List<RegexItem> MatchPositiveVerifications(List<RegexItem> verifications, string content)
+		public List<RegexItem> MatchPositive(List<RegexItem> verifications, string content)
 		{
 			return MatchVerifications(verifications, content, VerificationBehaviour.Positive);
 		}
 
-		public List<RegexItem> MatchNegativeVerifications(List<RegexItem> verifications, string content)
+		public List<RegexItem> MatchNegative(List<RegexItem> verifications, string content)
 		{
 			return MatchVerifications(verifications, content, VerificationBehaviour.Negative);
 		}
@@ -44,7 +43,7 @@ namespace Syringe.Core.Runner
 
 				if (!string.IsNullOrEmpty(verifyRegex))
 				{
-					verifyRegex = _variableManager.ReplaceVariablesIn(verifyRegex);
+					verifyRegex = _variables.ReplaceVariablesIn(verifyRegex);
 
 					Log.Information("  - Original regex: {0}", regexItem.Regex);
 					Log.Information("  - Transformed regex: {0}", verifyRegex);

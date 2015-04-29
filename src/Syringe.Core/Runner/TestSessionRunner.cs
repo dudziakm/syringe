@@ -26,7 +26,7 @@ namespace Syringe.Core.Runner
 		//   - Results
 		//   - Runcase
 		//   - Repeats
-		//   - Start/End time
+		//   - Start/End time [X]
 		
 		// TODO: Integration test coverage
 		// - RestSharpClient
@@ -66,11 +66,11 @@ namespace Syringe.Core.Runner
 
 			CaseCollection testCollection = reader.Read();
 
-			var variableManager = new VariableManager();
-			variableManager.AddGlobalVariables(_config);
-			variableManager.AddOrUpdateVariables(testCollection.Variables);
+			var variables = new SessionVariables();
+			variables.AddGlobalVariables(_config);
+			variables.AddOrUpdateVariables(testCollection.Variables);
 
-			var verificationMatcher = new VerificationMatcher(variableManager);
+			var verificationsMatcher = new VerificationsMatcher(variables);
 
 			// Ensure we loop atleast once:
 			int repeatTotal = (testCollection.Repeat > 0) ? testCollection.Repeat : 1;
@@ -89,7 +89,7 @@ namespace Syringe.Core.Runner
 
 					try
 					{
-						TestCaseResult result = RunCase(testCase, variableManager, verificationMatcher);
+						TestCaseResult result = RunCase(testCase, variables, verificationsMatcher);
 						session.TestCaseResults.Add(result);
 
 						if (result.ResponseTime < minResponseTime)
@@ -121,16 +121,15 @@ namespace Syringe.Core.Runner
 			return session;
 		}
 
-		private TestCaseResult RunCase(Case testCase, VariableManager variableManager, VerificationMatcher verificationMatcher)
+		internal TestCaseResult RunCase(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
 		{
 			var testResult = new TestCaseResult();
 			testResult.TestCase = testCase;
 
-			string resolvedUrl = variableManager.ReplacePlainTextVariablesIn(testCase.Url);
+			string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
 			testResult.ActualUrl = resolvedUrl;
 
-			HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody,
-				testCase.Headers);
+			HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
 			testResult.ResponseTime = response.ResponseTime;
 
 			if (response.StatusCode == testCase.VerifyResponseCode)
@@ -139,14 +138,14 @@ namespace Syringe.Core.Runner
 				testResult.VerifyResponseCodeSuccess = true;
 
 				// Put the parsedresponse regex values in the current variable set
-				Dictionary<string, string> variables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);
-				variableManager.AddOrUpdateVariables(variables);
+				Dictionary<string, string> parsedVariables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);
+				variables.AddOrUpdateVariables(parsedVariables);
 
 				// Verify positives
-				testResult.VerifyPositiveResults = verificationMatcher.MatchPositiveVerifications(testCase.VerifyPositives, content);
+				testResult.VerifyPositiveResults = verificationMatcher.MatchPositive(testCase.VerifyPositives, content);
 
 				// Verify Negatives
-				testResult.VerifyNegativeResults = verificationMatcher.MatchNegativeVerifications(testCase.VerifyNegatives, content);
+				testResult.VerifyNegativeResults = verificationMatcher.MatchNegative(testCase.VerifyNegatives, content);
 			}
 			else
 			{
@@ -176,14 +175,14 @@ namespace Syringe.Core.Runner
 			return testResult;
 		}
 
-		private bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
+		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
 		{
 			return (testResult.VerifyResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
 			       || _config.GlobalHttpLog == LogType.All 
 				   || testCase.LogRequest;
 		}
 
-		private bool ShouldLogResponse(TestCaseResult testResult, Case testCase)
+		internal bool ShouldLogResponse(TestCaseResult testResult, Case testCase)
 		{
 			return (testResult.VerifyResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
 				   || _config.GlobalHttpLog == LogType.All

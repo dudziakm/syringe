@@ -14,6 +14,17 @@ namespace Syringe.Tests.Unit.Runner
 {
 	public class TestSessionRunnerTests
 	{
+		private CaseCollection CreateCaseCollection(Case[] cases)
+		{
+			var testCases = new List<Case>();
+			testCases.AddRange(cases);
+
+			var collection = new CaseCollection();
+			collection.TestCases = testCases;
+
+			return collection;
+		}
+
 		[Test]
 		public void Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
 		{
@@ -82,15 +93,26 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(session.TotalRunTime, Is.EqualTo(session.EndTime - session.StartTime));
 		}
 
-		private CaseCollection CreateCaseCollection(Case[] cases)
+		[Test]
+		public void ShouldLogRequest_should_do_something()
 		{
-			var testCases = new List<Case>();
-			testCases.AddRange(cases);
+			// Arrange
+			var config = new Config();
 
-			var collection = new CaseCollection();
-			collection.TestCases = testCases;
+			var response = new HttpResponse();
+			HttpClientMock httpClient = new HttpClientMock();
+			IResultWriter resultWriter = new ResultWriterStub();
 
-			return collection;
+			var runner = new TestSessionRunner(config, httpClient, resultWriter);
+			var reader = new TestCaseReaderMock();
+
+			// Act
+			var testCase = new Case();
+			var variables = new SessionVariables();
+			var verificationMatcher = new VerificationsMatcher(variables);
+			runner.RunCase(testCase, variables, verificationMatcher);
+
+			// Assert
 		}
 	}
 }
