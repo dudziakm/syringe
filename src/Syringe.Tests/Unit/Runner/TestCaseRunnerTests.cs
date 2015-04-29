@@ -11,7 +11,7 @@ using Syringe.Core.Runner;
 using Syringe.Core.Xml;
 using Syringe.Tests.Unit.StubsMocks;
 
-namespace Syringe.Tests.Unit
+namespace Syringe.Tests.Unit.Runner
 {
 	public class TestCaseRunnerTests
 	{

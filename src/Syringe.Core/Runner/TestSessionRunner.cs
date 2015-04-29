@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
+using Syringe.Core.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Xml;
@@ -14,7 +15,7 @@ namespace Syringe.Core.Runner
 	public class TestSessionRunner
 	{
 		// TODO: Unit test coverage:
-		// - TextWriterResultsWriter
+		// - TextWriterResultsWriter [X]
 		// - ParsedResponseMatcher
 		// - VariableManager
 		// - VerificationMatcher
@@ -60,8 +61,8 @@ namespace Syringe.Core.Runner
 		public TestCaseSession Run(ITestCaseReader reader)
 		{
 			_stopPending = false;
-			var runSummary = new TestCaseSession();
-			runSummary.StartTime = DateTime.UtcNow;
+			var session = new TestCaseSession();
+			session.StartTime = DateTime.UtcNow;
 
 			CaseCollection testCollection = reader.Read();
 
@@ -74,24 +75,50 @@ namespace Syringe.Core.Runner
 			// Ensure we loop atleast once:
 			int repeatTotal = (testCollection.Repeat > 0) ? testCollection.Repeat : 1;
 			List<Case> testCases = testCollection.TestCases.ToList();
+
+			TimeSpan minResponseTime = TimeSpan.MaxValue;
+			TimeSpan maxResponseTime = TimeSpan.MinValue;
+			int totalCasesRun = 0;
+
 			for (int i = 0; i < repeatTotal; i++)
 			{
 				foreach (Case testCase in testCases)
 				{
-					TestCaseResult result = RunCase(testCase, variableManager, verificationMatcher);
-					runSummary.TestCaseResults.Add(result);
-
 					if (_stopPending)
 						break;
+
+					try
+					{
+						TestCaseResult result = RunCase(testCase, variableManager, verificationMatcher);
+						session.TestCaseResults.Add(result);
+
+						if (result.ResponseTime < minResponseTime)
+							minResponseTime = result.ResponseTime;
+
+						if (result.ResponseTime > maxResponseTime)
+							maxResponseTime = result.ResponseTime;
+					}
+					catch (Exception ex)
+					{
+						Log.Error(ex, "An exception occurred running case {0}", testCase.Id);
+					}
+					finally
+					{
+						totalCasesRun++;
+					}
 				}
 
 				if (_stopPending)
 					break;
 			}
 
-			runSummary.EndTime = DateTime.UtcNow;
+			session.EndTime = DateTime.UtcNow;
+			session.TotalRunTime = session.EndTime - session.StartTime;
+			session.TotalCasesRun = totalCasesRun;
+			session.MinResponseTime = minResponseTime;
+			session.MaxResponseTime = maxResponseTime;
 
-			return runSummary;
+			return session;
 		}
 
 		private TestCaseResult RunCase(Case testCase, VariableManager variableManager, VerificationMatcher verificationMatcher)

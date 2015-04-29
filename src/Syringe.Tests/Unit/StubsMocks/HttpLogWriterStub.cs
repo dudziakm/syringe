@@ -1,6 +1,6 @@
 ﻿using Syringe.Core.Http.Logging;
 
-namespace Syringe.Tests.Unit
+namespace Syringe.Tests.Unit.StubsMocks
 {
 	public class HttpLogWriterStub : IHttpLogWriter
 	{

@@ -49,12 +49,18 @@
   <ItemGroup>
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\HttpTestData.cs" />
+    <Compile Include="Unit\Results\TestCaseResultTests.cs" />
     <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
+    <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
+    <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
+    <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
+    <Compile Include="Unit\StubsMocks\TestCaseReaderMock.cs" />
+    <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpLogWriterStub.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
-    <Compile Include="Unit\TestCaseRunnerTests.cs" />
+    <Compile Include="Unit\Runner\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />

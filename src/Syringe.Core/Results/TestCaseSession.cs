@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Syringe.Core.Results
@@ -9,13 +10,37 @@ namespace Syringe.Core.Results
 
         public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
-
         public TimeSpan TotalRunTime { get; set; }
         public int TotalCasesRun { get; set; }
-        public int TotalCasesPassed { get; set; }
-        public int TotalCasesFailed { get; set; }
-        public int TotalVerificationsPassed { get; set; }
-        public int TotalVerificationsFailed { get; set; }
+
+	    public int TotalCasesPassed
+	    {
+		    get { return TestCaseResults.Count(x => x.Success == true); }
+	    }
+
+		public int TotalCasesFailed
+		{
+			get { return TestCaseResults.Count(x => x.Success == false); }
+		}
+
+		public int TotalVerificationsPassed
+		{
+			get
+			{
+				return TestCaseResults.Sum(x => x.VerifyPositiveResults.Count(v => v.Success == true) +
+												x.VerifyNegativeResults.Count(v => v.Success == true));
+			}
+		}
+
+		public int TotalVerificationsFailed
+		{
+			get 
+			{ 
+				return TestCaseResults.Sum(x => x.VerifyPositiveResults.Count(v => v.Success == false) +
+												x.VerifyNegativeResults.Count(v => v.Success == false)); 
+			}
+		}
+
         public TimeSpan MaxResponseTime { get; set; }
         public TimeSpan MinResponseTime { get; set; }
 
