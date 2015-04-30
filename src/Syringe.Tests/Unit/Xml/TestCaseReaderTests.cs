@@ -26,19 +26,19 @@ namespace Syringe.Tests.Unit.Xml
 
 		protected string ReadEmbeddedFile(string file)
 		{
-            string path = string.Format("{0}{1}", XmlExamplesFolder, file);
+            string resourcePath = string.Format("{0}{1}", XmlExamplesFolder, file);
 
-			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
+			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
 			if (stream == null)
-				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", path));
+				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", resourcePath));
 
-			string result = "";
+			string textContent = "";
 			using (StreamReader reader = new StreamReader(stream))
 			{
-				result = reader.ReadToEnd();
+				textContent = reader.ReadToEnd();
 			}
 
-			return result;
+			return textContent;
 		}
 
         protected string GetSingleCaseExample()

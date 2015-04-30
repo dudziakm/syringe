@@ -48,9 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
-    <Compile Include="Unit\HttpTestData.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
     <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
+    <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
     <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
@@ -60,7 +60,6 @@
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
-    <Compile Include="Unit\Runner\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
@@ -92,23 +91,22 @@
     <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\ordered-attributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Integration\parsedresponses.xml">
+    <EmbeddedResource Include="Integration\Xml\parsedresponses.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Integration\roadkill-login.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Xml\roadkill-login.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Integration\wikipedia-parsedresults.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Xml\wikipedia-parsedresults.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Integration\wikipedia-simple.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Xml\wikipedia-simple.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
-    <EmbeddedResource Include="Unit\basic.xml" />
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\XmlExamples\full.xml" />
     <EmbeddedResource Include="Unit\Xml\XmlExamples\single-case.xml">
       <SubType>Designer</SubType>

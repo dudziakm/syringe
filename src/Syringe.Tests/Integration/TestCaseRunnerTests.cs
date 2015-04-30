@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
@@ -19,6 +20,25 @@ namespace Syringe.Tests.Integration
 {
 	public class TestCaseRunnerTests
 	{
+		protected string ReadEmbeddedFile(string file)
+		{
+			const string namespacePath = "Syringe.Tests.Integration.Xml.";
+
+			string resourcePath = string.Format("{0}{1}", namespacePath, file);
+
+			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
+			if (stream == null)
+				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", resourcePath));
+
+			string textContent = "";
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				textContent = reader.ReadToEnd();
+			}
+
+			return textContent;
+		}
+
 		[Test]
 		public void should_parse_responses()
 		{
@@ -30,7 +50,7 @@ namespace Syringe.Tests.Integration
 			var config = new Config();
 			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
 
-			string xml = File.ReadAllText(Path.Combine("Integration", "parsedresponses.xml"));
+			string xml = ReadEmbeddedFile("parsedresponses.xml");
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader(stringReader);
 
@@ -52,7 +72,7 @@ namespace Syringe.Tests.Integration
 			var config = new Config();
 			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
 
-			string xml = File.ReadAllText(Path.Combine("Integration", "wikipedia-simple.xml"));
+			string xml = ReadEmbeddedFile("wikipedia-simple.xml");
 			var stringReader = new StringReader(xml);
 			var reader = new LegacyTestCaseReader(stringReader);
 
@@ -80,7 +100,7 @@ namespace Syringe.Tests.Integration
 
 			var runner = new TestSessionRunner(config, restSharpClient, resultWriter);
 
-			string xml = File.ReadAllText(Path.Combine("Integration", "roadkill-login.xml"));
+			string xml = ReadEmbeddedFile("roadkill-login.xml");
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader(stringReader);
 
