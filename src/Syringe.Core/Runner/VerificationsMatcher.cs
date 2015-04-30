@@ -20,54 +20,54 @@ namespace Syringe.Core.Runner
 			_variables = variables;
 		}
 
-		public List<RegexItem> MatchPositive(List<RegexItem> verifications, string content)
+		public List<VerificationItem> MatchPositive(List<VerificationItem> verifications, string content)
 		{
 			return MatchVerifications(verifications, content, VerificationBehaviour.Positive);
 		}
 
-		public List<RegexItem> MatchNegative(List<RegexItem> verifications, string content)
+		public List<VerificationItem> MatchNegative(List<VerificationItem> verifications, string content)
 		{
 			return MatchVerifications(verifications, content, VerificationBehaviour.Negative);
 		}
 
-		private List<RegexItem> MatchVerifications(List<RegexItem> verifications, string content, VerificationBehaviour behaviour)
+		private List<VerificationItem> MatchVerifications(List<VerificationItem> verifications, string content, VerificationBehaviour behaviour)
 		{
-			var matchedItems = new List<RegexItem>();
+			var matchedItems = new List<VerificationItem>();
 
-			foreach (RegexItem regexItem in verifications)
+			foreach (VerificationItem item in verifications)
 			{
-				Log.Information("Verifying {0} {1}", behaviour, regexItem.Description);
+				Log.Information("Verifying {0} {1}", behaviour, item.Description);
 				Log.Information("---------");
 
-				string verifyRegex = regexItem.Regex;
+				string verifyRegex = item.Regex;
 
 				if (!string.IsNullOrEmpty(verifyRegex))
 				{
 					verifyRegex = _variables.ReplaceVariablesIn(verifyRegex);
 
-					Log.Information("  - Original regex: {0}", regexItem.Regex);
+					Log.Information("  - Original regex: {0}", item.Regex);
 					Log.Information("  - Transformed regex: {0}", verifyRegex);
 
 					try
 					{
 						bool isMatch = Regex.IsMatch(content, verifyRegex, RegexOptions.IgnoreCase);
-						regexItem.Success = true;
+						item.Success = true;
 
 						if (behaviour == VerificationBehaviour.Positive && isMatch == false)
 						{
-							regexItem.Success = false;
-							Log.Information("Positive verification failed: {0} - {1}", regexItem.Description, verifyRegex);
+							item.Success = false;
+							Log.Information("Positive verification failed: {0} - {1}", item.Description, verifyRegex);
 						}
 						else if (behaviour == VerificationBehaviour.Negative && isMatch == true)
 						{
-							regexItem.Success = false;
-							Log.Information("Negative verification failed: {0} - {1}", regexItem.Description, verifyRegex);
+							item.Success = false;
+							Log.Information("Negative verification failed: {0} - {1}", item.Description, verifyRegex);
 						}
 					}
 					catch (ArgumentException e)
 					{
 						// Invalid regex - ignore.
-						regexItem.Success = false;
+						item.Success = false;
 						Log.Information(" - Invalid regex: {0}", e.Message);
 					}
 				}
@@ -76,7 +76,7 @@ namespace Syringe.Core.Runner
 					Log.Information("  - Skipping as the regex was empty.");
 				}
 
-				matchedItems.Add(regexItem);
+				matchedItems.Add(item);
 			}
 
 			return matchedItems;

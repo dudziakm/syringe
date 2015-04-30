@@ -35,13 +35,13 @@ namespace Syringe.Tests.Unit.Runner
 
 		public TestCaseResultsBuilder AddPositiveVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyPositiveResults.Add(new RegexItem("item " + DateTime.Now, "regex") { Success = success });
+			_currentTestCaseResult.VerifyPositiveResults.Add(new VerificationItem("item " + DateTime.Now, "regex", VerifyType.Positive) { Success = success });
 			return this;
 		}
 
 		public TestCaseResultsBuilder AddNegativeVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyNegativeResults.Add(new RegexItem("item " + DateTime.Now, "regex") { Success = success });
+			_currentTestCaseResult.VerifyNegativeResults.Add(new VerificationItem("item " + DateTime.Now, "regex", VerifyType.Negative) { Success = success });
 			return this;
 		}
 

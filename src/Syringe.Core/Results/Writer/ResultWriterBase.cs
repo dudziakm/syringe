@@ -36,11 +36,11 @@ namespace Syringe.Core.Results.Writer
 			WriteVerifies(result.VerifyNegativeResults);
 		}
 
-		protected virtual void WriteVerifies(List<RegexItem> verifyItems)
+		protected virtual void WriteVerifies(List<VerificationItem> verifyItems)
 		{
 			if (verifyItems.Count > 0)
 			{
-				foreach (RegexItem item in verifyItems)
+				foreach (VerificationItem item in verifyItems)
 				{
 					WriteLine("  - {0} - {1}", item.Description, item.Success);
 				}

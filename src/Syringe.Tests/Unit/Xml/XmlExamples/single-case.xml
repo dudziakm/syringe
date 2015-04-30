@@ -33,16 +33,14 @@
             <parseresponse description="3">parse 99</parseresponse>
         </parseresponses>
 
-        <verifypositives>
-            <verify description="1">positive 1</verify>
-            <verify description="2">positive 22</verify>
-            <verify description="3">positive 99</verify>
-        </verifypositives>
+		<verifications>
+			<verify type="positive" description="1">positive 1</verify>
+			<verify type="PosItiVe" description="2">positive 22</verify>
+			<verify type="positive" description="3">positive 99</verify>
 
-        <verifynegatives>
-            <verify description="1">negative 1</verify>
-            <verify description="2">negative 6</verify>
-            <verify description="3">negative 66</verify>
-        </verifynegatives>
+			<verify type="negative" description="1">negative 1</verify>
+			<verify type="NEGaTiVE" description="2">negative 6</verify>
+			<verify type="negative" description="3">negative 66</verify>
+        </verifications>
     </case>
 </testcases>

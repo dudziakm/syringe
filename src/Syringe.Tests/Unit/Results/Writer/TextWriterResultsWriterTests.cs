@@ -76,8 +76,8 @@ namespace Syringe.Tests.Unit.Results.Writer
 			{
 				TestCase = new Case() { Url = "", Id = 99, ShortDescription = "" }
 			};
-			result.VerifyPositiveResults.Add(new RegexItem("desc1", "myregex1") { Success = false});
-			result.VerifyPositiveResults.Add(new RegexItem("desc2", "myregex2") { Success = true });
+			result.VerifyPositiveResults.Add(new VerificationItem("desc1", "myregex1", VerifyType.Positive) { Success = false});
+			result.VerifyPositiveResults.Add(new VerificationItem("desc2", "myregex2", VerifyType.Positive) { Success = true });
 
 			// Act
 			resultWriter.Write(result);
@@ -103,8 +103,8 @@ namespace Syringe.Tests.Unit.Results.Writer
 			{
 				TestCase = new Case() { Url = "", Id = 99, ShortDescription = "" }
 			};
-			result.VerifyPositiveResults.Add(new RegexItem("x1", "myregex1") { Success = true });
-			result.VerifyPositiveResults.Add(new RegexItem("x2", "myregex2") { Success = true });
+			result.VerifyPositiveResults.Add(new VerificationItem("x1", "myregex1", VerifyType.Positive) { Success = true });
+			result.VerifyPositiveResults.Add(new VerificationItem("x2", "myregex2", VerifyType.Positive) { Success = true });
 
 			// Act
 			resultWriter.Write(result);

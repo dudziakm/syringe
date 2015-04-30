@@ -94,10 +94,10 @@ namespace Syringe.Core.Xml
 			}
 
 			// Numbered attributes
-			List<RegexItem> parsedResponses = GetNumberedAttributes(element, "parseresponse");
-			testCase.ParseResponses = ConvertParseResponses(parsedResponses);
-			testCase.VerifyPositives = GetNumberedAttributes(element, "verifypositive");
-			testCase.VerifyNegatives = GetNumberedAttributes(element, "verifynegative");
+			List<ParsedResponseItem> parsedResponses = GetParsedResponseItems(element, "parseresponse");
+			testCase.ParseResponses = ConvertParseResponsesToRegexes(parsedResponses);
+			testCase.VerifyPositives = GetVerificationItems(element, "verifypositive", VerifyType.Positive);
+			testCase.VerifyNegatives = GetVerificationItems(element, "verifynegative", VerifyType.Negative);
 
 			return testCase;
 		}
@@ -184,10 +184,40 @@ namespace Syringe.Core.Xml
 			return statusCode;
 		}
 
-		internal List<RegexItem> GetNumberedAttributes(XElement element, string attributeName)
+		internal List<ParsedResponseItem> GetParsedResponseItems(XElement element, string attributeName)
 		{
 			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
-				return new List<RegexItem>();
+				return new List<ParsedResponseItem>();
+
+			var items = new List<KeyValuePair<int, string>>();
+
+			//
+			// Take the attributes (e.g. parsedresponse1="", parsedresponse3="", parsedresponse2="") and put them into an ordered list
+			//
+			IEnumerable<XAttribute> attributes = element.Attributes().Where(x => x.Name.LocalName.ToLower().StartsWith(attributeName));
+			foreach (XAttribute attribute in attributes)
+			{
+				int index = 0;
+
+				string currentAttributeName = attribute.Name.LocalName.ToLower();
+				currentAttributeName = currentAttributeName.Replace(attributeName, "");
+				if (!string.IsNullOrEmpty(attributeName))
+				{
+					int.TryParse(currentAttributeName, out index);
+				}
+
+				items.Add(new KeyValuePair<int, string>(index, attribute.Value));
+			}
+
+			return items.OrderBy(x => x.Key)
+						.Select(x => new ParsedResponseItem(attributeName + x.Key, x.Value))
+						.ToList();
+		}
+
+		internal List<VerificationItem> GetVerificationItems(XElement element, string attributeName, VerifyType verifyType)
+		{
+			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
+				return new List<VerificationItem>();
 
 			var items = new List<KeyValuePair<int, string>>();
 
@@ -210,13 +240,13 @@ namespace Syringe.Core.Xml
 			}
 
 			return items.OrderBy(x => x.Key)
-						.Select(x => new RegexItem(attributeName + x.Key, x.Value))
+						.Select(x => new VerificationItem(attributeName + x.Key, x.Value, verifyType))
 						.ToList();
 		}
 
-		internal List<RegexItem> ConvertParseResponses(List<RegexItem> parseResponses)
+		internal List<ParsedResponseItem> ConvertParseResponsesToRegexes(List<ParsedResponseItem> parseResponses)
 		{
-			var responseVariables = new List<RegexItem>();
+			var responseVariables = new List<ParsedResponseItem>();
 
 			// From the manual:
 			// 
@@ -238,7 +268,7 @@ namespace Syringe.Core.Xml
 
 			for (int i = 0; i < parseResponses.Count; i++)
 			{
-				RegexItem item = parseResponses[i];
+				ParsedResponseItem item = parseResponses[i];
 				string parsedResponse = item.Regex;
 				if (parsedResponse.Contains("|"))
 				{
@@ -253,7 +283,7 @@ namespace Syringe.Core.Xml
 					try
 					{
 						var testRegex = new Regex(regexText);
-						responseVariables.Add(new RegexItem("parsedresponse" +i, regexText));
+						responseVariables.Add(new ParsedResponseItem("parsedresponse" +i, regexText));
 					}
 					catch (ArgumentException e)
 					{

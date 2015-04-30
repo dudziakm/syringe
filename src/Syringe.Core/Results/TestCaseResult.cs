@@ -11,8 +11,8 @@ namespace Syringe.Core.Results
 		public string ActualUrl { get; set; }
 	    public string Message { get; set; }
 	    public TimeSpan ResponseTime { get; set; }
-        public List<RegexItem> VerifyPositiveResults { get; set; }
-		public List<RegexItem> VerifyNegativeResults { get; set; }
+        public List<VerificationItem> VerifyPositiveResults { get; set; }
+		public List<VerificationItem> VerifyNegativeResults { get; set; }
 		public bool VerifyResponseCodeSuccess { get; set; }
 
 		public bool Success
@@ -44,8 +44,8 @@ namespace Syringe.Core.Results
 
 		public TestCaseResult()
 		{
-			VerifyPositiveResults = new List<RegexItem>();
-			VerifyNegativeResults = new List<RegexItem>();
+			VerifyPositiveResults = new List<VerificationItem>();
+			VerifyNegativeResults = new List<VerificationItem>();
 		}
 	}
 }

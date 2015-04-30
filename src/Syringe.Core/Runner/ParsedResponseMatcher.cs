@@ -8,11 +8,11 @@ namespace Syringe.Core.Runner
 {
 	internal class ParsedResponseMatcher
 	{
-		public static Dictionary<string, string> MatchParsedResponses(List<RegexItem> parsedResponses, string content)
+		public static Dictionary<string, string> MatchParsedResponses(List<ParsedResponseItem> parsedResponses, string content)
 		{
 			var variables = new Dictionary<string, string>();
 
-			foreach (RegexItem regexItem in parsedResponses)
+			foreach (ParsedResponseItem regexItem in parsedResponses)
 			{
 				Log.Information("---------");
 				Log.Information("Testing {{parsedresponse{0}}}", regexItem.Description);

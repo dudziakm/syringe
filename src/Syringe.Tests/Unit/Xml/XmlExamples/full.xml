@@ -21,13 +21,10 @@
             <![CDATA[username=corey&password=welcome]]>
         </postbody>
         
-        <verifypositives>
-            <verify description="1">verify this string exists</verify>
-        </verifypositives>
-
-        <verifynegatives>
-            <verify description="1">verify this string does not exist</verify>
-        </verifynegatives>
+        <verifications>
+            <verify type="positive" description="1">verify this string exists</verify>
+			<verify type="negative" description="1">verify this string does not exist</verify>
+		</verifications>
     </case>
 
     <case
@@ -36,12 +33,10 @@
 		longdescription="long description"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
-		verifypositive="verify this string exists"
-		verifynextpositive="{TIMESTAMP}"
 	>
-        <verifypositives>
-            <verify id="1">verify this string exists</verify>
-        </verifypositives>
+		<verifications>
+			<verify type="positive" id="1">verify this string exists</verify>
+        </verifications>
     </case>
 
     <case
@@ -51,9 +46,9 @@
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
-        <verifypositives>
-            <verify description="1">verify this string exists</verify>
-        </verifypositives>
+		<verifications>
+			<verify type="positive" description="1">verify this string exists</verify>
+        </verifications>
     </case>
 
     <case
@@ -63,8 +58,8 @@
 		method="post"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
-        <verifypositives>
-            <verify description="1">verify this string exists</verify>
-        </verifypositives>
+		<verifications>
+			<verify type="positive" description="1">verify this string exists</verify>
+        </verifications>
     </case>
 </testcases>

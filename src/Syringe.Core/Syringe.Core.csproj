@@ -75,6 +75,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
+    <Compile Include="VerificationItem.cs" />
     <Compile Include="Results\Writer\ResultWriterBase.cs" />
     <Compile Include="Results\Writer\TextFileResultWriter.cs" />
     <Compile Include="Results\Writer\ConsoleResultWriter.cs" />
@@ -89,13 +90,14 @@
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\SessionVariables.cs" />
     <Compile Include="Runner\ParsedResponseMatcher.cs" />
+    <Compile Include="VerifyType.cs" />
     <Compile Include="Xml\ITestCaseReader.cs" />
     <Compile Include="Configuration\LegacyConfigReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Case.cs" />
     <Compile Include="CaseCollection.cs" />
     <Compile Include="Xml\LegacyTestCaseReader.cs" />
-    <Compile Include="RegexItem.cs" />
+    <Compile Include="ParsedResponseItem.cs" />
     <Compile Include="Xml\TestCaseReader.cs" />
     <Compile Include="Xml\VariableReplacer.cs" />
     <Compile Include="Xml\XmlHelper.cs" />

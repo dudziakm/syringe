@@ -97,9 +97,11 @@ namespace Syringe.Core.Xml
 			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
 			testCase.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
 
-            testCase.ParseResponses = GetElementCollection(element, "parseresponse", "parseresponses", "parseresponse");
-            testCase.VerifyPositives = GetElementCollection(element, "verifypositive", "verifypositives", "verify");
-            testCase.VerifyNegatives = GetElementCollection(element, "verifynegative", "verifynegatives", "verify");
+            testCase.ParseResponses = GetParsedResponseCollection(element);
+
+			List<VerificationItem> verifications = GetVerificationCollection(element);
+			testCase.VerifyPositives = verifications.Where(x => x.VerifyType == VerifyType.Positive).ToList();
+			testCase.VerifyNegatives = verifications.Where(x => x.VerifyType == VerifyType.Negative).ToList();
 
 			return testCase;
 		}
@@ -141,15 +143,12 @@ namespace Syringe.Core.Xml
 			return statusCode;
 		}
 
-        private List<RegexItem> GetElementCollection(XElement caseElement, string name, string parentElementName, string childElementName)
+        private List<ParsedResponseItem> GetParsedResponseCollection(XElement caseElement)
 		{
-            if (string.IsNullOrEmpty(childElementName))
-				return new List<RegexItem>();
+			var items = new List<ParsedResponseItem>();
+			var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "parseresponses");
 
-			var variables = new List<RegexItem>();
-            var variableElement = caseElement.Elements().Where(x => x.Name.LocalName == parentElementName);
-
-            foreach (XElement element in variableElement.Elements().Where(x => x.Name.LocalName == childElementName))
+			foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "parseresponse"))
             {
 				XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
 	            string description = "";
@@ -157,10 +156,37 @@ namespace Syringe.Core.Xml
 				if (descriptionAttribute != null)
 					description = descriptionAttribute.Value;
 
-				variables.Add(new RegexItem(description, element.Value));
+				items.Add(new ParsedResponseItem(description, element.Value));
             }
 
-		    return variables;
+		    return items;
+		}
+
+		private List<VerificationItem> GetVerificationCollection(XElement caseElement)
+		{
+			var items = new List<VerificationItem>();
+			var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "verifications");
+
+			foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "verify"))
+			{
+				XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
+				string description = "";
+
+				if (descriptionAttribute != null)
+					description = descriptionAttribute.Value;
+
+				XAttribute verifyTypeAttribute = element.Attributes("type").FirstOrDefault();
+				VerifyType verifyType = VerifyType.Positive;
+
+				if (verifyTypeAttribute != null)
+				{
+					Enum.TryParse(verifyTypeAttribute.Value, true, out verifyType);
+				}
+
+				items.Add(new VerificationItem(description, element.Value, verifyType));
+			}
+
+			return items;
 		}
 
 	    public void Dispose()

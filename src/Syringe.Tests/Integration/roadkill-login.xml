@@ -14,9 +14,9 @@
 	>
 		<postbody><![CDATA[email=editor@roadkillwiki.net&password=password]]></postbody>
 
-		<verifynegatives>
-			<verify description="Login unsuccessful text exists">Login was unsuccessful</verify>
-		</verifynegatives>
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
 	</case>
 
 	<case
@@ -26,9 +26,9 @@
 		method="get"
 		verifyresponsecode="200"
 	>
-		<verifypositives>
-			<verify description="Preview exists">Preview</verify>
-			<verify description="Cancel exists">cancel</verify>
-		</verifypositives>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
 	</case>
 </testcases>

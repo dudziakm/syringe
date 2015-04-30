@@ -20,8 +20,8 @@ namespace Syringe.Tests.Unit.Results
 			// Arrange
 			var testCaseResults = new TestCaseResult();
 			testCaseResults.VerifyResponseCodeSuccess = responseCodeSuccess;
-			testCaseResults.VerifyPositiveResults.Add(new RegexItem("desc", "regex") { Success = positiveSuccess });
-			testCaseResults.VerifyNegativeResults.Add(new RegexItem("desc", "regex") { Success = negativeSuccess });
+			testCaseResults.VerifyPositiveResults.Add(new VerificationItem("desc", "regex", VerifyType.Positive) { Success = positiveSuccess });
+			testCaseResults.VerifyNegativeResults.Add(new VerificationItem("desc", "regex", VerifyType.Negative) { Success = negativeSuccess });
 
 			// Act
 			bool actualResult = testCaseResults.Success;
@@ -35,7 +35,7 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testCaseResults = new TestCaseResult();
-			testCaseResults.VerifyPositiveResults.Add(new RegexItem("desc", "regex") { Success = false });
+			testCaseResults.VerifyPositiveResults.Add(new VerificationItem("desc", "regex", VerifyType.Positive) { Success = false });
 
 			// Act
 			bool actualResult = testCaseResults.VerifyPositivesSuccess;
@@ -49,7 +49,7 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testCaseResults = new TestCaseResult();
-			testCaseResults.VerifyNegativeResults.Add(new RegexItem("desc", "regex") { Success = false });
+			testCaseResults.VerifyNegativeResults.Add(new VerificationItem("desc", "regex", VerifyType.Negative) { Success = false });
 
 			// Act
 			bool actualResult = testCaseResults.VerifyNegativeSuccess;

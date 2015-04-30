@@ -22,16 +22,16 @@ namespace Syringe.Core
 		public string ShortDescription { get; set; }
 		public string LongDescription { get; set; }
 
-		public List<RegexItem> ParseResponses { get; set; }
-		public List<RegexItem> VerifyPositives { get; set; }
-		public List<RegexItem> VerifyNegatives { get; set; }
+		public List<ParsedResponseItem> ParseResponses { get; set; }
+		public List<VerificationItem> VerifyPositives { get; set; }
+		public List<VerificationItem> VerifyNegatives { get; set; }
 
 		public Case()
 		{
 			Headers = new List<KeyValuePair<string, string>>();
-			ParseResponses = new List<RegexItem>();
-			VerifyPositives = new List<RegexItem>();
-			VerifyNegatives = new List<RegexItem>();
+			ParseResponses = new List<ParsedResponseItem>();
+			VerifyPositives = new List<VerificationItem>();
+			VerifyNegatives = new List<VerificationItem>();
 		}
 	}
 }

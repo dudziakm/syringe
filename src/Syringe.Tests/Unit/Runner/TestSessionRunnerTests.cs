@@ -99,8 +99,8 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 
-			var response = new HttpResponse();
 			HttpClientMock httpClient = new HttpClientMock();
+			httpClient.Response = new HttpResponse();
 			IResultWriter resultWriter = new ResultWriterStub();
 
 			var runner = new TestSessionRunner(config, httpClient, resultWriter);

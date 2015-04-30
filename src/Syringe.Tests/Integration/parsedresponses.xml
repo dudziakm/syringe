@@ -24,8 +24,8 @@
 		method="get"
 		verifyresponsecode="200"
 	>
-		<verifypositives>
-			<verify description="Page title">Microsoft Azure</verify>
-		</verifypositives>
+		<verifications>
+			<verify type="positive" description="Page title">Microsoft Azure</verify>
+		</verifications>
 	</case>
 </testcases>

@@ -61,11 +61,13 @@ namespace Syringe.Core.Runner
 		public TestCaseSession Run(ITestCaseReader reader)
 		{
 			_stopPending = false;
+
 			var session = new TestCaseSession();
 			session.StartTime = DateTime.UtcNow;
 
 			CaseCollection testCollection = reader.Read();
 
+			// Add all config variables and ones in this <testcase>
 			var variables = new SessionVariables();
 			variables.AddGlobalVariables(_config);
 			variables.AddOrUpdateVariables(testCollection.Variables);

@@ -112,7 +112,7 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = new LegacyTestCaseReader(new StringReader(xml));
 
             // Act
-			List<RegexItem> descriptions = testCaseReader.GetNumberedAttributes(firstTestCase, "parseresponse");
+			List<ParsedResponseItem> descriptions = testCaseReader.GetParsedResponseItems(firstTestCase, "parseresponse");
 
             // Assert
 			Assert.That(descriptions[0].Description, Is.EqualTo("parseresponse0"));
