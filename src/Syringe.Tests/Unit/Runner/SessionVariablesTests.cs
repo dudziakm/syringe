@@ -108,5 +108,41 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
 		}
+
+		[Test]
+		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
+		{
+			// Arrange
+			var sessionVariables = new SessionVariables();
+			sessionVariables.AddOrUpdateVariable("nano", "leaf");
+			sessionVariables.AddOrUpdateVariable("two", "ten");
+
+			string template = "{nano} {dummy} {two}";
+			string expectedText = "leaf {dummy} ten";
+
+			// Act
+			string actualText = sessionVariables.ReplacePlainTextVariablesIn(template);
+
+			// Assert
+			Assert.That(actualText, Is.EqualTo(expectedText));
+		}
+
+		[Test]
+		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
+		{
+			// Arrange
+			var sessionVariables = new SessionVariables();
+			sessionVariables.AddOrUpdateVariable("nano", "$var leaf");
+			sessionVariables.AddOrUpdateVariable("two", "(.*?) [a-z] ^perlmagic");
+
+			string template = "{nano} {dummy} {two}";
+			string expectedText = @"\$var\ leaf {dummy} \(\.\*\?\)\ \[a-z]\ \^perlmagic";
+
+			// Act
+			string actualText = sessionVariables.ReplaceVariablesIn(template);
+
+			// Assert
+			Assert.That(actualText, Is.EqualTo(expectedText));
+		}
 	}
 }

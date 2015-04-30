@@ -17,6 +17,9 @@ namespace Syringe.Core.Runner
 
 		public void AddGlobalVariables(Config config)
 		{
+			if (!string.IsNullOrEmpty(config.BaseUrl))
+				_currentVariables.Add("baseurl", config.BaseUrl);
+
 			foreach (Variable variable in config.Variables)
 			{
 				_currentVariables.Add(variable.Name, variable.Value);
@@ -61,6 +64,14 @@ namespace Syringe.Core.Runner
 			{
 				_currentVariables.Add(name, value);
 			}
+		}
+
+		public string GetVariableValue(string key)
+		{
+			if (_currentVariables.ContainsKey(key))
+				return _currentVariables[key];
+
+			return "";
 		}
 
 		public void Dump()

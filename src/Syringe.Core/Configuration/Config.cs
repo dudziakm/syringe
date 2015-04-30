@@ -4,7 +4,7 @@ namespace Syringe.Core.Configuration
 {
 	public class Config
 	{
-		// Documented properties (that applicable to .NET)
+		// Documented properties (that are applicable to .NET)
 		public string BaseUrl { get; set; }
 		public string Proxy { get; set; }
 		public string Useragent { get; set; }
