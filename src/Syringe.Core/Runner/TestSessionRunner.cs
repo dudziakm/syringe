@@ -17,7 +17,7 @@ namespace Syringe.Core.Runner
 		// TODO: Unit test coverage:
 		// - TextWriterResultsWriter [X]
 		// - ParsedResponseMatcher
-		// - VariableManager
+		// - SessionVariables [X]
 		// - VerificationMatcher
 		// - TestSessionRunner
 		//   - TestCaseSession is being populated correctly.
@@ -27,6 +27,7 @@ namespace Syringe.Core.Runner
 		//   - Runcase
 		//   - Repeats
 		//   - Start/End time [X]
+		//   - Add HTTP headers into the content.
 		
 		// TODO: Integration test coverage
 		// - RestSharpClient

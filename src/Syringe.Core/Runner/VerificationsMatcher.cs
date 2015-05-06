@@ -36,17 +36,13 @@ namespace Syringe.Core.Runner
 
 			foreach (VerificationItem item in verifications)
 			{
-				Log.Information("Verifying {0} {1}", behaviour, item.Description);
-				Log.Information("---------");
-
+				LogItem(behaviour, item);
 				string verifyRegex = item.Regex;
 
 				if (!string.IsNullOrEmpty(verifyRegex))
 				{
 					verifyRegex = _variables.ReplaceVariablesIn(verifyRegex);
-
-					Log.Information("  - Original regex: {0}", item.Regex);
-					Log.Information("  - Transformed regex: {0}", verifyRegex);
+					LogRegex(item.Regex, verifyRegex);
 
 					try
 					{
@@ -56,30 +52,58 @@ namespace Syringe.Core.Runner
 						if (behaviour == VerificationBehaviour.Positive && isMatch == false)
 						{
 							item.Success = false;
-							Log.Information("Positive verification failed: {0} - {1}", item.Description, verifyRegex);
+							LogFail(behaviour, item, verifyRegex);
 						}
 						else if (behaviour == VerificationBehaviour.Negative && isMatch == true)
 						{
 							item.Success = false;
-							Log.Information("Negative verification failed: {0} - {1}", item.Description, verifyRegex);
+							LogFail(behaviour, item, verifyRegex);
 						}
 					}
 					catch (ArgumentException e)
 					{
 						// Invalid regex - ignore.
 						item.Success = false;
-						Log.Information(" - Invalid regex: {0}", e.Message);
+						LogException(e);
 					}
 				}
 				else
 				{
-					Log.Information("  - Skipping as the regex was empty.");
+					LogEmpty();
 				}
 
 				matchedItems.Add(item);
 			}
 
 			return matchedItems;
+		}
+
+		private void LogItem(VerificationBehaviour behaviour, VerificationItem item)
+		{
+			Log.Information("---------------------------");
+			Log.Information("Verifying {0} [{1}]", behaviour, item.Description);
+			Log.Information("---------------------------");
+		}
+
+		private void LogRegex(string originalRegex, string transformedRegex)
+		{
+			Log.Information("  - Original regex: {0}", originalRegex);
+			Log.Information("  - Transformed regex: {0}", transformedRegex);
+		}
+
+		private void LogFail(VerificationBehaviour behaviour, VerificationItem item, string verifyRegex)
+		{
+			Log.Information("{0} verification failed: {1} - {2}", behaviour, item.Description, verifyRegex);			
+		}
+
+		private void LogException(Exception e)
+		{
+			Log.Information(" - Invalid regex: {0}", e.Message);
+		}
+
+		private void LogEmpty()
+		{
+			Log.Information("  - Skipping as the regex was empty.");
 		}
 	}
 }

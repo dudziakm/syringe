@@ -17,7 +17,17 @@ namespace Syringe.Core.Logging
 			_errorLogger = LogManager.GetLogger("Syringe-Errors");
 		}
 
-		public static void Configure()
+		public static void UseConsole()
+		{
+			var configuration = new LoggingConfiguration();
+			var configurationBuilder = new NLogConfigurationBuilder(configuration);
+
+			configurationBuilder.AddConsoleLogging("Syringe-Errors");
+
+			LogManager.Configuration = configuration;
+		}
+
+		public static void UseAllTargets()
 		{
 			var configuration = new LoggingConfiguration();
 			var configurationBuilder = new NLogConfigurationBuilder(configuration);

@@ -53,6 +53,7 @@
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
+    <Compile Include="Unit\Runner\VerificationsMatcherTests.cs" />
     <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
     <Compile Include="Unit\StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
