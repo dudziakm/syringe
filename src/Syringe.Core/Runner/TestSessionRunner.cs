@@ -15,7 +15,7 @@ namespace Syringe.Core.Runner
 	public class TestSessionRunner
 	{
 		// TODO: features
-		//   - Add HTTP headers into the content.
+		//   - Add HTTP headers into the content. [X]
 
 		// TODO: Unit test coverage:
 		// - TextWriterResultsWriter [X]
@@ -27,7 +27,7 @@ namespace Syringe.Core.Runner
 		//   - Variables
 		//   - Logging: HTTP/Results
 		//   - Results
-		//   - Runcase
+		//   - Runcase()
 		//   - Repeats
 		//   - Start/End time [X]
 		
@@ -47,7 +47,7 @@ namespace Syringe.Core.Runner
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
 		private readonly IResultWriter _resultWriter;
-		private bool _stopPending;
+		private bool _isStopPending;
 
 		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
 		{
@@ -58,12 +58,12 @@ namespace Syringe.Core.Runner
 
 		public void Stop()
 		{
-			_stopPending = true;
+			_isStopPending = true;
 		}
 
 		public TestCaseSession Run(ITestCaseReader reader)
 		{
-			_stopPending = false;
+			_isStopPending = false;
 
 			var session = new TestCaseSession();
 			session.StartTime = DateTime.UtcNow;
@@ -89,7 +89,7 @@ namespace Syringe.Core.Runner
 			{
 				foreach (Case testCase in testCases)
 				{
-					if (_stopPending)
+					if (_isStopPending)
 						break;
 
 					try
@@ -113,7 +113,7 @@ namespace Syringe.Core.Runner
 					}
 				}
 
-				if (_stopPending)
+				if (_isStopPending)
 					break;
 			}
 
@@ -139,8 +139,10 @@ namespace Syringe.Core.Runner
 
 			if (response.StatusCode == testCase.VerifyResponseCode)
 			{
-				string content = response.Content;
+				testResult.HttpResponse = response;
 				testResult.VerifyResponseCodeSuccess = true;
+
+				string content = response.ToString();
 
 				// Put the parsedresponse regex values in the current variable set
 				Dictionary<string, string> parsedVariables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);

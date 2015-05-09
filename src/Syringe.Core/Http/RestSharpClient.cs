@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using RestSharp;
+using Syringe.Core.Extensions;
 using Syringe.Core.Http.Logging;
 
 namespace Syringe.Core.Http

@@ -14,17 +14,6 @@ namespace Syringe.Tests.Unit.Runner
 {
 	public class TestSessionRunnerTests
 	{
-		private CaseCollection CreateCaseCollection(Case[] cases)
-		{
-			var testCases = new List<Case>();
-			testCases.AddRange(cases);
-
-			var collection = new CaseCollection();
-			collection.TestCases = testCases;
-
-			return collection;
-		}
-
 		[Test]
 		public void Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
 		{
@@ -37,6 +26,7 @@ namespace Syringe.Tests.Unit.Runner
 			HttpClientMock httpClient = new HttpClientMock();
 			httpClient.ResponseTimes = new List<TimeSpan>()
 			{
+				// Deliberately mixed up order
 				TimeSpan.FromSeconds(5),
 				TimeSpan.FromSeconds(88),
 				TimeSpan.FromSeconds(3),
@@ -68,7 +58,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void Run_should_populate_StartTime_and_EndTime_and_TotalRunTime()
 		{
 			// Arrange
-			DateTime now = DateTime.UtcNow;
+			var beforeStart = DateTime.UtcNow;
 			var config = new Config();
 
 			var response = new HttpResponse();
@@ -88,9 +78,20 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(reader);
 
 			// Assert
-			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(now));
-			Assert.That(session.EndTime, Is.GreaterThanOrEqualTo(now));
+			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
+			Assert.That(session.EndTime, Is.GreaterThanOrEqualTo(session.StartTime));
 			Assert.That(session.TotalRunTime, Is.EqualTo(session.EndTime - session.StartTime));
+		}
+
+		private CaseCollection CreateCaseCollection(Case[] cases)
+		{
+			var testCases = new List<Case>();
+			testCases.AddRange(cases);
+
+			var collection = new CaseCollection();
+			collection.TestCases = testCases;
+
+			return collection;
 		}
 
 		[Test]

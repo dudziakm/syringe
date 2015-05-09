@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Syringe.Core.Xml;
 using System.Linq;
+using Syringe.Core.Http;
 
 namespace Syringe.Core.Results
 {
@@ -14,6 +15,7 @@ namespace Syringe.Core.Results
         public List<VerificationItem> VerifyPositiveResults { get; set; }
 		public List<VerificationItem> VerifyNegativeResults { get; set; }
 		public bool VerifyResponseCodeSuccess { get; set; }
+		public HttpResponse HttpResponse { get; set; }
 
 		public bool Success
 		{
