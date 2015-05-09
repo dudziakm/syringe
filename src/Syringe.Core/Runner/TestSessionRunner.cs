@@ -136,12 +136,11 @@ namespace Syringe.Core.Runner
 
 			HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
 			testResult.ResponseTime = response.ResponseTime;
+			testResult.HttpResponse = response;
 
 			if (response.StatusCode == testCase.VerifyResponseCode)
 			{
-				testResult.HttpResponse = response;
-				testResult.VerifyResponseCodeSuccess = true;
-
+				testResult.ResponseCodeSuccess = true;
 				string content = response.ToString();
 
 				// Put the parsedresponse regex values in the current variable set
@@ -156,7 +155,7 @@ namespace Syringe.Core.Runner
 			}
 			else
 			{
-				testResult.VerifyResponseCodeSuccess = false;
+				testResult.ResponseCodeSuccess = false;
 			}
 
 			if (testResult.Success == false)
@@ -177,21 +176,21 @@ namespace Syringe.Core.Runner
 			_resultWriter.Write(testResult);
 
 			if (testCase.Sleep > 0)
-				Thread.Sleep(testCase.Sleep);
+				Thread.Sleep(testCase.Sleep * 1000);
 
 			return testResult;
 		}
 
 		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
 		{
-			return (testResult.VerifyResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
+			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
 			       || _config.GlobalHttpLog == LogType.All 
 				   || testCase.LogRequest;
 		}
 
 		internal bool ShouldLogResponse(TestCaseResult testResult, Case testCase)
 		{
-			return (testResult.VerifyResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
+			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
 				   || _config.GlobalHttpLog == LogType.All
 				   || testCase.LogResponse;
 		}

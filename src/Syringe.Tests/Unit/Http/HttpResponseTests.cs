@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Http;
-using Syringe.Core.Http.Logging;
 
 namespace Syringe.Tests.Unit.Http
 {
 	public class HttpResponseTests
 	{
+		[Test]
+		public void should_create_headers_in_ctor()
+		{
+			// Arrange
+			var response = new HttpResponse();
+
+			// Act + Assert
+			Assert.That(response.Headers, Is.Not.Null);
+			Assert.That(response.ResponseTime, Is.Not.Null);
+		}
+
 		[Test]
 		public void ToString_should_append_headers_and_response_body_and_empty_line()
 		{

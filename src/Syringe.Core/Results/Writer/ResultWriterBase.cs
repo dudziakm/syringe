@@ -19,7 +19,7 @@ namespace Syringe.Core.Results.Writer
 			// Result info
 			WriteLine(" - Original url: {0}", result.TestCase.Url);
 			WriteLine(" - Actual url: {0}", result.ActualUrl);
-			WriteLine(" - Response code success: {0}", (result.VerifyResponseCodeSuccess) ? "Passed" : "Failed");
+			WriteLine(" - Response code success: {0}", (result.ResponseCodeSuccess) ? "Passed" : "Failed");
 			WriteLine(" - Time taken: {0}", result.ResponseTime.ToString());
 			WriteLine(" - Success: {0}", (result.Success) ? "Passed" : "Failed");
 			if (!string.IsNullOrEmpty(result.Message))

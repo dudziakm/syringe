@@ -19,7 +19,7 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testCaseResults = new TestCaseResult();
-			testCaseResults.VerifyResponseCodeSuccess = responseCodeSuccess;
+			testCaseResults.ResponseCodeSuccess = responseCodeSuccess;
 			testCaseResults.VerifyPositiveResults.Add(new VerificationItem("desc", "regex", VerifyType.Positive) { Success = positiveSuccess });
 			testCaseResults.VerifyNegativeResults.Add(new VerificationItem("desc", "regex", VerifyType.Negative) { Success = negativeSuccess });
 

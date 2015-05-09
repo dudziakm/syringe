@@ -16,8 +16,12 @@ namespace Syringe.Core
 		public HttpStatusCode VerifyResponseCode { get; set; }
 		public bool LogRequest { get; set; }
 		public bool LogResponse { get; set; }
-		public int Sleep { get; set; }
 		public List<KeyValuePair<string, string>> Headers { get; set; }
+
+		/// <summary>
+		/// Number of seconds to sleep after the case runs
+		/// </summary>
+		public int Sleep { get; set; }
 
 		public string ShortDescription { get; set; }
 		public string LongDescription { get; set; }

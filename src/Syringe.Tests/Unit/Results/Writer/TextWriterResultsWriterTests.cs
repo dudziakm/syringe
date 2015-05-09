@@ -42,7 +42,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 				ActualUrl = "http://www.actualurl.com",
 				Message = "my message",
 				ResponseTime = TimeSpan.FromSeconds(2),
-				VerifyResponseCodeSuccess = true,
+				ResponseCodeSuccess = true,
 				TestCase = new Case() {  Url = "http://www.originalurl.com", Id = 99, ShortDescription = "shortdescription" }
 			};
 

@@ -14,12 +14,12 @@ namespace Syringe.Core.Results
 	    public TimeSpan ResponseTime { get; set; }
         public List<VerificationItem> VerifyPositiveResults { get; set; }
 		public List<VerificationItem> VerifyNegativeResults { get; set; }
-		public bool VerifyResponseCodeSuccess { get; set; }
+		public bool ResponseCodeSuccess { get; set; }
 		public HttpResponse HttpResponse { get; set; }
 
 		public bool Success
 		{
-			get { return VerifyResponseCodeSuccess && VerifyPositivesSuccess && VerifyNegativeSuccess; }
+			get { return ResponseCodeSuccess && VerifyPositivesSuccess && VerifyNegativeSuccess; }
 		}
 		
 		public bool VerifyPositivesSuccess

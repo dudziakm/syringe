@@ -23,13 +23,13 @@ namespace Syringe.Tests.Unit.Runner
 
 		public TestCaseResultsBuilder WithSuccess()
 		{
-			_currentTestCaseResult.VerifyResponseCodeSuccess = true;
+			_currentTestCaseResult.ResponseCodeSuccess = true;
 			return this;
 		}
 
 		public TestCaseResultsBuilder WithFail()
 		{
-			_currentTestCaseResult.VerifyResponseCodeSuccess = false;
+			_currentTestCaseResult.ResponseCodeSuccess = false;
 			return this;
 		}
 

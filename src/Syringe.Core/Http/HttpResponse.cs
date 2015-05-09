@@ -12,6 +12,11 @@ namespace Syringe.Core.Http
 		public List<KeyValuePair<string, string>> Headers { get; set; } // *not a dictionary* - it can have duplicate keys
 		public TimeSpan ResponseTime { get; set; }
 
+		public HttpResponse()
+		{
+			Headers = new List<KeyValuePair<string, string>>();
+		}
+
 		public override string ToString()
 		{
 			var stringBuilder = new StringBuilder();

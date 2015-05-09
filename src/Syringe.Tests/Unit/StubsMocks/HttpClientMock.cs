@@ -6,26 +6,44 @@ namespace Syringe.Tests.Unit.StubsMocks
 {
 	public class HttpClientMock : IHttpClient
 	{
+		private int _responseCounter;
+		public bool LogLastRequestCalled { get; set; }
+		public bool LogLastResponseCalled { get; set; }
 		public HttpResponse Response { get; set; }
 		public List<TimeSpan> ResponseTimes { get; set; }
-		private int _responseCounter;
+
+		public List<HttpResponse> Responses { get; set; }
+
+		public HttpClientMock(HttpResponse response)
+		{
+			Response = response;
+		}
 
 		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
 		{
-			if (ResponseTimes != null)
+			if (Responses == null)
 			{
-				Response.ResponseTime = ResponseTimes[_responseCounter++];
-			}
+				if (ResponseTimes != null)
+				{
+					Response.ResponseTime = ResponseTimes[_responseCounter++];
+				}
 
-			return Response;
+				return Response;
+			}
+			else
+			{
+				return Responses[_responseCounter++];
+			}
 		}
 
 		public void LogLastRequest()
 		{
+			LogLastRequestCalled = true;
 		}
 
 		public void LogLastResponse()
 		{
+			LogLastResponseCalled = true;
 		}
 	}
 }
