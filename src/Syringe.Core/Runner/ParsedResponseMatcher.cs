@@ -6,8 +6,11 @@ using Syringe.Core.Xml;
 
 namespace Syringe.Core.Runner
 {
-	internal class ParsedResponseMatcher
+	internal static class ParsedResponseMatcher
 	{
+		/// <summary>
+		/// Finds text in the content, returning them as variables, e.g. {parsedresponse1} = value
+		/// </summary>
 		public static Dictionary<string, string> MatchParsedResponses(List<ParsedResponseItem> parsedResponses, string content)
 		{
 			var variables = new Dictionary<string, string>();

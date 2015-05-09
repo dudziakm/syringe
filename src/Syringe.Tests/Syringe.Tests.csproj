@@ -50,6 +50,7 @@
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
     <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
+    <Compile Include="Unit\Runner\ParsedResponseMatcherTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />

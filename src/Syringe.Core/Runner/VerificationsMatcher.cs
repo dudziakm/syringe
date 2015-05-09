@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Bender.Collections;
 using Syringe.Core.Logging;
 
 namespace Syringe.Core.Runner
@@ -37,27 +38,29 @@ namespace Syringe.Core.Runner
 			foreach (VerificationItem item in verifications)
 			{
 				LogItem(behaviour, item);
-				string verifyRegex = item.Regex;
+				string regex = item.Regex;
 
-				if (!string.IsNullOrEmpty(verifyRegex))
+				if (!string.IsNullOrEmpty(regex))
 				{
-					verifyRegex = _variables.ReplaceVariablesIn(verifyRegex);
-					LogRegex(item.Regex, verifyRegex);
+					regex = _variables.ReplaceVariablesIn(regex);
+					item.TransformedRegex = regex;
+
+					LogRegex(item.Regex, regex);
 
 					try
 					{
-						bool isMatch = Regex.IsMatch(content, verifyRegex, RegexOptions.IgnoreCase);
+						bool isMatch = Regex.IsMatch(content, regex, RegexOptions.IgnoreCase);
 						item.Success = true;
 
 						if (behaviour == VerificationBehaviour.Positive && isMatch == false)
 						{
 							item.Success = false;
-							LogFail(behaviour, item, verifyRegex);
+							LogFail(behaviour, item, regex);
 						}
 						else if (behaviour == VerificationBehaviour.Negative && isMatch == true)
 						{
 							item.Success = false;
-							LogFail(behaviour, item, verifyRegex);
+							LogFail(behaviour, item, regex);
 						}
 					}
 					catch (ArgumentException e)

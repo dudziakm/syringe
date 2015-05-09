@@ -26,26 +26,6 @@ namespace Syringe.Core.Runner
 			}
 		}
 
-		public string ReplacePlainTextVariablesIn(string text)
-		{
-			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
-			{
-				text = text.Replace("{" + keyValuePair.Key + "}", keyValuePair.Value);
-			}
-
-			return text;
-		}
-
-		public string ReplaceVariablesIn(string text)
-		{
-			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
-			{
-				text = text.Replace("{" + keyValuePair.Key + "}", Regex.Escape(keyValuePair.Value));
-			}
-
-			return text;
-		}
-
 		public void AddOrUpdateVariables(Dictionary<string, string> variables)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in variables)
@@ -72,6 +52,26 @@ namespace Syringe.Core.Runner
 				return _currentVariables[key];
 
 			return "";
+		}
+
+		public string ReplacePlainTextVariablesIn(string text)
+		{
+			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			{
+				text = text.Replace("{" + keyValuePair.Key + "}", keyValuePair.Value);
+			}
+
+			return text;
+		}
+
+		public string ReplaceVariablesIn(string text)
+		{
+			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			{
+				text = text.Replace("{" + keyValuePair.Key + "}", Regex.Escape(keyValuePair.Value));
+			}
+
+			return text;
 		}
 
 		public void Dump()

@@ -14,11 +14,14 @@ namespace Syringe.Core.Runner
 {
 	public class TestSessionRunner
 	{
+		// TODO: features
+		//   - Add HTTP headers into the content.
+
 		// TODO: Unit test coverage:
 		// - TextWriterResultsWriter [X]
-		// - ParsedResponseMatcher
+		// - ParsedResponseMatcher [X]
 		// - SessionVariables [X]
-		// - VerificationMatcher
+		// - VerificationMatcher [X]
 		// - TestSessionRunner
 		//   - TestCaseSession is being populated correctly.
 		//   - Variables
@@ -27,7 +30,6 @@ namespace Syringe.Core.Runner
 		//   - Runcase
 		//   - Repeats
 		//   - Start/End time [X]
-		//   - Add HTTP headers into the content.
 		
 		// TODO: Integration test coverage
 		// - RestSharpClient

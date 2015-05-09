@@ -4,6 +4,7 @@ namespace Syringe.Core
 	{
 		public string Description { get; set; }
 		public string Regex { get; set; }
+		public string TransformedRegex { get; set; }
 		public bool Success { get; set; }
 		public VerifyType VerifyType { get; set; }
 
@@ -20,7 +21,7 @@ namespace Syringe.Core
 
 		public override string ToString()
 		{
-			return string.Format("{0} - {1}", Description, Regex);
+			return string.Format("{0} - {1}", Description, TransformedRegex);
 		}
 	}
 }
