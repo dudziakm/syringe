@@ -3,10 +3,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Bender;
-using Bender.Configuration;
-using Bender.Nodes;
-using Bender.Nodes.Object;
 using Syringe.Core.Xml;
 using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 

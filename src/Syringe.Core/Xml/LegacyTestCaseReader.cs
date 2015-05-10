@@ -186,7 +186,7 @@ namespace Syringe.Core.Xml
 
 		internal List<ParsedResponseItem> GetParsedResponseItems(XElement element, string attributeName)
 		{
-			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
+			if (!element.HasAttributes)
 				return new List<ParsedResponseItem>();
 
 			var items = new List<KeyValuePair<int, string>>();
@@ -216,7 +216,7 @@ namespace Syringe.Core.Xml
 
 		internal List<VerificationItem> GetVerificationItems(XElement element, string attributeName, VerifyType verifyType)
 		{
-			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
+			if (!element.HasAttributes)
 				return new List<VerificationItem>();
 
 			var items = new List<KeyValuePair<int, string>>();
@@ -326,36 +326,6 @@ namespace Syringe.Core.Xml
 			}
 
 			return xml;
-		}
-
-		internal static List<string> GetOrderedAttributes(XElement element, string attributeName)
-		{
-			if (string.IsNullOrEmpty(attributeName) || !element.HasAttributes)
-				return new List<string>();
-
-			var items = new List<KeyValuePair<int, string>>();
-
-			//
-			// Take the attributes (e.g. description1="", description3="", description2="") and put them into an ordered list
-			//
-			IEnumerable<XAttribute> attributes = element.Attributes().Where(x => x.Name.LocalName.ToLower().StartsWith(attributeName));
-			foreach (XAttribute attribute in attributes)
-			{
-				int index = 0;
-
-				string currentAttributeName = attribute.Name.LocalName.ToLower();
-				currentAttributeName = currentAttributeName.Replace(attributeName, "");
-				if (!string.IsNullOrEmpty(attributeName))
-				{
-					int.TryParse(currentAttributeName, out index);
-				}
-
-				items.Add(new KeyValuePair<int, string>(index, attribute.Value));
-			}
-
-			return items.OrderBy(x => x.Key)
-						.Select(x => x.Value)
-						.ToList();
 		}
 
 		public void Dispose()

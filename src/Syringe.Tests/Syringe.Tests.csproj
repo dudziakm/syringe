@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
+    <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
+    <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
     <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
     <Compile Include="Unit\Runner\ParsedResponseMatcherTests.cs" />

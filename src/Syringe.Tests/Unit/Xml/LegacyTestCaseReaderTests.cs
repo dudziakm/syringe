@@ -34,6 +34,20 @@ namespace Syringe.Tests.Unit.Xml
 			return xml.Replace("{attributeName}", attributeName);
 		}
 
+		private string GetXmlWithBasicAttributes()
+		{
+			const string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+		            <testcases>
+						<case
+							id=""1""
+							description1=""short description""
+							url=""http://www.example.com""
+						/>
+					</testcases>";
+
+			return xml;
+		}
+
 		[Test]
 		public void Read_should_parse_description_attributes_when_numbers_are_omitted()
 		{
@@ -183,6 +197,24 @@ namespace Syringe.Tests.Unit.Xml
 			XDocument document = XDocument.Parse(validXml);
 			XAttribute verifyPositive = document.Root.Elements().First(x => x.Name.LocalName == "case").Attribute(attributeName);
 			Assert.That(verifyPositive.Value, Is.EqualTo("<SELECT>somequerystring=a&anotherquerystring=b" + nbsp));
+		}
+
+		[Test]
+		public void Read_should_contain_empty_verify_and_parsedresponse_lists_when_attributes_are_missing()
+		{
+			// Arrange
+			string xml = GetXmlWithBasicAttributes();
+			var stringReader = new StringReader(xml);
+			var testCaseReader = GetTestCaseReader(stringReader);
+
+			// Act
+			CaseCollection testCollection = testCaseReader.Read();
+
+			// Assert
+			Case testcase = testCollection.TestCases.First();
+			Assert.That(testcase.ParseResponses, Is.Not.Null);
+			Assert.That(testcase.VerifyPositives, Is.Not.Null);
+			Assert.That(testcase.VerifyNegatives, Is.Not.Null);
 		}
 	}
 }

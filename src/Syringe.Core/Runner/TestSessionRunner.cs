@@ -16,6 +16,7 @@ namespace Syringe.Core.Runner
 	{
 		// TODO: features
 		//   - Add HTTP headers into the content. [X]
+		//   - config.xml takes <testcases>
 
 		// TODO: Unit test coverage:
 		// - TextWriterResultsWriter [X]
@@ -23,16 +24,14 @@ namespace Syringe.Core.Runner
 		// - SessionVariables [X]
 		// - VerificationMatcher [X]
 		// - TestSessionRunner
-		//   - TestCaseSession is being populated correctly.
-		//   - Variables
-		//   - Logging: HTTP/Results
-		//   - Results
-		//   - Runcase()
-		//   - Repeats
+		//   - TestCaseSession is being populated correctly [X]
+		//   - Variables  [X]
+		//   - Logging: HTTP/Results  [X]
+		//   - Results  [X]
+		//   - Runcase()  [X]
+		//   - Repeats  [X]
 		//   - Start/End time [X]
-		
-		// TODO: Integration test coverage
-		// - RestSharpClient
+		// - HttpClient
 		//   - Request
 		//   - Response
 		//   - Log last request + response
@@ -41,8 +40,6 @@ namespace Syringe.Core.Runner
 		// - TestSessionRunner
 		//   - Roadkill example
 		//   - Some kind of REST api one
-
-		// TODO: config.xml takes <testcases>
 
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;

@@ -8,23 +8,29 @@ using Syringe.Core.Http.Logging;
 
 namespace Syringe.Core.Http
 {
-	public class RestSharpClient : IHttpClient
+	public class HttpClient : IHttpClient
 	{
 		private readonly IHttpLogWriter _httpLogWriter;
+		private readonly IRestClient _restClient;
 		private readonly CookieContainer _cookieContainer;
 		private RequestDetails _lastRequest;
 		private ResponseDetails _lastResponse;
 
-		public RestSharpClient(IHttpLogWriter httpLogWriter)
+		public HttpClient(IHttpLogWriter httpLogWriter, IRestClient restClient)
 		{
 			_httpLogWriter = httpLogWriter;
+			_restClient = restClient;
 			_cookieContainer = new CookieContainer();
 		}
 
 		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
 		{
-			var client = new RestClient(url);
-			client.CookieContainer = _cookieContainer;
+			Uri uri;
+			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+				throw new ArgumentException(url + " is not a valid Uri", "url");
+
+			_restClient.BaseUrl = uri;
+			_restClient.CookieContainer = _cookieContainer;
 
 			//
 			// Make the request adding the content-type, body and headers
@@ -33,13 +39,18 @@ namespace Syringe.Core.Http
 			var request = new RestRequest(method);
 			if (method == Method.POST)
 			{
+				// From the RestSharp docs:
+				// "The name of the parameter will be used as the Content-Type header for the request."
 				request.AddParameter(contentType, postBody, ParameterType.RequestBody);
 			}
 
-			headers = headers.ToList();
-			foreach (var keyValuePair in headers)
+			if (headers != null)
 			{
-				request.AddHeader(keyValuePair.Key, keyValuePair.Value);
+				headers = headers.ToList();
+				foreach (var keyValuePair in headers)
+				{
+					request.AddHeader(keyValuePair.Key, keyValuePair.Value);
+				}
 			}
 
 			_lastRequest = new RequestDetails()
@@ -54,7 +65,7 @@ namespace Syringe.Core.Http
 			// Get the response back, parsing the headers
 			//
             DateTime startTime = DateTime.UtcNow;
-			IRestResponse response = client.Execute(request);
+			IRestResponse response = _restClient.Execute(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
 			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();

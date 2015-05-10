@@ -31,18 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bender, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Bender.3.0.4.0\lib\Bender.dll</HintPath>
+      <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Flexo">
-      <HintPath>..\..\packages\flexo.1.0.0.18\lib\Flexo.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -86,7 +81,7 @@
     <Compile Include="Results\TestCaseResult.cs" />
     <Compile Include="Results\TestCaseSession.cs" />
     <Compile Include="Runner\TestSessionRunner.cs" />
-    <Compile Include="Http\RestSharpClient.cs" />
+    <Compile Include="Http\HttpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\SessionVariables.cs" />
     <Compile Include="Runner\ParsedResponseMatcher.cs" />
@@ -99,7 +94,6 @@
     <Compile Include="Xml\LegacyTestCaseReader.cs" />
     <Compile Include="ParsedResponseItem.cs" />
     <Compile Include="Xml\TestCaseReader.cs" />
-    <Compile Include="Xml\VariableReplacer.cs" />
     <Compile Include="Xml\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

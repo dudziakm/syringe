@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Bender.Collections;
 using Syringe.Core.Logging;
 
 namespace Syringe.Core.Runner

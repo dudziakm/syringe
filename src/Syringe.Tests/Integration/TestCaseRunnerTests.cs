@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
+using RestSharp;
 using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
@@ -45,10 +46,10 @@ namespace Syringe.Tests.Integration
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
-			var restSharpClient = new RestSharpClient(httpLogWriter);
+			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
 			var config = new Config();
-			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
+			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			string xml = ReadEmbeddedFile("parsedresponses.xml");
 			var stringReader = new StringReader(xml);
@@ -67,10 +68,10 @@ namespace Syringe.Tests.Integration
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
-			var restSharpClient = new RestSharpClient(httpLogWriter);
+			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
 			var config = new Config();
-			var runner = new TestSessionRunner(config, restSharpClient, new ConsoleResultWriter());
+			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			string xml = ReadEmbeddedFile("wikipedia-simple.xml");
 			var stringReader = new StringReader(xml);
@@ -93,12 +94,11 @@ namespace Syringe.Tests.Integration
 			
 			var config = new Config();
 			config.GlobalHttpLog = LogType.All;
-			var restSharpClient = new RestSharpClient(new HttpLogWriter(stringWriter));
+			var httpClient = new HttpClient(new HttpLogWriter(stringWriter), new RestClient());
 
-			var httpLogWriter = new HttpLogWriter(stringWriter);
 			var resultWriter = new TextWriterResultWriter(stringWriter);
 
-			var runner = new TestSessionRunner(config, restSharpClient, resultWriter);
+			var runner = new TestSessionRunner(config, httpClient, resultWriter);
 
 			string xml = ReadEmbeddedFile("roadkill-login.xml");
 			var stringReader = new StringReader(xml);
