@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
+    <Compile Include="Unit\StubsMocks\RestResponseStub.cs" />
     <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
     <Compile Include="Unit\StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
-    <Compile Include="Unit\StubsMocks\HttpLogWriterStub.cs" />
+    <Compile Include="Unit\StubsMocks\HttpLogWriterMock.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />

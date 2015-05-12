@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace Syringe.Tests.Unit.Http
 {
 	public class HttpClientTests
 	{
-		private HttpLogWriterStub _loggerStub;
+		private HttpLogWriterMock _httpLogWriterMock;
 		private RestClientMock _restClientMock;
 
 		[Test]
@@ -39,13 +40,12 @@ namespace Syringe.Tests.Unit.Http
 		public void should_return_expected_html_content()
 		{
 			// Arrange
-			var restResponse = new RestResponse()
+			var restResponse = new RestResponseStub()
 			{
-				RawBytes = Encoding.UTF8.GetBytes("<html>some text </html>")
+				Content = "<html>some text </html>"
 			};
 			HttpClient httpClient = CreateClient(restResponse);
 
-			string expectedContent = _restClientMock.HttpResponse.Content;
 
 			string method = "get";
 			string url = "http://www.example.com";
@@ -58,7 +58,7 @@ namespace Syringe.Tests.Unit.Http
 
 			// Assert
 			Assert.That(response, Is.Not.Null);
-			Assert.That(response.Content, Is.EqualTo(expectedContent));
+			Assert.That(response.Content, Is.EqualTo(restResponse.Content));
 		}
 
 		[Test]
@@ -150,20 +150,106 @@ namespace Syringe.Tests.Unit.Http
 			Assert.That(cookies.Value, Is.EqualTo("mmm cookies"));
 		}
 
-		// TODO:
-		// - response properties
-		// - lastrequest
-		// - lastresponse
-		// - response times
-		// - logging
-		// - header conversion from the response
-
-		private HttpClient CreateClient(RestResponse restResponse)
+		[Test]
+		public void should_fill_response_properties()
 		{
-			_loggerStub = new HttpLogWriterStub();
+			// Arrange
+			var restResponseStub = new RestResponseStub();
+			restResponseStub.Content = "HTTP/1.1 200 OK\nServer: Apache\n\n<html>some text </html>";
+			restResponseStub.StatusCode = HttpStatusCode.Accepted;
+			restResponseStub.Headers = new Parameter[] { new Parameter(), new Parameter()};
+
+			HttpClient httpClient = CreateClient(restResponseStub);
+
+			string method = "get";
+			string url = "http://www.example.com";
+			string contentType = "text/html";
+			string postBody = "";
+			var headers = new List<KeyValuePair<string, string>>();
+
+			// Act
+			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+
+			// Assert
+			Assert.That(response.StatusCode, Is.EqualTo(restResponseStub.StatusCode));
+			Assert.That(response.Content, Is.EqualTo(restResponseStub.Content));
+			Assert.That(response.Headers.Count, Is.EqualTo(restResponseStub.Headers.Count));
+		}
+
+
+		[Test]
+		public void should_convert_headers()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void should_record_last_request()
+		{
+			// Arrange
+			HttpClient httpClient = CreateClient(new RestResponse());
+
+			string contentType = "text/html";
+			var request1Headers = new List<KeyValuePair<string, string>>();
+			var request2Headers = new List<KeyValuePair<string, string>>()
+			{
+				new KeyValuePair<string, string>("user-agent", "Frozen Olaf Browser 4"),
+				new KeyValuePair<string, string>("cookies", "mmm cookies"),
+			};
+
+			httpClient.ExecuteRequest("get", "http://www.example1.com", contentType, "request 1", request1Headers);
+			httpClient.ExecuteRequest("put", "http://www.example2.com", contentType, "request 2", request2Headers);
+
+			// Act
+			httpClient.LogLastRequest();
+
+			// Assert
+			Assert.That(_httpLogWriterMock.RequestDetails.Url, Is.EqualTo("http://www.example2.com"));
+			Assert.That(_httpLogWriterMock.RequestDetails.Method, Is.EqualTo("put"));
+			Assert.That(_httpLogWriterMock.RequestDetails.Body, Is.EqualTo("request 2"));
+			Assert.That(_httpLogWriterMock.RequestDetails.Headers.Count(), Is.EqualTo(2));
+		}
+
+		[Test]
+		public void should_record_last_response()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void should_record_response_times()
+		{
+			// Arrange
+			HttpClient httpClient = CreateClient(new RestResponse());
+			_restClientMock.ResponseTime = TimeSpan.FromSeconds(1);
+
+			string method = "get";
+			string url = "http://www.example.com";
+			string contentType = "text/html";
+			string postBody = "";
+			var headers = new List<KeyValuePair<string, string>>();
+
+			// Act
+			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+
+			// Assert
+			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
+		}
+
+		private HttpClient CreateClient(IRestResponse restResponse)
+		{
+			_httpLogWriterMock = new HttpLogWriterMock();
 			_restClientMock = new RestClientMock();
-			_restClientMock.HttpResponse = restResponse;
-			return new HttpClient(_loggerStub, _restClientMock);
+			_restClientMock.RestResponse = restResponse;
+			return new HttpClient(_httpLogWriterMock, _restClientMock);
 		}
 	}
 }
