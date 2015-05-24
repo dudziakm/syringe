@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
+using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Xml;
+using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
 {
@@ -19,18 +23,6 @@ namespace Syringe.Core.Runner
 		//   - config.xml takes <testcases>
 
 		// TODO: Unit test coverage:
-		// - TextWriterResultsWriter [X]
-		// - ParsedResponseMatcher [X]
-		// - SessionVariables [X]
-		// - VerificationMatcher [X]
-		// - TestSessionRunner
-		//   - TestCaseSession is being populated correctly [X]
-		//   - Variables  [X]
-		//   - Logging: HTTP/Results  [X]
-		//   - Results  [X]
-		//   - Runcase()  [X]
-		//   - Repeats  [X]
-		//   - Start/End time [X]
 		// - HttpClient
 		//   - Request
 		//   - Response
@@ -46,6 +38,11 @@ namespace Syringe.Core.Runner
 		private readonly IResultWriter _resultWriter;
 		private bool _isStopPending;
 
+		public Case CurrentCase { get; set; }
+		public int CasesRun { get; set; }
+		public int TotalCases { get; set; }
+		public int RepeatCount { get; set; }
+
 		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
 		{
 			if (config == null) 
@@ -60,6 +57,20 @@ namespace Syringe.Core.Runner
 			_config = config;
 			_httpClient = httpClient;
 			_resultWriter = resultWriter;
+		}
+
+		/// <summary>
+		/// Createts a new <see cref="TestSessionRunner"/> using the defaults.
+		/// </summary>
+		/// <returns></returns>
+		public static TestSessionRunner CreateNew()
+		{
+			var config = new Config();
+			var logStringBuilder = new StringBuilder();
+			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
+			var httpClient = new HttpClient(httpLogWriter, new RestClient());
+
+			return new TestSessionRunner(config, httpClient, new TextFileResultWriter());
 		}
 
 		public void Stop()
@@ -91,10 +102,16 @@ namespace Syringe.Core.Runner
 			TimeSpan maxResponseTime = TimeSpan.MinValue;
 			int totalCasesRun = 0;
 
+			CasesRun = 0;
+			TotalCases = testCases.Count;
+			RepeatCount = 0;
+
 			for (int i = 0; i < repeatTotal; i++)
 			{
 				foreach (Case testCase in testCases)
 				{
+					CurrentCase = testCase;
+
 					if (_isStopPending)
 						break;
 
@@ -116,6 +133,9 @@ namespace Syringe.Core.Runner
 					finally
 					{
 						totalCasesRun++;
+
+						CasesRun++;
+						RepeatCount = i;
 					}
 				}
 

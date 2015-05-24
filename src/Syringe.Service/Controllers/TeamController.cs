@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
-namespace Syringe.Service.Api
+
+namespace Syringe.Service.Controllers
 {
     public class TeamController : ApiController
     {
@@ -15,5 +15,14 @@ namespace Syringe.Service.Api
                 "Loki",
             };
         }
+
+		// AddUser
+		// DeactivateUser
+		// GetTeamConfig
+		// UpdateTeamConfig
+		// GetUserProfile
+		// UpdateUserProfile
+		// GetUserConfig
+		// UpdateUserConfig
     }
 }
