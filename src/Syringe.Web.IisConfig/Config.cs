@@ -1,25 +1,23 @@
 ﻿using System;
 using System.IO;
 using IisConfiguration;
+using IisConfiguration.Configuration;
 
 namespace Syringe.Web.IisConfig
 {
     public class Config : EnvironmentalConfig
     {
-        public override string WebRoot
-        {
-            get
-            {
-                //TODO: fix this by the time it goes out for deploy
-                string target = System.Environment.CurrentDirectory;
-                target = target.Substring(0, target.IndexOf("src\\Syringe.Web.IisConfig", StringComparison.InvariantCultureIgnoreCase));
-                target += "src\\Syringe.Web";
+	    public override string WebRoot
+	    {
+		    get
+		    {
+				// TODO: update IisConfiguration
+			    string webdir = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..")).FullName;
+				return base.WebRoot.Replace("{src-path}", webdir);
+		    }
+	    }
 
-                return Path.GetFullPath(target);
-            }
-        }
-
-        public string SiteName
+	    public string SiteName
         {
             get
             {

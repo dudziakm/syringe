@@ -48,6 +48,15 @@ namespace Syringe.Core.Runner
 
 		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
 		{
+			if (config == null) 
+				throw new ArgumentNullException("config");
+
+			if (httpClient == null) 
+				throw new ArgumentNullException("httpClient");
+
+			if (resultWriter == null) 
+				throw new ArgumentNullException("resultWriter");
+
 			_config = config;
 			_httpClient = httpClient;
 			_resultWriter = resultWriter;
