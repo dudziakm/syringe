@@ -35,12 +35,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Core">
-      <HintPath>..\..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\packages\ServiceStack.Common.4.0.40\lib\net40\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\packages\ServiceStack.Interfaces.4.0.40\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\..\packages\ServiceStack.Redis.4.0.40\lib\net40\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\packages\ServiceStack.Text.4.0.40\lib\net40\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -60,6 +69,9 @@
     <Compile Include="Configuration\IConfigReader.cs" />
     <Compile Include="Configuration\LogType.cs" />
     <Compile Include="Configuration\Variable.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\RedisUserRepository.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestCaseException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
@@ -73,8 +85,6 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="ServiceBus\StartTestCaseCommand.cs" />
-    <Compile Include="ServiceBus\TestCaseStartedEvent.cs" />
     <Compile Include="VerificationItem.cs" />
     <Compile Include="Results\Writer\ResultWriterBase.cs" />
     <Compile Include="Results\Writer\TextFileResultWriter.cs" />
