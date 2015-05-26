@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Syringe.Core.Domain;
-using Syringe.Core.Repository;
+using Syringe.Core.Domain.Entities;
+using Syringe.Core.Domain.Repository;
 
 namespace Syringe.Tests.Integration.Repository
 {
@@ -14,27 +12,158 @@ namespace Syringe.Tests.Integration.Repository
 		[SetUp]
 		public void Setup()
 		{
-			var repository = new RedisUserRepository();
-			repository.RedisUserClient.DeleteAll();
+			var userRepository = CreateUserRepository();
+			userRepository.RedisUserClient.DeleteAll();
+		}
+
+		private RedisUserRepository CreateUserRepository()
+		{
+			return new RedisUserRepository();	
 		}
 
 		[Test]
-		public void should_add_a_user()
+		public void AddUser_should_store_a_user()
 		{
 			// Arrange
-			var repository = new RedisUserRepository();
-
-			// Act
-			repository.AddUser(new User()
+			var expectedUser = new User()
 			{
 				Id = Guid.NewGuid(),
-				Email = "nano@nano.com"
-			});
+				Email = "nano@nano.com",
+				Firstname = "Nano",
+				Lastname = "Smith",
+				Password = "This will be a hashed password"
+			};
+
+			var repository = CreateUserRepository();
+
+			// Act
+			repository.AddUser(expectedUser);
+
+			// Assert
+			IEnumerable<User> users = repository.GetUsers();
+
+			Assert.That(users.Count(), Is.EqualTo(1));
+
+			User actualUser = users.FirstOrDefault();
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password)); // password property is updated
+		}
+
+		[Test]
+		public void AddUser_should_hash_the_password()
+		{
+			// Arrange
+			string plainTextPassword = "This will be a hashed password";
+			var expectedUser = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano@nano.com",
+				Password = plainTextPassword
+			};
+
+			var repository = CreateUserRepository();
+
+			// Act
+			repository.AddUser(expectedUser);
+
+			// Assert
+			IEnumerable<User> users = repository.GetUsers();
+			User actualUser = users.FirstOrDefault();
+			Assert.That(actualUser.Password, Is.Not.EqualTo(plainTextPassword));
+		}
+
+		[Test]
+		public void UpdateUser_should_store_the_updated_details()
+		{
+			// Arrange
+			var newUser = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano@nano.com",
+				Firstname = "Nano",
+				Lastname = "Smith",
+				Password = "This will be a hashed password"
+			};
+
+			var repository = CreateUserRepository();
+			repository.AddUser(newUser);
+
+			
+			// Act
+			IEnumerable<User> users = repository.GetUsers();
+			User userToUpdate = users.FirstOrDefault();
+			userToUpdate.Firstname = "Updated firstname";
+			userToUpdate.Lastname = "Updated lastname";
+			userToUpdate.Email = "Updated email";
+
+			repository.UpdateUser(userToUpdate, false);
+
+			// Assert
+			users = repository.GetUsers();
+			User actualUser = users.FirstOrDefault();
+
+			Assert.That(actualUser.Id, Is.EqualTo(userToUpdate.Id));
+			Assert.That(actualUser.Email, Is.EqualTo(userToUpdate.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(userToUpdate.Firstname));
+			Assert.That(actualUser.Lastname, Is.EqualTo(userToUpdate.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(userToUpdate.Password));
+		}
+
+		[Test]
+		public void UpdateUser_should_hash_the_new_password_when_set()
+		{
+			// Arrange
+			string newPlainTextPassword = "My new password";
+			var newUser = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano@nano.com",
+				Firstname = "Nano",
+				Lastname = "Smith",
+				Password = "This will be a hashed password"
+			};
+
+			var repository = CreateUserRepository();
+			repository.AddUser(newUser);
 
 			IEnumerable<User> users = repository.GetUsers();
 
+			// Act
+			User updatedUser = users.FirstOrDefault();
+			updatedUser.Password = newPlainTextPassword;
+
+			repository.UpdateUser(updatedUser, true);
+
 			// Assert
-			Assert.That(users.Count(), Is.EqualTo(1));
+			users = repository.GetUsers();
+			User userFromRepo = users.FirstOrDefault();
+			Assert.That(userFromRepo.Password, Is.Not.EqualTo(newPlainTextPassword));
+		}
+
+		[Test]
+		public void DeleteUser_should_remove_the_user()
+		{
+			// Arrange
+			string plainTextPassword = "This will be a hashed password";
+			var user = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano@nano.com",
+				Password = plainTextPassword
+			};
+
+			var repository = CreateUserRepository();
+			repository.AddUser(user);
+
+			// Act
+			repository.DeleteUser(user);
+
+			// Assert
+			IEnumerable<User> users = repository.GetUsers();
+			Assert.That(users.Count(), Is.EqualTo(0));
 		}
 	}
 }

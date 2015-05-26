@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
