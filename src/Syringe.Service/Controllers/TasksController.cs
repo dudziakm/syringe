@@ -7,39 +7,46 @@ namespace Syringe.Service.Controllers
 {
     public class TasksController : ApiController
     {
+	    private readonly ParallelTestSessionQueue _caseQueue;
+
+	    public TasksController()
+	    {
+		    _caseQueue = ParallelTestSessionQueue.Default;
+	    }
+
 		[Route("api/Start")]
 		[HttpPost]
 		public void Start(RunCaseCollectionRequestModel item)
 		{
-			ParallelCaseQueue.Default.Add(item);
+			_caseQueue.Add(item);
 		}
 
 		[Route("api/tasks/Stop")]
 		[HttpGet]
 		public string Stop(int id)
 		{
-			return ParallelCaseQueue.Default.Stop(id);
+			return _caseQueue.Stop(id);
 		}
 
 		[Route("api/tasks/StopAll")]
 		[HttpGet]
 		public List<string> StopAll()
 		{
-			return ParallelCaseQueue.Default.StopAll();
+			return _caseQueue.StopAll();
 		}
 
 		[Route("api/tasks/GetRunningTasks")]
 		[HttpGet]
 		public IEnumerable<WorkerDetailsModel> GetRunningTasks()
 		{
-			return ParallelCaseQueue.Default.GetRunningTasks();
+			return _caseQueue.GetRunningTasks();
 		}
 
 		[Route("api/tasks/GetRunningTaskDetails")]
 		[HttpGet]
 		public WorkerDetailsModel GetRunningTaskDetails(int taskId)
 		{
-			return ParallelCaseQueue.Default.GetRunningTaskDetails(taskId);
+			return _caseQueue.GetRunningTaskDetails(taskId);
 		}
     }
 }

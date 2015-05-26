@@ -70,9 +70,12 @@
     <Compile Include="Configuration\LogType.cs" />
     <Compile Include="Configuration\Variable.cs" />
     <Compile Include="Domain\Entities\Salt.cs" />
+    <Compile Include="Domain\Entities\ScheduledJob.cs" />
     <Compile Include="Domain\Entities\Team.cs" />
+    <Compile Include="Domain\Repository\IScheduledJobRepository.cs" />
     <Compile Include="Domain\Repository\ITeamRepository.cs" />
     <Compile Include="Domain\Repository\IUserRepository.cs" />
+    <Compile Include="Domain\Repository\RedisScheduledJobRepository.cs" />
     <Compile Include="Domain\Repository\RedisTeamRepository.cs" />
     <Compile Include="Domain\Repository\RedisUserRepository.cs" />
     <Compile Include="Domain\Entities\User.cs" />

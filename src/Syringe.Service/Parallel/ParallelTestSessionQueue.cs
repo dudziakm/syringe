@@ -17,11 +17,11 @@ using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
 {
-	internal class ParallelCaseQueue
+	internal class ParallelTestSessionQueue
 	{
 		private readonly ConcurrentBag<Task<SessionRunnerTaskInfo>> _currentTasks;
 
-		public static ParallelCaseQueue Default
+		public static ParallelTestSessionQueue Default
 		{
 			get
 			{
@@ -36,10 +36,10 @@ namespace Syringe.Service.Parallel
 			static Nested()
 			{
 			}
-			internal static readonly ParallelCaseQueue Instance = new ParallelCaseQueue();
+			internal static readonly ParallelTestSessionQueue Instance = new ParallelTestSessionQueue();
 		}
 
-		internal ParallelCaseQueue()
+		internal ParallelTestSessionQueue()
 		{
 			_currentTasks = new ConcurrentBag<Task<SessionRunnerTaskInfo>>();
 		}

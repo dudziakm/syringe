@@ -18,7 +18,7 @@ namespace Syringe.Service
 
         public void Stop()
         {
-			ParallelCaseQueue.Default.StopAll();
+			ParallelTestSessionQueue.Default.StopAll();
             WebApplication.Dispose();
         }
 
