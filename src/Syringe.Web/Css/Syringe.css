@@ -1,0 +1,25 @@
+﻿#running-items {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+}
+#running-items .case-result {
+  border: 1px dashed grey;
+  background-color: #f0f8ff;
+  margin-bottom: 10px;
+  padding: 10px;
+  color: black;
+}
+#running-items .case-result.passed {
+  background-color: green !important;
+  color: white !important;
+}
+#running-items .case-result.failed {
+  background-color: orange !important;
+  color: black !important;
+}
+#running-items .case-result.error {
+  background-color: red !important;
+  color: white !important;
+}
+/*# sourceMappingURL=Syringe.css.map */

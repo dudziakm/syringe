@@ -10,6 +10,7 @@ using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
@@ -101,8 +102,7 @@ namespace Syringe.Service.Parallel
 			return _currentTasks.Select(task => new WorkerDetailsModel()
 			{
 				TaskId = task.Id,
-				Status = task.Result.CurrentTask.Status.ToString(),
-				CurrentTestCase = null
+				Status = task.Result.CurrentTask.Status.ToString()
 			});
 		}
 
@@ -116,8 +116,7 @@ namespace Syringe.Service.Parallel
 				{
 					TaskId = task.Id,
 					Status = task.Result.CurrentTask.Status.ToString(),
-					CurrentTestCase = (runner != null) ? task.Result.Runner.CurrentCase : null,
-					LastResult = (runner != null) ? task.Result.Runner.LastResult : null, 
+					Results = (runner != null) ? task.Result.Runner.CurrentResults.ToList() : new List<TestCaseResult>(),
 					Count = (runner != null) ? task.Result.Runner.CasesRun : 0,
 					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
 					Errors = task.Result.Errors

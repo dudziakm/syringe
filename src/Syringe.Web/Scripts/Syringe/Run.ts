@@ -6,7 +6,7 @@ module Syringe.Web
 	{
 		private intervalHandle : any;
 		private lastCaseId: number;
-		private intervalTime = 25; // needs a very low number for exceptions.
+		private intervalTime = 500;
 
 		start(filename: string)
 		{
@@ -44,11 +44,12 @@ module Syringe.Web
 			{
 					$.each(data.TestCases, function(index, item)
 					{
-						var html = "<div style='border:1px solid black' id='case" +item.Id+"'>";
-						html += item.Id + " - " +item.ShortDescription;
+						var html = '<div class="case-result" id="case-' +item.Id+'">';
+						html += item.Id + " - " + item.ShortDescription;
+						html += '<span class="case-result-url"></span>';
 						html += "</div>";
 
-						$("#items").append(html);
+						$("#running-items").append(html);
 					});
 				});
 		}
@@ -60,17 +61,24 @@ module Syringe.Web
 			$.get("/json/GetProgress", { "taskId": taskId })
 				.done(function(data)
 				{
-					// New case has started, set the colour of the last one.
-					if (data.LastResult !== null && that.lastCaseId !== data.LastResult.TestCase.Id)
+					$.each(data.Results, function(index, item)
 					{
-						var backgroundColor = "green";
+						var selector = "#case-" + item.TestCase.Id;
+						var cssClass = "";
 
-						if (data.LastResult.ExceptionMessage !== null)
-							backgroundColor = "red";
+						if (item.Success === true)
+							cssClass = "passed";
+						else if (item.Success === false)
+							cssClass = "failed";
 
-						$("#case" + data.LastResult.TestCase.Id).css("background-color", backgroundColor);
-						that.lastCaseId = data.LastResult.TestCase.Id;
-					}
+						if (item.ExceptionMessage !== null)
+							cssClass = "error";
+
+						$(selector).addClass(cssClass);
+
+						var urlSelector = selector + " " + ".case-result-url";
+						$(urlSelector).text(" - "+item.ActualUrl);
+					});
 
 					var percentage = (data.Count / data.TotalCases) * 100;
 					$(".progress-bar").css("width", percentage + "%");

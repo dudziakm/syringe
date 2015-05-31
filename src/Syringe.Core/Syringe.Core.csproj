@@ -94,6 +94,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
+    <Compile Include="Runner\WorkerDetailsModel.cs" />
     <Compile Include="VerificationItem.cs" />
     <Compile Include="Results\Writer\ResultWriterBase.cs" />
     <Compile Include="Results\Writer\TextFileResultWriter.cs" />

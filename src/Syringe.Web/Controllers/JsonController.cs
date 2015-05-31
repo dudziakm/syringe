@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using RestSharp;
 using Syringe.Core;
+using Syringe.Core.Runner;
 using Syringe.Web.Client;
 
 namespace Syringe.Web.Controllers
@@ -25,7 +26,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetProgress(int taskId)
 		{
-			WorkerDetails details = _tasksClient.GetProgress(taskId);
+			WorkerDetailsModel details = _tasksClient.GetProgress(taskId);
 			return Json(details, JsonRequestBehavior.AllowGet);
 		}
 

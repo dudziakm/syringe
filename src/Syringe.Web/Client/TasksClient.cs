@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using RestSharp;
+using Syringe.Core.Runner;
 using Syringe.Web.Controllers;
 
 namespace Syringe.Web.Client
@@ -33,14 +34,15 @@ namespace Syringe.Web.Client
 			return ParseOrDefault(response.Content, 0);
 		}
 
-		public WorkerDetails GetProgress(int taskId)
+		public WorkerDetailsModel GetProgress(int taskId)
 		{
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("GetRunningTaskDetails");
 			request.AddParameter("taskId", taskId);
 
+			// Don't use the Restsharp JSON deserializer, it fails
 			IRestResponse response = client.Execute(request);
-			WorkerDetails details = Json.Decode<WorkerDetails>(response.Content);
+			WorkerDetailsModel details = Json.Decode<WorkerDetailsModel>(response.Content);
 
 			return details;
 		}

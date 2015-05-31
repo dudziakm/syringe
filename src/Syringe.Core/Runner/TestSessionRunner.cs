@@ -37,9 +37,12 @@ namespace Syringe.Core.Runner
 		private readonly IHttpClient _httpClient;
 		private readonly IResultWriter _resultWriter;
 		private bool _isStopPending;
+		private List<TestCaseResult> _currentResults;
 
-		public Case CurrentCase { get; set; }
-		public TestCaseResult LastResult { get; set; }
+		public IEnumerable<TestCaseResult> CurrentResults
+		{
+			get { return _currentResults; }
+		}
 
 		public int CasesRun { get; set; }
 		public int TotalCases { get; set; }
@@ -59,6 +62,7 @@ namespace Syringe.Core.Runner
 			_config = config;
 			_httpClient = httpClient;
 			_resultWriter = resultWriter;
+			_currentResults = new List<TestCaseResult>();
 		}
 
 		/// <summary>
@@ -83,6 +87,7 @@ namespace Syringe.Core.Runner
 		public TestCaseSession Run(ITestCaseReader reader)
 		{
 			_isStopPending = false;
+			_currentResults = new List<TestCaseResult>();
 
 			var session = new TestCaseSession();
 			session.StartTime = DateTime.UtcNow;
@@ -112,8 +117,6 @@ namespace Syringe.Core.Runner
 			{
 				foreach (Case testCase in testCases)
 				{
-					CurrentCase = testCase;
-
 					if (_isStopPending)
 						break;
 
@@ -121,7 +124,7 @@ namespace Syringe.Core.Runner
 					{
 						TestCaseResult result = RunCase(testCase, variables, verificationsMatcher);
 						session.TestCaseResults.Add(result);
-						LastResult = result;
+						_currentResults.Add(result);
 
 						if (result.ResponseTime < minResponseTime)
 							minResponseTime = result.ResponseTime;

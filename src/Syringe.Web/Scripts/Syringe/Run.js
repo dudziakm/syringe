@@ -5,7 +5,7 @@ var Syringe;
     (function (Web) {
         var TestCaseRunner = (function () {
             function TestCaseRunner() {
-                this.intervalTime = 25; // needs a very low number for exceptions.
+                this.intervalTime = 500;
             }
             TestCaseRunner.prototype.start = function (filename) {
                 this.bindStopButton();
@@ -29,24 +29,30 @@ var Syringe;
             TestCaseRunner.prototype.loadCases = function (filename) {
                 $.get("/json/GetCases", { "filename": filename }).done(function (data) {
                     $.each(data.TestCases, function (index, item) {
-                        var html = "<div style='border:1px solid black' id='case" + item.Id + "'>";
+                        var html = '<div class="case-result" id="case-' + item.Id + '">';
                         html += item.Id + " - " + item.ShortDescription;
+                        html += '<span class="case-result-url"></span>';
                         html += "</div>";
-                        $("#items").append(html);
+                        $("#running-items").append(html);
                     });
                 });
             };
             TestCaseRunner.prototype.updateProgress = function (taskId) {
                 var that = this;
                 $.get("/json/GetProgress", { "taskId": taskId }).done(function (data) {
-                    // New case has started, set the colour of the last one.
-                    if (data.LastResult !== null && that.lastCaseId !== data.LastResult.TestCase.Id) {
-                        var backgroundColor = "green";
-                        if (data.LastResult.ExceptionMessage !== null)
-                            backgroundColor = "red";
-                        $("#case" + data.LastResult.TestCase.Id).css("background-color", backgroundColor);
-                        that.lastCaseId = data.LastResult.TestCase.Id;
-                    }
+                    $.each(data.Results, function (index, item) {
+                        var selector = "#case-" + item.TestCase.Id;
+                        var cssClass = "";
+                        if (item.Success === true)
+                            cssClass = "passed";
+                        else if (item.Success === false)
+                            cssClass = "failed";
+                        if (item.ExceptionMessage !== null)
+                            cssClass = "error";
+                        $(selector).addClass(cssClass);
+                        var urlSelector = selector + " " + ".case-result-url";
+                        $(urlSelector).text(" - " + item.ActualUrl);
+                    });
                     var percentage = (data.Count / data.TotalCases) * 100;
                     $(".progress-bar").css("width", percentage + "%");
                     $("#progress-text").html(data.Status);

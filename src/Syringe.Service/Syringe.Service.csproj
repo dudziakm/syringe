@@ -109,7 +109,6 @@
     <Compile Include="Api\TeamController.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Models\RunCaseCollectionRequestModel.cs" />
-    <Compile Include="Models\WorkerDetailsModel.cs" />
     <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
