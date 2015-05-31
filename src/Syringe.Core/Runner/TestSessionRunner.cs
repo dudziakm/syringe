@@ -39,6 +39,8 @@ namespace Syringe.Core.Runner
 		private bool _isStopPending;
 
 		public Case CurrentCase { get; set; }
+		public TestCaseResult LastResult { get; set; }
+
 		public int CasesRun { get; set; }
 		public int TotalCases { get; set; }
 		public int RepeatCount { get; set; }
@@ -119,6 +121,7 @@ namespace Syringe.Core.Runner
 					{
 						TestCaseResult result = RunCase(testCase, variables, verificationsMatcher);
 						session.TestCaseResults.Add(result);
+						LastResult = result;
 
 						if (result.ResponseTime < minResponseTime)
 							minResponseTime = result.ResponseTime;
@@ -157,52 +160,60 @@ namespace Syringe.Core.Runner
 			var testResult = new TestCaseResult();
 			testResult.TestCase = testCase;
 
-			string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
-			testResult.ActualUrl = resolvedUrl;
-
-			HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
-			testResult.ResponseTime = response.ResponseTime;
-			testResult.HttpResponse = response;
-
-			if (response.StatusCode == testCase.VerifyResponseCode)
+			try
 			{
-				testResult.ResponseCodeSuccess = true;
-				string content = response.ToString();
+				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
+				testResult.ActualUrl = resolvedUrl;
 
-				// Put the parsedresponse regex values in the current variable set
-				Dictionary<string, string> parsedVariables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);
-				variables.AddOrUpdateVariables(parsedVariables);
+				HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
+				testResult.ResponseTime = response.ResponseTime;
+				testResult.HttpResponse = response;
 
-				// Verify positives
-				testResult.VerifyPositiveResults = verificationMatcher.MatchPositive(testCase.VerifyPositives, content);
+				if (response.StatusCode == testCase.VerifyResponseCode)
+				{
+					testResult.ResponseCodeSuccess = true;
+					string content = response.ToString();
 
-				// Verify Negatives
-				testResult.VerifyNegativeResults = verificationMatcher.MatchNegative(testCase.VerifyNegatives, content);
+					// Put the parsedresponse regex values in the current variable set
+					Dictionary<string, string> parsedVariables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);
+					variables.AddOrUpdateVariables(parsedVariables);
+
+					// Verify positives
+					testResult.VerifyPositiveResults = verificationMatcher.MatchPositive(testCase.VerifyPositives, content);
+
+					// Verify Negatives
+					testResult.VerifyNegativeResults = verificationMatcher.MatchNegative(testCase.VerifyNegatives, content);
+				}
+				else
+				{
+					testResult.ResponseCodeSuccess = false;
+				}
+
+				if (testResult.Success == false)
+				{
+					testResult.Message = testCase.ErrorMessage;
+				}
+
+				if (ShouldLogRequest(testResult, testCase))
+				{
+					_httpClient.LogLastRequest();
+				}
+
+				if (ShouldLogResponse(testResult, testCase))
+				{
+					_httpClient.LogLastResponse();
+				}
+
+				_resultWriter.Write(testResult);
+
+				if (testCase.Sleep > 0)
+					Thread.Sleep(testCase.Sleep * 1000);
 			}
-			else
+			catch (Exception ex)
 			{
 				testResult.ResponseCodeSuccess = false;
+				testResult.ExceptionMessage = ex.Message; 
 			}
-
-			if (testResult.Success == false)
-			{
-				testResult.Message = testCase.ErrorMessage;
-			}
-
-			if (ShouldLogRequest(testResult, testCase))
-			{
-				_httpClient.LogLastRequest();
-			}
-
-			if (ShouldLogResponse(testResult, testCase))
-			{
-				_httpClient.LogLastResponse();
-			}
-
-			_resultWriter.Write(testResult);
-
-			if (testCase.Sleep > 0)
-				Thread.Sleep(testCase.Sleep * 1000);
 
 			return testResult;
 		}

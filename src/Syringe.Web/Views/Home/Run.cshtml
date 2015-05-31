@@ -1,0 +1,27 @@
+﻿@model string
+@section Scripts
+{
+	<script src="~/Scripts/Syringe/Run.js"></script>
+	<script type="text/javascript">
+		var filename = "@Model";
+		var runner = new Syringe.Web.TestCaseRunner();
+		runner.start(filename);
+	</script>
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-2">
+			<img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
+		</div>
+		<div class="col-md-10">
+			<div class="progress">
+				<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: 0">
+					<span class="sr-only">20% Complete</span>
+				</div>
+			</div>
+
+			<div id="items"></div>
+		</div>
+	</div>
+</div>

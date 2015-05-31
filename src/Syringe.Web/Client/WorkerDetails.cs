@@ -1,10 +1,9 @@
-﻿using System;
-using Syringe.Core;
+﻿using Syringe.Core;
 using Syringe.Core.Results;
 
-namespace Syringe.Service.Models
+namespace Syringe.Web.Client
 {
-	public class WorkerDetailsModel
+	public class WorkerDetails
 	{
 		public int TaskId { get; set; }
 		public string Status { get; set; }

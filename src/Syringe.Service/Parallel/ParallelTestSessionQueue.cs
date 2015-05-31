@@ -44,7 +44,7 @@ namespace Syringe.Service.Parallel
 			_currentTasks = new ConcurrentBag<Task<SessionRunnerTaskInfo>>();
 		}
 
-		public void Add(RunCaseCollectionRequestModel item)
+		public int Add(RunCaseCollectionRequestModel item)
 		{
 			Task<SessionRunnerTaskInfo> parentTask = Task.Run(() =>
 			{
@@ -67,18 +67,16 @@ namespace Syringe.Service.Parallel
 			});
 
 			_currentTasks.Add(parentTask);
+			return parentTask.Id;
 		}
 
 		internal void StartSession(SessionRunnerTaskInfo item)
 		{
 			try
 			{
-//{
-//  "Filename": "C:\\temp\\syringe\\test.xml",
-//  "Username": "string"
-//}
-
-				string xml = File.ReadAllText(item.Request.Filename);
+				// TODO: path
+				string fullPath = Path.Combine(@"d:\syringe\", item.Request.Filename);
+				string xml = File.ReadAllText(fullPath);
 				using (var stringReader = new StringReader(xml))
 				{
 					var reader = new TestCaseReader(stringReader);
@@ -119,6 +117,7 @@ namespace Syringe.Service.Parallel
 					TaskId = task.Id,
 					Status = task.Result.CurrentTask.Status.ToString(),
 					CurrentTestCase = (runner != null) ? task.Result.Runner.CurrentCase : null,
+					LastResult = (runner != null) ? task.Result.Runner.LastResult : null, 
 					Count = (runner != null) ? task.Result.Runner.CasesRun : 0,
 					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
 					Errors = task.Result.Errors

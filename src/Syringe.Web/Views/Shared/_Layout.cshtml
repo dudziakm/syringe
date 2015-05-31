@@ -1,21 +1,12 @@
 ﻿<html>
 <head>
 	<title>Syringe</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<link href="~/Css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
+	<!-- Navigation -->
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span>
@@ -29,7 +20,6 @@
 				</a>
 			</div>
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
@@ -58,47 +48,20 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">My account</a></li>
 							<li><a href="#">My profile</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
-	</nav>
+						<li><a href="#">Something else here</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Separated link</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2">
-				<img alt="Brand" src="img/syringe.svg" width="150" height="150">
-			</div>
-			@RenderBody()
-			<div class="col-md-10">
+@RenderBody()
 
-				<h2>Test cases</h2>
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Description</th>
-							<td></td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Smoke tests</td>
-							<td>Smoke tests for Brand X</td>
-							<td>
-								<button class="btn btn-sm btn-primary">Run</button>
-								<button class="btn btn-sm btn-primary">Edit</button>
-								<button class="btn btn-sm btn-primary">View</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+@RenderSection("Scripts", false)
 </body>
 </html>

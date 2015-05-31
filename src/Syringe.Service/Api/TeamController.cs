@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace Syringe.Service.Controllers
+namespace Syringe.Service.Api
 {
     public class TeamController : ApiController
     {

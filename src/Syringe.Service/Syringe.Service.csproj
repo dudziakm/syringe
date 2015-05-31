@@ -103,9 +103,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Api\TasksController.cs" />
+    <Compile Include="Api\CasesController.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
-    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Api\TeamController.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Models\RunCaseCollectionRequestModel.cs" />
     <Compile Include="Models\WorkerDetailsModel.cs" />
