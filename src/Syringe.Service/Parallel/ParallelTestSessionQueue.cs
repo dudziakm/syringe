@@ -75,8 +75,11 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				// TODO: path
-				string fullPath = Path.Combine(@"d:\syringe\", item.Request.Filename);
+				// TODO: IConfiguration
+				// TODO: username to team lookup
+				string teamName = "teamname";
+
+				string fullPath = Path.Combine(@"d:\syringe\", teamName, item.Request.Filename);
 				string xml = File.ReadAllText(fullPath);
 				using (var stringReader = new StringReader(xml))
 				{
@@ -99,10 +102,17 @@ namespace Syringe.Service.Parallel
 
 		public IEnumerable<WorkerDetailsModel> GetRunningTasks()
 		{
-			return _currentTasks.Select(task => new WorkerDetailsModel()
+			return _currentTasks.Select(task =>
 			{
-				TaskId = task.Id,
-				Status = task.Result.CurrentTask.Status.ToString()
+				TestSessionRunner runner = task.Result.Runner;
+
+				return new WorkerDetailsModel()
+				{
+					TaskId = task.Id,
+					Status = task.Result.CurrentTask.Status.ToString(),
+					CurrentIndex = (runner != null) ? task.Result.Runner.CasesRun : 0,
+					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
+				};
 			});
 		}
 
@@ -117,7 +127,7 @@ namespace Syringe.Service.Parallel
 					TaskId = task.Id,
 					Status = task.Result.CurrentTask.Status.ToString(),
 					Results = (runner != null) ? task.Result.Runner.CurrentResults.ToList() : new List<TestCaseResult>(),
-					Count = (runner != null) ? task.Result.Runner.CasesRun : 0,
+					CurrentIndex = (runner != null) ? task.Result.Runner.CasesRun : 0,
 					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
 					Errors = task.Result.Errors
 				};

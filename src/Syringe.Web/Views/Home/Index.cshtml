@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿@model IndexViewModel
+<div class="container">
 	<div class="row">
 		<div class="col-md-2">
 			<img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
@@ -10,20 +11,21 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Description</th>
 						<td></td>
 					</tr>
 				</thead>
 				<tbody>
+				@foreach (string filename in Model.Files)
+				{
 					<tr>
-						<td>Smoke tests</td>
-						<td>Smoke tests for Brand X</td>
+						<td>@filename</td>
 						<td>
-							<a class="btn btn-sm btn-primary" href="@Url.Action("Run", "Home", new { filename = "test.xml" })">Run</a>
+							<a class="btn btn-sm btn-primary" href="@Url.Action("Run", "Home", new { filename = filename })">Run</a>
 							<button class="btn btn-sm btn-primary">Edit</button>
 							<button class="btn btn-sm btn-primary">View</button>
 						</td>
 					</tr>
+				}
 				</tbody>
 			</table>
 		</div>

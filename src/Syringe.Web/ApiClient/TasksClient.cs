@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
+﻿using System.Web.Helpers;
 using RestSharp;
 using Syringe.Core.Runner;
-using Syringe.Web.Controllers;
 
-namespace Syringe.Web.Client
+namespace Syringe.Web.ApiClient
 {
 	public class TasksClient
 	{

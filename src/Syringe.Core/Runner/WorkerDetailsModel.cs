@@ -9,7 +9,7 @@ namespace Syringe.Core.Runner
 		public string Status { get; set; }
 		public List<TestCaseResult> Results { get; set; }
 
-		public int Count { get; set; }
+		public int CurrentIndex { get; set; }
 		public int TotalCases { get; set; }
 		public string Errors { get; set; }
 

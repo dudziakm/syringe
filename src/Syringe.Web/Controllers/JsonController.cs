@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using RestSharp;
 using Syringe.Core;
 using Syringe.Core.Runner;
-using Syringe.Web.Client;
+using Syringe.Web.ApiClient;
 
 namespace Syringe.Web.Controllers
 {
@@ -32,7 +32,8 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetCases(string filename)
 		{
-			CaseCollection testCases = _casesClient.GetCaseCollection(filename);
+			// TODO: team name from the user context
+			CaseCollection testCases = _casesClient.GetByFilename(filename, "teamname");
 			return Json(testCases, JsonRequestBehavior.AllowGet);
 		}
 	}

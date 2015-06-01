@@ -73,6 +73,7 @@
       <HintPath>..\..\packages\Swashbuckle.Core.5.1.5\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -105,9 +106,10 @@
   <ItemGroup>
     <Compile Include="Api\TasksController.cs" />
     <Compile Include="Api\CasesController.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
     <Compile Include="Api\TeamController.cs" />
-    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Models\RunCaseCollectionRequestModel.cs" />
     <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
@@ -125,6 +127,9 @@
       <Project>{543B728D-5DC3-45A8-9C01-7BA5AE07E861}</Project>
       <Name>Syringe.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Start\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -80,7 +80,7 @@ module Syringe.Web
 						$(urlSelector).text(" - "+item.ActualUrl);
 					});
 
-					var percentage = (data.Count / data.TotalCases) * 100;
+					var percentage = (data.CurrentIndex / data.TotalCases) * 100;
 					$(".progress-bar").css("width", percentage + "%");
 					$("#progress-text").html(data.Status);
 

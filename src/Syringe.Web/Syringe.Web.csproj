@@ -124,11 +124,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Client\CasesClient.cs" />
-    <Compile Include="Client\TasksClient.cs" />
+    <Compile Include="ApiClient\CasesClient.cs" />
+    <Compile Include="ApiClient\TasksClient.cs" />
+    <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Models\RunnerViewModel.cs" />
+    <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Global.asax.cs" />
     <Compile Include="Startup.cs" />
@@ -171,9 +172,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

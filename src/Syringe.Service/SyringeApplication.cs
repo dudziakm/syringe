@@ -25,8 +25,13 @@ namespace Syringe.Service
 		public void Configuration(IAppBuilder application)
 		{
 			var config = new HttpConfiguration();
-			config.EnableSwagger(c => c.SingleApiVersion("v1", "Syringe runner REST API"))
-				  .EnableSwaggerUi();
+			config.EnableSwagger(swaggerConfig =>
+			{
+				swaggerConfig
+					.SingleApiVersion("v1", "Syringe REST API")
+					.Description("REST API for Syringe, used by the web UI.");
+
+			}).EnableSwaggerUi();
 
 			config.MapHttpAttributeRoutes();
 			application.UseWebApi(config);
