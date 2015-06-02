@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Syringe.Web.ApiClient;
+using Syringe.Core.ApiClient;
+using Syringe.Core.Security;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -8,16 +9,18 @@ namespace Syringe.Web.Controllers
 	public class HomeController : Controller
 	{
 	    private readonly CasesClient _casesClient;
+		private readonly IUserContext _userContext;
 
 		public HomeController()
 		{
 		    _casesClient = new CasesClient();
+			_userContext = new UserContext();
 		}
 
 		public ActionResult Index()
 		{
 			// TODO: team name from the user context
-			IEnumerable<string> files = _casesClient.ListForTeam("teamname");
+			IEnumerable<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName);
 
 			var model = new IndexViewModel();
 			model.AddFiles(files);

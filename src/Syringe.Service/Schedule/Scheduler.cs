@@ -27,6 +27,7 @@ namespace Syringe.Service.Schedule
 
 		public void ScheduleJob(string jobName, string testCaseFilename, Team team, string cronTab)
 		{
+			// Experimental for now - uses crontab for the schedule format.
 			IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
 			IJobDetail job = JobBuilder.Create<QuartzJob>()

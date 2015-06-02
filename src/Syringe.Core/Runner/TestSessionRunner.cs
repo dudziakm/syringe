@@ -66,7 +66,7 @@ namespace Syringe.Core.Runner
 		}
 
 		/// <summary>
-		/// Createts a new <see cref="TestSessionRunner"/> using the defaults.
+		/// Creates a new <see cref="TestSessionRunner"/> using the defaults.
 		/// </summary>
 		/// <returns></returns>
 		public static TestSessionRunner CreateNew()
@@ -84,15 +84,13 @@ namespace Syringe.Core.Runner
 			_isStopPending = true;
 		}
 
-		public TestCaseSession Run(ITestCaseReader reader)
+		public TestCaseSession Run(CaseCollection testCollection)
 		{
 			_isStopPending = false;
 			_currentResults = new List<TestCaseResult>();
 
 			var session = new TestCaseSession();
 			session.StartTime = DateTime.UtcNow;
-
-			CaseCollection testCollection = reader.Read();
 
 			// Add all config variables and ones in this <testcase>
 			var variables = new SessionVariables();

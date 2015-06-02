@@ -49,14 +49,15 @@ namespace Syringe.Tests.Integration
 			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
 			var config = new Config();
-			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			string xml = ReadEmbeddedFile("parsedresponses.xml");
 			var stringReader = new StringReader(xml);
-			var reader = new TestCaseReader(stringReader);
+			var reader = new TestCaseReader();
+			var caseCollection = reader.Read(stringReader);
+			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			// Act
-			TestCaseSession result = runner.Run(reader);
+			TestCaseSession result = runner.Run(caseCollection);
 
 			// Assert
 			DumpAsYaml(result);
@@ -71,14 +72,16 @@ namespace Syringe.Tests.Integration
 			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
 			var config = new Config();
-			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			string xml = ReadEmbeddedFile("wikipedia-simple.xml");
 			var stringReader = new StringReader(xml);
-			var reader = new LegacyTestCaseReader(stringReader);
+			var reader = new LegacyTestCaseReader();
+			var caseCollection = reader.Read(stringReader);
+
+			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
 
 			// Act
-			runner.Run(reader);
+			runner.Run(caseCollection);
 
 			// Assert
 			Console.WriteLine(stringBuilder);
@@ -98,14 +101,15 @@ namespace Syringe.Tests.Integration
 
 			var resultWriter = new TextWriterResultWriter(stringWriter);
 
-			var runner = new TestSessionRunner(config, httpClient, resultWriter);
-
 			string xml = ReadEmbeddedFile("roadkill-login.xml");
 			var stringReader = new StringReader(xml);
-			var reader = new TestCaseReader(stringReader);
+			var reader = new TestCaseReader();
+
+			var runner = new TestSessionRunner(config, httpClient, resultWriter);
+			var caseCollection = reader.Read(stringReader);
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			DumpAsXml(session);

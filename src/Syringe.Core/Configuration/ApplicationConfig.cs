@@ -1,8 +1,8 @@
 ﻿using System.Configuration;
 
-namespace Syringe.Service.Configuration
+namespace Syringe.Core.Configuration
 {
-	public class Config : IConfiguration
+	public class ApplicationConfig : IApplicationConfiguration
 	{
 		public string TestCasesBaseDirectory
 		{

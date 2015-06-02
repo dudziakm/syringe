@@ -1,4 +1,5 @@
-﻿using Syringe.Core;
+﻿using System.IO;
+using Syringe.Core;
 using Syringe.Core.Xml;
 
 namespace Syringe.Tests.Unit.StubsMocks
@@ -7,9 +8,10 @@ namespace Syringe.Tests.Unit.StubsMocks
 	{
 		public CaseCollection CaseCollection { get; set; }
 
-		public CaseCollection Read()
+		public CaseCollection Read(TextReader textReader)
 		{
 			return CaseCollection;
+
 		}
 	}
 }

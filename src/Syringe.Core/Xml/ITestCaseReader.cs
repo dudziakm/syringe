@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Syringe.Core.Xml
 {
-    public interface ITestCaseReader
+	public interface ITestCaseReader
     {
-        CaseCollection Read();
+		CaseCollection Read(TextReader textReader);
     }
 }

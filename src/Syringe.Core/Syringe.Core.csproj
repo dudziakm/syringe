@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
@@ -55,6 +59,26 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,10 +89,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient\CasesClient.cs" />
+    <Compile Include="ApiClient\TasksClient.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />
+    <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Configuration\LogType.cs" />
+    <Compile Include="Configuration\ApplicationConfig.cs" />
     <Compile Include="Configuration\Variable.cs" />
+    <Compile Include="Domain\Entities\TaskRequest.cs" />
     <Compile Include="Domain\Entities\Salt.cs" />
     <Compile Include="Domain\Entities\ScheduledJob.cs" />
     <Compile Include="Domain\Entities\Team.cs" />
@@ -80,6 +109,8 @@
     <Compile Include="Domain\Repository\RedisUserRepository.cs" />
     <Compile Include="Domain\Entities\User.cs" />
     <Compile Include="Domain\Repository\RepositoryException.cs" />
+    <Compile Include="Domain\Service\ICaseService.cs" />
+    <Compile Include="Domain\Service\ITasksService.cs" />
     <Compile Include="Domain\Service\IUserService.cs" />
     <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestCaseException.cs" />
@@ -100,9 +131,11 @@
     <Compile Include="Reader\ITestCaseFileReader.cs" />
     <Compile Include="Reader\TestCaseDirectory.cs" />
     <Compile Include="Reader\TestCaseFileReader.cs" />
-    <Compile Include="Repositories\CaseRepository.cs" />
-    <Compile Include="Repositories\ICaseRepository.cs" />
-    <Compile Include="Runner\WorkerDetailsModel.cs" />
+    <Compile Include="Domain\Repository\CaseRepository.cs" />
+    <Compile Include="Domain\Repository\ICaseRepository.cs" />
+    <Compile Include="Domain\Entities\TaskDetails.cs" />
+    <Compile Include="Security\IUserContext.cs" />
+    <Compile Include="Security\UserContext.cs" />
     <Compile Include="VerificationItem.cs" />
     <Compile Include="Results\Writer\ResultWriterBase.cs" />
     <Compile Include="Results\Writer\TextFileResultWriter.cs" />

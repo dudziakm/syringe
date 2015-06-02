@@ -7,20 +7,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using RestSharp;
+using Syringe.Core;
 using Syringe.Core.Configuration;
+using Syringe.Core.Domain.Entities;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
-using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
 {
 	internal class ParallelTestSessionQueue
 	{
 		private readonly ConcurrentBag<Task<SessionRunnerTaskInfo>> _currentTasks;
+		private IApplicationConfiguration _appConfig;
 
 		public static ParallelTestSessionQueue Default
 		{
@@ -43,9 +45,10 @@ namespace Syringe.Service.Parallel
 		internal ParallelTestSessionQueue()
 		{
 			_currentTasks = new ConcurrentBag<Task<SessionRunnerTaskInfo>>();
+			_appConfig = new ApplicationConfig();
 		}
 
-		public int Add(RunCaseCollectionRequestModel item)
+		public int Add(TaskRequest item)
 		{
 			Task<SessionRunnerTaskInfo> parentTask = Task.Run(() =>
 			{
@@ -55,6 +58,8 @@ namespace Syringe.Service.Parallel
 				var taskInfo = new SessionRunnerTaskInfo();
 				taskInfo.Request = item;
 				taskInfo.StartTime = DateTime.UtcNow;
+				taskInfo.Username = item.Username;
+				taskInfo.TeamName = item.TeamName;
 
 				Task childTask = Task.Run(() =>
 				{
@@ -75,15 +80,15 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				// TODO: IConfiguration
-				// TODO: username to team lookup
-				string teamName = "teamname";
+				string username = item.Username;
+				string teamName = item.TeamName;
 
-				string fullPath = Path.Combine(@"d:\syringe\", teamName, item.Request.Filename);
+				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, item.Request.Filename);
 				string xml = File.ReadAllText(fullPath);
 				using (var stringReader = new StringReader(xml))
 				{
-					var reader = new TestCaseReader(stringReader);
+					var testCaseReader = new TestCaseReader();
+					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 					var config = new Config();
 					var logStringBuilder = new StringBuilder();
 					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
@@ -91,7 +96,7 @@ namespace Syringe.Service.Parallel
 
 					var runner = new TestSessionRunner(config, httpClient, new TextFileResultWriter());
 					item.Runner = runner;
-					runner.Run(reader);
+					runner.Run(caseCollection);
 				}
 			}
 			catch (Exception e)
@@ -100,13 +105,13 @@ namespace Syringe.Service.Parallel
 			}
 		}
 
-		public IEnumerable<WorkerDetailsModel> GetRunningTasks()
+		public IEnumerable<TaskDetails> GetRunningTasks()
 		{
 			return _currentTasks.Select(task =>
 			{
 				TestSessionRunner runner = task.Result.Runner;
 
-				return new WorkerDetailsModel()
+				return new TaskDetails()
 				{
 					TaskId = task.Id,
 					Status = task.Result.CurrentTask.Status.ToString(),
@@ -116,13 +121,13 @@ namespace Syringe.Service.Parallel
 			});
 		}
 
-		public WorkerDetailsModel GetRunningTaskDetails(int taskId)
+		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
 			Task<SessionRunnerTaskInfo> task = _currentTasks.FirstOrDefault(x => x.Id == taskId);
 			if (task != null)
 			{
 				TestSessionRunner runner = task.Result.Runner;
-				return new WorkerDetailsModel()
+				return new TaskDetails()
 				{
 					TaskId = task.Id,
 					Status = task.Result.CurrentTask.Status.ToString(),

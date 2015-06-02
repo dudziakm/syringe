@@ -124,8 +124,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="ApiClient\CasesClient.cs" />
-    <Compile Include="ApiClient\TasksClient.cs" />
     <Compile Include="Controllers\TestCaseController.cs" />
     <Compile Include="Models\Header.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
@@ -181,7 +179,8 @@
     <Content Include="Views\TestCase\EditorTemplates\Header.cshtml" />
     <Content Include="Views\TestCase\EditorTemplates\ParsedResponseItem.cshtml" />
     <Content Include="Views\TestCase\EditorTemplates\VerificationItem.cshtml" />
-    <Content Include="Views\TestCase\Index.cshtml" />
+    <Content Include="Views\TestCase\Edit.cshtml" />
+    <Content Include="Views\TestCase\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

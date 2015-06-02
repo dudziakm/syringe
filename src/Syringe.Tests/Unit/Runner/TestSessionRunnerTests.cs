@@ -10,6 +10,7 @@ using Syringe.Core.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
+using Syringe.Core.Xml;
 using Syringe.Tests.Unit.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
@@ -30,18 +31,18 @@ namespace Syringe.Tests.Unit.Runner
 		public void Run_should_repeat_testcases_from_repeat_property()
 		{
 			// Arrange
+			var stringReader = new StringReader("");
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1" }, 
 			});
-			reader.CaseCollection.Repeat = 10;
+			caseCollection.Repeat = 10;
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Count, Is.EqualTo(10));
@@ -52,6 +53,8 @@ namespace Syringe.Tests.Unit.Runner
 		{
 			// Arrange
 			var config = new Config();
+			var stringReader = new StringReader("");
+			var testCaseReader = new TestCaseReaderMock();
 
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
@@ -70,8 +73,7 @@ namespace Syringe.Tests.Unit.Runner
 			IResultWriter resultWriter = new ResultWriterStub();
 			var runner = new TestSessionRunner(config, httpClient, resultWriter);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1" }, 
 				new Case() { Url = "foo2" },
@@ -80,7 +82,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
@@ -93,6 +95,8 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var beforeStart = DateTime.UtcNow;
 			var config = new Config();
+			var testCaseReader = new TestCaseReaderMock();
+			var stringReader = new StringReader("");
 
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
@@ -101,14 +105,13 @@ namespace Syringe.Tests.Unit.Runner
 			IResultWriter resultWriter = new ResultWriterStub();
 			var runner = new TestSessionRunner(config, httpClient, resultWriter);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1" }, 
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
@@ -124,14 +127,13 @@ namespace Syringe.Tests.Unit.Runner
 			config.BaseUrl = "http://www.yahoo.com";
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "{baseurl}/foo/test.html" }, 
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].ActualUrl, Is.EqualTo("http://www.yahoo.com/foo/test.html"));
@@ -146,8 +148,7 @@ namespace Syringe.Tests.Unit.Runner
 			_httpClientMock.Response.Content = "some content";
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case()
 				{
@@ -165,7 +166,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].VerifyPositiveResults[0].Success, Is.True);
@@ -196,8 +197,7 @@ namespace Syringe.Tests.Unit.Runner
 				}
 			};
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case()
 				{
@@ -234,8 +234,10 @@ namespace Syringe.Tests.Unit.Runner
 				}
 			});
 
+			var stringReader = new StringReader("");
+
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[1].VerifyPositiveResults[0].Success, Is.True);
@@ -250,8 +252,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case()
 				{
@@ -261,7 +262,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].Success, Is.True);
@@ -276,8 +277,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case()
 				{
@@ -287,7 +287,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].Success, Is.False);
@@ -301,14 +301,13 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous}, 
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].Message, Is.EqualTo("It broke"));
@@ -322,14 +321,13 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1"}, 
 			});
 
 			// Act
-			runner.Run(reader);
+			runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(_resultWriterStub.StringBuilder.ToString(), Is.Not.Empty.Or.Null);
@@ -344,14 +342,13 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1", Sleep = seconds }
 			});
 
 			// Act
-			runner.Run(reader);
+			runner.Run(caseCollection);
 			var timeAfterRun = DateTime.UtcNow;
 
 			// Assert
@@ -367,14 +364,13 @@ namespace Syringe.Tests.Unit.Runner
 
 			TestSessionRunner runner = CreateRunner(config);
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case() { Url = "foo1" } 
 			});
 
 			// Act
-			runner.Run(reader);
+			runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(_httpClientMock.LogLastRequestCalled, Is.True);
@@ -390,8 +386,7 @@ namespace Syringe.Tests.Unit.Runner
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 			_httpClientMock.Response.Content = "some content";
 
-			var reader = new TestCaseReaderMock();
-			reader.CaseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[] 
 			{
 				new Case()
 				{
@@ -409,7 +404,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(reader);
+			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults[0].Success, Is.True);

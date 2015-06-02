@@ -1,42 +1,59 @@
-﻿using System.Web.Helpers;
+﻿using System.Collections.Generic;
+using System.Web.Helpers;
 using RestSharp;
+using Syringe.Core.Domain.Entities;
+using Syringe.Core.Domain.Service;
 using Syringe.Core.Runner;
 
-namespace Syringe.Web.ApiClient
+namespace Syringe.Core.ApiClient
 {
-	public class TasksClient
+	public class TasksClient : ITasksService
 	{
+		// Don't use the Restsharp JSON deserializer, it fails
 		private readonly string _baseUrl;
 
 		public TasksClient()
+			: this("http://localhost:1232")
 		{
-			_baseUrl = "http://localhost:1232";
 		}
 
-		public int Start(string filename, string username)
+		public TasksClient(string url)
+		{
+			_baseUrl = url;
+		}
+
+		public int Start(TaskRequest item)
 		{
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("start");
-			request.AddJsonBody(new
-			{
-				Filename = filename,
-				Username = username
-			});
-			request.Method = Method.POST;
 
 			IRestResponse response = client.Execute(request);
 			return ParseOrDefault(response.Content, 0);
 		}
 
-		public WorkerDetailsModel GetProgress(int taskId)
+		public string Stop(int id)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public List<string> StopAll()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public IEnumerable<TaskDetails> GetRunningTasks()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("GetRunningTaskDetails");
 			request.AddParameter("taskId", taskId);
 
-			// Don't use the Restsharp JSON deserializer, it fails
 			IRestResponse response = client.Execute(request);
-			WorkerDetailsModel details = Json.Decode<WorkerDetailsModel>(response.Content);
+			TaskDetails details = Json.Decode<TaskDetails>(response.Content);
 
 			return details;
 		}

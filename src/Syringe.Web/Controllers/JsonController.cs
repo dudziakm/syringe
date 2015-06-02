@@ -2,8 +2,10 @@
 using System.Web.Mvc;
 using RestSharp;
 using Syringe.Core;
+using Syringe.Core.ApiClient;
+using Syringe.Core.Domain.Entities;
 using Syringe.Core.Runner;
-using Syringe.Web.ApiClient;
+using Syringe.Core.Security;
 
 namespace Syringe.Web.Controllers
 {
@@ -11,29 +13,38 @@ namespace Syringe.Web.Controllers
 	{
 		private readonly TasksClient _tasksClient;
 		private readonly CasesClient _casesClient;
+		private readonly IUserContext _userContext;
 
 		public JsonController()
 		{
 			_tasksClient = new TasksClient();
 			_casesClient = new CasesClient();
+			_userContext = new UserContext();
 		}
 
 		public ActionResult Run(string filename)
 		{
-			int taskId = _tasksClient.Start(filename, "username TODO");
+			var taskRequest = new TaskRequest()
+			{
+				Filename = filename,
+				Username = _userContext.Username,
+				TeamName = _userContext.TeamName,
+			};
+
+			int taskId = _tasksClient.Start(taskRequest);
+
 			return Json(new { taskId = taskId });
 	    }
 
 		public ActionResult GetProgress(int taskId)
 		{
-			WorkerDetailsModel details = _tasksClient.GetProgress(taskId);
+			TaskDetails details = _tasksClient.GetRunningTaskDetails(taskId);
 			return Json(details, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult GetCases(string filename)
 		{
-			// TODO: team name from the user context
-			CaseCollection testCases = _casesClient.GetByFilename(filename, "teamname");
+			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
 			return Json(testCases, JsonRequestBehavior.AllowGet);
 		}
 	}

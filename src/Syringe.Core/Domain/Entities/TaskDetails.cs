@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Syringe.Core.Results;
 
-namespace Syringe.Core.Runner
+namespace Syringe.Core.Domain.Entities
 {
-	public class WorkerDetailsModel
+	public class TaskDetails
 	{
 		public int TaskId { get; set; }
 		public string Status { get; set; }
@@ -13,7 +13,7 @@ namespace Syringe.Core.Runner
 		public int TotalCases { get; set; }
 		public string Errors { get; set; }
 
-		public WorkerDetailsModel()
+		public TaskDetails()
 		{
 			Results = new List<TestCaseResult>();
 		}

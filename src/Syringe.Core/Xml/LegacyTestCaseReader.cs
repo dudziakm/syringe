@@ -12,20 +12,14 @@ using Syringe.Core.Logging;
 
 namespace Syringe.Core.Xml
 {
-	public class LegacyTestCaseReader : ITestCaseReader, IDisposable
+	public class LegacyTestCaseReader : ITestCaseReader
 	{
 		private static readonly Regex _attributeRegex = new Regex("=([\"']){1}(.*?)\\1", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-		private readonly TextReader _textReader;
 
-	    public LegacyTestCaseReader(TextReader textReader)
-	    {
-		    _textReader = textReader;
-	    }
-
-		public CaseCollection Read()
+		public CaseCollection Read(TextReader textReader)
 		{
 			// Clean up any invalid XML
-			string originalXml = _textReader.ReadToEnd();
+			string originalXml = textReader.ReadToEnd();
 			string validXml = ReEncodeAttributeValues(originalXml);
 			var stringReader = new StringReader(validXml);
 
@@ -327,10 +321,5 @@ namespace Syringe.Core.Xml
 
 			return xml;
 		}
-
-		public void Dispose()
-	    {
-		    _textReader.Dispose();
-	    }
 	}
 }

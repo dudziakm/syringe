@@ -106,11 +106,8 @@
   <ItemGroup>
     <Compile Include="Api\TasksController.cs" />
     <Compile Include="Api\CasesController.cs" />
-    <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
     <Compile Include="Api\TeamController.cs" />
-    <Compile Include="Models\RunCaseCollectionRequestModel.cs" />
     <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

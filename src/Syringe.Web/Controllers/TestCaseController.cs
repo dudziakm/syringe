@@ -4,27 +4,42 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Syringe.Core;
-using Syringe.Core.Repositories;
+using Syringe.Core.ApiClient;
+using Syringe.Core.Domain.Repository;
+using Syringe.Core.Security;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
     public class TestCaseController : Controller
     {
-        private readonly ICaseRepository _caseRepository;
+		private readonly CasesClient _casesClient;
+		private readonly IUserContext _userContext;
 
-        public TestCaseController(ICaseRepository caseRepository)
+		public TestCaseController()
 		{
-			_caseRepository = caseRepository;
+			_casesClient = new CasesClient();
+			_userContext = new UserContext();
 		}
 
-        public TestCaseController() : this(new CaseRepository()) { }
-		
+		public ActionResult View(string filename)
+		{
+			ViewData["Filename"] = filename;
 
-        public ActionResult Index(string filename, int testCaseId)
+			// TODO: tests
+			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+			var caseList = testCases.TestCases.Select(x => new TestCaseViewModel()
+			{
+				Id = x.Id,
+				ShortDescription = x.ShortDescription
+			});
+
+			return View("View", caseList);
+		}
+
+		public ActionResult Edit(string filename, int testCaseId)
         {
-            var testCase = _caseRepository.GetTestCase(filename, testCaseId);
-
+			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
             testCase.VerifyNegatives.AddRange(testCase.VerifyPositives);
 
             var model = new TestCaseViewModel
@@ -50,7 +65,7 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(TestCaseViewModel model)
+        public ActionResult Edit(TestCaseViewModel model)
         {
             return View(model);
         }

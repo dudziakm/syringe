@@ -1,52 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Http;
 using Syringe.Core;
+using Syringe.Core.Configuration;
+using Syringe.Core.Domain.Repository;
+using Syringe.Core.Domain.Service;
 using Syringe.Core.Xml;
-using Syringe.Service.Configuration;
 
 namespace Syringe.Service.Api
 {
-    public class CasesController : ApiController
-    {
-		private readonly IConfiguration _configuration;
+	public class CasesController : ApiController, ICaseService
+	{
+	    private readonly ICaseRepository _caseRepository;
 
-		public CasesController() : this(new Config())
+		public CasesController()
+			: this(new CaseRepository())
 		{
 		}
 
-		internal CasesController(IConfiguration configuration)
+		internal CasesController(ICaseRepository caseRepository)
 		{
-			_configuration = configuration;
+			_caseRepository = caseRepository;
 		}
 
-		// TODO: Tests
+	    // TODO: Tests
 
 		[Route("api/cases/ListForTeam")]
 		[HttpGet]
-		public IEnumerable<string> ListForTeam(string teamName)
+		public IEnumerable<string> ListFilesForTeam(string teamName)
 		{
-			string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName);
-
-			foreach (string file in Directory.EnumerateFiles(fullPath))
-			{
-				var fileInfo = new FileInfo(file);
-				yield return fileInfo.Name;
-			}
+			return _caseRepository.ListCasesForTeam(teamName);
 		}
 
-		[Route("api/cases/GetByFilename")]
-        [HttpGet]
-		public CaseCollection GetByFilename(string filename, string teamName)
-        {
-			string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName, filename);
-			string xml = File.ReadAllText(fullPath);
+		[Route("api/cases/GetTestCase")]
+		[HttpGet]
+		public Case GetTestCase(string filename, string teamName, int caseId)
+		{
+			return _caseRepository.GetTestCase(filename, teamName, caseId);
+		}
 
-	        using (var stringReader = new StringReader(xml))
-	        {
-		        var testCaseReader = new TestCaseReader(stringReader);
-		        return testCaseReader.Read();
-	        }
-        }
+		[Route("api/cases/GetTestCaseCollection")]
+		[HttpGet]
+		public CaseCollection GetTestCaseCollection(string filename, string teamName)
+		{
+			return _caseRepository.GetTestCaseCollection(filename, teamName);
+		}
     }
 }

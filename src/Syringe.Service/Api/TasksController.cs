@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using Syringe.Core.Domain.Entities;
+using Syringe.Core.Domain.Service;
 using Syringe.Core.Runner;
-using Syringe.Service.Models;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api
 {
-    public class TasksController : ApiController
-    {
+	public class TasksController : ApiController, ITasksService
+	{
 	    private readonly ParallelTestSessionQueue _sessionQueue;
 
 	    public TasksController()
@@ -17,7 +18,7 @@ namespace Syringe.Service.Api
 
 		[Route("api/tasks/Start")]
 		[HttpPost]
-		public int Start(RunCaseCollectionRequestModel item)
+		public int Start(TaskRequest item)
 		{
 			return _sessionQueue.Add(item);
 		}
@@ -38,14 +39,14 @@ namespace Syringe.Service.Api
 
 		[Route("api/tasks/GetRunningTasks")]
 		[HttpGet]
-		public IEnumerable<WorkerDetailsModel> GetRunningTasks()
+		public IEnumerable<TaskDetails> GetRunningTasks()
 		{
 			return _sessionQueue.GetRunningTasks();
 		}
 
 		[Route("api/tasks/GetRunningTaskDetails")]
 		[HttpGet]
-		public WorkerDetailsModel GetRunningTaskDetails(int taskId)
+		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
 			return _sessionQueue.GetRunningTaskDetails(taskId);
 		}
