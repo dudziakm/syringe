@@ -1,0 +1,14 @@
+﻿@model Syringe.Web.Models.Header
+
+<div class="form-group">
+    @Html.LabelFor(x => Model.Key, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-4">
+        @Html.TextBoxFor(x => Model.Key, new { @class = "form-control", placeholder = "Key" })
+    </div>
+
+    @Html.LabelFor(x => Model.Value, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-4">
+        @Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
+    </div>
+</div>
+

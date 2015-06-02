@@ -126,10 +126,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ApiClient\CasesClient.cs" />
     <Compile Include="ApiClient\TasksClient.cs" />
+    <Compile Include="Models\Header.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\PostType.cs" />
     <Compile Include="Models\RunViewModel.cs" />
+    <Compile Include="Models\TestCaseViewModel.cs" />
+    <Compile Include="Models\VerificationItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Global.asax.cs" />
     <Compile Include="Startup.cs" />
@@ -151,9 +155,11 @@
     <Content Include="Css\Syringe.css.map">
       <DependentUpon>Syringe.css</DependentUpon>
     </Content>
+    <Content Include="XmlExamples\single-case.xml" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\Syringe\TestCase.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
     <Content Include="Web.config">
@@ -171,6 +177,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
+    <Content Include="Views\Home\TestCase.cshtml" />
+    <Content Include="Views\Home\EditorTemplates\Header.cshtml" />
+    <Content Include="Views\Home\EditorTemplates\ParsedResponseItem.cshtml" />
+    <Content Include="Views\Home\EditorTemplates\VerificationItem.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
