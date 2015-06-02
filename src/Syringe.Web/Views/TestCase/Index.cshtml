@@ -1,0 +1,112 @@
+﻿@model TestCaseViewModel
+
+@{
+    ViewBag.Title = "Edit Test Case";
+}
+<div class="container">
+    @using (Html.BeginForm("TestCase", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <p class="lead">General</p>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Id, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.Id, new { @class = "form-control", placeholder = "Enter Id" })
+            </div>
+
+            @Html.LabelFor(x => x.ShortDescription, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.ShortDescription, new { @class = "form-control", placeholder = "Enter Short Description" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.LongDescription, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextAreaFor(x => x.LongDescription, new { @class = "form-control", placeholder = "Enter Long Description" })
+            </div>
+            @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL", type = "url" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.PostType, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.EnumDropDownListFor(x => x.PostType, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(x => x.VerifyResponseCode, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.EnumDropDownListFor(x => x.VerifyResponseCode, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ErrorMessage, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.ErrorMessage, new { @class = "form-control", placeholder = "Enter error message" })
+            </div>
+            @Html.LabelFor(x => x.LogRequest, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.LogRequest, new { @class = "form-control", placeholder = "Log Request" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.LogResponse, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.LogResponse, new { @class = "form-control", placeholder = "Log Response" })
+            </div>
+            @Html.LabelFor(x => x.Sleep, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(x => x.Sleep, new { @class = "form-control", placeholder = "Log Response", type = "number" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.PostBody, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body" })
+            </div>
+        </div>
+
+        <p class="lead">Headers</p>
+
+        @Html.EditorFor(x => x.Headers)
+
+        <p class="lead">Parsed Responses</p>
+
+        @Html.EditorFor(x => x.ParseResponses)
+
+        <p class="lead">Verifications</p>
+
+        @Html.EditorFor(x => x.Verifications)
+
+        <div class="form-group">
+            <label for="description" class="control-label sr-only">Description</label>
+
+            <div class="col-sm-3">
+                <input id="description" type="text" class="form-control" placeholder="Description" />
+            </div>
+
+            <label for="regex" class="control-label sr-only">Regex</label>
+
+            <div class="col-sm-3">
+                <input id="regex" type="text" class="form-control" placeholder="Regex" />
+            </div>
+
+            <label for="verifyType" class="control-label sr-only">VerifyType</label>
+
+            <div class="col-sm-3">
+                <select class="form-control" id="verifyType">
+                    <option value="1">Positive</option>
+                    <option value="0">Negative</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="addVerification">Add</button>
+        </div>
+
+
+        <input type="submit" class="btn btn-default" />
+    }
+</div>

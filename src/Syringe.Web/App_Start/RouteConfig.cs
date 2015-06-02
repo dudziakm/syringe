@@ -9,16 +9,18 @@ namespace Syringe.Web
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			routes.MapRoute(
+
+
+		    routes.MapRoute(
+		        "TestCases",
+		        "TestCases/{filename}/{testCaseId}",
+		        new {controller = "TestCase", action = "Index", filename = "", testCaseId = 0});
+
+           routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
 			);
-
-			routes.MapRoute(
-		   "TestCases",
-		   "{action}/{filename}/{testCaseId}",
-		   new { controller = "Home", action = "TestCase", filename = "", testCaseId = "" });
 		}
 	}
 }

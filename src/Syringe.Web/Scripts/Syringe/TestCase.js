@@ -10,7 +10,7 @@
                 Regex: $("#regex").val(),
                 VerifyType: $("#verifyType").val()
             };
-            $.get("/AddVerification", verificationItem, function (data) {
+            $.get("/TestCase/AddVerification", verificationItem, function (data) {
                 $("#addVerification").parent().before(data);
             });
         });
