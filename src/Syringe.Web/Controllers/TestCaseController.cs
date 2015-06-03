@@ -31,7 +31,8 @@ namespace Syringe.Web.Controllers
 			var caseList = testCases.TestCases.Select(x => new TestCaseViewModel()
 			{
 				Id = x.Id,
-				ShortDescription = x.ShortDescription
+				ShortDescription = x.ShortDescription,
+				Url = x.Url
 			});
 
 			return View("View", caseList);

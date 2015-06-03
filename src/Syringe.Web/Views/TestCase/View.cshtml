@@ -20,7 +20,9 @@
 					{
 					<tr>
 						<td>@testCase.Id</td>
-						<td>@testCase.ShortDescription</td>
+						<td>
+							<p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
+						</td>
 						<td>
 							<a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new { filename = ViewData["Filename"], testCaseId = testCase.Id})">Edit</a>
 						</td>

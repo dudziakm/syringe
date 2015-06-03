@@ -89,7 +89,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient\CanaryClient.cs" />
     <Compile Include="ApiClient\CasesClient.cs" />
+    <Compile Include="Domain\Entities\CanaryResult.cs" />
+    <Compile Include="Domain\Service\ICanaryService.cs" />
     <Compile Include="ApiClient\TasksClient.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />

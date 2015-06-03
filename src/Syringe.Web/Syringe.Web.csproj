@@ -50,6 +50,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -134,7 +137,6 @@
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\VerificationItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Global.asax.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +144,14 @@
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
     <Content Include="Css\bootstrap.min.css" />
+    <Content Include="Css\material-fullpalette.css" />
+    <Content Include="Css\material-fullpalette.min.css" />
+    <Content Include="Css\material.css" />
+    <Content Include="Css\material.min.css" />
+    <Content Include="Css\ripples.css" />
+    <Content Include="Css\ripples.min.css" />
+    <Content Include="Css\roboto.css" />
+    <Content Include="Css\roboto.min.css" />
     <Content Include="Css\Syringe.css">
       <DependentUpon>Syringe.less</DependentUpon>
     </Content>
@@ -149,16 +159,37 @@
       <DependentUpon>Syringe.css</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\LICENSE.txt" />
+    <Content Include="fonts\Material-Design-Icons.svg" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Css\Syringe.less" />
     <Content Include="Css\Syringe.css.map">
       <DependentUpon>Syringe.css</DependentUpon>
     </Content>
     <Content Include="XmlExamples\single-case.xml" />
+    <Content Include="Css\material-fullpalette.css.map" />
+    <Content Include="Css\material-fullpalette.min.css.map" />
+    <Content Include="Css\material.css.map" />
+    <Content Include="Css\material.min.css.map" />
+    <Content Include="Css\ripples.css.map" />
+    <Content Include="Css\ripples.min.css.map" />
+    <Content Include="Css\roboto.css.map" />
+    <Content Include="Css\roboto.min.css.map" />
+    <Content Include="fonts\Material-Design-Icons.eot" />
+    <Content Include="fonts\Material-Design-Icons.ttf" />
+    <Content Include="fonts\Material-Design-Icons.woff" />
+    <Content Include="fonts\RobotoDraftBold.woff" />
+    <Content Include="fonts\RobotoDraftBold.woff2" />
+    <Content Include="fonts\RobotoDraftItalic.woff" />
+    <Content Include="fonts\RobotoDraftItalic.woff2" />
+    <Content Include="fonts\RobotoDraftMedium.woff" />
+    <Content Include="fonts\RobotoDraftMedium.woff2" />
+    <Content Include="fonts\RobotoDraftRegular.woff" />
+    <Content Include="fonts\RobotoDraftRegular.woff2" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
-    <Content Include="Scripts\Syringe\testcase.js" />
+    <TypeScriptCompile Include="Scripts\Syringe\Testcase.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
     <Content Include="Web.config">

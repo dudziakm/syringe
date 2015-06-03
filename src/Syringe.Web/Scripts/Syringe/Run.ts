@@ -44,7 +44,7 @@ module Syringe.Web
 			{
 					$.each(data.TestCases, function(index, item)
 					{
-						var html = '<div class="case-result" id="case-' +item.Id+'">';
+						var html = '<div class="case-result panel" id="case-' +item.Id+'">';
 						html += item.Id + " - " + item.ShortDescription;
 						html += '<span class="case-result-url"></span>';
 						html += "</div>";

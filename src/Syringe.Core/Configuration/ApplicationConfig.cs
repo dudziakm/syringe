@@ -8,5 +8,10 @@ namespace Syringe.Core.Configuration
 		{
 			get { return ConfigurationManager.AppSettings["TestCasesBaseDirectory"]; }
 		}
+
+		public string ServiceUrl
+		{
+			get { return ConfigurationManager.AppSettings["ServiceUrl"]; }
+		}
 	}
 }

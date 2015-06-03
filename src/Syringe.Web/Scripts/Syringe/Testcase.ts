@@ -1,7 +1,10 @@
-(function () {
+﻿(function () {
+
     function setupButtons() {
+        
         $("#addVerification").click(function (e) {
             e.preventDefault();
+
             var verificationItem = {
                 Description: $("#description").val(),
                 Regex: $("#regex").val(),
@@ -12,8 +15,9 @@
             });
         });
     }
+
     $(document).ready(function () {
         setupButtons();
     });
+
 }());
-//# sourceMappingURL=Testcase.js.map

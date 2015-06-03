@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Helpers;
 using RestSharp;
+using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Service;
 
 namespace Syringe.Core.ApiClient
@@ -10,13 +11,13 @@ namespace Syringe.Core.ApiClient
 		private readonly string _baseUrl;
 
 		public CasesClient()
-			: this("http://localhost:1232")
+			: this(new ApplicationConfig())
 		{
 		}
 
-		public CasesClient(string url)
+		public CasesClient(IApplicationConfiguration appConfig)
 		{
-			_baseUrl = url;
+			_baseUrl = appConfig.ServiceUrl;
 		}
 
 		public IEnumerable<string> ListFilesForTeam(string teamName)

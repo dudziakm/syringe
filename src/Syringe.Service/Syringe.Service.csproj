@@ -104,6 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CanaryController.cs" />
     <Compile Include="Api\TasksController.cs" />
     <Compile Include="Api\CasesController.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
@@ -125,10 +126,7 @@
       <Name>Syringe.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Start\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

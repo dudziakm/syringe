@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Core.ApiClient;
+using Syringe.Core.Domain.Entities;
 using Syringe.Core.Security;
 using Syringe.Web.Models;
 
@@ -19,6 +21,8 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Index()
 		{
+			CheckServiceIsRunning();
+
 			// TODO: team name from the user context
 			IEnumerable<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName);
 
@@ -32,7 +36,15 @@ namespace Syringe.Web.Controllers
 		{
 			return View("Run", "", filename);
 		}
-		
 
+		private void CheckServiceIsRunning()
+		{
+			var canaryCheck = new CanaryClient();
+			CanaryResult result = canaryCheck.Check();
+			if (result == null || result.Success == false)
+			{
+				throw new InvalidOperationException("Unable to connect to the REST api service. Is the service started? Check it at http://localhost:1232/");
+			}
+		}
 	}
 }
