@@ -11,7 +11,7 @@
 
     @Html.LabelFor(x => Model.Regex, new { @class = "col-sm-2 control-label" })
     <div class="col-sm-4">
-        @Html.TextBoxFor(x => Model.Regex, new { @class = "form-control", placeholder = "Description" })
+        @Html.TextBoxFor(x => Model.Regex, new { @class = "form-control", placeholder = "Regex" })
     </div>
     @Html.Partial("~/Views/TestCase/EditorTemplates/Partials/_RemoveRow.cshtml")
 </div>

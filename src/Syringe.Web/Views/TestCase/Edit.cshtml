@@ -78,6 +78,24 @@
 
         @Html.EditorFor(x => x.ParseResponses)
 
+        <div class="form-group">
+            <label for="parsedDescription" class="control-label col-sm-2">Description</label>
+
+            <div class="col-sm-3">
+                <input id="parsedDescription" type="text" class="form-control" placeholder="Description" />
+            </div>
+
+            <label for="parsedRegex" class="control-label col-sm-2">Regex</label>
+
+            <div class="col-sm-4">
+                <input id="parsedRegex" type="text" class="form-control" placeholder="Regex" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addParsedItem"></button>
+            </div>
+        </div>
+
+
         <p class="lead">Verifications</p>
 
         @Html.EditorFor(x => x.Verifications)
@@ -103,7 +121,9 @@
                     <option value="0">Negative</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" id="addVerification">Add</button>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addVerification"></button>
+            </div>
         </div>
 
 
