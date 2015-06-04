@@ -78,32 +78,52 @@
 
         @Html.EditorFor(x => x.ParseResponses)
 
+        <div class="form-group">
+            <label for="parsedDescription" class="control-label col-sm-2">Description</label>
+
+            <div class="col-sm-3">
+                <input id="parsedDescription" type="text" class="form-control" placeholder="Description" />
+            </div>
+
+            <label for="parsedRegex" class="control-label col-sm-2">Regex</label>
+
+            <div class="col-sm-4">
+                <input id="parsedRegex" type="text" class="form-control" placeholder="Regex" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addParsedItem"></button>
+            </div>
+        </div>
+
+
         <p class="lead">Verifications</p>
 
         @Html.EditorFor(x => x.Verifications)
 
         <div class="form-group">
-            <label for="description" class="control-label sr-only">Description</label>
+            <label for="description" class="control-label col-sm-2">Description</label>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="description" type="text" class="form-control" placeholder="Description" />
             </div>
 
-            <label for="regex" class="control-label sr-only">Regex</label>
+            <label for="regex" class="control-label col-sm-2">Regex</label>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <input id="regex" type="text" class="form-control" placeholder="Regex" />
             </div>
 
-            <label for="verifyType" class="control-label sr-only">VerifyType</label>
+            <label for="verifyType" class="col-sm-1 control-label">VerifyType</label>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <select class="form-control" id="verifyType">
                     <option value="1">Positive</option>
                     <option value="0">Negative</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" id="addVerification">Add</button>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addVerification"></button>
+            </div>
         </div>
 
 

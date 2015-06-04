@@ -13,34 +13,34 @@ namespace Syringe.Web.Controllers
 {
     public class TestCaseController : Controller
     {
-		private readonly CasesClient _casesClient;
-		private readonly IUserContext _userContext;
+        private readonly CasesClient _casesClient;
+        private readonly IUserContext _userContext;
 
-		public TestCaseController()
-		{
-			_casesClient = new CasesClient();
-			_userContext = new UserContext();
-		}
-
-		public ActionResult View(string filename)
-		{
-			ViewData["Filename"] = filename;
-
-			// TODO: tests
-			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-			var caseList = testCases.TestCases.Select(x => new TestCaseViewModel()
-			{
-				Id = x.Id,
-				ShortDescription = x.ShortDescription,
-				Url = x.Url
-			});
-
-			return View("View", caseList);
-		}
-
-		public ActionResult Edit(string filename, int testCaseId)
+        public TestCaseController()
         {
-			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
+            _casesClient = new CasesClient();
+            _userContext = new UserContext();
+        }
+
+        public ActionResult View(string filename)
+        {
+            ViewData["Filename"] = filename;
+
+            // TODO: tests
+            CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+            var caseList = testCases.TestCases.Select(x => new TestCaseViewModel()
+            {
+                Id = x.Id,
+                ShortDescription = x.ShortDescription,
+                Url = x.Url
+            });
+
+            return View("View", caseList);
+        }
+
+        public ActionResult Edit(string filename, int testCaseId)
+        {
+            Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
             testCase.VerifyNegatives.AddRange(testCase.VerifyPositives);
 
             var model = new TestCaseViewModel
@@ -81,6 +81,18 @@ namespace Syringe.Web.Controllers
             };
 
             return PartialView("~/Views/TestCase/EditorTemplates/VerificationItem.cshtml", item);
+        }
+
+
+        public ActionResult AddParsedResponseItem(ParsedResponseViewModel model)
+        {
+            var item = new ParsedResponseItem
+            {
+                Description = model.Description,
+                Regex = model.Regex
+            };
+
+            return PartialView("~/Views/TestCase/EditorTemplates/ParsedResponseItem.cshtml", item);
         }
     }
 }
