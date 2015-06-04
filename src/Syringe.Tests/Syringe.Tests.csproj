@@ -72,7 +72,6 @@
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
     <Compile Include="Integration\TestCaseRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
-    <Compile Include="Unit\Repositories\TestCaseRepositoryTests.cs" />
     <Compile Include="Unit\StubsMocks\RestResponseStub.cs" />
     <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />

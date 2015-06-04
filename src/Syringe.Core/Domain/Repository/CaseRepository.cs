@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Syringe.Core.Configuration;
-using Syringe.Core.Reader;
 using Syringe.Core.Xml;
 
 namespace Syringe.Core.Domain.Repository

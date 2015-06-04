@@ -128,12 +128,6 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="Reader\EmbeddedFileReader.cs" />
-    <Compile Include="Reader\IEmbeddedFileReader.cs" />
-    <Compile Include="Reader\ITestCaseDirectory.cs" />
-    <Compile Include="Reader\ITestCaseFileReader.cs" />
-    <Compile Include="Reader\TestCaseDirectory.cs" />
-    <Compile Include="Reader\TestCaseFileReader.cs" />
     <Compile Include="Domain\Repository\CaseRepository.cs" />
     <Compile Include="Domain\Repository\ICaseRepository.cs" />
     <Compile Include="Domain\Entities\TaskDetails.cs" />
