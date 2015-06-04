@@ -17,6 +17,6 @@
         @Html.EnumDropDownListFor(x => Model.VerifyType, new { @class = "form-control", placeholder = "Verify Type" })
        
     </div>
-    <button class="col-sm-1 glyphicon glyphicon-minus" style="font-size: 24pt" id="removeRow"></button>
+    @Html.Partial("~/Views/TestCase/EditorTemplates/Partials/_RemoveRow.cshtml")
 </div>
 

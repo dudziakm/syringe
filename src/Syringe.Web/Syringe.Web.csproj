@@ -189,6 +189,7 @@
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Views\TestCase\EditorTemplates\Partials\_RemoveRow.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Testcase.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />

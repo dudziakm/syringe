@@ -17,7 +17,7 @@
 
         $("body").on("click","#removeRow", function (e) {
             e.preventDefault();
-            $(this).parent().remove();
+            $(this).closest('.form-group').remove();
         });
     }
 
