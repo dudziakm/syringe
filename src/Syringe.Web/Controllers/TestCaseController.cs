@@ -41,7 +41,11 @@ namespace Syringe.Web.Controllers
         public ActionResult Edit(string filename, int testCaseId)
         {
             Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-            testCase.VerifyNegatives.AddRange(testCase.VerifyPositives);
+
+            var verifications = new List<VerificationItem>();
+
+            verifications.AddRange(testCase.VerifyPositives);
+            verifications.AddRange(testCase.VerifyNegatives);
 
             var model = new TestCaseViewModel
             {
@@ -59,7 +63,7 @@ namespace Syringe.Web.Controllers
                 ShortDescription = testCase.ShortDescription,
                 Sleep = testCase.Sleep,
                 Url = testCase.Url,
-                Verifications = testCase.VerifyNegatives
+                Verifications = verifications
             };
 
             return View(model);
