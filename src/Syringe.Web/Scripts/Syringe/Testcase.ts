@@ -31,6 +31,20 @@
             });
         });
 
+        $("#addHeaderItem").click(function (e) {
+            e.preventDefault();
+
+            var headerItem = {
+                Key: $("#headerKey").val(),
+                Value: $("#headerValue").val(),
+            };
+            $.get("/TestCase/AddHeaderItem", headerItem, function (data) {
+                $("#addHeaderItem").closest('.form-group').before(data);
+                $("#headerKey").val('');
+                $("#headerValue").val('');
+            });
+        });
+
         $("body").on("click","#removeRow", function (e) {
             e.preventDefault();
             $(this).closest('.form-group').remove();

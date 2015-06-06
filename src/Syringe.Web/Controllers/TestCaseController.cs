@@ -94,5 +94,16 @@ namespace Syringe.Web.Controllers
 
             return PartialView("~/Views/TestCase/EditorTemplates/ParsedResponseItem.cshtml", item);
         }
+
+        public ActionResult AddHeaderItem(Header model)
+        {
+            var item = new Header
+            {
+                Key = model.Key,
+                Value = model.Value
+            };
+
+            return PartialView("~/Views/TestCase/EditorTemplates/HeaderItem.cshtml", item);
+        }
     }
 }

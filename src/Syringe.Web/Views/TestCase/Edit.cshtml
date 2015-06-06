@@ -74,6 +74,23 @@
 
         @Html.EditorFor(x => x.Headers)
 
+        <div class="form-group">
+            <label for="headerKey" class="control-label col-sm-2">Key</label>
+
+            <div class="col-sm-3">
+                <input id="headerKey" type="text" class="form-control" placeholder="Key" />
+            </div>
+
+            <label for="headerValue" class="control-label col-sm-2">Value</label>
+
+            <div class="col-sm-4">
+                <input id="headerValue" type="text" class="form-control" placeholder="headerValue" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addHeaderItem"></button>
+            </div>
+        </div>
+
         <p class="lead">Parsed Responses</p>
 
         @Html.EditorFor(x => x.ParseResponses)
@@ -94,7 +111,6 @@
                 <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addParsedItem"></button>
             </div>
         </div>
-
 
         <p class="lead">Verifications</p>
 
@@ -125,7 +141,6 @@
                 <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addVerification"></button>
             </div>
         </div>
-
 
         <input type="submit" class="btn btn-default" />
     }

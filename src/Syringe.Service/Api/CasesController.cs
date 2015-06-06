@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core;
-using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Repository;
 using Syringe.Core.Domain.Service;
-using Syringe.Core.Xml;
 
 namespace Syringe.Service.Api
 {
