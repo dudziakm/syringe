@@ -1,46 +1,75 @@
 (function () {
+    var jQueryElements = {
+        addVerificationButton: $("#addVerification"),
+        verificationDescription: $("#verificationDescription"),
+        verificationRegex: $("#verificationRegex"),
+        verificationType: $("#verificationType"),
+        addParsedItemButton: $("#addParsedItem"),
+        parsedDescription: $("#parsedDescription"),
+        parsedRegex: $("#parsedRegex"),
+        addHeaderItemButton: $("#addHeaderItem"),
+        headerKey: $("#headerKey"),
+        headerValue: $("#headerValue")
+    };
+    var elements = {
+        removeRow: "#removeRow",
+        formGroup: ".form-group"
+    };
     function setupButtons() {
-        $("#addVerification").click(function (e) {
+        jQueryElements.addVerificationButton.click(function (e) {
             e.preventDefault();
             var verificationItem = {
-                Description: $("#description").val(),
-                Regex: $("#regex").val(),
-                VerifyType: $("#verifyType").val()
+                Description: jQueryElements.verificationDescription.val(),
+                Regex: jQueryElements.verificationRegex.val(),
+                VerifyType: jQueryElements.verificationType.val()
             };
             $.get("/TestCase/AddVerification", verificationItem, function (data) {
-                $("#addVerification").closest('.form-group').before(data);
-                $("#description").val('');
-                $("#regex").val('');
+                appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");
+                jQueryElements.verificationDescription.val('');
+                jQueryElements.verificationRegex.val('');
             });
         });
-        $("#addParsedItem").click(function (e) {
+        jQueryElements.addParsedItemButton.click(function (e) {
             e.preventDefault();
             var parsedResponseItem = {
-                Description: $("#parsedDescription").val(),
-                Regex: $("#parsedRegex").val(),
+                Description: jQueryElements.parsedDescription.val(),
+                Regex: jQueryElements.parsedRegex.val(),
             };
             $.get("/TestCase/AddParsedResponseItem", parsedResponseItem, function (data) {
-                $("#addParsedItem").closest('.form-group').before(data);
-                $("#description").val('');
-                $("#regex").val('');
+                appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
+                jQueryElements.parsedDescription.val('');
+                jQueryElements.parsedRegex.val('');
             });
         });
-        $("#addHeaderItem").click(function (e) {
+        jQueryElements.addHeaderItemButton.click(function (e) {
             e.preventDefault();
             var headerItem = {
-                Key: $("#headerKey").val(),
-                Value: $("#headerValue").val(),
+                Key: jQueryElements.headerKey.val(),
+                Value: jQueryElements.headerValue.val(),
             };
             $.get("/TestCase/AddHeaderItem", headerItem, function (data) {
-                $("#addHeaderItem").closest('.form-group').before(data);
-                $("#headerKey").val('');
-                $("#headerValue").val('');
+                appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
+                jQueryElements.headerKey.val('');
+                jQueryElements.headerValue.val('');
             });
         });
-        $("body").on("click", "#removeRow", function (e) {
+        $("body").on("click", elements.removeRow, function (e) {
             e.preventDefault();
-            $(this).closest('.form-group').remove();
+            $(this).closest(elements.formGroup).remove();
         });
+    }
+    function appendDataItem(element, data, elementPrefix) {
+        var currentRow = element.closest(elements.formGroup);
+        var rowNumber = 0;
+        var previousRow = currentRow.prev();
+        //check if previous row exists then increase number
+        if (previousRow.hasClass("form-group")) {
+            var firstInputName = previousRow.find("input:first").attr("name");
+            //get the last index number of the row and increment it by 1
+            rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
+        }
+        var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
+        currentRow.before(newData);
     }
     $(document).ready(function () {
         setupButtons();
