@@ -211,7 +211,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
-    <Content Include="Views\TestCase\EditorTemplates\Header.cshtml" />
+    <Content Include="Views\TestCase\EditorTemplates\HeaderItem.cshtml" />
     <Content Include="Views\TestCase\EditorTemplates\ParsedResponseItem.cshtml" />
     <Content Include="Views\TestCase\EditorTemplates\VerificationItem.cshtml" />
     <Content Include="Views\TestCase\Edit.cshtml" />
