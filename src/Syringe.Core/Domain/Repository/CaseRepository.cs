@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Syringe.Core.Configuration;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Core.Domain.Repository
 {

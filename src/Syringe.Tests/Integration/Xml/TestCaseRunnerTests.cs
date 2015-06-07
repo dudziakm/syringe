@@ -1,13 +1,11 @@
 ﻿using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using RestSharp;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
@@ -15,30 +13,14 @@ using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
 using YamlDotNet.Serialization;
 
-namespace Syringe.Tests.Integration
+namespace Syringe.Tests.Integration.Xml
 {
 	public class TestCaseRunnerTests
 	{
-		protected string ReadEmbeddedFile(string file)
-		{
-			const string namespacePath = "Syringe.Tests.Integration.Xml.";
-
-			string resourcePath = string.Format("{0}{1}", namespacePath, file);
-
-			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
-			if (stream == null)
-				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", resourcePath));
-
-			string textContent = "";
-			using (StreamReader reader = new StreamReader(stream))
-			{
-				textContent = reader.ReadToEnd();
-			}
-
-			return textContent;
-		}
+		public static string XmlExamplesFolder = "Syringe.Tests.Integration.Xml.XmlExamples.Runner.";
 
 		[Test]
 		public void should_parse_responses()
@@ -50,7 +32,7 @@ namespace Syringe.Tests.Integration
 
 			var config = new Config();
 
-			string xml = ReadEmbeddedFile("parsedresponses.xml");
+			string xml = TestHelpers.ReadEmbeddedFile("parsedresponses.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader();
 			var caseCollection = reader.Read(stringReader);
@@ -73,7 +55,7 @@ namespace Syringe.Tests.Integration
 
 			var config = new Config();
 
-			string xml = ReadEmbeddedFile("wikipedia-simple.xml");
+			string xml = TestHelpers.ReadEmbeddedFile("wikipedia-simple.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new LegacyTestCaseReader();
 			var caseCollection = reader.Read(stringReader);
@@ -101,7 +83,7 @@ namespace Syringe.Tests.Integration
 
 			var resultWriter = new TextWriterResultWriter(stringWriter);
 
-			string xml = ReadEmbeddedFile("roadkill-login.xml");
+			string xml = TestHelpers.ReadEmbeddedFile("roadkill-login.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader();
 

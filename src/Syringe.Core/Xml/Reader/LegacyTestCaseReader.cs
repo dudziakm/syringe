@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Logging;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Xml.Reader
 {
 	public class LegacyTestCaseReader : ITestCaseReader
 	{

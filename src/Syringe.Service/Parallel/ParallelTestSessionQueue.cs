@@ -16,6 +16,7 @@ using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Service.Parallel
 {

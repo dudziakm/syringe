@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
 using ConfigurationException = Syringe.Core.Exceptions.ConfigurationException;
 
 namespace Syringe.Core.Configuration

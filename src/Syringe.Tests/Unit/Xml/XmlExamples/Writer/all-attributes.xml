@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="0">
+    <case
+        id="1"
+        shortdescription="short description"
+        longdescription="long description"
+        url="http://myserver"
+        method="post"
+        posttype="text/xml"
+        verifyresponsecode="202"
+        errormessage="my error message"
+        logrequest="true"
+        logresponse="true"
+        sleep="3"
+	    >
+    </case>
+</testcases>

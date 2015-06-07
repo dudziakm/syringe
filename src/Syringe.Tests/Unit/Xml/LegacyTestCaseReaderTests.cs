@@ -6,15 +6,22 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
+using Syringe.Tests.Integration.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {
     public class LegacyTestCaseReaderTests : TestCaseReaderTests
 	{
-        protected override string XmlExamplesFolder
-        {
-            get { return "Syringe.Tests.Unit.Xml.LegacyXmlExamples."; }
-        }
+		public override string XmlExamplesFolder
+		{
+			get { return "Syringe.Tests.Unit.Xml.XmlExamples.Reader.Legacy."; }
+		}
+
+		public override string FalseString
+		{
+			get { return "no"; }
+		}
 
         protected override ITestCaseReader GetTestCaseReader()
         {
@@ -71,7 +78,7 @@ namespace Syringe.Tests.Unit.Xml
         public void Read_should_cleanse_invalid_xml()
         {
             // Arrange
-            string xml = ReadEmbeddedFile("invalid-xml.xml");
+			string xml = TestHelpers.ReadEmbeddedFile("invalid-xml.xml", XmlExamplesFolder);
             var stringReader = new StringReader(xml);
 			var testCaseReader = GetTestCaseReader();
 
@@ -119,7 +126,7 @@ namespace Syringe.Tests.Unit.Xml
         public void GetNumberedAttributes_should_return_attributes_ordered_numerically()
         {
             // Arrange
-            string xml = ReadEmbeddedFile("ordered-attributes.xml");
+			string xml = TestHelpers.ReadEmbeddedFile("ordered-attributes.xml", XmlExamplesFolder);
             XDocument document = XDocument.Parse(xml);
             var firstTestCase = document.Root.Elements().First(x => x.Name.LocalName == "case");
 

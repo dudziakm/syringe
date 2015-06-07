@@ -13,8 +13,8 @@
 		longdescription="long description"
 		method="post"
 		url="http://myserver/test/login.jsp"
-		logrequest="yes"
-		logresponse="yes"
+		logrequest="true"
+		logresponse="true"
 		sleep="3"
 	>
         <postbody>

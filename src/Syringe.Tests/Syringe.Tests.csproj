@@ -62,6 +62,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xmlunit-constraints">
+      <HintPath>..\..\packages\xmlunit-constraints.2.0.0-alpha-01\lib\net35\xmlunit-constraints.dll</HintPath>
+    </Reference>
+    <Reference Include="xmlunit-core">
+      <HintPath>..\..\packages\xmlunit-core.2.0.0-alpha-01\lib\net35\xmlunit-core.dll</HintPath>
+    </Reference>
     <Reference Include="YamlDotNet">
       <HintPath>..\..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
@@ -70,7 +76,9 @@
     <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
-    <Compile Include="Integration\TestCaseRunnerTests.cs" />
+    <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
+    <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
+    <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
     <Compile Include="Unit\StubsMocks\RestResponseStub.cs" />
     <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
@@ -108,44 +116,55 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\full.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\full.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\invalid-xml.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\invalid-xml.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\single-case.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\single-case.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\LegacyXmlExamples\ordered-attributes.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\ordered-attributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Integration\Xml\parsedresponses.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\parsedresponses.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\roadkill-login.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\roadkill-login.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\wikipedia-parsedresults.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\wikipedia-parsedresults.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\wikipedia-simple.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\wikipedia-simple.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\full.xml" />
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\single-case.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Default\full.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Default\single-case.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Yaml\TestCaseExamples\full.yaml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\repeat.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\all-attributes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

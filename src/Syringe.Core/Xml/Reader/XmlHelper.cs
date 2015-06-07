@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
+﻿using System.Linq;
 using System.Xml.Linq;
 using XmlException = Syringe.Core.Exceptions.XmlException;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Xml.Reader
 {
 	internal class XmlHelper
 	{

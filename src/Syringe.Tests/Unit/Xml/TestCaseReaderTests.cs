@@ -9,46 +9,35 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Xml;
+using Syringe.Core.Xml.Reader;
+using Syringe.Tests.Integration.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {
 	public class TestCaseReaderTests
 	{
-	    protected virtual string XmlExamplesFolder
-	    {
-	        get { return "Syringe.Tests.Unit.Xml.XmlExamples."; }
-	    }
+		public virtual string XmlExamplesFolder
+		{
+			get { return "Syringe.Tests.Unit.Xml.XmlExamples.Reader.Default."; }
+		}
+
+		public virtual string FalseString
+		{
+			get { return "false"; }
+		}
 
 		protected virtual ITestCaseReader GetTestCaseReader()
         {
 			return new TestCaseReader();
         }
-
-		protected string ReadEmbeddedFile(string file)
-		{
-            string resourcePath = string.Format("{0}{1}", XmlExamplesFolder, file);
-
-			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
-			if (stream == null)
-				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", resourcePath));
-
-			string textContent = "";
-			using (StreamReader reader = new StreamReader(stream))
-			{
-				textContent = reader.ReadToEnd();
-			}
-
-			return textContent;
-		}
-
         protected string GetSingleCaseExample()
 		{
-			return ReadEmbeddedFile("single-case.xml");
+			return TestHelpers.ReadEmbeddedFile("single-case.xml", XmlExamplesFolder); 
 		}
 
         protected string GetFullExample()
 		{
-			return ReadEmbeddedFile("full.xml");
+			return TestHelpers.ReadEmbeddedFile("full.xml", XmlExamplesFolder); 
 		}
 
 		[Test]
@@ -343,7 +332,7 @@ namespace Syringe.Tests.Unit.Xml
 		{
 			// Arrange
 			string xml = GetSingleCaseExample();
-			xml = xml.Replace("logrequest=\"no\"", "");
+			xml = xml.Replace("logrequest=\"" +FalseString+ "\"", "");
 
 			var stringReader = new StringReader(xml);
 			var testCaseReader = GetTestCaseReader();
@@ -377,7 +366,7 @@ namespace Syringe.Tests.Unit.Xml
 		{
 			// Arrange
 			string xml = GetSingleCaseExample();
-			xml = xml.Replace("logresponse=\"no\"", "");
+			xml = xml.Replace("logresponse=\"" + FalseString + "\"", "");
 
 			var stringReader = new StringReader(xml);
 			var testCaseReader = GetTestCaseReader();

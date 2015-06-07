@@ -6,7 +6,7 @@ using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Xml.Reader
 {
     public class TestCaseReader : ITestCaseReader
     {
@@ -81,8 +81,8 @@ namespace Syringe.Core.Xml
 			testCase.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
 			testCase.PostType = XmlHelper.GetOptionalAttribute(element, "posttype", "application/x-www-form-urlencoded");
 			testCase.VerifyResponseCode = GetVerifyResponseCode(element);
-			testCase.LogRequest = YesToBool(element, "logrequest");
-			testCase.LogResponse = YesToBool(element, "logresponse");
+			testCase.LogRequest = GetBoolValue(element, "logrequest");
+			testCase.LogResponse = GetBoolValue(element, "logresponse");
 			testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
 			testCase.Headers = GetHeader(element);
 
@@ -117,10 +117,10 @@ namespace Syringe.Core.Xml
 			return headers;
 		}
 
-		private bool YesToBool(XElement element, string attributeName)
+		private bool GetBoolValue(XElement element, string attributeName)
 		{
-			string attributeValue = XmlHelper.GetOptionalAttribute(element, attributeName, "yes");
-			return (attributeValue == "yes");
+			string attributeValue = XmlHelper.GetOptionalAttribute(element, attributeName, "true");
+			return (attributeValue.Equals("true", StringComparison.OrdinalIgnoreCase));
 		}
 
 		private HttpStatusCode GetVerifyResponseCode(XElement caseElement)
