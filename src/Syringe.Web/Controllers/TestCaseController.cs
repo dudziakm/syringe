@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core;
 using Syringe.Core.ApiClient;
 using Syringe.Core.Security;
+using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
-using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
+
 
 namespace Syringe.Web.Controllers
 {
@@ -14,11 +13,13 @@ namespace Syringe.Web.Controllers
     {
         private readonly CasesClient _casesClient;
         private readonly IUserContext _userContext;
+        private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
 
         public TestCaseController()
         {
             _casesClient = new CasesClient();
             _userContext = new UserContext();
+            _testCaseViewModelBuilder = new TestCaseViewModelBuilder();
         }
 
         public ActionResult View(string filename)
@@ -27,12 +28,7 @@ namespace Syringe.Web.Controllers
 
             // TODO: tests
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-            var caseList = testCases.TestCases.Select(x => new TestCaseViewModel()
-            {
-                Id = x.Id,
-                ShortDescription = x.ShortDescription,
-                Url = x.Url
-            });
+            var caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
 
             return View("View", caseList);
         }
@@ -40,35 +36,7 @@ namespace Syringe.Web.Controllers
         public ActionResult Edit(string filename, int testCaseId)
         {
             Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-
-            var verifications = new List<Models.VerificationItem>();
-
-            verifications.AddRange(testCase.VerifyPositives.Select(x => new Models.VerificationItem { Regex = x.Regex, Description = x.Description, VerifyTypeValue = x.VerifyType.ToString(), VerifyType = x.VerifyType }));
-            verifications.AddRange(testCase.VerifyNegatives.Select(x => new Models.VerificationItem { Regex = x.Regex, Description = x.Description, VerifyTypeValue = x.VerifyType.ToString(), VerifyType = x.VerifyType }));
-
-            var headerList = new List<HeaderItem>(testCase.Headers.Select(x => new HeaderItem { Key = x.Key, Value = x.Value }));
-
-            var parsedResponses = new List<ParseResponseItem>(testCase.ParseResponses.Select(x => new ParseResponseItem { Description = x.Description, Regex = x.Regex }));
-
-
-            var model = new TestCaseViewModel
-            {
-                Id = testCase.Id,
-                ErrorMessage = testCase.ErrorMessage,
-                Headers = headerList,
-                LogRequest = testCase.LogRequest,
-                LogResponse = testCase.LogResponse,
-                LongDescription = testCase.LongDescription,
-                Method = testCase.Method,
-                ParseResponses = parsedResponses,
-                PostBody = testCase.PostBody,
-                PostType = testCase.PostType == PostType.GET.ToString() ? PostType.GET : PostType.POST,
-                VerifyResponseCode = testCase.VerifyResponseCode,
-                ShortDescription = testCase.ShortDescription,
-                Sleep = testCase.Sleep,
-                Url = testCase.Url,
-                Verifications = verifications
-            };
+            var model = _testCaseViewModelBuilder.BuildTestCase(testCase);
 
             return View(model);
         }
@@ -91,9 +59,9 @@ namespace Syringe.Web.Controllers
             return PartialView("~/Views/TestCase/EditorTemplates/VerificationItem.cshtml", item);
         }
 
-        public ActionResult AddParseResponseItem(ParseResponseItem model)
+        public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
         {
-            var item = new ParseResponseItem
+            var item = new Models.ParseResponseItem
             {
                 Description = model.Description,
                 Regex = model.Regex

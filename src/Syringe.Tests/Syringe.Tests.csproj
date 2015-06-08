@@ -76,6 +76,7 @@
     <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
+    <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
@@ -108,6 +109,10 @@
     <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
       <Project>{543b728d-5dc3-45a8-9c01-7ba5ae07e861}</Project>
       <Name>Syringe.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Syringe.Web\Syringe.Web.csproj">
+      <Project>{F7EAD6A8-1BD0-43C6-A916-4CBFA0BEFCE3}</Project>
+      <Name>Syringe.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +188,9 @@
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\parseresponses.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
