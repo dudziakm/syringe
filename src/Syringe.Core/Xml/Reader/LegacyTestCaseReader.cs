@@ -88,8 +88,8 @@ namespace Syringe.Core.Xml.Reader
 			}
 
 			// Numbered attributes
-			List<ParsedResponseItem> parsedResponses = GetParsedResponseItems(element, "parseresponse");
-			testCase.ParseResponses = ConvertParseResponsesToRegexes(parsedResponses);
+			List<ParseResponseItem> parseResponses = GetParseResponseItems(element, "parseresponse");
+			testCase.ParseResponses = ConvertParseResponsesToRegexes(parseResponses);
 			testCase.VerifyPositives = GetVerificationItems(element, "verifypositive", VerifyType.Positive);
 			testCase.VerifyNegatives = GetVerificationItems(element, "verifynegative", VerifyType.Negative);
 
@@ -178,15 +178,15 @@ namespace Syringe.Core.Xml.Reader
 			return statusCode;
 		}
 
-		internal List<ParsedResponseItem> GetParsedResponseItems(XElement element, string attributeName)
+		internal List<ParseResponseItem> GetParseResponseItems(XElement element, string attributeName)
 		{
 			if (!element.HasAttributes)
-				return new List<ParsedResponseItem>();
+				return new List<ParseResponseItem>();
 
 			var items = new List<KeyValuePair<int, string>>();
 
 			//
-			// Take the attributes (e.g. parsedresponse1="", parsedresponse3="", parsedresponse2="") and put them into an ordered list
+			// Take the attributes (e.g. parseresponse1="", parseresponse3="", parseresponse2="") and put them into an ordered list
 			//
 			IEnumerable<XAttribute> attributes = element.Attributes().Where(x => x.Name.LocalName.ToLower().StartsWith(attributeName));
 			foreach (XAttribute attribute in attributes)
@@ -204,7 +204,7 @@ namespace Syringe.Core.Xml.Reader
 			}
 
 			return items.OrderBy(x => x.Key)
-						.Select(x => new ParsedResponseItem(attributeName + x.Key, x.Value))
+						.Select(x => new ParseResponseItem(attributeName + x.Key, x.Value))
 						.ToList();
 		}
 
@@ -238,9 +238,9 @@ namespace Syringe.Core.Xml.Reader
 						.ToList();
 		}
 
-		internal List<ParsedResponseItem> ConvertParseResponsesToRegexes(List<ParsedResponseItem> parseResponses)
+		internal List<ParseResponseItem> ConvertParseResponsesToRegexes(List<ParseResponseItem> parseResponses)
 		{
-			var responseVariables = new List<ParsedResponseItem>();
+			var responseVariables = new List<ParseResponseItem>();
 
 			// From the manual:
 			// 
@@ -262,11 +262,11 @@ namespace Syringe.Core.Xml.Reader
 
 			for (int i = 0; i < parseResponses.Count; i++)
 			{
-				ParsedResponseItem item = parseResponses[i];
-				string parsedResponse = item.Regex;
-				if (parsedResponse.Contains("|"))
+				ParseResponseItem item = parseResponses[i];
+				string parseResponse = item.Regex;
+				if (parseResponse.Contains("|"))
 				{
-					string[] parts = parsedResponse.Split('|');
+					string[] parts = parseResponse.Split('|');
 
 					// Regex escape the 2 chunks
 					string firstChunk = Regex.Escape(parts[0]);
@@ -277,11 +277,11 @@ namespace Syringe.Core.Xml.Reader
 					try
 					{
 						var testRegex = new Regex(regexText);
-						responseVariables.Add(new ParsedResponseItem("parsedresponse" +i, regexText));
+						responseVariables.Add(new ParseResponseItem("parseresponse" +i, regexText));
 					}
 					catch (ArgumentException e)
 					{
-						Log.Information("ParsedResponse conversion to a regex failed: {0}", regexText);
+						Log.Information("ParseResponse conversion to a regex failed: {0}", regexText);
 						responseVariables.Add(item);
 					}
 				}

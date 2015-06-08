@@ -175,8 +175,8 @@ namespace Syringe.Core.Runner
 					testResult.ResponseCodeSuccess = true;
 					string content = response.ToString();
 
-					// Put the parsedresponse regex values in the current variable set
-					Dictionary<string, string> parsedVariables = ParsedResponseMatcher.MatchParsedResponses(testCase.ParseResponses, content);
+					// Put the parseresponse regex values in the current variable set
+					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content);
 					variables.AddOrUpdateVariables(parsedVariables);
 
 					// Verify positives

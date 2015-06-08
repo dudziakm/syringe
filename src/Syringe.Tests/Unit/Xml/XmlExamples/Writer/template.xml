@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testcases repeat="10">
+<testcases repeat="0">
 	<case
 		id="1"
 		shortdescription=""

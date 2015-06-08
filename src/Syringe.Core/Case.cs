@@ -26,14 +26,14 @@ namespace Syringe.Core
 		public string ShortDescription { get; set; }
 		public string LongDescription { get; set; }
 
-		public List<ParsedResponseItem> ParseResponses { get; set; }
+		public List<ParseResponseItem> ParseResponses { get; set; }
 		public List<VerificationItem> VerifyPositives { get; set; }
 		public List<VerificationItem> VerifyNegatives { get; set; }
 
 		public Case()
 		{
 			Headers = new List<KeyValuePair<string, string>>();
-			ParseResponses = new List<ParsedResponseItem>();
+			ParseResponses = new List<ParseResponseItem>();
 			VerifyPositives = new List<VerificationItem>();
 			VerifyNegatives = new List<VerificationItem>();
 		}

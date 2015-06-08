@@ -147,7 +147,7 @@
     <Compile Include="Http\HttpClient.cs" />
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\SessionVariables.cs" />
-    <Compile Include="Runner\ParsedResponseMatcher.cs" />
+    <Compile Include="Runner\ParseResponseMatcher.cs" />
     <Compile Include="VerifyType.cs" />
     <Compile Include="Xml\Reader\ITestCaseReader.cs" />
     <Compile Include="Configuration\LegacyConfigReader.cs" />
@@ -155,7 +155,7 @@
     <Compile Include="Case.cs" />
     <Compile Include="CaseCollection.cs" />
     <Compile Include="Xml\Reader\LegacyTestCaseReader.cs" />
-    <Compile Include="ParsedResponseItem.cs" />
+    <Compile Include="ParseResponseItem.cs" />
     <Compile Include="Xml\Reader\TestCaseReader.cs" />
     <Compile Include="Xml\Writer\Utf8StringWriter.cs" />
     <Compile Include="Xml\Reader\XmlHelper.cs" />

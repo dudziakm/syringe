@@ -42,14 +42,14 @@ namespace Syringe.Web.Models
         [Display(Name = "Long Description")]
         public string LongDescription { get; set; }
 
-        public List<ParsedResponseItem> ParseResponses { get; set; }
+        public List<ParseResponseItem> ParseResponses { get; set; }
 
         public List<VerificationItem> Verifications { get; set; }
 
         public TestCaseViewModel()
         {
             Headers = new List<Header>();
-            ParseResponses = new List<ParsedResponseItem>();
+            ParseResponses = new List<ParseResponseItem>();
             Verifications = new List<VerificationItem>();
         }
     }

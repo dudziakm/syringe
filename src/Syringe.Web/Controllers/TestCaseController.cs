@@ -88,15 +88,15 @@ namespace Syringe.Web.Controllers
         }
 
 
-        public ActionResult AddParsedResponseItem(ParsedResponseViewModel model)
+        public ActionResult AddParseResponseItem(ParseResponseViewModel model)
         {
-            var item = new ParsedResponseItem
+            var item = new ParseResponseItem
             {
                 Description = model.Description,
                 Regex = model.Regex
             };
 
-            return PartialView("~/Views/TestCase/EditorTemplates/ParsedResponseItem.cshtml", item);
+            return PartialView("~/Views/TestCase/EditorTemplates/ParseResponseItem.cshtml", item);
         }
 
         public ActionResult AddHeaderItem(Header model)

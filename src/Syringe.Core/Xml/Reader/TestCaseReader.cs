@@ -90,7 +90,7 @@ namespace Syringe.Core.Xml.Reader
 			testCase.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
 			testCase.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
 
-            testCase.ParseResponses = GetParsedResponseCollection(element);
+            testCase.ParseResponses = GetParseResponseCollection(element);
 
 			List<VerificationItem> verifications = GetVerificationCollection(element);
 			testCase.VerifyPositives = verifications.Where(x => x.VerifyType == VerifyType.Positive).ToList();
@@ -136,9 +136,9 @@ namespace Syringe.Core.Xml.Reader
 			return statusCode;
 		}
 
-        private List<ParsedResponseItem> GetParsedResponseCollection(XElement caseElement)
+        private List<ParseResponseItem> GetParseResponseCollection(XElement caseElement)
 		{
-			var items = new List<ParsedResponseItem>();
+			var items = new List<ParseResponseItem>();
 			var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "parseresponses");
 
 			foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "parseresponse"))
@@ -149,7 +149,7 @@ namespace Syringe.Core.Xml.Reader
 				if (descriptionAttribute != null)
 					description = descriptionAttribute.Value;
 
-				items.Add(new ParsedResponseItem(description, element.Value));
+				items.Add(new ParseResponseItem(description, element.Value));
             }
 
 		    return items;

@@ -16,5 +16,6 @@
 
 		<headers/>
 		<postbody/>
+		<parseresponses />
     </case>
 </testcases>

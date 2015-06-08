@@ -6,8 +6,8 @@
         verificationRegex: $("#verificationRegex"),
         verificationType: $("#verificationType"),
         addParsedItemButton: $("#addParsedItem"),
-        parsedDescription: $("#parsedDescription"),
-        parsedRegex: $("#parsedRegex"),
+        parseDescription: $("#parseDescription"),
+        parseRegex: $("#parseRegex"),
         addHeaderItemButton: $("#addHeaderItem"),
         headerKey: $("#headerKey"),
         headerValue: $("#headerValue")
@@ -38,14 +38,14 @@
         jQueryElements.addParsedItemButton.click(function (e) {
             e.preventDefault();
 
-            var parsedResponseItem = {
-                Description: jQueryElements.parsedDescription.val(),
-                Regex: jQueryElements.parsedRegex.val(),
+            var parseResponseItem = {
+                Description: jQueryElements.parseDescription.val(),
+                Regex: jQueryElements.parseRegex.val(),
             };
-            $.get("/TestCase/AddParsedResponseItem", parsedResponseItem, function (data) {
+            $.get("/TestCase/AddParseResponseItem", parseResponseItem, function (data) {
                 appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
-                jQueryElements.parsedDescription.val('');
-                jQueryElements.parsedRegex.val('');
+                jQueryElements.parseDescription.val('');
+                jQueryElements.parseRegex.val('');
             });
         });
 

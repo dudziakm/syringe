@@ -99,13 +99,17 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		[Ignore]
-		public void write_should_add_parsedresponses()
+		public void write_should_add_parseresponses()
 		{
 			// Arrange
-			string expectedXml = TestHelpers.ReadEmbeddedFile("todo", XmlExamplesFolder);
+			string expectedXml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
 
-			CaseCollection caseCollection = CreateCaseCollection();
+			var testCase = new Case() { Id = 1 };
+			testCase.ParseResponses.Add(new ParseResponseItem("1", "here is (.*?) regex"));
+			testCase.ParseResponses.Add(new ParseResponseItem("2", "plain text"));
+			testCase.ParseResponses.Add(new ParseResponseItem("3", "This is encoded <test> &."));
+
+			CaseCollection caseCollection = CreateCaseCollection(testCase);
 			TestCaseWriter xmlWriter = CreateTestCaseWriter();
 
 			// Act

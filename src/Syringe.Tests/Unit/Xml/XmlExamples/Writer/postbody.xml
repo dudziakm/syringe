@@ -19,5 +19,7 @@
 		<postbody>
 			<![CDATA[username=corey&password=welcome&myhtml=<body></body>]]>
 		</postbody>
+
+		<parseresponses />
 	</case>
 </testcases>

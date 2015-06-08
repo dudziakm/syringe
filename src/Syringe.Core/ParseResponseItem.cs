@@ -1,15 +1,15 @@
 namespace Syringe.Core
 {
-	public class ParsedResponseItem
+	public class ParseResponseItem
 	{
 		public string Description { get; set; }
 		public string Regex { get; set; }
 
-		public ParsedResponseItem() : this("","")
+		public ParseResponseItem() : this("","")
 		{
 		}
 
-		public ParsedResponseItem(string description, string regex)
+		public ParseResponseItem(string description, string regex)
 		{
 			Description = description;
 			Regex = regex;

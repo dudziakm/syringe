@@ -85,7 +85,7 @@
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
     <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
-    <Compile Include="Unit\Runner\ParsedResponseMatcherTests.cs" />
+    <Compile Include="Unit\Runner\ParseResponseMatcherTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
@@ -130,7 +130,7 @@
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\ordered-attributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\parsedresponses.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\parseresponses.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -176,6 +176,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\template.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\parseresponses.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

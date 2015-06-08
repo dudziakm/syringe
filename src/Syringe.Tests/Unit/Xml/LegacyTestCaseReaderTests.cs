@@ -133,7 +133,7 @@ namespace Syringe.Tests.Unit.Xml
 			var testCaseReader = new LegacyTestCaseReader();
 
             // Act
-			List<ParsedResponseItem> descriptions = testCaseReader.GetParsedResponseItems(firstTestCase, "parseresponse");
+			List<ParseResponseItem> descriptions = testCaseReader.GetParseResponseItems(firstTestCase, "parseresponse");
 
             // Assert
 			Assert.That(descriptions[0].Description, Is.EqualTo("parseresponse0"));
@@ -207,7 +207,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_contain_empty_verify_and_parsedresponse_lists_when_attributes_are_missing()
+		public void Read_should_contain_empty_verify_and_parseresponse_lists_when_attributes_are_missing()
 		{
 			// Arrange
 			string xml = GetXmlWithBasicAttributes();

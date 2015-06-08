@@ -21,10 +21,12 @@ namespace Syringe.Core.Xml.Writer
 				{
 					XElement headersElement = GetHeadersElement(testCase);
 					XElement postbodyElement = GetPostBodyElement(testCase);
+					XElement parseResponsesElement = GetParseResponsesElement(testCase);
 
 					XElement caseElement = GetCaseElement(testCase);
 					caseElement.Add(headersElement);
 					caseElement.Add(postbodyElement);
+					caseElement.Add(parseResponsesElement);
 
 					testCasesElement.Add(caseElement);
 				}
@@ -89,9 +91,30 @@ namespace Syringe.Core.Xml.Writer
 		private XElement GetPostBodyElement(Case testCase)
 		{
 			XElement postBodyElement = new XElement("postbody");
-			postBodyElement.Add(new XCData(testCase.PostBody));
+
+			if (!string.IsNullOrEmpty(testCase.PostBody))
+				postBodyElement.Add(new XCData(testCase.PostBody));
 
 			return postBodyElement;
+		}
+
+		private XElement GetParseResponsesElement(Case testCase)
+		{
+			XElement parseresponsesElement = new XElement("parseresponses");
+
+			foreach (ParseResponseItem item in testCase.ParseResponses)
+			{
+				if (!string.IsNullOrEmpty(item.Regex))
+				{
+					XElement element = new XElement("parseresponse");
+					element.Add(new XAttribute("description", item.Description));
+					element.Value = item.Regex;
+
+					parseresponsesElement.Add(element);
+				}
+			}
+
+			return parseresponsesElement;
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace Syringe.Tests.Integration.Xml
 
 			var config = new Config();
 
-			string xml = TestHelpers.ReadEmbeddedFile("parsedresponses.xml", XmlExamplesFolder);
+			string xml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader();
 			var caseCollection = reader.Read(stringReader);

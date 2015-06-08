@@ -154,9 +154,9 @@ namespace Syringe.Tests.Unit.Runner
 				{
 					Url = "case1", 
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParsedResponseItem>()
+					ParseResponses = new List<ParseResponseItem>()
 					{
-						new ParsedResponseItem("1", "some content")
+						new ParseResponseItem("1", "some content")
 					},
 					VerifyPositives = new List<VerificationItem>()
 					{
@@ -173,7 +173,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_set_parsedvariables_across_testcases()
+		public void Run_should_set_parseresponsevariables_across_testcases()
 		{
 			// Arrange
 			var config = new Config();
@@ -203,18 +203,18 @@ namespace Syringe.Tests.Unit.Runner
 				{
 					Url = "case1", 
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParsedResponseItem>()
+					ParseResponses = new List<ParseResponseItem>()
 					{
-						new ParsedResponseItem("1", @"(SECRET_KEY)")
+						new ParseResponseItem("1", @"(SECRET_KEY)")
 					},
 				}, 
 				new Case()
 				{
 					Url = "case2", 
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParsedResponseItem>()
+					ParseResponses = new List<ParseResponseItem>()
 					{
-						new ParsedResponseItem("2", @"(SECRET_KEY)")
+						new ParseResponseItem("2", @"(SECRET_KEY)")
 					},
 					VerifyPositives = new List<VerificationItem>()
 					{
@@ -228,13 +228,11 @@ namespace Syringe.Tests.Unit.Runner
 					VerifyResponseCode = HttpStatusCode.OK,
 					VerifyPositives = new List<VerificationItem>()
 					{
-						// Test the parsedresponse variable from the 1st case
+						// Test the parseresponse variable from the 1st case
 						new VerificationItem("positive-for-case-3", "{parsedresponse2}", VerifyType.Positive)
 					},
 				}
 			});
-
-			var stringReader = new StringReader("");
 
 			// Act
 			TestCaseSession session = runner.Run(caseCollection);

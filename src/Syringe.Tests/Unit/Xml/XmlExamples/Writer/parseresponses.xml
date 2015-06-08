@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="0">
+	<case
+		id="1"
+		shortdescription=""
+		longdescription=""
+		url=""
+		method=""
+		posttype=""
+		verifyresponsecode="0"
+		errormessage=""
+		logrequest="false"
+		logresponse="false"
+		sleep="0"
+	>
+
+		<headers/>
+		<postbody/>
+
+        <parseresponses>
+            <parseresponse description="1">here is (.*?) regex</parseresponse>
+            <parseresponse description="2">plain text</parseresponse>
+            <parseresponse description="3">This is encoded &lt;test&gt; &amp;.</parseresponse>
+        </parseresponses>
+    </case>
+</testcases>
