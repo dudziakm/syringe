@@ -41,10 +41,10 @@ namespace Syringe.Web.Controllers
         {
             Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
 
-            var verifications = new List<VerificationItem>();
+            var verifications = new List<Models.VerificationItem>();
 
-            verifications.AddRange(testCase.VerifyPositives);
-            verifications.AddRange(testCase.VerifyNegatives);
+            verifications.AddRange(testCase.VerifyPositives.Select(x => new Models.VerificationItem { Regex = x.Regex, Description = x.Description, VerifyTypeValue = x.VerifyType.ToString(), VerifyType = x.VerifyType }));
+            verifications.AddRange(testCase.VerifyNegatives.Select(x => new Models.VerificationItem { Regex = x.Regex, Description = x.Description, VerifyTypeValue = x.VerifyType.ToString(), VerifyType = x.VerifyType }));
 
             var headerList = new List<HeaderItem>(testCase.Headers.Select(x => new HeaderItem { Key = x.Key, Value = x.Value }));
 
@@ -79,18 +79,17 @@ namespace Syringe.Web.Controllers
             return View(model);
         }
 
-        public ActionResult AddVerification(VerificationItemViewModel model)
+        public ActionResult AddVerification(Models.VerificationItem model)
         {
-            var item = new VerificationItem
+            var item = new Models.VerificationItem
             {
                 Description = model.Description,
                 Regex = model.Regex,
-                VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyType)
+                VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
             };
 
             return PartialView("~/Views/TestCase/EditorTemplates/VerificationItem.cshtml", item);
         }
-
 
         public ActionResult AddParseResponseItem(ParseResponseItem model)
         {

@@ -26,7 +26,7 @@
             var verificationItem = {
                 Description: jQueryElements.verificationDescription.val(),
                 Regex: jQueryElements.verificationRegex.val(),
-                VerifyType: jQueryElements.verificationType.val()
+                VerifyTypeValue: jQueryElements.verificationType.val()
             };
             $.get("/TestCase/AddVerification", verificationItem, function (data) {
                 appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");

@@ -136,7 +136,7 @@
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\ParseResponseItem.cs" />
-    <Compile Include="Models\VerificationItemViewModel.cs" />
+    <Compile Include="Models\VerificationItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
