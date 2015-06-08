@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="0">
+    <case
+        id="1"
+        shortdescription=""
+        longdescription=""
+        url=""
+        method=""
+        posttype=""
+        verifyresponsecode="0"
+        errormessage=""
+        logrequest="false"
+        logresponse="false"
+        sleep="0"
+	    >
+
+        <headers>
+            <header name="key1">value1</header>
+            <header name="key2"><![CDATA[some <marvellous> HTML &&&&.]]></header>
+        </headers>
+    </case>
+</testcases>

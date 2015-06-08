@@ -61,12 +61,16 @@ namespace Syringe.Tests.Unit.Xml
 
 		[Test]
 		[Ignore]
-		public void write_should_add_header_key_and_values()
+		public void write_should_add_header_key_and_values_with_cdata_encoding_when_value_has_html_entities()
 		{
 			// Arrange
-			string expectedXml = TestHelpers.ReadEmbeddedFile("todo", XmlExamplesFolder);
+			string expectedXml = TestHelpers.ReadEmbeddedFile("headers.xml", XmlExamplesFolder);
 
-			CaseCollection caseCollection = CreateCaseCollection();
+			var testCase = new Case() { Id = 1 };
+			testCase.AddHeader("key1", "value1");
+			testCase.AddHeader("key2", "some <marvellous> HTML &&&&.");
+
+			CaseCollection caseCollection = CreateCaseCollection(testCase);
 			TestCaseWriter xmlWriter = CreateTestCaseWriter();
 
 			// Act
@@ -77,13 +81,14 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		[Ignore]
 		public void write_should_add_postbody_with_cdata()
 		{
 			// Arrange
-			string expectedXml = TestHelpers.ReadEmbeddedFile("todo", XmlExamplesFolder);
+			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			CaseCollection caseCollection = CreateCaseCollection();
+			var testCase = new Case() {Id = 1};
+			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
+			CaseCollection caseCollection = CreateCaseCollection(testCase);
 			TestCaseWriter xmlWriter = CreateTestCaseWriter();
 
 			// Act

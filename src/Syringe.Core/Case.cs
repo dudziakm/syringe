@@ -37,5 +37,10 @@ namespace Syringe.Core
 			VerifyPositives = new List<VerificationItem>();
 			VerifyNegatives = new List<VerificationItem>();
 		}
+
+		public void AddHeader(string key, string value)
+		{
+			Headers.Add(new KeyValuePair<string, string>(key, value));
+		}
 	}
 }

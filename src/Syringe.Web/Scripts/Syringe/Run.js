@@ -11,7 +11,8 @@ var Syringe;
                 this.bindStopButton();
                 this.loadCases(filename);
                 var that = this;
-                $.post("/json/run", { filename: filename }).done(function (data) {
+                $.post("/json/run", { filename: filename })
+                    .done(function (data) {
                     if (data.taskId === 0) {
                         alert("An error occured - taskid was 0");
                         return;
@@ -27,7 +28,8 @@ var Syringe;
                 });
             };
             TestCaseRunner.prototype.loadCases = function (filename) {
-                $.get("/json/GetCases", { "filename": filename }).done(function (data) {
+                $.get("/json/GetCases", { "filename": filename })
+                    .done(function (data) {
                     $.each(data.TestCases, function (index, item) {
                         var html = '<div class="case-result panel" id="case-' + item.Id + '">';
                         html += item.Id + " - " + item.ShortDescription;
@@ -39,7 +41,8 @@ var Syringe;
             };
             TestCaseRunner.prototype.updateProgress = function (taskId) {
                 var that = this;
-                $.get("/json/GetProgress", { "taskId": taskId }).done(function (data) {
+                $.get("/json/GetProgress", { "taskId": taskId })
+                    .done(function (data) {
                     $.each(data.Results, function (index, item) {
                         var selector = "#case-" + item.TestCase.Id;
                         var cssClass = "";

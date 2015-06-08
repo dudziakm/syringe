@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="10">
+	<case
+		id="1"
+		shortdescription=""
+		longdescription=""
+		url=""
+		method=""
+		posttype=""
+		verifyresponsecode="0"
+		errormessage=""
+		logrequest="false"
+		logresponse="false"
+		sleep="0"
+	>
+
+		<headers/>
+		<postbody/>
+
+        <parseresponses>
+            <parseresponse description="1">parse 1</parseresponse>
+            <parseresponse description="2">parse 11</parseresponse>
+            <parseresponse description="3">parse 99</parseresponse>
+        </parseresponses>
+
+		<verifications>
+			<verify type="positive" description="1">positive 1</verify>
+			<verify type="PosItiVe" description="2">positive 22</verify>
+			<verify type="positive" description="3">positive 99</verify>
+
+			<verify type="negative" description="1">negative 1</verify>
+			<verify type="NEGaTiVE" description="2">negative 6</verify>
+			<verify type="negative" description="3">negative 66</verify>
+        </verifications>
+    </case>
+</testcases>
