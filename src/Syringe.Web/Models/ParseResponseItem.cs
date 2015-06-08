@@ -1,6 +1,6 @@
 ﻿namespace Syringe.Web.Models
 {
-    public class ParseResponseViewModel
+    public class ParseResponseItem
     {
         public string Description { get; set; }
         public string Regex { get; set; }

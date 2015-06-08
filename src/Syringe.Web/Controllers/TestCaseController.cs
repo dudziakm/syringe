@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Syringe.Core;
 using Syringe.Core.ApiClient;
-using Syringe.Core.Domain.Repository;
 using Syringe.Core.Security;
 using Syringe.Web.Models;
+using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
 
 namespace Syringe.Web.Controllers
 {
@@ -47,16 +46,21 @@ namespace Syringe.Web.Controllers
             verifications.AddRange(testCase.VerifyPositives);
             verifications.AddRange(testCase.VerifyNegatives);
 
+            var headerList = new List<HeaderItem>(testCase.Headers.Select(x => new HeaderItem { Key = x.Key, Value = x.Value }));
+
+            var parsedResponses = new List<ParseResponseItem>(testCase.ParseResponses.Select(x => new ParseResponseItem { Description = x.Description, Regex = x.Regex }));
+
+
             var model = new TestCaseViewModel
             {
                 Id = testCase.Id,
                 ErrorMessage = testCase.ErrorMessage,
-                Headers = new List<Models.HeaderItem>(testCase.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value })),
+                Headers = headerList,
                 LogRequest = testCase.LogRequest,
                 LogResponse = testCase.LogResponse,
                 LongDescription = testCase.LongDescription,
                 Method = testCase.Method,
-                ParseResponses = testCase.ParseResponses,
+                ParseResponses = parsedResponses,
                 PostBody = testCase.PostBody,
                 PostType = testCase.PostType == PostType.GET.ToString() ? PostType.GET : PostType.POST,
                 VerifyResponseCode = testCase.VerifyResponseCode,
@@ -88,7 +92,7 @@ namespace Syringe.Web.Controllers
         }
 
 
-        public ActionResult AddParseResponseItem(ParseResponseViewModel model)
+        public ActionResult AddParseResponseItem(ParseResponseItem model)
         {
             var item = new ParseResponseItem
             {
