@@ -51,7 +51,7 @@ namespace Syringe.Web.Controllers
             {
                 Id = testCase.Id,
                 ErrorMessage = testCase.ErrorMessage,
-                Headers = new List<Models.Header>(testCase.Headers.Select(x => new Models.Header { Key = x.Key, Value = x.Value })),
+                Headers = new List<Models.HeaderItem>(testCase.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value })),
                 LogRequest = testCase.LogRequest,
                 LogResponse = testCase.LogResponse,
                 LongDescription = testCase.LongDescription,
@@ -99,9 +99,9 @@ namespace Syringe.Web.Controllers
             return PartialView("~/Views/TestCase/EditorTemplates/ParseResponseItem.cshtml", item);
         }
 
-        public ActionResult AddHeaderItem(Header model)
+        public ActionResult AddHeaderItem(HeaderItem model)
         {
-            var item = new Header
+            var item = new HeaderItem
             {
                 Key = model.Key,
                 Value = model.Value

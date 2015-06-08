@@ -29,7 +29,7 @@ namespace Syringe.Web.Models
         [Display(Name = "Log Response")]
         public bool LogResponse { get; set; }
 
-        public List<Header> Headers { get; set; }
+        public List<HeaderItem> Headers { get; set; }
 
         /// <summary>
         /// Number of seconds to sleep after the case runs
@@ -48,7 +48,7 @@ namespace Syringe.Web.Models
 
         public TestCaseViewModel()
         {
-            Headers = new List<Header>();
+            Headers = new List<HeaderItem>();
             ParseResponses = new List<ParseResponseItem>();
             Verifications = new List<VerificationItem>();
         }
