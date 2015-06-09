@@ -13,19 +13,19 @@ namespace Syringe.Tests.Unit.ModelBuilders
     public class TestCaseViewModelBuilderTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void BuildTestCase_should_throw_argumentnullexception_when_testcase_is_null()
         {
             var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
-            testCaseViewModelBuilder.BuildTestCase(null);
+
+			Assert.Throws<ArgumentNullException>(() => testCaseViewModelBuilder.BuildTestCase(null));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void BuildTestCases_should_throw_argumentnullexception_when_testcase_is_null()
         {
             var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
-            testCaseViewModelBuilder.BuildTestCases(null);
+
+			Assert.Throws<ArgumentNullException>(() => testCaseViewModelBuilder.BuildTestCase(null));
         }
 
         [Test]
