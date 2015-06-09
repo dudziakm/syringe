@@ -6,7 +6,7 @@ Syringe is a .NET version of the webinject testing tool, for automated HTTP test
 
 ## Dev installation
 
-Make sure you have Redis installed:
+Make sure you have Redis and Typescript installed:
 
 * Install chocolatey: https://chocolatey.org/
 * Open a new Powershell prompt: `choco install redis -y`
