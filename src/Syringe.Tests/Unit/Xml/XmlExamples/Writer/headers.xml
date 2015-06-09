@@ -21,5 +21,6 @@
 
 		<postbody/>
 		<parseresponses />
+		<verifications />
     </case>
 </testcases>

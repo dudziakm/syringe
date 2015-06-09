@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases repeat="0">
+	<case
+		id="1"
+		shortdescription=""
+		longdescription=""
+		url=""
+		method=""
+		posttype=""
+		verifyresponsecode="0"
+		errormessage=""
+		logrequest="false"
+		logresponse="false"
+		sleep="0"
+	>
+
+		<headers/>
+		<postbody/>
+        <parseresponses />
+
+		<verifications>
+			<verify type="positive" description="p90-1">regex1</verify>
+			<verify type="positive" description="p90-2">regex2</verify>
+			<verify type="positive" description="p90-3"><![CDATA[this 3rd positive needs CDATA as it has <html> & stuff in it (.*)]]></verify>
+
+			<verify type="negative" description="negev1">regex1</verify>
+			<verify type="negative" description="negev2">regex2</verify>
+			<verify type="negative" description="negev3"><![CDATA[this 3rd negative needs CDATA as it has <html> & stuff in it (.*)]]></verify>
+        </verifications>
+    </case>
+</testcases>

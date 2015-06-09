@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -22,11 +23,13 @@ namespace Syringe.Core.Xml.Writer
 					XElement headersElement = GetHeadersElement(testCase);
 					XElement postbodyElement = GetPostBodyElement(testCase);
 					XElement parseResponsesElement = GetParseResponsesElement(testCase);
+					XElement verificationElement = GetVerificationElement(testCase);
 
 					XElement caseElement = GetCaseElement(testCase);
 					caseElement.Add(headersElement);
 					caseElement.Add(postbodyElement);
 					caseElement.Add(parseResponsesElement);
+					caseElement.Add(verificationElement);
 
 					testCasesElement.Add(caseElement);
 				}
@@ -68,18 +71,7 @@ namespace Syringe.Core.Xml.Writer
 					XElement element = new XElement("header");
 					element.Add(new XAttribute("name", keyValuePair.Key));
 
-					if (!string.IsNullOrEmpty(keyValuePair.Value))
-					{
-						if (keyValuePair.Value.Contains("&") ||
-						    keyValuePair.Value.Contains("<") || keyValuePair.Value.Contains(">"))
-						{
-							element.Add(new XCData(keyValuePair.Value));
-						}
-						else
-						{
-							element.Value = keyValuePair.Value;
-						}
-					}
+					AddCDataToElementValue(keyValuePair.Value, element);
 
 					headerElement.Add(element);
 				}
@@ -115,6 +107,43 @@ namespace Syringe.Core.Xml.Writer
 			}
 
 			return parseresponsesElement;
+		}
+
+		private XElement GetVerificationElement(Case testCase)
+		{
+			XElement headerElement = new XElement("verifications");
+
+			foreach (VerificationItem verifyItem in testCase.VerifyPositives.Union(testCase.VerifyNegatives))
+			{
+				if (!string.IsNullOrEmpty(verifyItem.Description))
+				{
+					XElement element = new XElement("verify");
+					element.Add(new XAttribute("description", verifyItem.Description));
+					element.Add(new XAttribute("type", verifyItem.VerifyType.ToString().ToLower()));
+
+					AddCDataToElementValue(verifyItem.Regex, element);
+
+					headerElement.Add(element);
+				}
+			}
+
+			return headerElement;
+		}
+
+		private static void AddCDataToElementValue(string value, XElement element)
+		{
+			if (!string.IsNullOrEmpty(value))
+			{
+				if (value.Contains("&") ||
+					value.Contains("<") || value.Contains(">"))
+				{
+					element.Add(new XCData(value));
+				}
+				else
+				{
+					element.Value = value;
+				}
+			}
 		}
 	}
 }

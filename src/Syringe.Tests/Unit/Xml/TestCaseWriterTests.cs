@@ -60,7 +60,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		[Ignore]
 		public void write_should_add_header_key_and_values_with_cdata_encoding_when_value_has_html_entities()
 		{
 			// Arrange
@@ -120,13 +119,21 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		[Ignore]
 		public void write_should_add_verifications()
 		{
 			// Arrange
-			string expectedXml = TestHelpers.ReadEmbeddedFile("file", XmlExamplesFolder);
+			string expectedXml = TestHelpers.ReadEmbeddedFile("verifications.xml", XmlExamplesFolder);
 
-			CaseCollection caseCollection = CreateCaseCollection();
+			var testCase = new Case() { Id = 1 };
+			testCase.VerifyPositives.Add(new VerificationItem("p90-1", "regex1", VerifyType.Positive));
+			testCase.VerifyPositives.Add(new VerificationItem("p90-2", "regex2", VerifyType.Positive));
+			testCase.VerifyPositives.Add(new VerificationItem("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", VerifyType.Positive));
+
+			testCase.VerifyNegatives.Add(new VerificationItem("negev1", "regex1", VerifyType.Negative));
+			testCase.VerifyNegatives.Add(new VerificationItem("negev2", "regex2", VerifyType.Negative));
+			testCase.VerifyNegatives.Add(new VerificationItem("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", VerifyType.Negative));
+
+			CaseCollection caseCollection = CreateCaseCollection(testCase);
 			TestCaseWriter xmlWriter = CreateTestCaseWriter();
 
 			// Act
