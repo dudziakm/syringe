@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Http;
-using Syringe.Core.Http.Logging;
 using Syringe.Tests.Unit.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
@@ -57,8 +54,8 @@ namespace Syringe.Tests.Unit.Http
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(response, Is.Not.Null);
-			Assert.That(response.Content, Is.EqualTo(restResponse.Content));
+			Assert.NotNull(response);
+			Assert.AreEqual(restResponse.Content, response.Content);
 		}
 
 		[Test]
@@ -77,7 +74,7 @@ namespace Syringe.Tests.Unit.Http
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(response, Is.Not.Null);
+			Assert.IsNotNull(response);
 		}
 
 		[Test]
@@ -97,9 +94,9 @@ namespace Syringe.Tests.Unit.Http
 
 			// Assert
 			Parameter parameter = _restClientMock.RestRequest.Parameters.First();
-			Assert.That(parameter.Name, Is.EqualTo(contentType));
-			Assert.That(parameter.Value, Is.EqualTo(postBody));
-			Assert.That(parameter.Type, Is.EqualTo(ParameterType.RequestBody));
+			Assert.AreEqual(contentType, parameter.Name);
+			Assert.AreEqual(postBody, parameter.Value);
+			Assert.AreEqual(ParameterType.RequestBody, parameter.Type);
 		}
 
 		[Test]
@@ -118,7 +115,7 @@ namespace Syringe.Tests.Unit.Http
 			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(_restClientMock.RestRequest.Method, Is.EqualTo(Method.GET));
+			Assert.AreEqual(Method.GET, _restClientMock.RestRequest.Method);
 		}
 
 		[Test]
@@ -145,9 +142,9 @@ namespace Syringe.Tests.Unit.Http
 			var userAgent = parameters.First(x => x.Name == "user-agent");
 			var cookies = parameters.First(x => x.Name == "cookies");
 
-			Assert.That(parameters.Count, Is.EqualTo(2));
-			Assert.That(userAgent.Value, Is.EqualTo("Netscape Navigator 1"));
-			Assert.That(cookies.Value, Is.EqualTo("mmm cookies"));
+			Assert.AreEqual(2, parameters.Count);
+			Assert.AreEqual("Netscape Navigator 1", userAgent.Value);
+			Assert.AreEqual("mmm cookies", cookies.Value);
 		}
 
 		[Test]
@@ -157,7 +154,7 @@ namespace Syringe.Tests.Unit.Http
 			var restResponseStub = new RestResponseStub();
 			restResponseStub.Content = "HTTP/1.1 200 OK\nServer: Apache\n\n<html>some text </html>";
 			restResponseStub.StatusCode = HttpStatusCode.Accepted;
-			restResponseStub.Headers = new Parameter[] { new Parameter(), new Parameter()};
+			restResponseStub.Headers = new Parameter[] { new Parameter(), new Parameter() };
 
 			HttpClient httpClient = CreateClient(restResponseStub);
 
@@ -171,11 +168,10 @@ namespace Syringe.Tests.Unit.Http
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(response.StatusCode, Is.EqualTo(restResponseStub.StatusCode));
-			Assert.That(response.Content, Is.EqualTo(restResponseStub.Content));
-			Assert.That(response.Headers.Count, Is.EqualTo(restResponseStub.Headers.Count));
+			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
+			Assert.AreEqual(restResponseStub.Content, response.Content);
+			Assert.AreEqual(restResponseStub.Headers.Count, response.Headers.Count);
 		}
-
 
 		[Test]
 		public void should_convert_headers()
@@ -208,10 +204,10 @@ namespace Syringe.Tests.Unit.Http
 			httpClient.LogLastRequest();
 
 			// Assert
-			Assert.That(_httpLogWriterMock.RequestDetails.Url, Is.EqualTo("http://www.example2.com"));
-			Assert.That(_httpLogWriterMock.RequestDetails.Method, Is.EqualTo("put"));
-			Assert.That(_httpLogWriterMock.RequestDetails.Body, Is.EqualTo("request 2"));
-			Assert.That(_httpLogWriterMock.RequestDetails.Headers.Count(), Is.EqualTo(2));
+			Assert.AreEqual("http://www.example2.com", _httpLogWriterMock.RequestDetails.Url);
+			Assert.AreEqual("put", _httpLogWriterMock.RequestDetails.Method);
+			Assert.AreEqual("request 2", _httpLogWriterMock.RequestDetails.Body);
+			Assert.AreEqual(2, _httpLogWriterMock.RequestDetails.Headers.Count());
 		}
 
 		[Test]

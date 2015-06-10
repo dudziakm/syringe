@@ -27,7 +27,7 @@ namespace Syringe.Tests.Unit.Http
 			logWriter.AppendSeperator();
 
 			// Assert
-			Assert.That(stringBuilder.ToString(), Is.EqualTo(logWriter.Seperator + Environment.NewLine));
+			Assert.AreEqual(logWriter.Seperator + Environment.NewLine, stringBuilder.ToString());
 		}
 
 		[Test]
@@ -45,9 +45,9 @@ namespace Syringe.Tests.Unit.Http
 
 			// Act
 			logWriter.AppendRequest(requestDetails);
-
+			 
 			// Assert
-			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
+			Assert.AreEqual("", stringBuilder.ToString());
 		}
 
 		[Test]
@@ -67,7 +67,7 @@ namespace Syringe.Tests.Unit.Http
 			logWriter.AppendRequest(requestDetails);
 
 			// Assert
-			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
+			Assert.AreEqual("", stringBuilder.ToString());
 		}
 
 		[Test]
@@ -87,7 +87,7 @@ namespace Syringe.Tests.Unit.Http
 			logWriter.AppendRequest(requestDetails);
 
 			// Assert
-			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
+			Assert.AreEqual("", stringBuilder.ToString());
 		}
 
 		[Test]
@@ -107,7 +107,7 @@ namespace Syringe.Tests.Unit.Http
 			logWriter.AppendRequest(requestDetails);
 
 			// Assert
-			Assert.That(stringBuilder.ToString(), Is.Not.Null.Or.Empty);
+			Assert.AreEqual("", stringBuilder.ToString());
 		}
 
 		[Test]
@@ -129,9 +129,9 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1"));
-			Assert.That(lines[1], Is.EqualTo("Host: en.wikipedia.org"));
-			Assert.That(lines[2], Is.EqualTo(""));
+			Assert.AreEqual("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1", lines[0]);
+			Assert.AreEqual("Host: en.wikipedia.org", lines[1]);
+			Assert.AreEqual("", lines[2]);
 		}
 
 		[Test]
@@ -160,12 +160,12 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1"));
-			Assert.That(lines[1], Is.EqualTo("Host: en.wikipedia.org"));
-			Assert.That(lines[2], Is.EqualTo("Cookie: aaa=bbb;loggedin=true"));
-			Assert.That(lines[3], Is.EqualTo("Accept-Language: en-US"));
-			Assert.That(lines[4], Is.EqualTo("Accept: text/html"));
-			Assert.That(lines[5], Is.EqualTo(""));
+			Assert.AreEqual("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1", lines[0]);
+			Assert.AreEqual("Host: en.wikipedia.org", lines[1]);
+			Assert.AreEqual("Cookie: aaa=bbb;loggedin=true", lines[2]);
+			Assert.AreEqual("Accept-Language: en-US", lines[3]);
+			Assert.AreEqual("Accept: text/html", lines[4]);
+			Assert.AreEqual("", lines[5]);
 		}
 
 		[Test]
@@ -178,7 +178,7 @@ namespace Syringe.Tests.Unit.Http
 			{
 				Status = HttpStatusCode.NotFound,
 				BodyResponse = "",
-				Headers = new List<KeyValuePair<string, string>>() 
+				Headers = new List<KeyValuePair<string, string>>()
 			};
 
 			// Act	
@@ -187,8 +187,8 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("HTTP/1.1 404 Not Found"));
-			Assert.That(lines[1], Is.EqualTo(""));
+			Assert.AreEqual("HTTP/1.1 404 Not Found", lines[0]);
+			Assert.AreEqual("", lines[1]);
 		}
 
 		[Test]
@@ -218,13 +218,13 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("HTTP/1.1 200 OK"));
-			Assert.That(lines[1], Is.EqualTo("Server: Apache"));
-			Assert.That(lines[2], Is.EqualTo("Cache-Control: private, s-maxage=0, max-age=0, must-revalidate"));
-			Assert.That(lines[3], Is.EqualTo("Date: Sun, 12 Apr 2015 19:18:21 GMT"));
-			Assert.That(lines[4], Is.EqualTo("Content-Type: text/html; charset=UTF-8"));
-			Assert.That(lines[5], Is.EqualTo(""));
-			Assert.That(lines[6], Is.EqualTo("<html><body></body></html>"));
+			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);
+			Assert.AreEqual("Server: Apache", lines[1]);
+			Assert.AreEqual("Cache-Control: private, s-maxage=0, max-age=0, must-revalidate", lines[2]);
+			Assert.AreEqual("Date: Sun, 12 Apr 2015 19:18:21 GMT", lines[3]);
+			Assert.AreEqual("Content-Type: text/html; charset=UTF-8", lines[4]);
+			Assert.AreEqual("", lines[5]);
+			Assert.AreEqual("<html><body></body></html>", lines[6]);
 		}
 
 		[Test]
@@ -246,8 +246,8 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("HTTP/1.1 200 OK"));
-			Assert.That(lines[1], Is.EqualTo(""));
+			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);
+			Assert.AreEqual("", lines[1]);
 		}
 	}
 }

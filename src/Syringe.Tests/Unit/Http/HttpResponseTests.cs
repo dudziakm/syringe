@@ -17,8 +17,8 @@ namespace Syringe.Tests.Unit.Http
 			var response = new HttpResponse();
 
 			// Act + Assert
-			Assert.That(response.Headers, Is.Not.Null);
-			Assert.That(response.ResponseTime, Is.Not.Null);
+			Assert.NotNull(response.Headers);
+			Assert.NotNull(response.ResponseTime);
 		}
 
 		[Test]
@@ -43,13 +43,13 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 			string[] lines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-			Assert.That(lines[0], Is.EqualTo("HTTP/1.1 200 OK"));
-			Assert.That(lines[1], Is.EqualTo("Server: Apache"));
-			Assert.That(lines[2], Is.EqualTo("Cache-Control: private, s-maxage=0, max-age=0, must-revalidate"));
-			Assert.That(lines[3], Is.EqualTo("Date: Sun, 12 Apr 2015 19:18:21 GMT"));
-			Assert.That(lines[4], Is.EqualTo("Content-Type: text/html; charset=UTF-8"));
-			Assert.That(lines[5], Is.EqualTo(""));
-			Assert.That(lines[6], Is.EqualTo("<html><body></body></html>"));
+			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);
+			Assert.AreEqual("Server: Apache", lines[1]);
+			Assert.AreEqual("Cache-Control: private, s-maxage=0, max-age=0, must-revalidate", lines[2]);
+			Assert.AreEqual("Date: Sun, 12 Apr 2015 19:18:21 GMT", lines[3]);
+			Assert.AreEqual("Content-Type: text/html; charset=UTF-8", lines[4]);
+			Assert.AreEqual("", lines[5]);
+			Assert.AreEqual("<html><body></body></html>", lines[6]);
 		}
 	}
 }
