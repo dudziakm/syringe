@@ -39,6 +39,8 @@ namespace Syringe.Core.Domain.Repository
                     throw new NullReferenceException("Could not find specified Test Case:" + caseId);
                 }
 
+                testCase.ParentFilename = filename;
+
                 return testCase;
             }
         }

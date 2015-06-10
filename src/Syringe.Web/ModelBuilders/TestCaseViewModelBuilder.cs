@@ -44,7 +44,8 @@ namespace Syringe.Web.ModelBuilders
                 ShortDescription = testCase.ShortDescription,
                 Sleep = testCase.Sleep,
                 Url = testCase.Url,
-                Verifications = verifications
+                Verifications = verifications,
+                ParentFilename = testCase.ParentFilename
             };
 
             return model;

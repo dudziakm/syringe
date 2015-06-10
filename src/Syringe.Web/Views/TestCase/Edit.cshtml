@@ -8,6 +8,8 @@
     {
         <p class="lead">General</p>
 
+        @Html.HiddenFor(x=>x.ParentFilename);
+        
         <div class="form-group">
             @Html.LabelFor(x => x.Id, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-4">

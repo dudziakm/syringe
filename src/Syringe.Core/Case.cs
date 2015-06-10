@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
-using Syringe.Core.Xml;
 
 namespace Syringe.Core
 {
@@ -17,6 +15,7 @@ namespace Syringe.Core
 		public bool LogRequest { get; set; }
 		public bool LogResponse { get; set; }
 		public List<KeyValuePair<string, string>> Headers { get; set; }
+        public string ParentFilename { get; set; }
 
 		/// <summary>
 		/// Number of seconds to sleep after the case runs
@@ -30,7 +29,7 @@ namespace Syringe.Core
 		public List<VerificationItem> VerifyPositives { get; set; }
 		public List<VerificationItem> VerifyNegatives { get; set; }
 
-		public Case()
+	    public Case()
 		{
 			Headers = new List<KeyValuePair<string, string>>();
 			ParseResponses = new List<ParseResponseItem>();

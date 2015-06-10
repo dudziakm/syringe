@@ -6,6 +6,8 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
+using ParseResponseItem = Syringe.Core.ParseResponseItem;
+using VerificationItem = Syringe.Core.VerificationItem;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
@@ -81,7 +83,11 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 PostType = PostType.GET.ToString(),
                 VerifyResponseCode = HttpStatusCode.Accepted,
                 Sleep = 10,
-
+                Headers = new List<KeyValuePair<string, string>>{new KeyValuePair<string, string>()},
+                ParseResponses = new List<ParseResponseItem>{new ParseResponseItem()},
+                VerifyNegatives = new List<VerificationItem>{new VerificationItem()},
+                VerifyPositives = new List<VerificationItem>{new VerificationItem()},
+                ParentFilename = "test.xml"
             };
 
             // when
@@ -100,6 +106,10 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCaseViewModel.PostBody, testCase.PostBody);
             Assert.AreEqual(testCaseViewModel.PostType, PostType.GET);
             Assert.AreEqual(testCaseViewModel.VerifyResponseCode, testCase.VerifyResponseCode);
+            Assert.AreEqual(testCaseViewModel.ParentFilename, testCase.ParentFilename);
+
+            Assert.That(testCaseViewModel.ParseResponses.Count,Is.EqualTo(1));
+            Assert.That(testCaseViewModel.Verifications.Count, Is.EqualTo(2));
         }
     }
 }
