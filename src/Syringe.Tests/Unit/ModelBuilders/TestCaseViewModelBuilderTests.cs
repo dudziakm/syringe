@@ -50,17 +50,17 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             // then
             Assert.NotNull(testCaseViewModels);
-            Assert.That(testCaseViewModels.Count(), Is.EqualTo(2));
+			Assert.AreEqual(2, testCaseViewModels.Count());
 
-            var firstCase = testCaseViewModels.First();
-            Assert.AreEqual(firstCase.Id, 1);
-            Assert.AreEqual(firstCase.ShortDescription, "Short Description 1");
-            Assert.AreEqual(firstCase.Url, "http://www.google.com");
+			var firstCase = testCaseViewModels.First();
+			Assert.AreEqual(1, firstCase.Id);
+			Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
+			Assert.AreEqual("http://www.google.com", firstCase.Url);
 
-            var lastCase = testCaseViewModels.Last();
-            Assert.AreEqual(lastCase.Id, 2);
-            Assert.AreEqual(lastCase.ShortDescription, "Short Description 2");
-            Assert.AreEqual(lastCase.Url, "http://www.arsenal.com");
+			var lastCase = testCaseViewModels.Last();
+			Assert.AreEqual(2, lastCase.Id);
+			Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
+			Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
         }
 
         [Test]
@@ -95,21 +95,21 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             // then
             Assert.NotNull(testCaseViewModel);
-            Assert.AreEqual(testCaseViewModel.Id, testCase.Id);
-            Assert.AreEqual(testCaseViewModel.ShortDescription, testCase.ShortDescription);
-            Assert.AreEqual(testCaseViewModel.Url, testCase.Url);
-            Assert.AreEqual(testCaseViewModel.ErrorMessage, testCase.ErrorMessage);
-            Assert.AreEqual(testCaseViewModel.LogRequest, testCase.LogRequest);
-            Assert.AreEqual(testCaseViewModel.LogResponse, testCase.LogResponse);
-            Assert.AreEqual(testCaseViewModel.LongDescription, testCase.LongDescription);
-            Assert.AreEqual(testCaseViewModel.Method, testCase.Method);
-            Assert.AreEqual(testCaseViewModel.PostBody, testCase.PostBody);
-            Assert.AreEqual(testCaseViewModel.PostType, PostType.GET);
-            Assert.AreEqual(testCaseViewModel.VerifyResponseCode, testCase.VerifyResponseCode);
-            Assert.AreEqual(testCaseViewModel.ParentFilename, testCase.ParentFilename);
+			Assert.AreEqual(testCase.Id, testCaseViewModel.Id);
+			Assert.AreEqual(testCase.ShortDescription, testCaseViewModel.ShortDescription);
+			Assert.AreEqual(testCase.Url, testCaseViewModel.Url);
+			Assert.AreEqual(testCase.ErrorMessage, testCaseViewModel.ErrorMessage);
+			Assert.AreEqual(testCase.LogRequest, testCaseViewModel.LogRequest);
+			Assert.AreEqual(testCase.LogResponse, testCaseViewModel.LogResponse);
+			Assert.AreEqual(testCase.LongDescription, testCaseViewModel.LongDescription);
+			Assert.AreEqual(testCase.Method, testCaseViewModel.Method);
+			Assert.AreEqual(testCase.PostBody, testCaseViewModel.PostBody);
+			Assert.AreEqual(PostType.GET, testCaseViewModel.PostType);
+			Assert.AreEqual(testCase.VerifyResponseCode, testCaseViewModel.VerifyResponseCode);
+			Assert.AreEqual(testCase.ParentFilename, testCaseViewModel.ParentFilename);
 
-            Assert.That(testCaseViewModel.ParseResponses.Count,Is.EqualTo(1));
-            Assert.That(testCaseViewModel.Verifications.Count, Is.EqualTo(2));
+			Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
+			Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
         }
     }
 }
