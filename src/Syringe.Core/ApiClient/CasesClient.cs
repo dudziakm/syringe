@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Helpers;
-using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Service;
@@ -28,7 +28,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			IEnumerable<string> collection = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Content);
+			IEnumerable<string> collection = Json.Decode<IEnumerable<string>>(response.Content);
 
 			return collection;
 		}
@@ -42,7 +42,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			Case collection = JsonConvert.DeserializeObject<Case>(response.Content);
+			Case collection = Json.Decode<Case>(response.Content);
 
 			return collection;
 		}
@@ -55,9 +55,21 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			CaseCollection collection = JsonConvert.DeserializeObject<CaseCollection>(response.Content);
+			CaseCollection collection = Json.Decode<CaseCollection>(response.Content);
 
 			return collection;
+		}
+
+		public bool AddTestCase(Case testCase, string teamName)
+		{
+			var client = new RestClient(_baseUrl);
+			IRestRequest request = CreateRequest("AddTestCase");
+			request.Method = Method.POST;
+			request.AddJsonBody(testCase);
+			request.AddQueryParameter("teamName", teamName);
+
+			IRestResponse response = client.Execute(request);
+			return Json.Decode<Boolean>(response.Content);
 		}
 
 		private IRestRequest CreateRequest(string action)

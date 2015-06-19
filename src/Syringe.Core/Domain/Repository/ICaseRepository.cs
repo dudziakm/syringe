@@ -8,5 +8,6 @@ namespace Syringe.Core.Domain.Repository
 	    IEnumerable<string> ListCasesForTeam(string teamName);
 		CaseCollection GetTestCaseCollection(string filename, string teamName);
         Case GetTestCase(string filename, string teamName, int caseId);
+		bool SaveTestCase(Case testCase, string teamName);
     }
 }

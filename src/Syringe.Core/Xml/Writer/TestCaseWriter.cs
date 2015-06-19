@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace Syringe.Core.Xml.Writer
 {
-	public class TestCaseWriter
+	public class TestCaseWriter : ITestCaseWriter
 	{
 		public string Write(CaseCollection caseCollection)
 		{
