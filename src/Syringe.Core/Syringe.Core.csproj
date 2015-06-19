@@ -161,6 +161,7 @@
     <Compile Include="Xml\Reader\LegacyTestCaseReader.cs" />
     <Compile Include="ParseResponseItem.cs" />
     <Compile Include="Xml\Reader\TestCaseReader.cs" />
+    <Compile Include="Xml\Writer\ITestCaseWriter.cs" />
     <Compile Include="Xml\Writer\Utf8StringWriter.cs" />
     <Compile Include="Xml\Reader\XmlHelper.cs" />
     <Compile Include="Xml\Writer\TestCaseWriter.cs" />
