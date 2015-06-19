@@ -6,50 +6,51 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
+using HeaderItem = Syringe.Core.HeaderItem;
 using ParseResponseItem = Syringe.Core.ParseResponseItem;
 using VerificationItem = Syringe.Core.VerificationItem;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
-    [TestFixture]
-    public class TestCaseViewModelBuilderTests
-    {
-        [Test]
-        public void BuildTestCase_should_throw_argumentnullexception_when_testcase_is_null()
-        {
-            var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
+	[TestFixture]
+	public class TestCaseViewModelBuilderTests
+	{
+		[Test]
+		public void BuildTestCase_should_throw_argumentnullexception_when_testcase_is_null()
+		{
+			var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
 
 			Assert.Throws<ArgumentNullException>(() => testCaseViewModelBuilder.BuildTestCase(null));
-        }
+		}
 
-        [Test]
-        public void BuildTestCases_should_throw_argumentnullexception_when_testcase_is_null()
-        {
-            var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
+		[Test]
+		public void BuildTestCases_should_throw_argumentnullexception_when_testcase_is_null()
+		{
+			var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
 
 			Assert.Throws<ArgumentNullException>(() => testCaseViewModelBuilder.BuildTestCase(null));
-        }
+		}
 
-        [Test]
-        public void BuildTestCases_should_return_correct_model_values_from_casecollection()
-        {
-            // given
-            var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
+		[Test]
+		public void BuildTestCases_should_return_correct_model_values_from_casecollection()
+		{
+			// given
+			var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
 
-            var caseCollection = new CaseCollection
-            {
-                TestCases = new List<Case>
+			var caseCollection = new CaseCollection
+			{
+				TestCases = new List<Case>
                 {
                     new Case {Id = 1, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
                     new Case {Id = 2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
                 }
-            };
+			};
 
-            // when
-            var testCaseViewModels = testCaseViewModelBuilder.BuildTestCases(caseCollection);
+			// when
+			var testCaseViewModels = testCaseViewModelBuilder.BuildTestCases(caseCollection);
 
-            // then
-            Assert.NotNull(testCaseViewModels);
+			// then
+			Assert.NotNull(testCaseViewModels);
 			Assert.AreEqual(2, testCaseViewModels.Count());
 
 			var firstCase = testCaseViewModels.First();
@@ -61,40 +62,40 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(2, lastCase.Id);
 			Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
 			Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
-        }
+		}
 
-        [Test]
-        public void BuildTestCase_should_return_correct_model_values_from_case()
-        {
-            // given
-            var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
+		[Test]
+		public void BuildTestCase_should_return_correct_model_values_from_case()
+		{
+			// given
+			var testCaseViewModelBuilder = new TestCaseViewModelBuilder();
 
-            var testCase = new Case
-            {
-                Id = 1,
-                ShortDescription = "Short Description",
-                Url = "http://www.google.com",
-                ErrorMessage = "Error",
-                LogRequest = true,
-                LogResponse = true,
-                LongDescription = "Long Description",
-                Method = "Method",
-                PostBody = "PostBody",
-                PostType = PostType.GET.ToString(),
-                VerifyResponseCode = HttpStatusCode.Accepted,
-                Sleep = 10,
-                Headers = new List<KeyValuePair<string, string>>{new KeyValuePair<string, string>()},
-                ParseResponses = new List<ParseResponseItem>{new ParseResponseItem()},
-                VerifyNegatives = new List<VerificationItem>{new VerificationItem()},
-                VerifyPositives = new List<VerificationItem>{new VerificationItem()},
-                ParentFilename = "test.xml"
-            };
+			var testCase = new Case
+			{
+				Id = 1,
+				ShortDescription = "Short Description",
+				Url = "http://www.google.com",
+				ErrorMessage = "Error",
+				LogRequest = true,
+				LogResponse = true,
+				LongDescription = "Long Description",
+				Method = "Method",
+				PostBody = "PostBody",
+				PostType = PostType.GET.ToString(),
+				VerifyResponseCode = HttpStatusCode.Accepted,
+				Sleep = 10,
+				Headers = new List<HeaderItem>(),
+				ParseResponses = new List<ParseResponseItem> { new ParseResponseItem() },
+				VerifyNegatives = new List<VerificationItem> { new VerificationItem() },
+				VerifyPositives = new List<VerificationItem> { new VerificationItem() },
+				ParentFilename = "test.xml"
+			};
 
-            // when
-            var testCaseViewModel = testCaseViewModelBuilder.BuildTestCase(testCase);
+			// when
+			var testCaseViewModel = testCaseViewModelBuilder.BuildTestCase(testCase);
 
-            // then
-            Assert.NotNull(testCaseViewModel);
+			// then
+			Assert.NotNull(testCaseViewModel);
 			Assert.AreEqual(testCase.Id, testCaseViewModel.Id);
 			Assert.AreEqual(testCase.ShortDescription, testCaseViewModel.ShortDescription);
 			Assert.AreEqual(testCase.Url, testCaseViewModel.Url);
@@ -110,6 +111,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
 			Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
-        }
-    }
+		}
+	}
 }

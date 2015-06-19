@@ -119,9 +119,9 @@ namespace Syringe.Core.Xml.Reader
 			return variables;
 		}
 
-		private List<KeyValuePair<string, string>> ParseAddHeader(XElement element)
+		private List<HeaderItem> ParseAddHeader(XElement element)
 		{
-			var addHeaders = new List<KeyValuePair<string, string>>();
+			var addHeaders = new List<HeaderItem>();
 
 			// Headers are in the format mykey: 12345|bar: foo
 			string attributeValue = XmlHelper.GetOptionalAttribute(element, "addheader");
@@ -147,16 +147,16 @@ namespace Syringe.Core.Xml.Reader
 			return addHeaders;
 		}
 
-		private KeyValuePair<string, string> GetHeaderPair(string header)
+		private HeaderItem GetHeaderPair(string header)
 		{
             // Parses the header, which is in the format "mykey: 12345|bar: foo|emptyvalue:|Cookie: referer=harrispilton.com"
 			string[] parts = header.Split(':');
 			if (parts.Length == 2)
 			{
-				return new KeyValuePair<string, string>(parts[0].Trim(), parts[1].Trim());
+				return new HeaderItem(parts[0].Trim(), parts[1].Trim());
 			}
 
-			return new KeyValuePair<string, string>();
+			return new HeaderItem();
 		}
 
 		private bool YesToBool(XElement element, string attributeName)

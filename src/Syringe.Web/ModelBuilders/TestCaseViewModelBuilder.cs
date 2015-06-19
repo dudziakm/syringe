@@ -24,7 +24,7 @@ namespace Syringe.Web.ModelBuilders
             verifications.AddRange(verifyPositives);
             verifications.AddRange(verifyNegatives);
 
-            var headerList = new List<HeaderItem>(testCase.Headers.Select(x => new HeaderItem { Key = x.Key, Value = x.Value }));
+            var headerList = new List<Models.HeaderItem>(testCase.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }));
 
             var parsedResponses = new List<Models.ParseResponseItem>(testCase.ParseResponses.Select(x => new Models.ParseResponseItem { Description = x.Description, Regex = x.Regex }));
 

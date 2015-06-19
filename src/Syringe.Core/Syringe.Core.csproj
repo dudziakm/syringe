@@ -120,6 +120,7 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Extensions\VariableExtensions.cs" />
+    <Compile Include="HeaderItem.cs" />
     <Compile Include="Http\Logging\HttpLogWriter.cs" />
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
     <Compile Include="Http\HttpResponse.cs" />

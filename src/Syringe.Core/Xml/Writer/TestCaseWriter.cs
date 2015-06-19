@@ -64,7 +64,7 @@ namespace Syringe.Core.Xml.Writer
 		{
 			XElement headerElement = new XElement("headers");
 
-			foreach (KeyValuePair<string, string> keyValuePair in testCase.Headers)
+			foreach (HeaderItem keyValuePair in testCase.Headers)
 			{
 				if (!string.IsNullOrEmpty(keyValuePair.Key))
 				{

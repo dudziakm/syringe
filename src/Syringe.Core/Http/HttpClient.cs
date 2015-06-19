@@ -23,7 +23,7 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
+		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))

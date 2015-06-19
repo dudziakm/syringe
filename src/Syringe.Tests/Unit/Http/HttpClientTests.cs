@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using RestSharp;
+using Syringe.Core;
 using Syringe.Core.Http;
 using Syringe.Tests.Unit.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
@@ -27,7 +28,7 @@ namespace Syringe.Tests.Unit.Http
 			string method = "get";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act + Assert
 			Assert.Throws<ArgumentException>(() => httpClient.ExecuteRequest(method, url, contentType, postBody, headers));
@@ -48,7 +49,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
@@ -68,7 +69,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
@@ -87,7 +88,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "keywords=foo&location=london";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
@@ -109,7 +110,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
@@ -128,10 +129,10 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>()
+			var headers = new List<HeaderItem>()
 			{
-				new KeyValuePair<string, string>("user-agent", "Netscape Navigator 1"),
-				new KeyValuePair<string, string>("cookies", "mmm cookies"),
+				new HeaderItem("user-agent", "Netscape Navigator 1"),
+				new HeaderItem("cookies", "mmm cookies"),
 			};
 
 			// Act
@@ -162,7 +163,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
@@ -190,11 +191,11 @@ namespace Syringe.Tests.Unit.Http
 			HttpClient httpClient = CreateClient(new RestResponse());
 
 			string contentType = "text/html";
-			var request1Headers = new List<KeyValuePair<string, string>>();
-			var request2Headers = new List<KeyValuePair<string, string>>()
+			var request1Headers = new List<HeaderItem>();
+			var request2Headers = new List<HeaderItem>()
 			{
-				new KeyValuePair<string, string>("user-agent", "Frozen Olaf Browser 4"),
-				new KeyValuePair<string, string>("cookies", "mmm cookies"),
+				new HeaderItem("user-agent", "Frozen Olaf Browser 4"),
+				new HeaderItem("cookies", "mmm cookies"),
 			};
 
 			httpClient.ExecuteRequest("get", "http://www.example1.com", contentType, "request 1", request1Headers);
@@ -231,7 +232,7 @@ namespace Syringe.Tests.Unit.Http
 			string url = "http://www.example.com";
 			string contentType = "text/html";
 			string postBody = "";
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
 			// Act
 			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
