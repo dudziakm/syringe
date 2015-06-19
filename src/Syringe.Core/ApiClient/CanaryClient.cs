@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Helpers;
+using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Entities;
@@ -26,7 +27,7 @@ namespace Syringe.Core.ApiClient
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("Check");
 			IRestResponse response = client.Execute(request);
-			CanaryResult result = Json.Decode<CanaryResult>(response.Content);
+			CanaryResult result = JsonConvert.DeserializeObject<CanaryResult>(response.Content);
 
 			return result;
 		}

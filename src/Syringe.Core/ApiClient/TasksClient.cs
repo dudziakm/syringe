@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Helpers;
+using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Entities;
@@ -55,7 +56,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("taskId", taskId);
 
 			IRestResponse response = client.Execute(request);
-			TaskDetails details = Json.Decode<TaskDetails>(response.Content);
+			TaskDetails details = JsonConvert.DeserializeObject<TaskDetails>(response.Content);
 
 			return details;
 		}
