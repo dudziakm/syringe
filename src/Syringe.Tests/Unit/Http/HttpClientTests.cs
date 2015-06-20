@@ -173,6 +173,7 @@ namespace Syringe.Tests.Unit.Http
 			Assert.AreEqual(restResponseStub.Headers.Count, response.Headers.Count);
 		}
 
+		// TODO: should_convert_headers
 		[Test]
 		public void should_convert_headers()
 		{
@@ -210,6 +211,7 @@ namespace Syringe.Tests.Unit.Http
 			Assert.AreEqual(2, _httpLogWriterMock.RequestDetails.Headers.Count());
 		}
 
+		// TODO: should_record_last_response
 		[Test]
 		public void should_record_last_response()
 		{

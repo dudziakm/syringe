@@ -2,11 +2,11 @@
 
 namespace Syringe.Core.Results.Writer
 {
-	public class TextWriterResultWriter : ResultWriterBase
+	public class TextResultWriter : ResultWriterBase
 	{
 		private readonly TextWriter _textWriter;
 
-		public TextWriterResultWriter(TextWriter textWriter)
+		public TextResultWriter(TextWriter textWriter)
 		{
 			_textWriter = textWriter;
 		}

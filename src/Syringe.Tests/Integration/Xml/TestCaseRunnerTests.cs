@@ -81,7 +81,7 @@ namespace Syringe.Tests.Integration.Xml
 			config.GlobalHttpLog = LogType.All;
 			var httpClient = new HttpClient(new HttpLogWriter(stringWriter), new RestClient());
 
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			string xml = TestHelpers.ReadEmbeddedFile("roadkill-login.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);

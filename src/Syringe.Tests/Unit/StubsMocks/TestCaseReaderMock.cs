@@ -12,7 +12,6 @@ namespace Syringe.Tests.Unit.StubsMocks
 		public CaseCollection Read(TextReader textReader)
 		{
 			return CaseCollection;
-
 		}
 	}
 }

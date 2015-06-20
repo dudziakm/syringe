@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
@@ -9,7 +8,7 @@ using Syringe.Core.Results.Writer;
 
 namespace Syringe.Tests.Unit.Results.Writer
 {
-	public class TextWriterResultsWriterTests
+	public class TextResultWriterTests
 	{
 		[Test]
 		public void WriteHeader_should_append_message_and_seperator()
@@ -17,7 +16,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var stringWriter = new StringWriter(stringBuilder);
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			// Act
 			resultWriter.WriteHeader("my string {0}", 1);
@@ -35,7 +34,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var stringWriter = new StringWriter(stringBuilder);
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			var result = new TestCaseResult()
 			{
@@ -70,7 +69,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var stringWriter = new StringWriter(stringBuilder);
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			var result = new TestCaseResult()
 			{
@@ -97,7 +96,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var stringWriter = new StringWriter(stringBuilder);
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			var result = new TestCaseResult()
 			{
@@ -124,7 +123,7 @@ namespace Syringe.Tests.Unit.Results.Writer
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var stringWriter = new StringWriter(stringBuilder);
-			var resultWriter = new TextWriterResultWriter(stringWriter);
+			var resultWriter = new TextResultWriter(stringWriter);
 
 			var result = new TestCaseResult()
 			{

@@ -131,6 +131,7 @@
     <Compile Include="Domain\Repository\CaseRepository.cs" />
     <Compile Include="Domain\Repository\ICaseRepository.cs" />
     <Compile Include="Domain\Entities\TaskDetails.cs" />
+    <Compile Include="Results\Writer\RedisResultWriter.cs" />
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="VerificationItem.cs" />
@@ -138,7 +139,7 @@
     <Compile Include="Results\Writer\TextFileResultWriter.cs" />
     <Compile Include="Results\Writer\ConsoleResultWriter.cs" />
     <Compile Include="Results\Writer\IResultWriter.cs" />
-    <Compile Include="Results\Writer\TextWriterResultWriter.cs" />
+    <Compile Include="Results\Writer\TextResultWriter.cs" />
     <Compile Include="Results\Writer\XmlResultWriter.cs" />
     <Compile Include="Runner\VerificationsMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />

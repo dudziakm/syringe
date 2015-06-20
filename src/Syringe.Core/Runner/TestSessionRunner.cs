@@ -19,7 +19,6 @@ namespace Syringe.Core.Runner
 	public class TestSessionRunner
 	{
 		// TODO: features
-		//   - Add HTTP headers into the content. [X]
 		//   - config.xml takes <testcases>
 
 		// TODO: Unit test coverage:

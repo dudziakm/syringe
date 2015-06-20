@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 using XmlException = Syringe.Core.Exceptions.XmlException;
 

@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RedisResultWriterTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
-    <Compile Include="Unit\Results\Writer\TextWriterResultsWriterTests.cs" />
+    <Compile Include="Unit\Results\Writer\TextResultWriterTests.cs" />
     <Compile Include="Unit\Runner\ParseResponseMatcherTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
