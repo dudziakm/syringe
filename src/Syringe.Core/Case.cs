@@ -14,8 +14,8 @@ namespace Syringe.Core
 		public HttpStatusCode VerifyResponseCode { get; set; }
 		public bool LogRequest { get; set; }
 		public bool LogResponse { get; set; }
-		public List<KeyValuePair<string, string>> Headers { get; set; }
-        public string ParentFilename { get; set; }
+		public List<HeaderItem> Headers { get; set; }
+		public string ParentFilename { get; set; }
 
 		/// <summary>
 		/// Number of seconds to sleep after the case runs
@@ -29,9 +29,9 @@ namespace Syringe.Core
 		public List<VerificationItem> VerifyPositives { get; set; }
 		public List<VerificationItem> VerifyNegatives { get; set; }
 
-	    public Case()
+		public Case()
 		{
-			Headers = new List<KeyValuePair<string, string>>();
+			Headers = new List<HeaderItem>();
 			ParseResponses = new List<ParseResponseItem>();
 			VerifyPositives = new List<VerificationItem>();
 			VerifyNegatives = new List<VerificationItem>();
@@ -39,7 +39,7 @@ namespace Syringe.Core
 
 		public void AddHeader(string key, string value)
 		{
-			Headers.Add(new KeyValuePair<string, string>(key, value));
+			Headers.Add(new HeaderItem(key, value));
 		}
 	}
 }

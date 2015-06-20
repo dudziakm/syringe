@@ -8,7 +8,7 @@ namespace Syringe.Service.Api
 {
 	public class CasesController : ApiController, ICaseService
 	{
-	    private readonly ICaseRepository _caseRepository;
+		private readonly ICaseRepository _caseRepository;
 
 		public CasesController()
 			: this(new CaseRepository())
@@ -20,7 +20,7 @@ namespace Syringe.Service.Api
 			_caseRepository = caseRepository;
 		}
 
-	    // TODO: Tests
+		// TODO: Tests
 
 		[Route("api/cases/ListForTeam")]
 		[HttpGet]
@@ -42,5 +42,12 @@ namespace Syringe.Service.Api
 		{
 			return _caseRepository.GetTestCaseCollection(filename, teamName);
 		}
-    }
+
+		[Route("api/cases/AddTestCase")]
+		[HttpPost]
+		public bool AddTestCase([FromBody]Case testCase, [FromUri]string teamName)
+		{
+			return _caseRepository.SaveTestCase(testCase, teamName);
+		}
+	}
 }

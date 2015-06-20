@@ -1,0 +1,5 @@
+enum VerifyType
+{
+	Negative,
+	Positive
+}

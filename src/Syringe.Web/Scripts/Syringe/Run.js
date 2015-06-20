@@ -31,9 +31,15 @@ var Syringe;
                 $.get("/json/GetCases", { "filename": filename })
                     .done(function (data) {
                     $.each(data.TestCases, function (index, item) {
-                        var html = '<div class="case-result panel" id="case-' + item.Id + '">';
-                        html += item.Id + " - " + item.ShortDescription;
-                        html += '<span class="case-result-url"></span>';
+                        var html = "";
+                        html = '<div class="case-result panel" id="case-' + item.Id + '">';
+                        html += '	<div class="panel-heading"><h3 class="panel-title">' + item.Id + " - " + item.ShortDescription + "</h3></div>";
+                        html += '		<div class="panel-body">';
+                        html += '			<div class="case-result-url"></div>';
+                        html += '			<div class="case-result-exception"></div>';
+                        html += '			<div class=""><a href="#" class="btn btn-primary">View HTML</a></div>';
+                        html += '			<div class="hidden case-result-html"><textarea style="display:none"></textarea></span>';
+                        html += "	</div>";
                         html += "</div>";
                         $("#running-items").append(html);
                     });
@@ -46,15 +52,32 @@ var Syringe;
                     $.each(data.Results, function (index, item) {
                         var selector = "#case-" + item.TestCase.Id;
                         var cssClass = "";
-                        if (item.Success === true)
-                            cssClass = "passed";
-                        else if (item.Success === false)
-                            cssClass = "failed";
-                        if (item.ExceptionMessage !== null)
-                            cssClass = "error";
-                        $(selector).addClass(cssClass);
+                        var iframeTextArea = selector + " .case-result-html textarea";
+                        // Url
                         var urlSelector = selector + " " + ".case-result-url";
-                        $(urlSelector).text(" - " + item.ActualUrl);
+                        $(urlSelector).text(item.ActualUrl);
+                        // Add HTML into the hidden iframe
+                        if (item.HttpResponse != null && $(iframeTextArea).text() === "") {
+                            $(iframeTextArea).text(item.HttpResponse.Content);
+                        }
+                        $(selector + " a").click(function () {
+                            var newWindow = window.open("", "Title");
+                            newWindow.document.write($(iframeTextArea).text());
+                            $(newWindow.document).find("head").append('<base href="' + item.ActualUrl + '" />');
+                        });
+                        // Exceptions
+                        if (item.ExceptionMessage !== null) {
+                            cssClass = "panel-danger";
+                            $(selector + " .case-result-exception").text(item.ExceptionMessage);
+                        }
+                        // Change background color
+                        if (item.Success === true) {
+                            cssClass = "panel-success";
+                        }
+                        else if (item.Success === false) {
+                            cssClass = "panel-warning";
+                        }
+                        $(selector).addClass(cssClass);
                     });
                     var percentage = (data.CurrentIndex / data.TotalCases) * 100;
                     $(".progress-bar").css("width", percentage + "%");

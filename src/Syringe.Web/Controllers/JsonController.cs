@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core;
 using Syringe.Core.ApiClient;
@@ -39,13 +40,15 @@ namespace Syringe.Web.Controllers
 		public ActionResult GetProgress(int taskId)
 		{
 			TaskDetails details = _tasksClient.GetRunningTaskDetails(taskId);
-			return Json(details, JsonRequestBehavior.AllowGet);
+
+			// Don't use Json() as it fails for large objects.
+			return Content(JsonConvert.SerializeObject(details), "application/json");
 		}
 
 		public ActionResult GetCases(string filename)
 		{
 			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-			return Json(testCases, JsonRequestBehavior.AllowGet);
+			return Content(JsonConvert.SerializeObject(testCases), "application/json");
 		}
 	}
 }

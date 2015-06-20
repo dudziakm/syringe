@@ -13,4 +13,12 @@
   background-color: red !important;
   color: white !important;
 }
+.case-result-exception textarea {
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+}
+.case-result-errors {
+  padding-top: 40px;
+}
 /*# sourceMappingURL=Syringe.css.map */

@@ -99,9 +99,9 @@ namespace Syringe.Core.Xml.Reader
 			return testCase;
 		}
 
-		private List<KeyValuePair<string, string>> GetHeader(XElement caseElement)
+		private List<HeaderItem> GetHeader(XElement caseElement)
 		{
-			var headers = new List<KeyValuePair<string, string>>();
+			var headers = new List<HeaderItem>();
 
             var variableElement = caseElement.Elements().Where(x => x.Name.LocalName == "headers");
 
@@ -110,7 +110,7 @@ namespace Syringe.Core.Xml.Reader
                 XAttribute nameAttribute = element.Attributes("name").FirstOrDefault();
                 if (nameAttribute != null)
                 {
-                    headers.Add(new KeyValuePair<string, string>(nameAttribute.Value, element.Value));
+					headers.Add(new HeaderItem(nameAttribute.Value, element.Value));
                 }
             }
 

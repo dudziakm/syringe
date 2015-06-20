@@ -11,7 +11,7 @@ namespace Syringe.Web.IisConfig
         {
             var logger = new ConsoleLogger();
             var serverConfig = new WebServerConfig(logger);
-
+			
             if (!serverConfig.IsIis7OrAbove)
             {
                 logger.LogHeading("IIS7 is not installed on this machine. IIS configuration setup terminated.");

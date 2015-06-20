@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using NUnit.Framework;
+using Syringe.Core;
 using Syringe.Core.Http.Logging;
 
 namespace Syringe.Tests.Unit.Http
@@ -40,7 +41,7 @@ namespace Syringe.Tests.Unit.Http
 			{
 				Method = null,
 				Url = "url",
-				Headers = new List<KeyValuePair<string, string>>()
+				Headers = new List<HeaderItem>()
 			};
 
 			// Act
@@ -60,7 +61,7 @@ namespace Syringe.Tests.Unit.Http
 			{
 				Method = "get",
 				Url = null,
-				Headers = new List<KeyValuePair<string, string>>()
+				Headers = new List<HeaderItem>()
 			};
 
 			// Act
@@ -80,7 +81,7 @@ namespace Syringe.Tests.Unit.Http
 			{
 				Method = null,
 				Url = "not a valid url",
-				Headers = new List<KeyValuePair<string, string>>()
+				Headers = new List<HeaderItem>()
 			};
 
 			// Act
@@ -120,7 +121,7 @@ namespace Syringe.Tests.Unit.Http
 			{
 				Method = "post",
 				Url = "http://en.wikipedia.org/wiki/Microsoft?a=b",
-				Headers = new List<KeyValuePair<string, string>>()
+				Headers = new List<HeaderItem>()
 			};
 
 			// Act
@@ -140,11 +141,11 @@ namespace Syringe.Tests.Unit.Http
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var logWriter = GetHttpLogWriter(stringBuilder);
-			var headers = new List<KeyValuePair<string, string>>()
+			var headers = new List<HeaderItem>()
 			{
-				new KeyValuePair<string, string>("Cookie", "aaa=bbb;loggedin=true"),
-				new KeyValuePair<string, string>("Accept-Language", "en-US"),
-				new KeyValuePair<string, string>("Accept", "text/html")
+				new HeaderItem("Cookie", "aaa=bbb;loggedin=true"),
+				new HeaderItem("Accept-Language", "en-US"),
+				new HeaderItem("Accept", "text/html")
 			};
 
 			var requestDetails = new RequestDetails()

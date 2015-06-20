@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syringe.Core;
 using Syringe.Core.Http;
 
 namespace Syringe.Tests.Unit.StubsMocks
@@ -19,7 +20,7 @@ namespace Syringe.Tests.Unit.StubsMocks
 			Response = response;
 		}
 
-		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<KeyValuePair<string, string>> headers)
+		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			if (Responses == null)
 			{
