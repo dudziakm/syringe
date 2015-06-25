@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Helpers;
+using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Service;
@@ -28,7 +29,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			IEnumerable<string> collection = Json.Decode<IEnumerable<string>>(response.Content);
+			IEnumerable<string> collection = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Content);
 
 			return collection;
 		}
@@ -42,7 +43,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			Case collection = Json.Decode<Case>(response.Content);
+			Case collection = JsonConvert.DeserializeObject<Case>(response.Content);
 
 			return collection;
 		}
@@ -55,7 +56,7 @@ namespace Syringe.Core.ApiClient
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			CaseCollection collection = Json.Decode<CaseCollection>(response.Content);
+			CaseCollection collection = JsonConvert.DeserializeObject<CaseCollection>(response.Content);
 
 			return collection;
 		}
@@ -69,7 +70,7 @@ namespace Syringe.Core.ApiClient
 			request.AddQueryParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			return Json.Decode<Boolean>(response.Content);
+			return JsonConvert.DeserializeObject<Boolean>(response.Content);
 		}
 
 		private IRestRequest CreateRequest(string action)
