@@ -2,8 +2,8 @@
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
+using Syringe.Client;
 using Syringe.Core;
-using Syringe.Core.ApiClient;
 using Syringe.Core.Domain.Entities;
 using Syringe.Core.Runner;
 using Syringe.Core.Security;

@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Web.Helpers;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Entities;
 using Syringe.Core.Domain.Services;
-using Syringe.Core.Runner;
 
-namespace Syringe.Core.ApiClient
+namespace Syringe.Client
 {
 	public class TasksClient : ITasksService
 	{
@@ -36,17 +35,17 @@ namespace Syringe.Core.ApiClient
 
 		public string Stop(int id)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public List<string> StopAll()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public IEnumerable<TaskDetails> GetRunningTasks()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public TaskDetails GetRunningTaskDetails(int taskId)

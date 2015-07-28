@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Syringe.Client;
 using Syringe.Core;
-using Syringe.Core.ApiClient;
 using Syringe.Core.Security;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;

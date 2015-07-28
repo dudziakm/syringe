@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Syringe.Core</RootNamespace>
     <AssemblyName>Syringe.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -92,11 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClient\CanaryClient.cs" />
-    <Compile Include="ApiClient\CasesClient.cs" />
     <Compile Include="Domain\Entities\CanaryResult.cs" />
     <Compile Include="Domain\Services\ICanaryService.cs" />
-    <Compile Include="ApiClient\TasksClient.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />
     <Compile Include="Configuration\IApplicationConfiguration.cs" />

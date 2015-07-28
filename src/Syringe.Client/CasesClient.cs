@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Helpers;
 using Newtonsoft.Json;
 using RestSharp;
+using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Services;
 
-namespace Syringe.Core.ApiClient
+namespace Syringe.Client
 {
 	public class CasesClient : ICaseService
 	{
