@@ -110,11 +110,11 @@
     <Compile Include="Domain\Repository\IScheduledJobRepository.cs" />
     <Compile Include="Domain\Repository\ITeamRepository.cs" />
     <Compile Include="Domain\Repository\IUserRepository.cs" />
-    <Compile Include="Domain\Repository\RedisScheduledJobRepository.cs" />
-    <Compile Include="Domain\Repository\RedisTeamRepository.cs" />
-    <Compile Include="Domain\Repository\RedisUserRepository.cs" />
+    <Compile Include="Domain\Repository\Redis\RedisScheduledJobRepository.cs" />
+    <Compile Include="Domain\Repository\Redis\RedisTeamRepository.cs" />
+    <Compile Include="Domain\Repository\Redis\RedisUserRepository.cs" />
     <Compile Include="Domain\Entities\User.cs" />
-    <Compile Include="Domain\Repository\RepositoryException.cs" />
+    <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Domain\Service\ICaseService.cs" />
     <Compile Include="Domain\Service\ITasksService.cs" />
     <Compile Include="Domain\Service\IUserService.cs" />

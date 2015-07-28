@@ -6,6 +6,7 @@ using Syringe.Core.Domain.Service;
 
 namespace Syringe.Service.Api
 {
+	// TODO: Tests
 	public class CasesController : ApiController, ICaseService
 	{
 		private readonly ICaseRepository _caseRepository;
@@ -19,8 +20,6 @@ namespace Syringe.Service.Api
 		{
 			_caseRepository = caseRepository;
 		}
-
-		// TODO: Tests
 
 		[Route("api/cases/ListForTeam")]
 		[HttpGet]

@@ -7,6 +7,7 @@ using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api
 {
+	// TODO: Tests
 	public class TasksController : ApiController, ITasksService
 	{
 	    private readonly ParallelTestSessionQueue _sessionQueue;

@@ -3,7 +3,8 @@ using System.Web.Http;
 
 namespace Syringe.Service.Api
 {
-    public class TeamController : ApiController
+	// TODO: Tests
+	public class TeamController : ApiController
     {
         [Route("api/team/list")]
         [HttpGet]
