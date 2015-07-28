@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/yetanotherchris/syringe.svg?branch=master)](https://travis-ci.org/yetanotherchris/syringe)
+[![Build status](https://ci.appveyor.com/api/projects/status/7l5ooplj6mbdkvfv?svg=true)](https://ci.appveyor.com/project/yetanotherchris/syringe)
 
 # Syringe
 Syringe is a .NET version of the webinject testing tool, for automated HTTP testing.
