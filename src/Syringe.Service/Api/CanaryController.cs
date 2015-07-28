@@ -6,8 +6,7 @@ using System.Web.Http;
 using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Repository;
-using Syringe.Core.Domain.Service;
+using Syringe.Core.Domain.Services;
 using Syringe.Core.Xml;
 
 namespace Syringe.Service.Api

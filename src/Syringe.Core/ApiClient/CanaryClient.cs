@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Service;
+using Syringe.Core.Domain.Services;
 
 namespace Syringe.Core.ApiClient
 {

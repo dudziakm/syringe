@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Syringe.Core.Domain.Entities;
-using Syringe.Core.Runner;
 
-namespace Syringe.Core.Domain.Service
+namespace Syringe.Core.Domain.Services
 {
 	public interface ITasksService
 	{

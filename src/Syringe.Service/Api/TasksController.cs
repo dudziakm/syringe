@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Service;
+using Syringe.Core.Domain.Services;
 using Syringe.Core.Runner;
 using Syringe.Service.Parallel;
 

@@ -5,7 +5,7 @@ using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
 using Syringe.Core.Domain.Entities;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Domain.Repositories.Redis
 {
 	public class RedisScheduledJobRepository : IScheduledJobRepository, IDisposable
 	{

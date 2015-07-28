@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Domain.Repositories
 {
     public interface ICaseRepository
     {

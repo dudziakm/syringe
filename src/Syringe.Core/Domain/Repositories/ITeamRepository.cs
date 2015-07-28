@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Syringe.Core.Domain.Entities;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Domain.Repositories
 {
 	public interface ITeamRepository
 	{

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Syringe.Core.Domain.Entities;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Domain.Repositories
 {
 	public interface IScheduledJobRepository
 	{

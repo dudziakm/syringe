@@ -8,7 +8,7 @@ namespace Syringe.Core.Domain.Entities
 	/// </summary>
 	public class Salt
 	{
-		private static Random _random = new Random();
+		private static readonly Random _random = new Random();
 
 		/// <summary>
 		/// The salt value.

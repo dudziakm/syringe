@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Syringe.Core.Domain.Service
+namespace Syringe.Core.Domain.Services
 {
 	public interface ICaseService
 	{

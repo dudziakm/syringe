@@ -7,7 +7,7 @@ using Syringe.Core.Logging;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Domain.Repositories
 {
 	public class CaseRepository : ICaseRepository
 	{

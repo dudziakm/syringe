@@ -1,6 +1,6 @@
 using System;
 
-namespace Syringe.Core.Domain.Repository
+namespace Syringe.Core.Exceptions
 {
 	public class RepositoryException : Exception
 	{
