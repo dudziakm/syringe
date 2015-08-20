@@ -13,7 +13,7 @@ namespace Syringe.Service
 
         public void Start()
         {
-			WebApplication = WebApp.Start<SyringeApplication>("http://localhost:1232");
+			WebApplication = WebApp.Start<SyringeApplication>("http://localhost:22345");
         }
 
         public void Stop()

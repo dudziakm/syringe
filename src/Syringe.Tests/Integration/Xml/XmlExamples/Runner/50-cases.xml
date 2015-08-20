@@ -1,0 +1,716 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testcases>
+	<variables>
+		<variable name="baseurl">http://www.bing.com</variable>
+	</variables>
+	
+	<case
+		id="1"
+		shortdescription="login"
+		url="{baseurl}/search?q=cows"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="2"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="3"
+		shortdescription="login"
+		url="{baseurl}/search?q=geese"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="4"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="5"
+		shortdescription="login"
+		url="{baseurl}/search?q=monkeys"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="6"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="7"
+		shortdescription="login"
+		url="{baseurl}/search?q=github"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="8"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="9"
+		shortdescription="login"
+		url="badurl/search?q=avfc"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="10"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<!-- END BLOCK -->
+	
+	<case
+		id="11"
+		shortdescription="login"
+		url="{baseurl}/search?q=cows"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="12"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="13"
+		shortdescription="login"
+		url="{baseurl}/search?q=geese"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="14"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="15"
+		shortdescription="login"
+		url="{baseurl}/search?q=monkeys"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="16"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="17"
+		shortdescription="login"
+		url="{baseurl}/search?q=github"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="18"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="19"
+		shortdescription="login"
+		url="badurl/search?q=avfc"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="20"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<!-- END BLOCK -->
+	
+	<case
+		id="21"
+		shortdescription="login"
+		url="{baseurl}/search?q=cows"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="22"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="23"
+		shortdescription="login"
+		url="{baseurl}/search?q=geese"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="24"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="25"
+		shortdescription="login"
+		url="{baseurl}/search?q=monkeys"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="26"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="27"
+		shortdescription="login"
+		url="{baseurl}/search?q=github"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="28"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="29"
+		shortdescription="login"
+		url="badurl/search?q=avfc"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="30"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<!-- END BLOCK -->
+	
+	<case
+		id="31"
+		shortdescription="login"
+		url="{baseurl}/search?q=cows"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="32"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="33"
+		shortdescription="login"
+		url="{baseurl}/search?q=geese"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="34"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="35"
+		shortdescription="login"
+		url="{baseurl}/search?q=monkeys"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="36"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="37"
+		shortdescription="login"
+		url="{baseurl}/search?q=github"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="38"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="39"
+		shortdescription="login"
+		url="badurl/search?q=avfc"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="40"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<!-- END BLOCK -->
+	
+	<case
+		id="41"
+		shortdescription="login"
+		url="{baseurl}/search?q=cows"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="42"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="43"
+		shortdescription="login"
+		url="{baseurl}/search?q=geese"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="44"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="45"
+		shortdescription="login"
+		url="{baseurl}/search?q=monkeys"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="46"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="47"
+		shortdescription="login"
+		url="{baseurl}/search?q=github"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="48"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<case
+		id="49"
+		shortdescription="login"
+		url="badurl/search?q=avfc"
+		errormessage="Oh shit"
+		method="post"
+		verifyresponsecode="200"
+	>
+		<postbody><![CDATA[email=epleaseignore@example.com&password=password]]></postbody>
+
+		<verifications>
+			<verify type="negative" description="Login unsuccessful text exists">Login was unsuccessful</verify>
+		</verifications>
+	</case>
+
+	<case
+		id="50"
+		shortdescription="Check login success"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		verifyresponsecode="200"
+	>
+		<verifications>
+			<verify type="positive" description="Preview exists">Preview</verify>
+			<verify type="positive" description="Cancel exists">cancel</verify>
+		</verifications>
+	</case>
+	
+	<!-- END BLOCK -->
+</testcases>

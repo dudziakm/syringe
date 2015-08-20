@@ -7,16 +7,6 @@ namespace Syringe.Web.IisConfig
 {
     public class Config : EnvironmentalConfig
     {
-	    public override string WebRoot
-	    {
-		    get
-		    {
-				// TODO: update IisConfiguration
-			    string webdir = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..")).FullName;
-				return base.WebRoot.Replace("{src-path}", webdir);
-		    }
-	    }
-
 	    public string SiteName
         {
             get
@@ -29,7 +19,7 @@ namespace Syringe.Web.IisConfig
         {
             get
             {
-                return 1231;
+                return 12345;
             }
         }
     }
