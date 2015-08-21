@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Entities\CanaryResult.cs" />
+    <Compile Include="Domain\Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Domain\Services\ICanaryService.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />
@@ -150,7 +151,6 @@
     <Compile Include="Domain\Repositories\CaseRepository.cs" />
     <Compile Include="Domain\Repositories\ICaseRepository.cs" />
     <Compile Include="Domain\Entities\TaskDetails.cs" />
-    <Compile Include="Results\Writer\RedisResultWriter.cs" />
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="VerificationItem.cs" />

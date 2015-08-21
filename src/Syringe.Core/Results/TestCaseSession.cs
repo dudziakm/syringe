@@ -6,6 +6,7 @@ namespace Syringe.Core.Results
 {
     public class TestCaseSession
     {
+	    public Guid Id { get; set; }
         public List<TestCaseResult> TestCaseResults { get; set; }
 
         public DateTime StartTime { get; set; }
