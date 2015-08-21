@@ -60,10 +60,10 @@ namespace Syringe.Web.Controllers
 				ParentFilename = model.ParentFilename,
 				ParseResponses = model.ParseResponses.Select(x => new Core.ParseResponseItem(x.Description, x.Regex)).ToList(),
 				PostBody = model.PostBody,
-				VerifyPositives = model.Verifications.Where(x=>x.VerifyType ==VerifyType.Positive).Select(x=> new Core.VerificationItem(x.Description,x.Regex,x.VerifyType)).ToList(),
-				VerifyNegatives = model.Verifications.Where(x=>x.VerifyType ==VerifyType.Negative).Select(x=> new Core.VerificationItem(x.Description,x.Regex,x.VerifyType)).ToList(),
+				VerifyPositives = model.Verifications.Where(x => x.VerifyType == VerifyType.Positive).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
+				VerifyNegatives = model.Verifications.Where(x => x.VerifyType == VerifyType.Negative).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
 				ShortDescription = model.ShortDescription,
-				Url =model.Url,
+				Url = model.Url,
 				Sleep = model.Sleep,
 				PostType = model.PostType.ToString(),
 				VerifyResponseCode = model.VerifyResponseCode,
@@ -71,7 +71,7 @@ namespace Syringe.Web.Controllers
 			};
 			var addTestCase = _casesClient.AddTestCase(testCase, _userContext.TeamName);
 
-			return View(model);
+			return RedirectToAction("View", new { filename = model.ParentFilename });
 		}
 
 		public ActionResult AddVerification(Models.VerificationItem model)
