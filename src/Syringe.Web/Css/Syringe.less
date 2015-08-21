@@ -33,10 +33,16 @@
 
 .panel {
 
-	input, textarea, select {
+	.form-control {
 		border: 1px solid #d2d2d2 !important;
 		background-image: none;
 		padding: inherit;
+
+		&:focus {
+			border: 1px solid #d2d2d2 !important;
+			background-image: none;
+			padding: inherit;
+		}
 	}
 
 	.btn {
