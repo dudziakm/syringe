@@ -4,13 +4,13 @@ namespace Syringe.Core.Domain.Providers
 {
     public class TeamcityUserRequest
     {
-        private const string resourceUrl = "/guestAuth/app/rest/users/{0}";
+        private const string ResourceUrl = "/guestAuth/app/rest/users/{0}";
 
         public RestRequest GetRequest(string userName)
         {
             var request = new RestRequest(Method.GET)
                           {
-                              Resource = string.Format(resourceUrl, userName),
+                              Resource = string.Format(ResourceUrl, userName),
                               RootElement = "user"
                           };
 

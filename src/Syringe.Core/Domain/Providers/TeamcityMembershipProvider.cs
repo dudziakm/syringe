@@ -8,7 +8,8 @@ namespace Syringe.Core.Domain.Providers
 {
     public class TeamcityMembershipProvider : ITeamcityMembershipProvider
     {
-        private IRestClient _restClient;
+        private readonly IRestClient _restClient;
+        const string BaseUrl = "http://teamcity.tjgdev.ds:8500/";
 
         public TeamcityMembershipProvider()
         {
@@ -19,20 +20,6 @@ namespace Syringe.Core.Domain.Providers
         {
             _restClient = restClient;
         }
-
-        const string BaseUrl = "http://teamcity.tjgdev.ds:8500/";
-
-        //public string GetTeamNameForUser(string userName)
-        //{
-        //    var teamCityRequest = new TeamcityUserRequest();
-        //    var request = teamCityRequest.GetRequest(userName);
-
-        //    var result = Execute<User>(request);
-
-        //    var groupName = result.Groups.Group.FirstOrDefault(x => x.Key.Contains("TEAM"));
-
-        //    return groupName.Name;
-        //}
 
         public string GetTeamNameForUser(string user)
         {
@@ -64,6 +51,7 @@ namespace Syringe.Core.Domain.Providers
                 var teamcityExpception = new ApplicationException(message, response.ErrorException);
                 throw teamcityExpception;
             }
+
             return JsonConvert.DeserializeObject<User>(response.Content);
         }
     }

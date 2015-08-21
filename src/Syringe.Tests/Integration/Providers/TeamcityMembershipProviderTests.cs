@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Syringe.Core.Domain.Providers;
-using Syringe.Tests.Unit.Providers;
 
 namespace Syringe.Tests.Integration.Providers
 {
