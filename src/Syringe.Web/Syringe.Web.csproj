@@ -128,8 +128,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ModelBuilders\ITestCaseCoreModelBuilder.cs" />
     <Compile Include="ModelBuilders\ITestCaseViewModelBuilder.cs" />
     <Compile Include="Controllers\TestCaseController.cs" />
+    <Compile Include="ModelBuilders\TestCaseCoreModelBuilder.cs" />
     <Compile Include="ModelBuilders\TestCaseViewModelBuilder.cs" />
     <Compile Include="Models\HeaderItem.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
@@ -170,6 +172,7 @@
     <Content Include="Css\Syringe.css.map">
       <DependentUpon>Syringe.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="XmlExamples\bing.xml" />
     <Content Include="XmlExamples\single-case.xml" />
     <Content Include="Css\material-fullpalette.css.map" />

@@ -21,9 +21,12 @@
 .case-result-errors {
   padding-top: 40px;
 }
-.panel input,
-.panel textarea,
-.panel select {
+.panel .form-control {
+  border: 1px solid #d2d2d2 !important;
+  background-image: none;
+  padding: inherit;
+}
+.panel .form-control:focus {
   border: 1px solid #d2d2d2 !important;
   background-image: none;
   padding: inherit;
