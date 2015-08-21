@@ -15,9 +15,11 @@ namespace Syringe.Web.Models
         [Display(Name = "Post Body")]
         public string PostBody { get; set; }
 
+		[Required]
         [Display(Name = "Error Message")]
         public string ErrorMessage { get; set; }
 
+		[Required]
         [Display(Name = "Post Type")]
         public PostType PostType { get; set; }
 

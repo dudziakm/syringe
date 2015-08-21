@@ -53,7 +53,7 @@ namespace Syringe.Web.Controllers
 				return RedirectToAction("View", new { filename = model.ParentFilename });
 			}
 
-			return View(model);
+			return View("Edit", model);
 		}
 
 		public ActionResult AddVerification(Models.VerificationItem model)

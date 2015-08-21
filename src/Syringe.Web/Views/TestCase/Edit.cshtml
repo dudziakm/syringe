@@ -4,8 +4,8 @@
 	ViewBag.Title = "Edit Test Case";
 }
 <div class="container">
-	@using (Html.BeginForm("Edit", "TestCase", FormMethod.Post, new { @class = "form-horizontal" }))
-	{
+
+	<form action=@(Request.RawUrl) method="post">
 		@Html.ValidationSummary(false)
 
 		<div class="panel panel-default">
@@ -169,5 +169,5 @@
 			</div>
 		</div>
 		<input type="submit" class="btn btn-primary" />
-	}
+	</form>
 </div>
