@@ -6,6 +6,7 @@
 <div class="container">
 	@using (Html.BeginForm("Edit", "TestCase", FormMethod.Post, new { @class = "form-horizontal" }))
 	{
+		@Html.ValidationSummary(false)
 
 		<div class="panel panel-default">
 			<div class="panel-heading">

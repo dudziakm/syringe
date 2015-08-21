@@ -49,9 +49,7 @@ namespace Syringe.Web.Controllers
 			if (ModelState.IsValid)
 			{
 				var testCase = _testCaseCoreModelBuilder.Build(model);
-				
 				_casesClient.AddTestCase(testCase, _userContext.TeamName);
-
 				return RedirectToAction("View", new { filename = model.ParentFilename });
 			}
 
