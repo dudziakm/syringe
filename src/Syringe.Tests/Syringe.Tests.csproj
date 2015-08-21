@@ -94,7 +94,6 @@
     <Compile Include="Integration\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\RedisResultWriterTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
