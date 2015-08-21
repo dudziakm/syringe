@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -13,32 +15,40 @@ namespace Syringe.Core.Xml.Writer
 			var stringBuilder = new StringBuilder();
 			using (var stringWriter = new Utf8StringWriter(stringBuilder))
 			{
-				XmlWriter xmlWriter = new XmlTextWriter(stringWriter);
-
-				XElement testCasesElement = new XElement("testcases");
-				testCasesElement.Add(new XAttribute("repeat", caseCollection.Repeat.ToString()));
-
-				foreach (Case testCase in caseCollection.TestCases)
+				var settings = new XmlWriterSettings
 				{
-					XElement headersElement = GetHeadersElement(testCase);
-					XElement postbodyElement = GetPostBodyElement(testCase);
-					XElement parseResponsesElement = GetParseResponsesElement(testCase);
-					XElement verificationElement = GetVerificationElement(testCase);
+					IndentChars = "\t",
+					Indent = true
+				};
 
-					XElement caseElement = GetCaseElement(testCase);
-					caseElement.Add(headersElement);
-					caseElement.Add(postbodyElement);
-					caseElement.Add(parseResponsesElement);
-					caseElement.Add(verificationElement);
+				using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
+				{
 
-					testCasesElement.Add(caseElement);
+					XElement testCasesElement = new XElement("testcases");
+					testCasesElement.Add(new XAttribute("repeat", caseCollection.Repeat.ToString()));
+
+					foreach (Case testCase in caseCollection.TestCases)
+					{
+						XElement headersElement = GetHeadersElement(testCase);
+						XElement postbodyElement = GetPostBodyElement(testCase);
+						XElement parseResponsesElement = GetParseResponsesElement(testCase);
+						XElement verificationElement = GetVerificationElement(testCase);
+
+						XElement caseElement = GetCaseElement(testCase);
+						caseElement.Add(headersElement);
+						caseElement.Add(postbodyElement);
+						caseElement.Add(parseResponsesElement);
+						caseElement.Add(verificationElement);
+
+						testCasesElement.Add(caseElement);
+					}
+
+					XDocument doc = new XDocument(testCasesElement);
+					doc.WriteTo(xmlWriter);
 				}
 
-				XDocument doc = new XDocument(testCasesElement);
-				doc.WriteTo(xmlWriter);
+				return stringBuilder.ToString();
 			}
-
-			return stringBuilder.ToString();
 		}
 
 		private XElement GetCaseElement(Case testCase)

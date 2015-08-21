@@ -214,6 +214,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\Xml\XmlExamples\Runner\50-cases.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\large-file.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

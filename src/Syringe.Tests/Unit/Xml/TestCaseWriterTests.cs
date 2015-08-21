@@ -143,6 +143,45 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
 		}
 
+		[Test]
+		public void write_should_write_large_files()
+		{
+			// Arrange
+			string expectedXml = TestHelpers.ReadEmbeddedFile("large-file.xml", XmlExamplesFolder);
+
+			var caseCollection = new CaseCollection();
+			var list = new List<Case>();		
+
+			for (int i = 0; i < 100; i++)
+			{
+				var testCase = new Case()
+				{
+					Id = i,
+					ShortDescription = "short description" +i,
+					LongDescription = "long description",
+					Url = "http://myserver",
+					Method = "post",
+					PostType = "text/xml",
+					VerifyResponseCode = HttpStatusCode.Accepted,
+					ErrorMessage = "my error message",
+					LogRequest = true,
+					LogResponse = true,
+					Sleep = 3,
+				};
+
+				list.Add(testCase);
+			}
+
+			caseCollection.TestCases = list;
+			TestCaseWriter xmlWriter = CreateTestCaseWriter();
+
+			// Act
+			string actualXml = xmlWriter.Write(caseCollection);
+
+			// Assert
+			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
+		}
+
 		private TestCaseWriter CreateTestCaseWriter()
 		{
 			return new TestCaseWriter();

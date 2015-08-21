@@ -5,7 +5,7 @@ namespace Syringe.Core.Xml.Writer
 {
 	internal class Utf8StringWriter : StringWriter
 	{
-		public Utf8StringWriter(StringBuilder sb) : base(sb)
+		public Utf8StringWriter(StringBuilder stringBuilder) : base(stringBuilder)
 		{
 		}
 
