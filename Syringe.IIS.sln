@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syringe.Service", "src\Syri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syringe.Web.IisConfig", "src\Syringe.Web.IisConfig\Syringe.Web.IisConfig.csproj", "{E209F248-B5FB-434A-863A-BB09B13C85EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syringe.Client", "src\Syringe.Client\Syringe.Client.csproj", "{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{E209F248-B5FB-434A-863A-BB09B13C85EF}.Release|Mixed Platforms.Build.0 = Release|x86
 		{E209F248-B5FB-434A-863A-BB09B13C85EF}.Release|x86.ActiveCfg = Release|x86
 		{E209F248-B5FB-434A-863A-BB09B13C85EF}.Release|x86.Build.0 = Release|x86
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Debug|x86.Build.0 = Debug|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|x86.ActiveCfg = Release|Any CPU
+		{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
