@@ -111,6 +111,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Entities\CanaryResult.cs" />
+    <Compile Include="Domain\Entities\Teamcity\Group.cs" />
+    <Compile Include="Domain\Entities\Teamcity\Properties.cs" />
+    <Compile Include="Domain\Entities\Teamcity\Property.cs" />
+    <Compile Include="Domain\Entities\Teamcity\Role.cs" />
+    <Compile Include="Domain\Entities\Teamcity\RoleWrapper.cs" />
+    <Compile Include="Domain\Entities\Teamcity\User.cs" />
+    <Compile Include="Domain\Entities\Teamcity\UserGroupWrapper.cs" />
+    <Compile Include="Domain\Entities\Teamcity\UserWrapper.cs" />
+    <Compile Include="Domain\Providers\ITeamcityMembershipProvider.cs" />
+    <Compile Include="Domain\Providers\TeamcityMembershipProvider.cs" />
+    <Compile Include="Domain\Providers\TeamcityUserRequest.cs" />
     <Compile Include="Domain\Services\ICanaryService.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />

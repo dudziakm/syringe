@@ -91,11 +91,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RedisResultWriterTests.cs" />
     <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
+    <Compile Include="Unit\Providers\TeamcityMembershipProviderTests.cs" />
+    <Compile Include="Unit\Providers\TeamcityUserRequestTests.cs" />
     <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
