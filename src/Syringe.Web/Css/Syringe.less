@@ -1,23 +1,45 @@
 ﻿#running-items {
 
-	.case-result
-	{
+	.case-result {
 		padding: 10px;
 
-		&.passed { background-color:green !important; color:white !important; }
-		&.failed { background-color:orange !important; color:black !important; }
-		&.error  { background-color:red !important; color:white !important; }
+		&.passed {
+			background-color: green !important;
+			color: white !important;
+		}
+
+		&.failed {
+			background-color: orange !important;
+			color: black !important;
+		}
+
+		&.error {
+			background-color: red !important;
+			color: white !important;
+		}
 	}
 }
 
-.case-result-exception textarea
-{
-	width:100%;
+.case-result-exception textarea {
+	width: 100%;
 	height: 50px;
 	margin-top: 5px;
 }
 
-.case-result-errors
-{
-	padding-top:40px
+.case-result-errors {
+	padding-top: 40px;
+}
+
+
+.panel {
+
+	input, textarea, select {
+		border: 1px solid #d2d2d2 !important;
+		background-image: none;
+		padding: inherit;
+	}
+
+	.btn {
+		margin-top: 0;
+	}
 }

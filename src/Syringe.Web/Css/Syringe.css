@@ -21,4 +21,14 @@
 .case-result-errors {
   padding-top: 40px;
 }
+.panel input,
+.panel textarea,
+.panel select {
+  border: 1px solid #d2d2d2 !important;
+  background-image: none;
+  padding: inherit;
+}
+.panel .btn {
+  margin-top: 0;
+}
 /*# sourceMappingURL=Syringe.css.map */

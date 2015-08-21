@@ -67,9 +67,9 @@ namespace Syringe.Web.Controllers
 				Sleep = model.Sleep,
 				PostType = model.PostType.ToString(),
 				VerifyResponseCode = model.VerifyResponseCode,
-
 			};
-			var addTestCase = _casesClient.AddTestCase(testCase, _userContext.TeamName);
+
+			_casesClient.AddTestCase(testCase, _userContext.TeamName);
 
 			return RedirectToAction("View", new { filename = model.ParentFilename });
 		}
