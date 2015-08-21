@@ -6,8 +6,10 @@
 <div class="container">
 
 	<form action=@(Request.RawUrl) method="post" class="form-horizontal">
-		@Html.ValidationSummary(false)
-
+		@if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+		{
+			@Html.ValidationSummary("", new { @class = "alert alert-danger" })
+		}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">General</h3>
