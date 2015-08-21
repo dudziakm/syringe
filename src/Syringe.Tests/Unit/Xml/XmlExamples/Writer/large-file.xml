@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testcases repeat="0">
+	<case id="0" shortdescription="short description0" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="1" shortdescription="short description1" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="2" shortdescription="short description2" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="3" shortdescription="short description3" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="4" shortdescription="short description4" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="5" shortdescription="short description5" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="6" shortdescription="short description6" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="7" shortdescription="short description7" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="8" shortdescription="short description8" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="9" shortdescription="short description9" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="10" shortdescription="short description10" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="11" shortdescription="short description11" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="12" shortdescription="short description12" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="13" shortdescription="short description13" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="14" shortdescription="short description14" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="15" shortdescription="short description15" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="16" shortdescription="short description16" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="17" shortdescription="short description17" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="18" shortdescription="short description18" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="19" shortdescription="short description19" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="20" shortdescription="short description20" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="21" shortdescription="short description21" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="22" shortdescription="short description22" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="23" shortdescription="short description23" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="24" shortdescription="short description24" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="25" shortdescription="short description25" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="26" shortdescription="short description26" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="27" shortdescription="short description27" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="28" shortdescription="short description28" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="29" shortdescription="short description29" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="30" shortdescription="short description30" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="31" shortdescription="short description31" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="32" shortdescription="short description32" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="33" shortdescription="short description33" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="34" shortdescription="short description34" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="35" shortdescription="short description35" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="36" shortdescription="short description36" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="37" shortdescription="short description37" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="38" shortdescription="short description38" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="39" shortdescription="short description39" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="40" shortdescription="short description40" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="41" shortdescription="short description41" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="42" shortdescription="short description42" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="43" shortdescription="short description43" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="44" shortdescription="short description44" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="45" shortdescription="short description45" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="46" shortdescription="short description46" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="47" shortdescription="short description47" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="48" shortdescription="short description48" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="49" shortdescription="short description49" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="50" shortdescription="short description50" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="51" shortdescription="short description51" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="52" shortdescription="short description52" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="53" shortdescription="short description53" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="54" shortdescription="short description54" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="55" shortdescription="short description55" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="56" shortdescription="short description56" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="57" shortdescription="short description57" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="58" shortdescription="short description58" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="59" shortdescription="short description59" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="60" shortdescription="short description60" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="61" shortdescription="short description61" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="62" shortdescription="short description62" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="63" shortdescription="short description63" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="64" shortdescription="short description64" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="65" shortdescription="short description65" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="66" shortdescription="short description66" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="67" shortdescription="short description67" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="68" shortdescription="short description68" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="69" shortdescription="short description69" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="70" shortdescription="short description70" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="71" shortdescription="short description71" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="72" shortdescription="short description72" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="73" shortdescription="short description73" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="74" shortdescription="short description74" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="75" shortdescription="short description75" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="76" shortdescription="short description76" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="77" shortdescription="short description77" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="78" shortdescription="short description78" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="79" shortdescription="short description79" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="80" shortdescription="short description80" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="81" shortdescription="short description81" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="82" shortdescription="short description82" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="83" shortdescription="short description83" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="84" shortdescription="short description84" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="85" shortdescription="short description85" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="86" shortdescription="short description86" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="87" shortdescription="short description87" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="88" shortdescription="short description88" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="89" shortdescription="short description89" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="90" shortdescription="short description90" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="91" shortdescription="short description91" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="92" shortdescription="short description92" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="93" shortdescription="short description93" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="94" shortdescription="short description94" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="95" shortdescription="short description95" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="96" shortdescription="short description96" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="97" shortdescription="short description97" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="98" shortdescription="short description98" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+	<case id="99" shortdescription="short description99" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message" logrequest="true" logresponse="true" sleep="3">
+		<headers />
+		<postbody />
+		<parseresponses />
+		<verifications />
+	</case>
+</testcases>
