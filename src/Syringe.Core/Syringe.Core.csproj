@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="Domain\Entities\CanaryResult.cs" />
     <Compile Include="Domain\Entities\Teamcity\Group.cs" />
+    <Compile Include="Domain\Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Domain\Entities\Teamcity\Properties.cs" />
     <Compile Include="Domain\Entities\Teamcity\Property.cs" />
     <Compile Include="Domain\Entities\Teamcity\Role.cs" />
@@ -161,7 +162,6 @@
     <Compile Include="Domain\Repositories\CaseRepository.cs" />
     <Compile Include="Domain\Repositories\ICaseRepository.cs" />
     <Compile Include="Domain\Entities\TaskDetails.cs" />
-    <Compile Include="Results\Writer\RedisResultWriter.cs" />
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="VerificationItem.cs" />

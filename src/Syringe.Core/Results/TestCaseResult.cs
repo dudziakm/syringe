@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Syringe.Core.Xml;
 using System.Linq;
+using System.Security.Principal;
 using Syringe.Core.Http;
 
 namespace Syringe.Core.Results
 {
 	public class TestCaseResult
 	{
+		public Guid Id { get; set; }
 	    public Case TestCase { get; set; }
 		public string ActualUrl { get; set; }
 	    public string Message { get; set; }
@@ -49,6 +51,7 @@ namespace Syringe.Core.Results
 		{
 			VerifyPositiveResults = new List<VerificationItem>();
 			VerifyNegativeResults = new List<VerificationItem>();
+			Id = Guid.NewGuid();
 		}
 	}
 }
