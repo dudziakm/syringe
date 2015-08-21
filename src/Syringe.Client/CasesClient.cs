@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core;
@@ -29,9 +30,7 @@ namespace Syringe.Client
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			IEnumerable<string> collection = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Content);
-
-			return collection;
+			return DeserializeOrThrow<IEnumerable<string>>(response);
 		}
 
 		public Case GetTestCase(string filename, string teamName, int caseId)
@@ -43,9 +42,7 @@ namespace Syringe.Client
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			Case collection = JsonConvert.DeserializeObject<Case>(response.Content);
-
-			return collection;
+			return DeserializeOrThrow<Case>(response);
 		}
 
 		public CaseCollection GetTestCaseCollection(string filename, string teamName)
@@ -56,9 +53,8 @@ namespace Syringe.Client
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			CaseCollection collection = JsonConvert.DeserializeObject<CaseCollection>(response.Content);
 
-			return collection;
+			return DeserializeOrThrow<CaseCollection>(response);
 		}
 
 		public bool AddTestCase(Case testCase, string teamName)
@@ -70,7 +66,19 @@ namespace Syringe.Client
 			request.AddQueryParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			return JsonConvert.DeserializeObject<Boolean>(response.Content);
+			return DeserializeOrThrow<bool>(response);
+		}
+
+		private T DeserializeOrThrow<T>(IRestResponse response)
+		{
+			if (response.StatusCode == HttpStatusCode.OK)
+			{
+				return JsonConvert.DeserializeObject<T>(response.Content);
+			}
+			else
+			{
+				throw new Exception(response.Content);
+			}
 		}
 
 		private IRestRequest CreateRequest(string action)
