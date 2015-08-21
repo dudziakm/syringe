@@ -5,6 +5,7 @@
 # 3. Creates C:\syringe\teamname (default path for tests cases)
 # 4. Copies an example test case XML file to that location
 #
+$ErrorActionPreference = "Stop"
 
 $solutionFile      = "Syringe.IIS.sln"
 $configuration     = "Debug"
@@ -12,10 +13,24 @@ $platform          = "Mixed Platforms"
 $msbuild           = "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
 $configTool        = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
 
+
+Write-Host "Make sure you have chocolately installed first https://chocolatey.org " -ForegroundColor DarkYellow
+Write-Host "Visual Studio 2013: make sure you have Typescript installed first: " -ForegroundColor DarkYellow
+Write-Host "https://visualstudiogallery.msdn.microsoft.com/b1fff87e-d68b-4266-8bba-46fad76bbf22/file/169854/1/TypeScript_1.5_VS2013.exe" -ForegroundColor DarkYellow
+
+# Install chocolatey
+Write-Host "Installing redis and nuget." -ForegroundColor Green
+choco install redis -y
+choco install nuget.commandline
+
 if (!(Test-Path $msbuild))
 {
 	$msbuild = "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
 }
+
+# Nuget restoring
+Write-Host "Nuget restoring"
+nuget restore $solutionFile
 
 # Build the sln file
 Write-Host "Building $solutionFile." -ForegroundColor Green
