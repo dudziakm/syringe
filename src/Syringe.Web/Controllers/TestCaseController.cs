@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core;
 using Syringe.Core.Security;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
-using HeaderItem = Syringe.Core.HeaderItem;
 
 
 namespace Syringe.Web.Controllers
@@ -17,12 +14,14 @@ namespace Syringe.Web.Controllers
 		private readonly CasesClient _casesClient;
 		private readonly IUserContext _userContext;
 		private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
+		private readonly ITestCaseCoreModelBuilder _testCaseCoreModelBuilder;
 
 		public TestCaseController()
 		{
 			_casesClient = new CasesClient();
 			_userContext = new UserContext();
 			_testCaseViewModelBuilder = new TestCaseViewModelBuilder();
+			_testCaseCoreModelBuilder = new TestCaseCoreModelBuilder();
 		}
 
 		public ActionResult View(string filename)
@@ -47,31 +46,16 @@ namespace Syringe.Web.Controllers
 		[HttpPost]
 		public ActionResult Edit(TestCaseViewModel model)
 		{
-			//todo move to builder
-			var testCase = new Case
+			if (ModelState.IsValid)
 			{
-				Id = model.Id,
-				ErrorMessage = model.ErrorMessage,
-				Headers = model.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
-				LogRequest = model.LogRequest,
-				LogResponse = model.LogResponse,
-				LongDescription = model.LongDescription,
-				Method = model.Method,
-				ParentFilename = model.ParentFilename,
-				ParseResponses = model.ParseResponses.Select(x => new Core.ParseResponseItem(x.Description, x.Regex)).ToList(),
-				PostBody = model.PostBody,
-				VerifyPositives = model.Verifications.Where(x => x.VerifyType == VerifyType.Positive).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
-				VerifyNegatives = model.Verifications.Where(x => x.VerifyType == VerifyType.Negative).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
-				ShortDescription = model.ShortDescription,
-				Url = model.Url,
-				Sleep = model.Sleep,
-				PostType = model.PostType.ToString(),
-				VerifyResponseCode = model.VerifyResponseCode,
-			};
+				var testCase = _testCaseCoreModelBuilder.Build(model);
+				
+				_casesClient.AddTestCase(testCase, _userContext.TeamName);
 
-			_casesClient.AddTestCase(testCase, _userContext.TeamName);
+				return RedirectToAction("View", new { filename = model.ParentFilename });
+			}
 
-			return RedirectToAction("View", new { filename = model.ParentFilename });
+			return View(model);
 		}
 
 		public ActionResult AddVerification(Models.VerificationItem model)

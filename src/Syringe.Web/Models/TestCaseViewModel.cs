@@ -7,6 +7,7 @@ namespace Syringe.Web.Models
 {
     public class TestCaseViewModel
     {
+		[Required]
         public int Id { get; set; }
         public string Method { get; set; }
         public string Url { get; set; }
