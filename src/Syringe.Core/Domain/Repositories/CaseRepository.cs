@@ -88,7 +88,7 @@ namespace Syringe.Core.Domain.Repositories
 				}
 			}
 
-			var contents = _testCaseWriter.Write(collection);
+			string contents = _testCaseWriter.Write(collection);
 
 			try
 			{
