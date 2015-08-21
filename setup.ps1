@@ -14,12 +14,13 @@ $msbuild           = "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
 $configTool        = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
 
 
-Write-Host "Make sure you have chocolately installed first https://chocolatey.org " -ForegroundColor DarkYellow
+Write-Host "Make sure you have installed chocolately first https://chocolatey.org " -ForegroundColor DarkYellow
+Write-Host "Make sure you have installed.NET 4.5.2 first http://www.microsoft.com/en-gb/download/details.aspx?id=42642 " -ForegroundColor DarkYellow
 Write-Host "Visual Studio 2013: make sure you have Typescript installed first: " -ForegroundColor DarkYellow
 Write-Host "https://visualstudiogallery.msdn.microsoft.com/b1fff87e-d68b-4266-8bba-46fad76bbf22/file/169854/1/TypeScript_1.5_VS2013.exe" -ForegroundColor DarkYellow
 
 # Install chocolatey
-Write-Host "Installing redis and nuget." -ForegroundColor Green
+Write-Host "Installing Redis and Nuget." -ForegroundColor Green
 choco install redis -y
 choco install nuget.commandline
 
