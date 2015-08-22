@@ -4,6 +4,7 @@ using Syringe.Core.Domain.Providers;
 namespace Syringe.Tests.Integration.Providers
 {
     [TestFixture]
+	[Explicit]
     public class TeamcityMembershipProviderTests
     {
         [Test]
