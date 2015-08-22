@@ -5,11 +5,9 @@ Syringe is a .NET version of the webinject testing tool, for automated HTTP test
 
 ## Dev installation
 
-Make sure you have Redis and Typescript installed:
-
 * Install chocolatey: https://chocolatey.org/
-* Visual Studio 2013: Install Typescript from http://www.typescriptlang.org/#Download (for Visual Studio 2013)
-* Open powershell and run the setup.ps1 script, this will:
+* Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download
+* Open powershell and run the `setup.ps1` script, this will:
 ** Creates an IIS site
 ** Installs Redis
 ** Creates C:\syringe folder with an example file.
