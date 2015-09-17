@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core;
-using Syringe.Core.Domain.Repositories;
-using Syringe.Core.Domain.Services;
+using Syringe.Core.Repositories;
+using Syringe.Core.Services;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Service.Api
 {

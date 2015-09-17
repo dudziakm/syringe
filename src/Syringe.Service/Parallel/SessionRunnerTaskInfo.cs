@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Syringe.Core.Domain.Entities;
 using Syringe.Core.Runner;
+using Syringe.Core.Tasks;
 
 namespace Syringe.Service.Parallel
 {

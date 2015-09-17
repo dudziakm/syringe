@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Syringe.Core;
 using Syringe.Core.Http;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Tests.Unit.StubsMocks
 {

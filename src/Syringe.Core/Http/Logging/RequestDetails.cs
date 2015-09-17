@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Http.Logging
 {

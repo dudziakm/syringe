@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core;
+using Syringe.Core.TestCases;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
-using HeaderItem = Syringe.Core.HeaderItem;
-using ParseResponseItem = Syringe.Core.ParseResponseItem;
-using VerificationItem = Syringe.Core.VerificationItem;
+using HeaderItem = Syringe.Core.TestCases.HeaderItem;
+using ParseResponseItem = Syringe.Core.TestCases.ParseResponseItem;
+using VerificationItem = Syringe.Core.TestCases.VerificationItem;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {

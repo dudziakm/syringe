@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Tests.Unit.Http
 {

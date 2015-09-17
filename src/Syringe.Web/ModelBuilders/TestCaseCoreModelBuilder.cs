@@ -1,7 +1,11 @@
 using System;
 using System.Linq;
 using Syringe.Core;
+using Syringe.Core.TestCases;
 using Syringe.Web.Models;
+using HeaderItem = Syringe.Core.TestCases.HeaderItem;
+using ParseResponseItem = Syringe.Core.TestCases.ParseResponseItem;
+using VerificationItem = Syringe.Core.TestCases.VerificationItem;
 
 namespace Syringe.Web.ModelBuilders
 {
@@ -18,16 +22,16 @@ namespace Syringe.Web.ModelBuilders
 			{
 				Id = testCase.Id,
 				ErrorMessage = testCase.ErrorMessage,
-				Headers = testCase.Headers.Select(x => new Core.HeaderItem(x.Key, x.Value)).ToList(),
+				Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
 				LogRequest = testCase.LogRequest,
 				LogResponse = testCase.LogResponse,
 				LongDescription = testCase.LongDescription,
 				Method = testCase.Method,
 				ParentFilename = testCase.ParentFilename,
-				ParseResponses = testCase.ParseResponses.Select(x => new Core.ParseResponseItem(x.Description, x.Regex)).ToList(),
+				ParseResponses = testCase.ParseResponses.Select(x => new ParseResponseItem(x.Description, x.Regex)).ToList(),
 				PostBody = testCase.PostBody,
-				VerifyPositives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Positive).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
-				VerifyNegatives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Negative).Select(x => new Core.VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
+				VerifyPositives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Positive).Select(x => new VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
+				VerifyNegatives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Negative).Select(x => new VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
 				ShortDescription = testCase.ShortDescription,
 				Url = testCase.Url,
 				Sleep = testCase.Sleep,

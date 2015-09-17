@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Syringe.Core.Configuration;
+using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Extensions
 {

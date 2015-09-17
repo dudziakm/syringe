@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core;
 using Syringe.Core.Security;
+using Syringe.Core.TestCases;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 

@@ -12,6 +12,7 @@ using Syringe.Core.Http.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
+using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 using YamlDotNet.Serialization;

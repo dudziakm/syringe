@@ -10,6 +10,8 @@ using Syringe.Core.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
+using Syringe.Core.TestCases;
+using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
 using Syringe.Tests.Unit.StubsMocks;
 

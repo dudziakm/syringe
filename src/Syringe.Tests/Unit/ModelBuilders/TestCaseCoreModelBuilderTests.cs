@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core;
+using Syringe.Core.TestCases;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;

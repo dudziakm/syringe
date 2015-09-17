@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Logging;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Xml.Reader
 {

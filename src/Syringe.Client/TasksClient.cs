@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
-using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Services;
+using Syringe.Core.Services;
+using Syringe.Core.Tasks;
 
 namespace Syringe.Client
 {

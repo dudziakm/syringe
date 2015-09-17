@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Web.Http;
 using Syringe.Core;
+using Syringe.Core.Canary;
 using Syringe.Core.Configuration;
-using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Services;
+using Syringe.Core.Services;
 using Syringe.Core.Xml;
 
 namespace Syringe.Service.Api

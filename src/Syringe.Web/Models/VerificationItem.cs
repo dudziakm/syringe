@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Syringe.Core;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Web.Models
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Core.Runner;
+using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Tests.Unit.Runner
 {

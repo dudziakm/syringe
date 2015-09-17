@@ -11,6 +11,8 @@ using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
+using Syringe.Core.TestCases;
+using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 

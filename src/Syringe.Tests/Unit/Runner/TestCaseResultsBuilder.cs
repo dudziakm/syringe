@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Syringe.Core;
 using Syringe.Core.Results;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Tests.Unit.Runner
 {

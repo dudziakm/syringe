@@ -4,6 +4,7 @@ using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Extensions;
+using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Tests.Unit.Configuration
 {

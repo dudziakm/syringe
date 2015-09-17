@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core;
+using Syringe.Core.TestCases;
 using Syringe.Web.Models;
-using VerificationItem = Syringe.Core.VerificationItem;
+using VerificationItem = Syringe.Core.TestCases.VerificationItem;
 
 namespace Syringe.Web.ModelBuilders
 {

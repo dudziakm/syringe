@@ -4,6 +4,7 @@ using Syringe.Core.Xml;
 using System.Linq;
 using System.Security.Principal;
 using Syringe.Core.Http;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Results
 {

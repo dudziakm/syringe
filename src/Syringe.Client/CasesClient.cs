@@ -5,7 +5,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core;
 using Syringe.Core.Configuration;
-using Syringe.Core.Domain.Services;
+using Syringe.Core.Services;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Client
 {

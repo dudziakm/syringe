@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Client;
-using Syringe.Core.Domain.Entities;
+using Syringe.Core.Canary;
 using Syringe.Core.Security;
 using Syringe.Web.Models;
 

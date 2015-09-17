@@ -5,6 +5,7 @@ using System.Net;
 using RestSharp;
 using Syringe.Core.Extensions;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Http
 {

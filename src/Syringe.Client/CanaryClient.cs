@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using Syringe.Core.Canary;
 using Syringe.Core.Configuration;
-using Syringe.Core.Domain.Entities;
-using Syringe.Core.Domain.Services;
+using Syringe.Core.Services;
 
 namespace Syringe.Client
 {

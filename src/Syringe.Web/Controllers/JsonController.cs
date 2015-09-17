@@ -4,9 +4,10 @@ using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Client;
 using Syringe.Core;
-using Syringe.Core.Domain.Entities;
 using Syringe.Core.Runner;
 using Syringe.Core.Security;
+using Syringe.Core.Tasks;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Web.Controllers
 {

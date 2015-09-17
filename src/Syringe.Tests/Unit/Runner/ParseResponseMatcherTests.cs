@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Tests.Unit.Runner
 {

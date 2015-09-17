@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Quartz;
 using Quartz.Impl;
-using Syringe.Core.Domain.Entities;
+using Syringe.Core.Security;
 
 namespace Syringe.Service.Schedule
 {

@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Tests.Unit.Results.Writer
 {

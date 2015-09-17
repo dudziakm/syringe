@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Syringe.Core;
 using Syringe.Core.Exceptions;
+using Syringe.Core.TestCases;
 using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 using Syringe.Tests.Integration.Xml;
