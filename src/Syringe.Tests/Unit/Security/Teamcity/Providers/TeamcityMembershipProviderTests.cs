@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using RestSharp;
-using Syringe.Core.Domain.Providers;
+using Syringe.Core.Security.Teamcity.Providers;
 using Syringe.Tests.Unit.StubsMocks;
 
-namespace Syringe.Tests.Unit.Providers
+namespace Syringe.Tests.Unit.Security.Teamcity.Providers
 {
     [TestFixture]
     public class TeamcityMembershipProviderTests

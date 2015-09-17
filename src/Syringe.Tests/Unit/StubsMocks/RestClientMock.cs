@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
 using RestSharp;
-using Syringe.Core.Domain.Entities.Teamcity;
-using Syringe.Core.Domain.Providers;
 
 namespace Syringe.Tests.Unit.StubsMocks
 {

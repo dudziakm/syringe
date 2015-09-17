@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Syringe.Core.Domain.Entities.Teamcity
+namespace Syringe.Core.Security.Teamcity
 {
     public class User
     {

@@ -2,9 +2,8 @@
 using System.Linq;
 using Newtonsoft.Json;
 using RestSharp;
-using Syringe.Core.Domain.Entities.Teamcity;
 
-namespace Syringe.Core.Domain.Providers
+namespace Syringe.Core.Security.Teamcity.Providers
 {
     public class TeamcityMembershipProvider : ITeamcityMembershipProvider
     {

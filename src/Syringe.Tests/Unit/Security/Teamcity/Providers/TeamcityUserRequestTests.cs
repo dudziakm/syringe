@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Syringe.Core.Domain.Providers;
+using Syringe.Core.Security.Teamcity.Providers;
 
-namespace Syringe.Tests.Unit.Providers
+namespace Syringe.Tests.Unit.Security.Teamcity.Providers
 {
     [TestFixture]
     public class TeamcityUserRequestTests

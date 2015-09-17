@@ -1,4 +1,4 @@
-﻿namespace Syringe.Core.Domain.Providers
+﻿namespace Syringe.Core.Security.Teamcity.Providers
 {
     public interface ITeamcityMembershipProvider
     {

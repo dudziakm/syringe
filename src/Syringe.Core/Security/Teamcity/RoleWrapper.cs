@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Syringe.Core.Domain.Entities.Teamcity
+namespace Syringe.Core.Security.Teamcity
 {
     public class RoleWrapper
     {

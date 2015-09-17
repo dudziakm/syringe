@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Syringe.Core.Domain.Providers;
+using Syringe.Core.Security.Teamcity.Providers;
 
-namespace Syringe.Tests.Integration.Providers
+namespace Syringe.Tests.Integration.Security.Teamcity.Providers
 {
     [TestFixture]
 	[Explicit]

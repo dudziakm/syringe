@@ -111,18 +111,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Entities\CanaryResult.cs" />
-    <Compile Include="Domain\Entities\Teamcity\Group.cs" />
+    <Compile Include="Security\Teamcity\Group.cs" />
     <Compile Include="Domain\Repositories\ITestCaseSessionRepository.cs" />
-    <Compile Include="Domain\Entities\Teamcity\Properties.cs" />
-    <Compile Include="Domain\Entities\Teamcity\Property.cs" />
-    <Compile Include="Domain\Entities\Teamcity\Role.cs" />
-    <Compile Include="Domain\Entities\Teamcity\RoleWrapper.cs" />
-    <Compile Include="Domain\Entities\Teamcity\User.cs" />
-    <Compile Include="Domain\Entities\Teamcity\UserGroupWrapper.cs" />
-    <Compile Include="Domain\Entities\Teamcity\UserWrapper.cs" />
-    <Compile Include="Domain\Providers\ITeamcityMembershipProvider.cs" />
-    <Compile Include="Domain\Providers\TeamcityMembershipProvider.cs" />
-    <Compile Include="Domain\Providers\TeamcityUserRequest.cs" />
+    <Compile Include="Security\Teamcity\Properties.cs" />
+    <Compile Include="Security\Teamcity\Property.cs" />
+    <Compile Include="Security\Teamcity\Role.cs" />
+    <Compile Include="Security\Teamcity\RoleWrapper.cs" />
+    <Compile Include="Security\Teamcity\User.cs" />
+    <Compile Include="Security\Teamcity\UserGroupWrapper.cs" />
+    <Compile Include="Security\Teamcity\UserWrapper.cs" />
+    <Compile Include="Security\Teamcity\Providers\ITeamcityMembershipProvider.cs" />
+    <Compile Include="Security\Teamcity\Providers\TeamcityMembershipProvider.cs" />
+    <Compile Include="Security\Teamcity\Providers\TeamcityUserRequest.cs" />
     <Compile Include="Domain\Services\ICanaryService.cs" />
     <Compile Include="Configuration\ConfigReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />

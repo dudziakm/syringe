@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace Syringe.Core.Domain.Providers
+namespace Syringe.Core.Security.Teamcity.Providers
 {
     public class TeamcityUserRequest
     {
