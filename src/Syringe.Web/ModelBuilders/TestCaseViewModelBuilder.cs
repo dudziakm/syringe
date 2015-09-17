@@ -17,15 +17,13 @@ namespace Syringe.Web.ModelBuilders
             }
 
             var verifications = new List<Models.VerificationItem>();
-
-            var verifyPositives = getVerificationItems(testCase.VerifyPositives);
-            var verifyNegatives = getVerificationItems(testCase.VerifyNegatives);
+            IEnumerable<Models.VerificationItem> verifyPositives = GetVerificationItems(testCase.VerifyPositives);
+            IEnumerable<Models.VerificationItem> verifyNegatives = GetVerificationItems(testCase.VerifyNegatives);
             
             verifications.AddRange(verifyPositives);
             verifications.AddRange(verifyNegatives);
 
             var headerList = new List<Models.HeaderItem>(testCase.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }));
-
             var parsedResponses = new List<Models.ParseResponseItem>(testCase.ParseResponses.Select(x => new Models.ParseResponseItem { Description = x.Description, Regex = x.Regex }));
 
             var model = new TestCaseViewModel
@@ -51,7 +49,7 @@ namespace Syringe.Web.ModelBuilders
             return model;
         }
 
-        private IEnumerable<Models.VerificationItem> getVerificationItems(IEnumerable<VerificationItem> items)
+        private IEnumerable<Models.VerificationItem> GetVerificationItems(IEnumerable<VerificationItem> items)
         {
             return
                 items.Select(x =>
