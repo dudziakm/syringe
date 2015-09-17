@@ -5,17 +5,18 @@ Syringe is a .NET version of the webinject testing tool, for automated HTTP test
 
 ## Dev installation
 
-Make sure you have Redis and Typescript installed:
-
 * Install chocolatey: https://chocolatey.org/
-* Open a new Powershell prompt: `choco install redis -y` (alternatively download from https://github.com/MSOpenTech/redis/releases)
-* Install Typescript from http://www.typescriptlang.org/#Download (for Visual Studio 2013)
+* Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download
+* Open powershell and run the `setup.ps1` script, this will:
+** Creates an IIS site
+** Installs Redis
+** Creates C:\syringe folder with an example file.
+* Run .\run-rest-service.ps1 and go to http://localhost:12345
 
-Open powershell and run the setup.ps1 script to install the IIS site, and then run .\run-rest-service.ps1
+If Redis doesn't install properly, it can be downloaded at https://github.com/MSOpenTech/redis/releases.
 
-Additional VS 2013 setup
+###Additional VS 2013 setup
 
-If you have VS 2015 you will not have the following problems:
+If you don't have VS 2013 Service Pack 4, you will need to install the .NET 4.5.2 developer pack for VS 2013 from http://getdotnet.azurewebsites.net/target-dotnet-platforms.html
 
-Intall the .net 4.5.2 developer pack for VS 2015 on the following link http://getdotnet.azurewebsites.net/target-dotnet-platforms.html
-the download file should be NDP452-KB2901951-x86-x64-DevPack.exe 
+The download file should be NDP452-KB2901951-x86-x64-DevPack.exe 
