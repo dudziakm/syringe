@@ -140,7 +140,7 @@
     <Compile Include="Api\CasesController.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
     <Compile Include="Api\TeamController.cs" />
-    <Compile Include="Parallel\RavenDbServer.cs" />
+    <Compile Include="RavenDbServer.cs" />
     <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
