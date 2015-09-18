@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SessionInfo>
+<div class="container">
+	<div class="row">
+		<div class="col-md-2">
+			<img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
+		</div>
+
+		<div class="col-md-10">
+			<h2>All results</h2>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (SessionInfo session in Model)
+					{
+						<tr>
+							<td>@session.Id</td>
+							<td>
+								<a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Home", new { id = session.Id })">View</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

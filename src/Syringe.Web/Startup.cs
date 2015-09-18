@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.Owin;
 using Owin;
+using Syringe.Core.Results.Writer;
 using Syringe.Web;
 
 [assembly: OwinStartup(typeof(Startup))]

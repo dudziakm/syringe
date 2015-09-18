@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core.Canary;
+using Syringe.Core.Results;
+using Syringe.Core.Results.Writer;
 using Syringe.Core.Security;
 using Syringe.Web.Models;
 
@@ -45,6 +47,18 @@ namespace Syringe.Web.Controllers
 			{
 				throw new InvalidOperationException("Unable to connect to the REST api service. Is the service started? Check it at http://localhost:22345/");
 			}
+		}
+
+		public ActionResult AllResults()
+		{
+			var repository = new RavenDbTestCaseSessionRepository();
+            return View("AllResults", repository.LoadAll());
+		}
+
+		public ActionResult ViewResult(Guid id)
+		{
+			var repository = new RavenDbTestCaseSessionRepository();
+			return View("ViewResult", repository.GetById(id));
 		}
 	}
 }

@@ -199,6 +199,8 @@
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Views\TestCase\EditorTemplates\Partials\_RemoveRow.cshtml" />
+    <Content Include="Views\Home\AllResults.cshtml" />
+    <Content Include="Views\Home\ViewResult.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />

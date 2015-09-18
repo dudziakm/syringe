@@ -40,6 +40,8 @@ namespace Syringe.Core.Runner
 		private bool _isStopPending;
 		private List<TestCaseResult> _currentResults;
 
+		public Guid SessionId { get; internal set; }
+
 		public IEnumerable<TestCaseResult> CurrentResults
 		{
 			get { return _currentResults; }
@@ -64,6 +66,7 @@ namespace Syringe.Core.Runner
 			_httpClient = httpClient;
 			_resultWriter = resultWriter;
 			_currentResults = new List<TestCaseResult>();
+			SessionId = Guid.NewGuid();
 		}
 
 		/// <summary>
@@ -111,6 +114,7 @@ namespace Syringe.Core.Runner
 			CasesRun = 0;
 			TotalCases = testCases.Count;
 			RepeatCount = 0;
+			bool saveSession = true;
 
 			for (int i = 0; i < repeatTotal; i++)
 			{
@@ -145,7 +149,10 @@ namespace Syringe.Core.Runner
 				}
 
 				if (_isStopPending)
+				{
+					saveSession = false;
 					break;
+				}
 			}
 
 			session.EndTime = DateTime.UtcNow;
@@ -154,12 +161,19 @@ namespace Syringe.Core.Runner
 			session.MinResponseTime = minResponseTime;
 			session.MaxResponseTime = maxResponseTime;
 
+			if (saveSession)
+			{
+				var repository = new RavenDbTestCaseSessionRepository();
+				repository.Save(session);
+			}
+
 			return session;
 		}
 
 		internal TestCaseResult RunCase(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
 		{
 			var testResult = new TestCaseResult();
+			testResult.SessionId = SessionId;
 			testResult.TestCase = testCase;
 
 			try
@@ -205,8 +219,6 @@ namespace Syringe.Core.Runner
 				{
 					_httpClient.LogLastResponse();
 				}
-
-				_resultWriter.Write(testResult);
 
 				if (testCase.Sleep > 0)
 					Thread.Sleep(testCase.Sleep * 1000);

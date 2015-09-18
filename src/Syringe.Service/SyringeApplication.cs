@@ -3,6 +3,7 @@ using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
+using Syringe.Core.Results.Writer;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service
@@ -14,11 +15,13 @@ namespace Syringe.Service
         public void Start()
         {
 			WebApplication = WebApp.Start<SyringeApplication>("http://localhost:22345");
+			RavenDbServer.Start();
         }
 
         public void Stop()
         {
-			ParallelTestSessionQueue.Default.StopAll();
+			RavenDbServer.Stop();
+            ParallelTestSessionQueue.Default.StopAll();
             WebApplication.Dispose();
         }
 
