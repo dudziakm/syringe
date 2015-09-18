@@ -85,50 +85,20 @@ var Syringe;
                 this.intervalTime = 500;
                 this._updatedIds = {};
             }
-            TestCaseRunner.prototype.start = function (filename) {
+            TestCaseRunner.prototype.start = function (taskId) {
+                if (taskId === 0) {
+                    throw Error("Task ID was 0.");
+                }
                 this.bindStopButton();
-                this.loadCases(filename);
                 var that = this;
-                $.post("/json/run", { filename: filename })
-                    .done(function (data) {
-                    if (data.taskId === 0) {
-                        alert("An error occured - taskid was 0");
-                        return;
-                    }
-                    that.intervalHandle = setInterval(function () {
-                        that.updateProgress(data.taskId);
-                    }, that.intervalTime);
-                });
+                that.intervalHandle = setInterval(function () {
+                    that.updateProgress(taskId);
+                }, that.intervalTime);
             };
             TestCaseRunner.prototype.bindStopButton = function () {
+                var self = this;
                 $("#stopbutton").click(function () {
-                    clearTimeout(this._intervalHandle);
-                });
-            };
-            TestCaseRunner.prototype.loadCases = function (filename) {
-                $.get("/json/GetCases", { "filename": filename })
-                    .done(function (data) {
-                    $.each(data.TestCases, function (index, item) {
-                        var html = "";
-                        html = '<div class="panel" id="case-' + item.Id + '">';
-                        html += '	<div class="panel-heading"><h3 class="panel-title">' + item.Id + " - " + item.ShortDescription + "</h3></div>";
-                        html += '		<div class="panel-body">';
-                        html += '			<div>';
-                        html += '				<div class="pull-left case-result-url"></div>';
-                        html += '				<div class="pull-right">';
-                        html += '					<a class="view-html btn btn-primary" href="#">View HTML</a>';
-                        html += '					<a class="view-raw btn btn-primary" href="#">View raw</a>';
-                        html += '				</div>';
-                        html += '			</div>';
-                        html += '			<div class="case-result-errors">';
-                        html += '				<div class="hidden case-result-exception"><h2 class="label label-danger">Error</h4><textarea></textarea></div>';
-                        html += '				<div class="hidden case-result-html"><textarea style="display:none"></textarea></span>';
-                        html += '			</div>';
-                        html += "		</div>";
-                        html += "	</div>";
-                        html += "</div>";
-                        $("#running-items").append(html);
-                    });
+                    clearTimeout(self.intervalHandle);
                 });
             };
             TestCaseRunner.prototype.updateProgress = function (taskId) {

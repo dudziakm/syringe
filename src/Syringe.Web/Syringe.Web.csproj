@@ -21,7 +21,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -138,6 +138,7 @@
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\PostType.cs" />
+    <Compile Include="Models\RunningTestCaseViewModel.cs" />
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\ParseResponseItem.cs" />
