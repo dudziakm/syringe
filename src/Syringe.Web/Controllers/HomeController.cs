@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Syringe.Client;
 using Syringe.Core.Canary;
 using Syringe.Core.Security;
+using Syringe.Core.Services;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly CasesClient _casesClient;
+		private readonly ICaseService _casesClient;
 		private readonly IUserContext _userContext;
+		private readonly Func<IRunViewModel> _runViewModelFactory;
+		private readonly Func<ICanaryService> _canaryClientFactory;
 
-		public HomeController()
+		public HomeController(
+			ICaseService casesClient,
+			IUserContext userContext,
+			Func<IRunViewModel> runViewModelFactory,
+			Func<ICanaryService> canaryClientFactory)
 		{
-			_casesClient = new CasesClient();
-			_userContext = new UserContext();
+			_casesClient = casesClient;
+			_userContext = userContext;
+			_runViewModelFactory = runViewModelFactory;
+			_canaryClientFactory = canaryClientFactory;
 		}
 
 		public ActionResult Index()
@@ -34,14 +42,14 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Run(string filename)
 		{
-			var runViewModel = new RunViewModel();
+			var runViewModel = _runViewModelFactory();
 			runViewModel.Run(_userContext, filename);
 			return View("Run", runViewModel);
 		}
 
 		private void CheckServiceIsRunning()
 		{
-			var canaryCheck = new CanaryClient();
+			var canaryCheck = _canaryClientFactory();
 			CanaryResult result = canaryCheck.Check();
 			if (result == null || result.Success == false)
 			{

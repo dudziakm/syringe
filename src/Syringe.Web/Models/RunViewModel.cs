@@ -7,7 +7,7 @@ using Syringe.Core.TestCases;
 
 namespace Syringe.Web.Models
 {
-	public class RunViewModel
+	public class RunViewModel : IRunViewModel
 	{
 		private readonly ITasksService _tasksService;
 		private readonly ICaseService _caseService;

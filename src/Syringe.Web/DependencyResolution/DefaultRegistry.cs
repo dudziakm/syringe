@@ -15,21 +15,40 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Syringe.Web.DependencyResolution {
+using Syringe.Client;
+using Syringe.Core.Configuration;
+using Syringe.Core.Security;
+using Syringe.Core.Services;
+using Syringe.Web.ModelBuilders;
+using Syringe.Web.Models;
+
+namespace Syringe.Web.DependencyResolution
+{
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-	
-    public class DefaultRegistry : Registry {
+
+    public class DefaultRegistry : Registry
+    {
         #region Constructors and Destructors
 
-        public DefaultRegistry() {
+        public DefaultRegistry()
+        {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
+                    scan.With(new ControllerConvention());
                 });
-            //For<IExample>().Use<Example>();
+
+            For<IRunViewModel>().Use<RunViewModel>();
+            For<ITestCaseViewModelBuilder>().Use<TestCaseViewModelBuilder>();
+            For<ITestCaseCoreModelBuilder>().Use<TestCaseCoreModelBuilder>();
+            For<IApplicationConfiguration>().Use<ApplicationConfig>();
+            For<IUserContext>().Use<UserContext>();
+            For<ICaseService>().Use<CasesClient>();
+            For<ICanaryService>().Use<CanaryClient>();
+            For<ITasksService>().Use<TasksClient>();
         }
 
         #endregion

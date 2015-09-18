@@ -1,11 +1,7 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using RestSharp;
-using Syringe.Client;
-using Syringe.Core;
-using Syringe.Core.Runner;
 using Syringe.Core.Security;
+using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
 
@@ -13,15 +9,15 @@ namespace Syringe.Web.Controllers
 {
 	public class JsonController : Controller
 	{
-		private readonly TasksClient _tasksClient;
-		private readonly CasesClient _casesClient;
+		private readonly ITasksService _tasksClient;
+		private readonly ICaseService _casesClient;
 		private readonly IUserContext _userContext;
 
-		public JsonController()
+		public JsonController(ITasksService tasksService, ICaseService casesClient, IUserContext userContext)
 		{
-			_tasksClient = new TasksClient();
-			_casesClient = new CasesClient();
-			_userContext = new UserContext();
+			_tasksClient = tasksService;
+			_casesClient = casesClient;
+			_userContext = userContext;
 		}
 
 		public ActionResult Run(string filename)
