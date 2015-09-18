@@ -1,4 +1,6 @@
-﻿using Raven.Client;
+﻿using System;
+using System.IO;
+using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Database.Server;
 
@@ -12,7 +14,7 @@ namespace Syringe.Service
 		public static IDocumentStore DocumentStore = new EmbeddableDocumentStore
 		{
 			DefaultDatabase = "syringe",
-			DataDirectory = @"C:\RavenDb\",
+			DataDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RavenDB"),
 			UseEmbeddedHttpServer = true,
 			Configuration = { Port = 32345 }
 		};
