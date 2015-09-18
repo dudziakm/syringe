@@ -9,8 +9,6 @@
 		var filename = "@Model.FileName";
 
 		$(document).ready(function () {
-			//var runner = new Syringe.Web.TestCaseRunner();
-			//runner.start(@Model.CurrentTaskId);
 			var progress = new Syringe.Web.Progress();
 			progress.monitor(@Model.CurrentTaskId);
 		});
@@ -41,8 +39,8 @@
 								<div>
 									<div class="pull-left case-result-url"></div>
 									<div class="pull-right">
-										<a class="view-html btn btn-primary" href="#">View HTML</a>
-										<a class="view-raw btn btn-primary" href="#">View raw</a>
+										<a class="hidden view-html btn btn-primary" href="#">View HTML</a>
+										<a class="hidden view-raw btn btn-primary" href="#">View raw</a>
 									</div>
 								</div>
 								<div class="case-result-errors">

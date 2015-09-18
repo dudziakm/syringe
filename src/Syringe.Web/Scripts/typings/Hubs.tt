@@ -192,7 +192,7 @@ private string GetTypeContractName(Type type)
 {
     if (type == typeof(Task))
     {
-        return "void /*task*/";
+        return "void";
     }
 
     if (type.IsArray)

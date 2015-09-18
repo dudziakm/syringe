@@ -40,11 +40,12 @@ interface ProgressHub {
 interface ProgressHubServer {
 
     /** 
-      * Sends a "sendProgress" message to the ProgressHub hub.
+      * Sends a "startMonitoringProgress" message to the ProgressHub hub.
       * Contract Documentation: ---
+      * @param taskId {number} 
       * @return {JQueryPromise of void}
       */
-    sendProgress() : JQueryPromise<void>
+    startMonitoringProgress(taskId : number) : JQueryPromise<void>
 }
 
 interface IProgressHubClient
@@ -56,13 +57,6 @@ interface IProgressHubClient
       * @return {void}
       */
     doSomething : () => void;
-
-    /**
-      * Set this function with a "function(){}" to receive the "doAnotherThing" message from the ProgressHub hub.
-      * Contract Documentation: ---
-      * @return {void}
-      */
-    doAnotherThing : () => void;
 }
 
 //#endregion ProgressHub hub

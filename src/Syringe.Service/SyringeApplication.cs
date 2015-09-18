@@ -7,20 +7,20 @@ using Syringe.Service.Parallel;
 
 namespace Syringe.Service
 {
-    public class SyringeApplication
-    {
-        protected IDisposable WebApplication;
+	public class SyringeApplication
+	{
+		protected IDisposable WebApplication;
 
-        public void Start()
-        {
+		public void Start()
+		{
 			WebApplication = WebApp.Start<SyringeApplication>("http://localhost:22345");
-        }
+		}
 
-        public void Stop()
-        {
+		public void Stop()
+		{
 			ParallelTestSessionQueue.Default.StopAll();
-            WebApplication.Dispose();
-        }
+			WebApplication.Dispose();
+		}
 
 		public void Configuration(IAppBuilder application)
 		{
@@ -35,6 +35,7 @@ namespace Syringe.Service
 
 			config.MapHttpAttributeRoutes();
 			application.UseWebApi(config);
+			application.MapSignalR();
 		}
-    }
+	}
 }
