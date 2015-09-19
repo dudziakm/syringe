@@ -18,6 +18,12 @@ p {
 #edit-test h3.panel-title {
   font-size: 22px;
 }
+#testcase-result .test-passed i {
+  background-color: green;
+}
+#testcase-result .test-failed i {
+  background-color: red;
+}
 #running-items .case-result {
   padding: 10px;
 }

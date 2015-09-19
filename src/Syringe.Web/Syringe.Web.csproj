@@ -259,6 +259,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\TestCaseResult.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerificationItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerifyType.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
