@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Raven.Abstractions.Indexing;
 using Raven.Client;
 using Raven.Client.Document;
+using Raven.Client.Indexes;
+using Raven.Database.Indexing;
+using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Results
 {
@@ -36,7 +40,7 @@ namespace Syringe.Core.Results
 		{
 			using (IDocumentSession documentSession = _documentStore.OpenSession())
 			{
-				var items = documentSession.Query<TestCaseSession>().Select(x => new SessionInfo() { Id = x.Id });
+				var items = documentSession.Query<TestCaseSession>().Select(x => new SessionInfo() {Id = x.Id});
 				return items;
 			}
 		}

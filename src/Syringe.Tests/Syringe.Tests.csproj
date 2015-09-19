@@ -92,9 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
-    <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Redis\RedisTeamRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Redis\RedisScheduledJobRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Redis\RedisUserRepositoryTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
