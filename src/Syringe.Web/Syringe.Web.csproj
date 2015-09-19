@@ -130,6 +130,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="LessHttpHandler.cs" />
     <Compile Include="ModelBuilders\ITestCaseCoreModelBuilder.cs" />
     <Compile Include="ModelBuilders\ITestCaseViewModelBuilder.cs" />
     <Compile Include="Controllers\TestCaseController.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\ParseResponseItem.cs" />
-    <Compile Include="Models\VerificationItem.cs" />
+    <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

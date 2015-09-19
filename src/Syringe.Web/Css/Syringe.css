@@ -11,6 +11,13 @@ div,
 p {
   font-family: 'Montserrat', sans-serif;
 }
+#edit-test .control-label {
+  font-weight: normal;
+  color: #858585;
+}
+#edit-test h3.panel-title {
+  font-size: 22px;
+}
 #running-items .case-result {
   padding: 10px;
 }

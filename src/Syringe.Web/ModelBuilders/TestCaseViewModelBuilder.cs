@@ -17,9 +17,9 @@ namespace Syringe.Web.ModelBuilders
                 throw new ArgumentNullException("testCase");
             }
 
-            var verifications = new List<Models.VerificationItem>();
-            IEnumerable<Models.VerificationItem> verifyPositives = GetVerificationItems(testCase.VerifyPositives);
-            IEnumerable<Models.VerificationItem> verifyNegatives = GetVerificationItems(testCase.VerifyNegatives);
+            var verifications = new List<Models.VerificationItemModel>();
+            IEnumerable<Models.VerificationItemModel> verifyPositives = GetVerificationItems(testCase.VerifyPositives);
+            IEnumerable<Models.VerificationItemModel> verifyNegatives = GetVerificationItems(testCase.VerifyNegatives);
             
             verifications.AddRange(verifyPositives);
             verifications.AddRange(verifyNegatives);
@@ -50,11 +50,11 @@ namespace Syringe.Web.ModelBuilders
             return model;
         }
 
-        private IEnumerable<Models.VerificationItem> GetVerificationItems(IEnumerable<VerificationItem> items)
+        private IEnumerable<Models.VerificationItemModel> GetVerificationItems(IEnumerable<VerificationItem> items)
         {
             return
                 items.Select(x =>
-                        new Models.VerificationItem
+                        new Models.VerificationItemModel
                         {
                             Regex = x.Regex,
                             Description = x.Description,

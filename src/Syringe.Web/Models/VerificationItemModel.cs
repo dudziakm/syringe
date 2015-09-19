@@ -4,7 +4,7 @@ using Syringe.Core.TestCases;
 
 namespace Syringe.Web.Models
 {
-    public class VerificationItem
+    public class VerificationItemModel
     {
         public string Description { get; set; }
         public string Regex { get; set; }
