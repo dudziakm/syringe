@@ -1,0 +1,7 @@
+﻿Test coverage to be added:
+
+- TestCaseSession.TestCaseFilename
+- Case.ParentFilename
+- CaseCollection.Filename
+
+- TestCaseResult.TotalRunTime
