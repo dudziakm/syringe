@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\Xml\XmlExamples\Runner\50-cases.xml" />
+    <Content Include="todo.txt" />
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\large-file.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -94,6 +94,7 @@ namespace Syringe.Core.Runner
 			_currentResults = new List<TestCaseResult>();
 
 			var session = new TestCaseSession();
+			session.TestCaseFilename = testCollection.Filename;
 			session.StartTime = DateTime.UtcNow;
 
 			// Add all config variables and ones in this <testcase>

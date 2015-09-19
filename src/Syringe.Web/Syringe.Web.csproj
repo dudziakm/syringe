@@ -130,6 +130,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="LessHttpHandler.cs" />
     <Compile Include="ModelBuilders\ITestCaseCoreModelBuilder.cs" />
     <Compile Include="ModelBuilders\ITestCaseViewModelBuilder.cs" />

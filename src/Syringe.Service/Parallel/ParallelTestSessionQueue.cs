@@ -100,14 +100,16 @@ namespace Syringe.Service.Parallel
 				string teamName = item.TeamName;
 
 				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
-				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, item.Request.Filename);
+				string xmlFilename = item.Request.Filename;
+				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))
 				{
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
-					var config = new Config();
+					caseCollection.Filename = xmlFilename;
+                    var config = new Config();
 					var logStringBuilder = new StringBuilder();
 					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 					var httpClient = new HttpClient(httpLogWriter, new RestClient());

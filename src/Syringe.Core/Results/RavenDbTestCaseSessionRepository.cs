@@ -52,5 +52,14 @@ namespace Syringe.Core.Results
 				return documentSession.Load<TestCaseSession>(id);
 			}
 		}
+
+		public void Delete(Guid id)
+		{
+			using (IDocumentSession documentSession = _documentStore.OpenSession())
+			{
+				documentSession.Delete<TestCaseSession>(id);
+				documentSession.SaveChanges();
+			}
+		}
 	}
 }

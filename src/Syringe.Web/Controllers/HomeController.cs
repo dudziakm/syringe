@@ -60,5 +60,14 @@ namespace Syringe.Web.Controllers
 			var repository = new RavenDbTestCaseSessionRepository();
 			return View("ViewResult", repository.GetById(id));
 		}
+
+		[HttpPost]
+		public ActionResult DeleteResult(Guid id)
+		{
+			var repository = new RavenDbTestCaseSessionRepository();
+			repository.Delete(id);
+
+			return RedirectToAction("AllResults");
+		}
 	}
 }

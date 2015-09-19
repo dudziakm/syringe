@@ -7,14 +7,16 @@ namespace Syringe.Core.Results
     public class TestCaseSession
     {
 	    public Guid Id { get; set; }
-        public List<TestCaseResult> TestCaseResults { get; set; }
+	    public string TestCaseFilename { get; set; }
 
         public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
         public TimeSpan TotalRunTime { get; set; }
         public int TotalCasesRun { get; set; }
 
-	    public int TotalCasesPassed
+		public List<TestCaseResult> TestCaseResults { get; set; }
+
+		public int TotalCasesPassed
 	    {
 		    get { return TestCaseResults.Count(x => x.Success == true); }
 	    }
