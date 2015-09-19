@@ -5,3 +5,5 @@
 - CaseCollection.Filename
 
 - TestCaseResult.TotalRunTime
+
+- HomeController

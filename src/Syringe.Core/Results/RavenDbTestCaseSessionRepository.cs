@@ -61,5 +61,18 @@ namespace Syringe.Core.Results
 				documentSession.SaveChanges();
 			}
 		}
+
+		public IEnumerable<SessionInfo> ResultsForToday()
+		{
+			using (IDocumentSession documentSession = _documentStore.OpenSession())
+			{
+				DateTime today = DateTime.UtcNow.Date;
+
+				var items = documentSession.Query<TestCaseSession>()
+					.Where(x => x.StartTime.Date == today)
+					.Select(x => new SessionInfo() { Id = x.Id });
+				return items;
+			}
+		}
 	}
 }

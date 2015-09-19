@@ -55,6 +55,12 @@ namespace Syringe.Web.Controllers
             return View("AllResults", repository.LoadAll());
 		}
 
+		public ActionResult TodaysResults()
+		{
+			var repository = new RavenDbTestCaseSessionRepository();
+			return View("AllResults", repository.ResultsForToday());
+		}
+
 		public ActionResult ViewResult(Guid id)
 		{
 			var repository = new RavenDbTestCaseSessionRepository();
