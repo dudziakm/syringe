@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Raven.Client.Document;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
 using Syringe.Core.Results.Writer;
 using Syringe.Core.TestCases;
@@ -53,13 +55,13 @@ namespace Syringe.Core.Runner
 
 		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
 		{
-			if (config == null) 
+			if (config == null)
 				throw new ArgumentNullException("config");
 
-			if (httpClient == null) 
+			if (httpClient == null)
 				throw new ArgumentNullException("httpClient");
 
-			if (resultWriter == null) 
+			if (resultWriter == null)
 				throw new ArgumentNullException("resultWriter");
 
 			_config = config;
@@ -164,8 +166,14 @@ namespace Syringe.Core.Runner
 
 			if (saveSession)
 			{
-				var repository = new RavenDbTestCaseSessionRepository();
-				repository.Save(session);
+				var ravenDbConfig = new RavenDBConfiguration();
+				using (var documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase })
+				{
+					using (var repository = new RavenDbTestCaseSessionRepository(documentStore))
+					{
+						repository.Save(session);
+					}
+				}
 			}
 
 			return session;
@@ -227,7 +235,7 @@ namespace Syringe.Core.Runner
 			catch (Exception ex)
 			{
 				testResult.ResponseCodeSuccess = false;
-				testResult.ExceptionMessage = ex.Message; 
+				testResult.ExceptionMessage = ex.Message;
 			}
 
 			return testResult;
@@ -236,7 +244,7 @@ namespace Syringe.Core.Runner
 		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
 		{
 			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
-			       || _config.GlobalHttpLog == LogType.All 
+				   || _config.GlobalHttpLog == LogType.All
 				   || testCase.LogRequest;
 		}
 
