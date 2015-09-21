@@ -15,42 +15,44 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Syringe.Web.App_Start;
-
+using Syringe.Web.DependencyResolution;
 using WebActivatorEx;
 
-[assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]
-[assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof (StructuremapMvc), "Start")]
+[assembly: ApplicationShutdownMethod(typeof (StructuremapMvc), "End")]
 
-namespace Syringe.Web.App_Start {
-	using System.Web.Mvc;
+namespace Syringe.Web.App_Start
+{
+	public static class StructuremapMvc
+	{
+		#region Public Properties
 
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+		public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
 
-	using Syringe.Web.DependencyResolution;
+		#endregion
 
-    using StructureMap;
-    
-	public static class StructuremapMvc {
-        #region Public Properties
-
-        public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
-
-        #endregion
-		
 		#region Public Methods and Operators
-		
-		public static void End() {
-            StructureMapDependencyScope.Dispose();
-        }
-		
-        public static void Start() {
-            IContainer container = IoC.Initialize();
-            StructureMapDependencyScope = new StructureMapDependencyScope(container);
-            DependencyResolver.SetResolver(StructureMapDependencyScope);
-            DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
-        }
 
-        #endregion
-    }
+		public static void End()
+		{
+			StructureMapDependencyScope.Dispose();
+		}
+
+		public static void Start()
+		{
+			var container = IoC.Initialize();
+			StructureMapDependencyScope = new StructureMapDependencyScope(container);
+			DependencyResolver.SetResolver(StructureMapDependencyScope);
+			DynamicModuleUtility.RegisterModule(typeof (StructureMapScopeModule));
+
+			GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(container));
+		}
+
+		#endregion
+	}
 }

@@ -169,6 +169,7 @@
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
+    <Compile Include="DependencyResolution\StructureMapResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
     <Compile Include="Hubs\ProgressHub.cs" />
     <Compile Include="ModelBuilders\ITestCaseCoreModelBuilder.cs" />

@@ -15,10 +15,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.AspNet.SignalR.Hubs;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Web.Hubs;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 
@@ -49,6 +51,8 @@ namespace Syringe.Web.DependencyResolution
             For<ICaseService>().Use<CasesClient>();
             For<ICanaryService>().Use<CanaryClient>();
             For<ITasksService>().Use<TasksClient>();
+
+            For<IProgressNotificationClient>().Use<SignalRProgressNotifier>();
         }
 
         #endregion
