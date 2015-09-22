@@ -7,7 +7,7 @@ using Raven.Database.Server;
 namespace Syringe.Service
 {
 	/// <summary>
-	/// http://localhost:32345/studio/index.html#databases/documents?&database=syringe
+	/// To manage RavenDB, go to http://localhost:8087/
 	/// </summary>
 	public class RavenDbServer
 	{
@@ -16,12 +16,12 @@ namespace Syringe.Service
 			DefaultDatabase = "syringe",
 			DataDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RavenDB"),
 			UseEmbeddedHttpServer = true,
-			Configuration = { Port = 32345 }
+			Configuration = { Port = 8087 }
 		};
 
 		public static void Start()
 		{
-			NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(32345);
+			NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8087);
 			DocumentStore.Initialize();
 		}
 

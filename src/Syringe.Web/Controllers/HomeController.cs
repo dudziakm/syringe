@@ -49,7 +49,7 @@ namespace Syringe.Web.Controllers
 			CanaryResult result = canaryCheck.Check();
 			if (result == null || result.Success == false)
 			{
-				throw new InvalidOperationException("Unable to connect to the REST api service. Is the service started? Check it at http://localhost:22345/");
+				throw new InvalidOperationException("Unable to connect to the REST api service. Is the service started? Check it at http://localhost:8086/");
 			}
 		}
 

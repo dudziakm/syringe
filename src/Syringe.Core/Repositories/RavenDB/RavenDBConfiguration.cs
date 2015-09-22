@@ -7,7 +7,7 @@ namespace Syringe.Core.Repositories.RavenDB
 
 		public RavenDBConfiguration()
 		{
-			Url = "http://localhost:32345";
+			Url = "http://localhost:8087";
 			DefaultDatabase = "syringe";
         }
 	}
