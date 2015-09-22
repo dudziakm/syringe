@@ -6,13 +6,13 @@ Syringe is a .NET version of the webinject testing tool, for automated HTTP test
 ## Dev installation
 
 Note: For Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download
+Open powershell and run the `setup.ps1` script, this will:
 
-* Open powershell and run the `setup.ps1` script, this will:
-** Install chocolatey
-** Install nuget command line
-** Build the solution, restoring the nuget packages
-** Create an IIS site
-** Create C:\syringe folder with an example file.
+* Install chocolatey  
+* Install nuget command line  
+* Build the solution, restoring the nuget packages  
+* Create an IIS site
+* Create C:\syringe folder with an example file.
 
 Once this is complete, run `.\run-rest-service.ps1` and go to http://localhost:8085
 
