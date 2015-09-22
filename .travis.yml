@@ -1,6 +1,6 @@
 language: csharp
 mono:
- - 4.2.0
+ - 4.2.0.179
 solution: Syringe.sln
 
 services:
