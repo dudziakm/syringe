@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Raven.Client;
-using Raven.Client.Document;
-using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Security;
 
-namespace Syringe.Core.Repositories.Redis
+namespace Syringe.Core.Repositories.RavenDB
 {
 	public class RavenDbUserRepository : IUserRepository, IDisposable
 	{

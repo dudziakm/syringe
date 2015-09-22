@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syringe.Core;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
 
-namespace Syringe.Tests.Unit.StubsMocks
+namespace Syringe.Tests.StubsMocks
 {
 	public class HttpClientMock : IHttpClient
 	{

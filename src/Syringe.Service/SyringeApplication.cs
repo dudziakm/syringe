@@ -3,7 +3,6 @@ using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
-using Syringe.Core.Results.Writer;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service

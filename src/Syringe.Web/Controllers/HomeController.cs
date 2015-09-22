@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using Raven.Client.Document;
 using Syringe.Client;
 using Syringe.Core.Canary;
+using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.Security;
 using Syringe.Web.Models;
 
@@ -16,23 +16,20 @@ namespace Syringe.Web.Controllers
 	{
 		private readonly CasesClient _casesClient;
 		private readonly IUserContext _userContext;
-		private readonly DocumentStore _documentStore;
+		private readonly ITestCaseSessionRepository _repository;
 
 		public HomeController()
 		{
 			_casesClient = new CasesClient();
 			_userContext = new UserContext();
-
-			// TODO: IoC, singleton of DocumentStore (needs a wrapper)
-			var ravenDbConfig = new RavenDBConfiguration();
-			_documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
+			_repository = new RavenDbTestCaseSessionRepository(Startup.DocumentStore);
 		}
 
 		public ActionResult Index()
 		{
 			CheckServiceIsRunning();
 
-			// TODO: team name from the user context
+			// TODO: team name from the user context?
 			IEnumerable<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName);
 
 			var model = new IndexViewModel();
@@ -58,28 +55,23 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult AllResults()
 		{
-			var repository = new RavenDbTestCaseSessionRepository(_documentStore);
-			return View("AllResults", repository.LoadAll());
+			return View("AllResults", _repository.LoadAll());
 		}
 
 		public ActionResult TodaysResults()
 		{
-			var repository = new RavenDbTestCaseSessionRepository(_documentStore);
-			return View("AllResults", repository.ResultsForToday());
+			return View("AllResults", _repository.ResultsForToday());
 		}
 
 		public ActionResult ViewResult(Guid id)
 		{
-			var repository = new RavenDbTestCaseSessionRepository(_documentStore);
-			return View("ViewResult", repository.GetById(id));
+			return View("ViewResult", _repository.GetById(id));
 		}
 
 		[HttpPost]
 		public ActionResult DeleteResult(Guid id)
 		{
-			var repository = new RavenDbTestCaseSessionRepository(_documentStore);
-			repository.Delete(id);
-
+			_repository.Delete(id);
 			return RedirectToAction("AllResults");
 		}
 	}

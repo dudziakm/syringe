@@ -93,6 +93,7 @@
     <Compile Include="Integration\Repository\RavenDB\TeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RavenDB\ScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\RavenDB\UserRepositoryTests.cs" />
+    <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
@@ -101,22 +102,20 @@
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
-    <Compile Include="Unit\StubsMocks\RestResponseStub.cs" />
-    <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
+    <Compile Include="StubsMocks\RestResponseStub.cs" />
+    <Compile Include="StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
-    <Compile Include="Unit\Results\Writer\TextResultWriterTests.cs" />
     <Compile Include="Unit\Runner\ParseResponseMatcherTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
     <Compile Include="Unit\Runner\VerificationsMatcherTests.cs" />
-    <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
-    <Compile Include="Unit\StubsMocks\TestCaseReaderMock.cs" />
+    <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
-    <Compile Include="Unit\StubsMocks\HttpLogWriterMock.cs" />
+    <Compile Include="StubsMocks\HttpLogWriterMock.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
-    <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
+    <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
     <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
@@ -139,9 +138,6 @@
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Raven.Studio.Html5.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

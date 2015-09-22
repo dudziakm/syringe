@@ -7,26 +7,30 @@ using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Logging;
+using Syringe.Core.Repositories;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
-using Syringe.Tests.Unit.StubsMocks;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
 {
 	public class TestSessionRunnerTests
 	{
 		private HttpClientMock _httpClientMock;
-		private ResultWriterStub _resultWriterStub;
 		private HttpResponse _httpResponse;
 
 		[SetUp]
 		public void Setup()
 		{
 			Log.UseConsole();
+		}
+
+		private ITestCaseSessionRepository GetRepository()
+		{
+			return new TestCaseSessionRepositoryMock();
 		}
 
 		[Test]
@@ -72,8 +76,7 @@ namespace Syringe.Tests.Unit.Runner
 			};
 			httpClient.Response = response;
 
-			IResultWriter resultWriter = new ResultWriterStub();
-			var runner = new TestSessionRunner(config, httpClient, resultWriter);
+			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[] 
 			{
@@ -104,8 +107,7 @@ namespace Syringe.Tests.Unit.Runner
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(response);
-			IResultWriter resultWriter = new ResultWriterStub();
-			var runner = new TestSessionRunner(config, httpClient, resultWriter);
+			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[] 
 			{
@@ -315,11 +317,14 @@ namespace Syringe.Tests.Unit.Runner
 
 
 		[Test]
-		public void Run_should_write_test_result_to_resultwriter()
+		public void Run_should_save_testcasesession_to_repository()
 		{
 			// Arrange
 			var config = new Config();
+			var repository = new TestCaseSessionRepositoryMock();
+
 			TestSessionRunner runner = CreateRunner(config);
+			runner.Repository = repository;
 
 			var caseCollection = CreateCaseCollection(new[] 
 			{
@@ -330,7 +335,8 @@ namespace Syringe.Tests.Unit.Runner
 			runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(_resultWriterStub.StringBuilder.ToString(), Is.Not.Empty.Or.Null);
+			Assert.That(repository.SavedSession, Is.Not.Null);
+			Assert.That(repository.SavedSession.TestCaseResults.Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -527,9 +533,8 @@ namespace Syringe.Tests.Unit.Runner
 		{
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);
-			_resultWriterStub = new ResultWriterStub();
 
-			return new TestSessionRunner(config, _httpClientMock, _resultWriterStub);
+			return new TestSessionRunner(config, _httpClientMock, GetRepository());
 		}
 
 		private CaseCollection CreateCaseCollection(Case[] cases)

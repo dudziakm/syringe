@@ -5,5 +5,24 @@
 - CaseCollection.Filename
 
 - TestCaseResult.TotalRunTime
-
 - HomeController
+
+// TODO: features
+//   - config.xml takes <testcases>
+
+// TODO: Unit test coverage:
+// - HttpClient
+//   - Request
+//   - Response
+//   - Log last request + response
+
+// TODO: Acceptance test coverage
+// - TestSessionRunner
+//   - Roadkill example
+//   - Some kind of REST api one
+
+
+Other stuff:
+
+- RavenDB directory
+- RavenDB settings from configuration

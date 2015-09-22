@@ -2,7 +2,7 @@
 using System.Threading;
 using RestSharp;
 
-namespace Syringe.Tests.Unit.StubsMocks
+namespace Syringe.Tests.StubsMocks
 {
 	public class RestClientMock : RestClient
 	{

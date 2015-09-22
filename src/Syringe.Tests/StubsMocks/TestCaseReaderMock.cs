@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using Syringe.Core;
 using Syringe.Core.TestCases;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 
-namespace Syringe.Tests.Unit.StubsMocks
+namespace Syringe.Tests.StubsMocks
 {
 	public class TestCaseReaderMock : ITestCaseReader
 	{

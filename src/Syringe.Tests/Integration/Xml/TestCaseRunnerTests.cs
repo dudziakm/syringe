@@ -9,19 +9,25 @@ using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Repositories;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
+using Syringe.Tests.StubsMocks;
 using YamlDotNet.Serialization;
 
 namespace Syringe.Tests.Integration.Xml
 {
 	public class TestCaseRunnerTests
 	{
-		public static string XmlExamplesFolder = "Syringe.Tests.Integration.Xml.XmlExamples.Runner.";
+		public static string XmlExamplesFolder = typeof(TestCaseRunnerTests).Namespace + ".XmlExamples.Runner.";
+
+		private ITestCaseSessionRepository GetRepository()
+		{
+			return new TestCaseSessionRepositoryMock();
+		}
 
 		[Test]
 		public void should_parse_responses()
@@ -37,7 +43,7 @@ namespace Syringe.Tests.Integration.Xml
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader();
 			var caseCollection = reader.Read(stringReader);
-			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
+			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			// Act
 			TestCaseSession result = runner.Run(caseCollection);
@@ -61,7 +67,7 @@ namespace Syringe.Tests.Integration.Xml
 			var reader = new LegacyTestCaseReader();
 			var caseCollection = reader.Read(stringReader);
 
-			var runner = new TestSessionRunner(config, httpClient, new ConsoleResultWriter());
+			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			// Act
 			runner.Run(caseCollection);
@@ -82,13 +88,11 @@ namespace Syringe.Tests.Integration.Xml
 			config.GlobalHttpLog = LogType.All;
 			var httpClient = new HttpClient(new HttpLogWriter(stringWriter), new RestClient());
 
-			var resultWriter = new TextResultWriter(stringWriter);
-
 			string xml = TestHelpers.ReadEmbeddedFile("roadkill-login.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new TestCaseReader();
 
-			var runner = new TestSessionRunner(config, httpClient, resultWriter);
+			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 			var caseCollection = reader.Read(stringReader);
 
 			// Act
@@ -103,6 +107,7 @@ namespace Syringe.Tests.Integration.Xml
 
 		private static void DumpAsYaml(TestCaseSession session)
 		{
+			// Messing around with YAML, that's the only reason for this (and it also looks nicer than XML)
 			var stringBuilder = new StringBuilder();
 			var serializer = new Serializer();
 			serializer.Serialize(new IndentedTextWriter(new StringWriter(stringBuilder)), session);

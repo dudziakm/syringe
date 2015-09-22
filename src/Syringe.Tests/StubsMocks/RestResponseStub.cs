@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using RestSharp;
 
-namespace Syringe.Tests.Unit.StubsMocks
+namespace Syringe.Tests.StubsMocks
 {
 	public class RestResponseStub : IRestResponse
 	{

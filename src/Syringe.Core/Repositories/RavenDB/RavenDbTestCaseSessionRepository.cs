@@ -7,7 +7,7 @@ using Syringe.Core.Results;
 
 namespace Syringe.Core.Repositories.RavenDB
 {
-	public class RavenDbTestCaseSessionRepository : IDisposable
+	public class RavenDbTestCaseSessionRepository : ITestCaseSessionRepository
 	{
 		private readonly IDocumentSession _documentSession;
 

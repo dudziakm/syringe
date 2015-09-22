@@ -10,9 +10,9 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
+using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
@@ -22,26 +22,12 @@ namespace Syringe.Core.Runner
 {
 	public class TestSessionRunner
 	{
-		// TODO: features
-		//   - config.xml takes <testcases>
-
-		// TODO: Unit test coverage:
-		// - HttpClient
-		//   - Request
-		//   - Response
-		//   - Log last request + response
-
-		// TODO: Acceptance test coverage
-		// - TestSessionRunner
-		//   - Roadkill example
-		//   - Some kind of REST api one
-
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
-		private readonly IResultWriter _resultWriter;
 		private bool _isStopPending;
 		private List<TestCaseResult> _currentResults;
 
+		public ITestCaseSessionRepository Repository { get; set; }
 		public Guid SessionId { get; internal set; }
 
 		public IEnumerable<TestCaseResult> CurrentResults
@@ -53,7 +39,7 @@ namespace Syringe.Core.Runner
 		public int TotalCases { get; set; }
 		public int RepeatCount { get; set; }
 
-		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
+		public TestSessionRunner(Config config, IHttpClient httpClient, ITestCaseSessionRepository repository)
 		{
 			if (config == null)
 				throw new ArgumentNullException("config");
@@ -61,13 +47,14 @@ namespace Syringe.Core.Runner
 			if (httpClient == null)
 				throw new ArgumentNullException("httpClient");
 
-			if (resultWriter == null)
-				throw new ArgumentNullException("resultWriter");
+			if (repository == null)
+				throw new ArgumentNullException("repository");
 
 			_config = config;
 			_httpClient = httpClient;
-			_resultWriter = resultWriter;
 			_currentResults = new List<TestCaseResult>();
+			Repository = repository;
+
 			SessionId = Guid.NewGuid();
 		}
 
@@ -75,14 +62,14 @@ namespace Syringe.Core.Runner
 		/// Creates a new <see cref="TestSessionRunner"/> using the defaults.
 		/// </summary>
 		/// <returns></returns>
-		public static TestSessionRunner CreateNew()
+		public static TestSessionRunner CreateNew(ITestCaseSessionRepository repository)
 		{
 			var config = new Config();
 			var logStringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
-			return new TestSessionRunner(config, httpClient, new TextFileResultWriter());
+			return new TestSessionRunner(config, httpClient, repository);
 		}
 
 		public void Stop()
@@ -166,14 +153,7 @@ namespace Syringe.Core.Runner
 
 			if (saveSession)
 			{
-				var ravenDbConfig = new RavenDBConfiguration();
-				using (var documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase })
-				{
-					using (var repository = new RavenDbTestCaseSessionRepository(documentStore))
-					{
-						repository.Save(session);
-					}
-				}
+				Repository.Save(session);
 			}
 
 			return session;

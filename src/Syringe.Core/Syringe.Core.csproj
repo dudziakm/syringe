@@ -113,11 +113,11 @@
   <ItemGroup>
     <Compile Include="Canary\CanaryResult.cs" />
     <Compile Include="Repositories\RavenDB\DocumentStoreManager.cs" />
+    <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\RavenDB\RavenDBConfiguration.cs" />
     <Compile Include="Repositories\RavenDB\RavenDbTestCaseSessionRepository.cs" />
     <Compile Include="Results\SessionInfo.cs" />
     <Compile Include="Security\Teamcity\Group.cs" />
-    <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Security\Teamcity\Properties.cs" />
     <Compile Include="Security\Teamcity\Property.cs" />
     <Compile Include="Security\Teamcity\Role.cs" />
@@ -170,12 +170,6 @@
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="TestCases\VerificationItem.cs" />
-    <Compile Include="Results\Writer\ResultWriterBase.cs" />
-    <Compile Include="Results\Writer\TextFileResultWriter.cs" />
-    <Compile Include="Results\Writer\ConsoleResultWriter.cs" />
-    <Compile Include="Results\Writer\IResultWriter.cs" />
-    <Compile Include="Results\Writer\TextResultWriter.cs" />
-    <Compile Include="Results\Writer\XmlResultWriter.cs" />
     <Compile Include="Runner\VerificationsMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />
     <Compile Include="Results\TestCaseSession.cs" />
