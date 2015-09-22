@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -60,23 +60,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3785\lib\net45\Raven.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Client.3.0.3785\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3785\lib\net45\Raven.Database.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Common">
-      <HintPath>..\..\packages\ServiceStack.Common.4.0.40\lib\net40\ServiceStack.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\..\packages\ServiceStack.Interfaces.4.0.40\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\..\packages\ServiceStack.Redis.4.0.40\lib\net40\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\packages\ServiceStack.Text.4.0.40\lib\net40\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -111,8 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Canary\CanaryResult.cs" />
-    <Compile Include="Security\Teamcity\Group.cs" />
+    <Compile Include="Repositories\RavenDB\DocumentStoreManager.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
+    <Compile Include="Repositories\RavenDB\RavenDBConfiguration.cs" />
+    <Compile Include="Repositories\RavenDB\RavenDbTestCaseSessionRepository.cs" />
+    <Compile Include="Results\SessionInfo.cs" />
+    <Compile Include="Security\Teamcity\Group.cs" />
     <Compile Include="Security\Teamcity\Properties.cs" />
     <Compile Include="Security\Teamcity\Property.cs" />
     <Compile Include="Security\Teamcity\Role.cs" />
@@ -137,9 +142,9 @@
     <Compile Include="Repositories\IScheduledJobRepository.cs" />
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\Redis\RedisScheduledJobRepository.cs" />
-    <Compile Include="Repositories\Redis\RedisTeamRepository.cs" />
-    <Compile Include="Repositories\Redis\RedisUserRepository.cs" />
+    <Compile Include="Repositories\RavenDB\RavenDbScheduledJobRepository.cs" />
+    <Compile Include="Repositories\RavenDB\RavenDbTeamRepository.cs" />
+    <Compile Include="Repositories\RavenDB\RavenDbUserRepository.cs" />
     <Compile Include="Security\User.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ICaseService.cs" />
@@ -165,12 +170,6 @@
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="TestCases\VerificationItem.cs" />
-    <Compile Include="Results\Writer\ResultWriterBase.cs" />
-    <Compile Include="Results\Writer\TextFileResultWriter.cs" />
-    <Compile Include="Results\Writer\ConsoleResultWriter.cs" />
-    <Compile Include="Results\Writer\IResultWriter.cs" />
-    <Compile Include="Results\Writer\TextResultWriter.cs" />
-    <Compile Include="Results\Writer\XmlResultWriter.cs" />
     <Compile Include="Runner\VerificationsMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />
     <Compile Include="Results\TestCaseSession.cs" />
@@ -194,11 +193,14 @@
     <Compile Include="Xml\Writer\TestCaseWriter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Repositories\Redis\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

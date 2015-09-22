@@ -11,6 +11,7 @@ namespace Syringe.Core.Results
 	public class TestCaseResult
 	{
 		public Guid Id { get; set; }
+		public Guid SessionId { get; set; }
 	    public Case TestCase { get; set; }
 		public string ActualUrl { get; set; }
 	    public string Message { get; set; }

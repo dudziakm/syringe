@@ -7,7 +7,7 @@ using RestSharp;
 using Syringe.Core;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
-using Syringe.Tests.Unit.StubsMocks;
+using Syringe.Tests.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Tests.Unit.Http

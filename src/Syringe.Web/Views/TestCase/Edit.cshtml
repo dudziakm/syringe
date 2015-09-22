@@ -3,9 +3,9 @@
 @{
 	ViewBag.Title = "Edit Test Case";
 }
-<div class="container">
+<div class="container" id="edit-test">
 	<div class="row">
-		<form action=@(Request.RawUrl) method="post" class="form-horizontal">
+		<form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 			@if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
 			{
 				@Html.ValidationSummary("", new { @class = "alert alert-danger" })

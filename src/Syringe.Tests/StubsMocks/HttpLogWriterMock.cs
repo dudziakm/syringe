@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using Syringe.Core.Http.Logging;
 
-namespace Syringe.Tests.Unit.StubsMocks
+namespace Syringe.Tests.StubsMocks
 {
 	public class HttpLogWriterMock : IHttpLogWriter
 	{

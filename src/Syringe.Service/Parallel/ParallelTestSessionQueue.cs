@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Raven.Client.Document;
 using RestSharp;
 using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
@@ -29,6 +30,8 @@ namespace Syringe.Service.Parallel
 	{
 		private readonly ConcurrentBag<Task<SessionRunnerTaskInfo>> _currentTasks;
 		private readonly IApplicationConfiguration _appConfig;
+		private DocumentStore _documentStore;
+		private RavenDbTestCaseSessionRepository _repository;
 
 		public static ParallelTestSessionQueue Default
 		{
@@ -55,6 +58,11 @@ namespace Syringe.Service.Parallel
 		{
 			_currentTasks = new ConcurrentBag<Task<SessionRunnerTaskInfo>>();
 			_appConfig = new ApplicationConfig();
+
+			// TODO: IoC this up
+			var ravenDbConfig = new RavenDBConfiguration();
+			_documentStore = new DocumentStore() {Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase};
+			_repository = new RavenDbTestCaseSessionRepository(_documentStore);
 		}
 
 		/// <summary>
@@ -100,19 +108,21 @@ namespace Syringe.Service.Parallel
 				string teamName = item.TeamName;
 
 				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
-				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, item.Request.Filename);
+				string xmlFilename = item.Request.Filename;
+				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))
 				{
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
-					var config = new Config();
+					caseCollection.Filename = xmlFilename;
+                    var config = new Config();
 					var logStringBuilder = new StringBuilder();
 					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 					var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
-					var runner = new TestSessionRunner(config, httpClient, new TextFileResultWriter());
+					var runner = new TestSessionRunner(config, httpClient, _repository);
 					item.Runner = runner;
 					runner.Run(caseCollection);
 				}

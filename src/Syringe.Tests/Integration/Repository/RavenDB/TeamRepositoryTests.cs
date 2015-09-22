@@ -2,56 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Syringe.Core.Repositories.Redis;
+using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Schedule;
 using Syringe.Core.Security;
 
-namespace Syringe.Tests.Integration.Repository
+namespace Syringe.Tests.Integration.Repository.RavenDB
 {
-	public class RedisTeamRepositoryTests
+	public class TeamRepositoryTests
 	{
+		private RavenDbTeamRepository CreateTeamRepository()
+		{
+			return new RavenDbTeamRepository(RavenDbTestSetup.DocumentStore);
+		}
+
+		private RavenDbUserRepository CreateUserRepository()
+		{
+			return new RavenDbUserRepository(RavenDbTestSetup.DocumentStore);
+		}
+
 		[SetUp]
-		public void Setup()
+		public void SetUp()
 		{
-			var userRepository = CreateUserRepository();
-			userRepository.RedisUserClient.DeleteAll();
-
-			var teamRepository = CreateTeamRepository();
-			teamRepository.RedisTeamClient.DeleteAll();
+			RavenDbTestSetup.ClearDocuments<User>();
+			RavenDbTestSetup.ClearDocuments<Team>();
 		}
 
-		private RedisTeamRepository CreateTeamRepository()
-		{
-			return new RedisTeamRepository();
-		}
-
-		private RedisUserRepository CreateUserRepository()
-		{
-			return new RedisUserRepository();
-		}
-
-		private User AddJohnDoe()
+		private User AddJohnDoeUser()
 		{
 			var user = new User() { Id = Guid.NewGuid(), Firstname = "John", Lastname = "Doe", Email = "email@example.com" };
-			using (var userRepository = CreateUserRepository())
-			{
-				userRepository.AddUser(user);
-			}
+			var userRepository = CreateUserRepository();
+			userRepository.AddUser(user);
 
 			return user;
 		}
 
-		private User AddJaneDoe()
+		private User AddJaneDoeUser()
 		{
 			var user = new User() { Id = Guid.NewGuid(), Firstname = "Jane", Lastname = "Doe", Email = "jane@example.com" };
-			using (var userRepository = CreateUserRepository())
-			{
-				userRepository.AddUser(user);
-			}
+			var userRepository = CreateUserRepository();
+			userRepository.AddUser(user);
 
 			return user;
 		}
 
-		private Team AddPowerRangers()
+		private Team AddPowerRangersTeam(RavenDbTeamRepository teamRepository = null)
 		{
 			var team = new Team()
 			{
@@ -59,10 +53,10 @@ namespace Syringe.Tests.Integration.Repository
 				Name = "Power Rangers"
 			};
 
-			using (var repository = CreateTeamRepository())
-			{
-				repository.AddTeam(team);
-			}
+			if (teamRepository == null)
+				teamRepository = CreateTeamRepository();
+
+			teamRepository.AddTeam(team);
 
 			return team;
 		}
@@ -71,13 +65,8 @@ namespace Syringe.Tests.Integration.Repository
 		public void AddTeam_should_store_the_team()
 		{
 			// Arrange
-			var expectedTeam = new Team()
-			{
-				Id = Guid.NewGuid(),
-				Name = "Power Rangers"
-			};
-
 			var repository = CreateTeamRepository();
+			Team expectedTeam = AddPowerRangersTeam(repository);
 
 			// Act
 			repository.AddTeam(expectedTeam);
@@ -97,8 +86,8 @@ namespace Syringe.Tests.Integration.Repository
 		public void UpdateTeam_should_store_the_updated_team_details()
 		{
 			// Arrange
-			var team = AddPowerRangers();
 			var repository = CreateTeamRepository();
+			var team = AddPowerRangersTeam(repository);
 
 			// Act
 			IEnumerable<Team> teams = repository.GetTeams();
@@ -118,8 +107,8 @@ namespace Syringe.Tests.Integration.Repository
 		public void DeleteTeam_should_remove_the_team()
 		{
 			// Arrange
-			var team = AddPowerRangers();
 			var repository = CreateTeamRepository();
+			var team = AddPowerRangersTeam(repository);
 
 			// Act
 			repository.Delete(team);
@@ -134,8 +123,8 @@ namespace Syringe.Tests.Integration.Repository
 		public void GetTeam_should_return_team_and_be_case_insensitive()
 		{
 			// Arrange
-			var expectedTeam = AddPowerRangers();
 			var repository = CreateTeamRepository();
+			var expectedTeam = AddPowerRangersTeam(repository);
 
 			// Act
 			Team actualTeam = repository.GetTeam("POWER rangers");
@@ -190,11 +179,11 @@ namespace Syringe.Tests.Integration.Repository
 		public void AddUserToTeam_should_store_user_ids_for_the_team()
 		{
 			// Arrange
-			var user1 = AddJohnDoe();
-			var user2 = AddJaneDoe();
+			var user1 = AddJohnDoeUser();
+			var user2 = AddJaneDoeUser();
 
-			var team = AddPowerRangers();
 			var teamTepository = CreateTeamRepository();
+			var team = AddPowerRangersTeam(teamTepository);
 
 			// Act
 			teamTepository.AddUserToTeam(team, user1);
@@ -209,18 +198,18 @@ namespace Syringe.Tests.Integration.Repository
 		public void GetUsersInTeam_should_return_the_correct_users()
 		{
 			// Arrange
-			var user1 = AddJohnDoe();
-			var user2 = AddJaneDoe();
+			var user1 = AddJohnDoeUser();
+			var user2 = AddJaneDoeUser();
 
-			var team = AddPowerRangers();
-			var teamTepository = CreateTeamRepository();
+			var teamRepository = CreateTeamRepository();
+			var team = AddPowerRangersTeam(teamRepository);
 
 			// Act
-			teamTepository.AddUserToTeam(team, user1);
-			teamTepository.AddUserToTeam(team, user2);
+			teamRepository.AddUserToTeam(team, user1);
+			teamRepository.AddUserToTeam(team, user2);
 
 			// Assert
-			IEnumerable<User> users = teamTepository.GetUsersInTeam(team);
+			IEnumerable<User> users = teamRepository.GetUsersInTeam(team);
 			Assert.That(users.Count(), Is.EqualTo(2));
 
 			User actualUser1 = users.FirstOrDefault(x => x.Id == user1.Id);
@@ -234,10 +223,10 @@ namespace Syringe.Tests.Integration.Repository
 		public void RemoveUserFromTeam_should_remove_user_id_from_the_team()
 		{
 			// Arrange
-			var user1 = AddJohnDoe();
-			var user2 = AddJaneDoe();
+			var user1 = AddJohnDoeUser();
+			var user2 = AddJaneDoeUser();
 
-			var team = AddPowerRangers();
+			var team = AddPowerRangersTeam();
 
 			var teamTepository = CreateTeamRepository();
 			teamTepository.AddUserToTeam(team, user1);

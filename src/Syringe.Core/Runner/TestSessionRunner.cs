@@ -4,13 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Raven.Client.Document;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
+using Syringe.Core.Repositories;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
-using Syringe.Core.Results.Writer;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml;
@@ -20,25 +22,13 @@ namespace Syringe.Core.Runner
 {
 	public class TestSessionRunner
 	{
-		// TODO: features
-		//   - config.xml takes <testcases>
-
-		// TODO: Unit test coverage:
-		// - HttpClient
-		//   - Request
-		//   - Response
-		//   - Log last request + response
-
-		// TODO: Acceptance test coverage
-		// - TestSessionRunner
-		//   - Roadkill example
-		//   - Some kind of REST api one
-
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
-		private readonly IResultWriter _resultWriter;
 		private bool _isStopPending;
 		private List<TestCaseResult> _currentResults;
+
+		public ITestCaseSessionRepository Repository { get; set; }
+		public Guid SessionId { get; internal set; }
 
 		public IEnumerable<TestCaseResult> CurrentResults
 		{
@@ -49,35 +39,37 @@ namespace Syringe.Core.Runner
 		public int TotalCases { get; set; }
 		public int RepeatCount { get; set; }
 
-		public TestSessionRunner(Config config, IHttpClient httpClient, IResultWriter resultWriter)
+		public TestSessionRunner(Config config, IHttpClient httpClient, ITestCaseSessionRepository repository)
 		{
-			if (config == null) 
+			if (config == null)
 				throw new ArgumentNullException("config");
 
-			if (httpClient == null) 
+			if (httpClient == null)
 				throw new ArgumentNullException("httpClient");
 
-			if (resultWriter == null) 
-				throw new ArgumentNullException("resultWriter");
+			if (repository == null)
+				throw new ArgumentNullException("repository");
 
 			_config = config;
 			_httpClient = httpClient;
-			_resultWriter = resultWriter;
 			_currentResults = new List<TestCaseResult>();
+			Repository = repository;
+
+			SessionId = Guid.NewGuid();
 		}
 
 		/// <summary>
 		/// Creates a new <see cref="TestSessionRunner"/> using the defaults.
 		/// </summary>
 		/// <returns></returns>
-		public static TestSessionRunner CreateNew()
+		public static TestSessionRunner CreateNew(ITestCaseSessionRepository repository)
 		{
 			var config = new Config();
 			var logStringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 			var httpClient = new HttpClient(httpLogWriter, new RestClient());
 
-			return new TestSessionRunner(config, httpClient, new TextFileResultWriter());
+			return new TestSessionRunner(config, httpClient, repository);
 		}
 
 		public void Stop()
@@ -91,6 +83,7 @@ namespace Syringe.Core.Runner
 			_currentResults = new List<TestCaseResult>();
 
 			var session = new TestCaseSession();
+			session.TestCaseFilename = testCollection.Filename;
 			session.StartTime = DateTime.UtcNow;
 
 			// Add all config variables and ones in this <testcase>
@@ -111,6 +104,7 @@ namespace Syringe.Core.Runner
 			CasesRun = 0;
 			TotalCases = testCases.Count;
 			RepeatCount = 0;
+			bool saveSession = true;
 
 			for (int i = 0; i < repeatTotal; i++)
 			{
@@ -145,7 +139,10 @@ namespace Syringe.Core.Runner
 				}
 
 				if (_isStopPending)
+				{
+					saveSession = false;
 					break;
+				}
 			}
 
 			session.EndTime = DateTime.UtcNow;
@@ -154,12 +151,18 @@ namespace Syringe.Core.Runner
 			session.MinResponseTime = minResponseTime;
 			session.MaxResponseTime = maxResponseTime;
 
+			if (saveSession)
+			{
+				Repository.Save(session);
+			}
+
 			return session;
 		}
 
 		internal TestCaseResult RunCase(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
 		{
 			var testResult = new TestCaseResult();
+			testResult.SessionId = SessionId;
 			testResult.TestCase = testCase;
 
 			try
@@ -206,15 +209,13 @@ namespace Syringe.Core.Runner
 					_httpClient.LogLastResponse();
 				}
 
-				_resultWriter.Write(testResult);
-
 				if (testCase.Sleep > 0)
 					Thread.Sleep(testCase.Sleep * 1000);
 			}
 			catch (Exception ex)
 			{
 				testResult.ResponseCodeSuccess = false;
-				testResult.ExceptionMessage = ex.Message; 
+				testResult.ExceptionMessage = ex.Message;
 			}
 
 			return testResult;
@@ -223,7 +224,7 @@ namespace Syringe.Core.Runner
 		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
 		{
 			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
-			       || _config.GlobalHttpLog == LogType.All 
+				   || _config.GlobalHttpLog == LogType.All
 				   || testCase.LogRequest;
 		}
 

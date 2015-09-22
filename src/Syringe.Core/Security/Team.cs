@@ -16,12 +16,5 @@ namespace Syringe.Core.Security
 		{
 			UserIds = new List<Guid>();
 		}
-
-		public override bool Equals(object obj)
-		{
-			Team other = obj as Team;
-			return other != null && 
-				   other.Id.Equals(Id) & other.Name.Equals(Name);
-		}
 	}
 }

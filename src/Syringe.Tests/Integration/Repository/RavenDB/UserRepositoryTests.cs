@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Syringe.Core.Repositories.Redis;
+using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Schedule;
 using Syringe.Core.Security;
 
-namespace Syringe.Tests.Integration.Repository
+namespace Syringe.Tests.Integration.Repository.RavenDB
 {
-	public class RedisUserRepositoryTests
+	public class UserRepositoryTests
 	{
-		[SetUp]
-		public void Setup()
+		private RavenDbUserRepository CreateUserRepository()
 		{
-			var userRepository = CreateUserRepository();
-			userRepository.RedisUserClient.DeleteAll();
+			return new RavenDbUserRepository(RavenDbTestSetup.DocumentStore);	
 		}
 
-		private RedisUserRepository CreateUserRepository()
+		[SetUp]
+		public void SetUp()
 		{
-			return new RedisUserRepository();	
+			RavenDbTestSetup.ClearDocuments<User>();
 		}
 
 		[Test]
@@ -72,6 +72,8 @@ namespace Syringe.Tests.Integration.Repository
 			// Assert
 			IEnumerable<User> users = repository.GetUsers();
 			User actualUser = users.FirstOrDefault();
+
+			Assert.That(actualUser, Is.Not.Null);
 			Assert.That(actualUser.Password, Is.Not.EqualTo(plainTextPassword));
 		}
 

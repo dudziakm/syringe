@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Security.Teamcity.Providers;
-using Syringe.Tests.Unit.StubsMocks;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Security.Teamcity.Providers
 {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -24,6 +24,8 @@
     <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +64,10 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RavenDB.Client.3.0.3785\lib\net45\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -128,6 +134,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="LessHttpHandler.cs" />
     <Compile Include="ModelBuilders\ITestCaseCoreModelBuilder.cs" />
     <Compile Include="ModelBuilders\ITestCaseViewModelBuilder.cs" />
     <Compile Include="Controllers\TestCaseController.cs" />
@@ -141,7 +149,7 @@
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\ParseResponseItem.cs" />
-    <Compile Include="Models\VerificationItem.cs" />
+    <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -195,10 +203,16 @@
     <Content Include="fonts\RobotoDraftRegular.woff" />
     <Content Include="fonts\RobotoDraftRegular.woff2" />
     <Content Include="XmlExamples\totaljobs.xml" />
+    <None Include="compilerconfig.json" />
+    <Content Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Views\TestCase\EditorTemplates\Partials\_RemoveRow.cshtml" />
+    <Content Include="Views\Home\AllResults.cshtml" />
+    <Content Include="Views\Home\ViewResult.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
@@ -249,6 +263,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\TestCaseResult.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerificationItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerifyType.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -280,7 +295,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
@@ -306,6 +320,13 @@
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
     <Error Condition="!Exists('..\..\packages\OctoPack.3.0.31\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\..\packages\OctoPack.3.0.31\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="..\..\packages\BuildWebCompiler.1.3.144\build\BuildWebCompiler.targets" Condition="Exists('..\..\packages\BuildWebCompiler.1.3.144\build\BuildWebCompiler.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\BuildWebCompiler.1.3.144\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BuildWebCompiler.1.3.144\build\BuildWebCompiler.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

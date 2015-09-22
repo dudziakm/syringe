@@ -47,7 +47,7 @@ namespace Syringe.Web.Models
 
         public List<ParseResponseItem> ParseResponses { get; set; }
 
-        public List<VerificationItem> Verifications { get; set; }
+        public List<VerificationItemModel> Verifications { get; set; }
 
         public string ParentFilename { get; set; }
 
@@ -56,7 +56,7 @@ namespace Syringe.Web.Models
         {
             Headers = new List<HeaderItem>();
             ParseResponses = new List<ParseResponseItem>();
-            Verifications = new List<VerificationItem>();
+            Verifications = new List<VerificationItemModel>();
         }
     }
 }

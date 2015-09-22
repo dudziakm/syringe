@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Syringe.Core.Repositories.Redis;
+using Raven.Client.Document;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Schedule;
+using Syringe.Core.Security;
 
-namespace Syringe.Tests.Integration.Repository
+namespace Syringe.Tests.Integration.Repository.RavenDB
 {
-	public class RedisScheduledJobRepositoryTests
+	public class ScheduledJobRepositoryTests
 	{
 		[SetUp]
-		public void Setup()
+		public void SetUp()
 		{
-			var scheduledJobsRepository = CreateScheduledJobRepository();
-			scheduledJobsRepository.RedisScheduledJobClient.DeleteAll();
-		}
+			RavenDbTestSetup.ClearDocuments<ScheduledJob>();
+        }
 
-		private RedisScheduledJobRepository CreateScheduledJobRepository()
+		private RavenDbScheduledJobRepository CreateScheduledJobRepository()
 		{
-			return new RedisScheduledJobRepository();	
+			return new RavenDbScheduledJobRepository(RavenDbTestSetup.DocumentStore);	
 		}
 
 		[Test]
