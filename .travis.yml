@@ -3,8 +3,6 @@ mono:
  - alpha
 solution: Syringe.sln
 
-services:
-  - redis-server
 install:
   - nuget restore Syringe.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
