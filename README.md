@@ -1,11 +1,12 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/7l5ooplj6mbdkvfv?svg=true)](https://ci.appveyor.com/project/yetanotherchris/syringe)
 
 # Syringe
-Syringe is a .NET version of the webinject testing tool, for automated HTTP testing.
+Syringe is a .NET automated HTTP testing tool for headless, script-less tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
 ## Dev installation
 
-Note: For Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download
+*Note: For Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download*
+
 Open powershell and run the `setup.ps1` script, this will:
 
 * Install chocolatey  
