@@ -34,6 +34,7 @@ namespace Syringe.Web
 			// TODO: IoC, singleton of DocumentStore (needs a wrapper)
 			var ravenDbConfig = new RavenDBConfiguration();
 			DocumentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
+			DocumentStore.Initialize();
 		}
 	}
 }
