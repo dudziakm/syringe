@@ -28,9 +28,10 @@ namespace Syringe.Service.Parallel
 	/// </summary>
 	internal class ParallelTestSessionQueue
 	{
+		private static DocumentStore _documentStore;
+
 		private readonly ConcurrentBag<Task<SessionRunnerTaskInfo>> _currentTasks;
 		private readonly IApplicationConfiguration _appConfig;
-		private DocumentStore _documentStore;
 		private RavenDbTestCaseSessionRepository _repository;
 
 		public static ParallelTestSessionQueue Default
@@ -39,6 +40,14 @@ namespace Syringe.Service.Parallel
 			{
 				return Nested.Instance;
 			}
+		}
+
+		static ParallelTestSessionQueue()
+		{
+			// TODO: IoC this with the repository
+			var ravenDbConfig = new RavenDBConfiguration();
+			_documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
+			_documentStore.Initialize();
 		}
  
 		/// <summary>
@@ -60,8 +69,6 @@ namespace Syringe.Service.Parallel
 			_appConfig = new ApplicationConfig();
 
 			// TODO: IoC this up
-			var ravenDbConfig = new RavenDBConfiguration();
-			_documentStore = new DocumentStore() {Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase};
 			_repository = new RavenDbTestCaseSessionRepository(_documentStore);
 		}
 
