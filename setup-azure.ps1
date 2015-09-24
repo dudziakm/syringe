@@ -10,7 +10,7 @@ choco install microsoft-build-tools -version 14.0.23107.10 -y
 # Install IIS via WebPI
 choco install webpi
 
-# Download the source (this can be pull for an update script)
+# Download the source (invoked as it needs a new PS session for the git alias to work)
 md "c:\ProgramData\syringe" -ErrorAction Ignore
 Invoke-Command -ErrorAction Ignore -ScriptBlock { git clone https://github.com/yetanotherchris/syringe.git "c:\ProgramData\syringe" } 
 
@@ -19,4 +19,4 @@ cd "c:\ProgramData\syringe"
 .\setup.ps1
 
 # Install the service
-& ".\src\Syringe.Service\bin\Debug\Syringe.Service.exe" -install
+& ".\src\Syringe.Service\bin\Debug\Syringe.Service.exe" install start --localsystem
