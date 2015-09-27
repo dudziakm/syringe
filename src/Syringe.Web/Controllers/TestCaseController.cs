@@ -60,9 +60,9 @@ namespace Syringe.Web.Controllers
 			return View("Edit", model);
 		}
 
-		public ActionResult AddVerification(Models.VerificationItem model)
+		public ActionResult AddVerification(Models.VerificationItemModel model)
 		{
-			var item = new Models.VerificationItem
+			var item = new Models.VerificationItemModel
 			{
 				Description = model.Description,
 				Regex = model.Regex,

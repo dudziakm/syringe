@@ -8,7 +8,6 @@ using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
 using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
-using VerificationItem = Syringe.Web.Models.VerificationItem;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
@@ -64,8 +63,8 @@ namespace Syringe.Tests.Unit.ModelBuilders
 						   ParentFilename = "Test.xml",
 						   ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
 						   PostBody = "Post Body",
-						   Verifications = new List<VerificationItem>() { new VerificationItem { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative }, 
-							   new VerificationItem { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Positive } },
+						   Verifications = new List<VerificationItemModel>() { new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative }, 
+							   new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Positive } },
 						   ShortDescription = "short d3escription",
 						   Url = "url",
 						   Sleep = 10,

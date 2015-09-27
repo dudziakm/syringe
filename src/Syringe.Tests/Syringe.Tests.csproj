@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Syringe.Tests</RootNamespace>
     <AssemblyName>Syringe.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -57,27 +57,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3800\lib\net45\Raven.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Client.3.0.3800\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RavenDB.Database.3.0.3800\lib\net45\Raven.Database.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Common, Version=4.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Common.4.0.40\lib\net40\ServiceStack.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Interfaces.4.0.40\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis, Version=4.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Redis.4.0.40\lib\net40\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text, Version=4.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Text.4.0.40\lib\net40\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -95,10 +92,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\Repository\RavenDB\RavenDbTestSetup.cs" />
     <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
-    <Compile Include="Integration\Repository\RedisTeamRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\RedisScheduledJobRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\RedisUserRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RavenDB\TeamRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RavenDB\ScheduledJobRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RavenDB\UserRepositoryTests.cs" />
+    <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
@@ -108,22 +107,20 @@
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
-    <Compile Include="Unit\StubsMocks\RestResponseStub.cs" />
-    <Compile Include="Unit\StubsMocks\RestClientMock.cs" />
+    <Compile Include="StubsMocks\RestResponseStub.cs" />
+    <Compile Include="StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
-    <Compile Include="Unit\Results\Writer\TextResultWriterTests.cs" />
     <Compile Include="Unit\Runner\ParseResponseMatcherTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
     <Compile Include="Unit\Runner\VerificationsMatcherTests.cs" />
-    <Compile Include="Unit\StubsMocks\ResultWriterStub.cs" />
-    <Compile Include="Unit\StubsMocks\TestCaseReaderMock.cs" />
+    <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
-    <Compile Include="Unit\StubsMocks\HttpLogWriterMock.cs" />
+    <Compile Include="StubsMocks\HttpLogWriterMock.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
-    <Compile Include="Unit\StubsMocks\HttpClientMock.cs" />
+    <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
     <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
@@ -146,6 +143,9 @@
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Raven.Studio.Html5.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\Xml\XmlExamples\Runner\50-cases.xml" />
+    <Content Include="todo.txt" />
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\large-file.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

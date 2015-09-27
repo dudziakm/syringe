@@ -10,7 +10,7 @@ $ErrorActionPreference = "Stop"
 $solutionFile      = "Syringe.IIS.sln"
 $configuration     = "Debug"
 $platform          = "Mixed Platforms"
-$msbuild           = "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
+$msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 $configTool        = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
 
 
@@ -19,9 +19,8 @@ Write-Host "Make sure you have installed.NET 4.5.2 first http://www.microsoft.co
 Write-Host "Visual Studio 2013: make sure you have Typescript installed first: " -ForegroundColor DarkYellow
 Write-Host "https://visualstudiogallery.msdn.microsoft.com/b1fff87e-d68b-4266-8bba-46fad76bbf22/file/169854/1/TypeScript_1.5_VS2013.exe" -ForegroundColor DarkYellow
 
-# Install chocolatey
-Write-Host "Installing Redis and Nuget." -ForegroundColor Green
-choco install redis -y
+# Install nuget to restore
+Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline
 
 if (!(Test-Path $msbuild))
@@ -70,6 +69,7 @@ Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.x
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Setup complete." -ForegroundColor Green
 Write-host "Now start the REST data service using .\run-rest-service.ps1" -ForegroundColor Cyan
-Write-host "- MVC site: http://localhost:12345"
-Write-Host "- REST data service (the MVC app uses this): http://localhost:22345/swagger/"
+Write-host "- MVC site          : http://localhost:8085/"
+Write-Host "- REST api          : http://localhost:8086/swagger/"
+Write-Host "- RavenDB dashboard : http://localhost:8087/"
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
