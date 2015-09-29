@@ -16,8 +16,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Microsoft.AspNet.SignalR.Hubs;
+using Raven.Client;
+using Raven.Client.Document;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Core.Repositories;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.Hubs;
@@ -31,8 +35,6 @@ namespace Syringe.Web.DependencyResolution
 
     public class DefaultRegistry : Registry
     {
-        #region Constructors and Destructors
-
         public DefaultRegistry()
         {
             Scan(
@@ -53,8 +55,17 @@ namespace Syringe.Web.DependencyResolution
             For<ITasksService>().Use<TasksClient>();
 
             For<IProgressNotificationClient>().Use<SignalRProgressNotifier>();
+            For<IDocumentStore>().Use(() => CreateDocumentStore()).Singleton();
+
+            For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>();
         }
 
-        #endregion
+        private static DocumentStore CreateDocumentStore()
+        {
+            var ravenDbConfig = new RavenDBConfiguration();
+            var ds = new DocumentStore { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
+            ds.Initialize();
+            return ds;
+        }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Core.Canary;
 using Syringe.Core.Repositories;
-using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.Models;
@@ -22,13 +21,14 @@ namespace Syringe.Web.Controllers
 			ICaseService casesClient,
 			IUserContext userContext,
 			Func<IRunViewModel> runViewModelFactory,
-			Func<ICanaryService> canaryClientFactory)
+			Func<ICanaryService> canaryClientFactory,
+			ITestCaseSessionRepository repository)
 		{
 			_casesClient = casesClient;
 			_userContext = userContext;
 			_runViewModelFactory = runViewModelFactory;
 			_canaryClientFactory = canaryClientFactory;
-			_repository = new RavenDbTestCaseSessionRepository(Startup.DocumentStore);
+			_repository = repository;
 		}
 
 		public ActionResult Index()
