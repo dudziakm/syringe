@@ -5,6 +5,10 @@ clone_depth: 1
 build:
   parallel: true
   project: Syringe.sln
+  
+branches:
+  only:
+    - master
 
 before_build:
   ps: nuget restore Syringe.sln
