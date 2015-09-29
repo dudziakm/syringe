@@ -15,7 +15,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Microsoft.AspNet.SignalR.Hubs;
 using Raven.Client;
 using Raven.Client.Document;
 using Syringe.Client;
@@ -24,7 +23,6 @@ using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
-using Syringe.Web.Hubs;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 
@@ -54,7 +52,6 @@ namespace Syringe.Web.DependencyResolution
             For<ICanaryService>().Use<CanaryClient>();
             For<ITasksService>().Use<TasksClient>();
 
-            For<IProgressNotificationClient>().Use<SignalRProgressNotifier>();
             For<IDocumentStore>().Use(() => CreateDocumentStore()).Singleton();
 
             For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>();

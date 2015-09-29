@@ -4,5 +4,6 @@
 	{
 		string TestCasesBaseDirectory { get; }
 		string ServiceUrl { get; }
+        string SignalRUrl { get; }
 	}
 }

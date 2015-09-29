@@ -1,10 +1,25 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace Syringe.Core.Configuration
 {
 	public class ApplicationConfig : IApplicationConfiguration
 	{
-		public string TestCasesBaseDirectory
+        private readonly Lazy<string> _lazySignalRUrl;
+
+	    public ApplicationConfig()
+	    {
+	        _lazySignalRUrl = new Lazy<string>(BuildSignalRUrl);
+	    }
+
+	    private string BuildSignalRUrl()
+	    {
+	        var builder = new UriBuilder(ServiceUrl);
+	        builder.Path = "signalr";
+	        return builder.ToString();
+	    }
+
+	    public string TestCasesBaseDirectory
 		{
 			get { return ConfigurationManager.AppSettings["TestCasesBaseDirectory"]; }
 		}
@@ -13,5 +28,13 @@ namespace Syringe.Core.Configuration
 		{
 			get { return ConfigurationManager.AppSettings["ServiceUrl"]; }
 		}
+
+	    public string SignalRUrl
+	    {
+	        get
+	        {
+	            return _lazySignalRUrl.Value;
+	        }
+	    }
 	}
 }

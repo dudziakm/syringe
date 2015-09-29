@@ -9,5 +9,6 @@ namespace Syringe.Web.Models
 		IEnumerable<RunningTestCaseViewModel> TestCases { get; }
 		int CurrentTaskId { get; }
 		string FileName { get; }
+	    string SignalRUrl { get; }
 	}
 }

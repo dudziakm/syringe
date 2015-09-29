@@ -16,8 +16,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Web.Mvc;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Syringe.Web.App_Start;
 using Syringe.Web.DependencyResolution;
@@ -49,8 +47,6 @@ namespace Syringe.Web.App_Start
 			StructureMapDependencyScope = new StructureMapDependencyScope(container);
 			DependencyResolver.SetResolver(StructureMapDependencyScope);
 			DynamicModuleUtility.RegisterModule(typeof (StructureMapScopeModule));
-
-			GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(container));
 		}
 
 		#endregion

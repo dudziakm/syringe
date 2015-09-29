@@ -11,9 +11,9 @@ interface SignalR
 {
 
     /**
-      * The hub implemented by Syringe.Web.Hubs.ProgressHub
+      * The hub implemented by Syringe.Service.Api.Hubs.TaskMonitorHub
       */
-    progressHub : ProgressHub;
+    taskMonitorHub : TaskMonitorHub;
 }
 //#endregion available hubs
 
@@ -22,44 +22,45 @@ interface SignalR
 ///////////////////////
 //#region service contracts
 
-//#region ProgressHub hub
+//#region TaskMonitorHub hub
 
-interface ProgressHub {
+interface TaskMonitorHub {
     
     /**
-      * This property lets you send messages to the ProgressHub hub.
+      * This property lets you send messages to the TaskMonitorHub hub.
       */
-    server : ProgressHubServer;
+    server : TaskMonitorHubServer;
 
     /**
-      * The functions on this property should be replaced if you want to receive messages from the ProgressHub hub.
+      * The functions on this property should be replaced if you want to receive messages from the TaskMonitorHub hub.
       */
-    client : IProgressHubClient;
+    client : ITaskMonitorHubClient;
 }
 
-interface ProgressHubServer {
+interface TaskMonitorHubServer {
 
     /** 
-      * Sends a "startMonitoringProgress" message to the ProgressHub hub.
+      * Sends a "startMonitoringTask" message to the TaskMonitorHub hub.
       * Contract Documentation: ---
       * @param taskId {number} 
       * @return {JQueryPromise of void}
       */
-    startMonitoringProgress(taskId : number) : JQueryPromise<void>
+    startMonitoringTask(taskId : number) : JQueryPromise<void>
 }
 
-interface IProgressHubClient
+interface ITaskMonitorHubClient
 {
 
     /**
-      * Set this function with a "function(){}" to receive the "doSomething" message from the ProgressHub hub.
+      * Set this function with a "function(taskId : number){}" to receive the "onProgressUpdated" message from the TaskMonitorHub hub.
       * Contract Documentation: ---
+      * @param taskId {number} 
       * @return {void}
       */
-    doSomething : () => void;
+    onProgressUpdated : (taskId : number) => void;
 }
 
-//#endregion ProgressHub hub
+//#endregion TaskMonitorHub hub
 
 //#endregion service contracts
 

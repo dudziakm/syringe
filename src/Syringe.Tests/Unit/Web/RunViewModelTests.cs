@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
@@ -14,11 +15,13 @@ namespace Syringe.Tests.Unit.Web
 	{
 		private static RunViewModel GivenARunViewModel(
 			ITasksService tasksService = null,
-			ICaseService caseService = null)
+			ICaseService caseService = null,
+            IApplicationConfiguration applicationConfiguration = null)
 		{
 			return new RunViewModel(
 				tasksService ?? Mock.Of<ITasksService>(),
-				caseService ?? Mock.Of<ICaseService>());
+				caseService ?? Mock.Of<ICaseService>(),
+                applicationConfiguration ?? Mock.Of<IApplicationConfiguration>());
 		}
 
 		[TestFixture]

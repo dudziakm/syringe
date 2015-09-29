@@ -6,8 +6,9 @@ var Syringe;
     var Web;
     (function (Web) {
         var Progress = (function () {
-            function Progress() {
+            function Progress(signalRUrl) {
                 this._updatedIds = {};
+                this.signalRUrl = signalRUrl;
             }
             Progress.prototype.monitor = function (taskId) {
                 if (taskId === 0) {
@@ -15,13 +16,13 @@ var Syringe;
                 }
                 var self = this;
                 $.connection.hub.logging = true;
-                $.connection.hub.url = "/signalr";
-                this.proxy = $.connection.progressHub;
-                this.proxy.client.doSomething = function (d) {
+                $.connection.hub.url = this.signalRUrl;
+                this.proxy = $.connection.taskMonitorHub;
+                this.proxy.client.onProgressUpdated = function (d) {
                     alert("I did a thing");
                 };
-                $.connection.hub.start().done(function () {
-                    self.proxy.server.startMonitoringProgress(taskId);
+                $.connection.hub.start({ jsonp: true }).done(function () {
+                    self.proxy.server.startMonitoringTask(taskId);
                 });
             };
             return Progress;

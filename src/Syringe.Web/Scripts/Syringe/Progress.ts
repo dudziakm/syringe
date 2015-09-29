@@ -5,6 +5,11 @@
 module Syringe.Web {
     export class Progress {
         private proxy: any;
+        private signalRUrl: string;
+
+        constructor(signalRUrl: string) {
+            this.signalRUrl = signalRUrl;
+        }
 
         monitor(taskId: number) {
 
@@ -14,16 +19,16 @@ module Syringe.Web {
 
             var self = this;
             $.connection.hub.logging = true;
-            $.connection.hub.url = "/signalr";
+            $.connection.hub.url = this.signalRUrl;
 
-            this.proxy = $.connection.progressHub;
+            this.proxy = $.connection.taskMonitorHub;
 
-            this.proxy.client.doSomething = function (d) {
+            this.proxy.client.onProgressUpdated = function (d) {
                 alert("I did a thing");
             };
 
-            $.connection.hub.start().done(function () {
-                self.proxy.server.startMonitoringProgress(taskId);
+            $.connection.hub.start({ jsonp: true }).done(function () {
+                self.proxy.server.startMonitoringTask(taskId);
             });
         }
 

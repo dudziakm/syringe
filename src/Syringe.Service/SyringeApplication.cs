@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
@@ -37,7 +38,7 @@ namespace Syringe.Service
 
 			config.MapHttpAttributeRoutes();
 			application.UseWebApi(config);
-			application.MapSignalR();
+			application.MapSignalR(new HubConfiguration { EnableJSONP = true });
 		}
 	}
 }

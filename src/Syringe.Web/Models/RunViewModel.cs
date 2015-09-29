@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Syringe.Client;
+using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
@@ -11,17 +12,13 @@ namespace Syringe.Web.Models
 	{
 		private readonly ITasksService _tasksService;
 		private readonly ICaseService _caseService;
-		private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
+	    private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
 
-		public RunViewModel()
-			: this(new TasksClient(), new CasesClient())
-		{
-		}
-
-		public RunViewModel(ITasksService tasksService, ICaseService caseService)
+		public RunViewModel(ITasksService tasksService, ICaseService caseService, IApplicationConfiguration applicationConfiguration)
 		{
 			_tasksService = tasksService;
 			_caseService = caseService;
+		    SignalRUrl = applicationConfiguration.SignalRUrl;
 		}
 
 		public void Run(IUserContext userContext, string fileName)
@@ -49,5 +46,6 @@ namespace Syringe.Web.Models
 
 		public int CurrentTaskId { get; private set; }
 		public string FileName { get; private set; }
+	    public string SignalRUrl { get; private set; }
 	}
 }
