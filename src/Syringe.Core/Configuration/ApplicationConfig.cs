@@ -5,21 +5,23 @@ namespace Syringe.Core.Configuration
 {
 	public class ApplicationConfig : IApplicationConfiguration
 	{
-        private readonly Lazy<string> _lazySignalRUrl;
+		private readonly Lazy<string> _lazySignalRUrl;
 
-	    public ApplicationConfig()
-	    {
-	        _lazySignalRUrl = new Lazy<string>(BuildSignalRUrl);
-	    }
+		public ApplicationConfig()
+		{
+			_lazySignalRUrl = new Lazy<string>(BuildSignalRUrl);
+		}
 
-	    private string BuildSignalRUrl()
-	    {
-	        var builder = new UriBuilder(ServiceUrl);
-	        builder.Path = "signalr";
-	        return builder.ToString();
-	    }
+		private string BuildSignalRUrl()
+		{
+			var builder = new UriBuilder(ServiceUrl);
+			builder.Path = "signalr";
+			return builder.ToString();
+		}
 
-	    public string TestCasesBaseDirectory
+		public string WebsiteCorsUrl { get { return ConfigurationManager.AppSettings["WebsiteCorsUrl"]; } }
+
+		public string TestCasesBaseDirectory
 		{
 			get { return ConfigurationManager.AppSettings["TestCasesBaseDirectory"]; }
 		}
@@ -29,12 +31,12 @@ namespace Syringe.Core.Configuration
 			get { return ConfigurationManager.AppSettings["ServiceUrl"]; }
 		}
 
-	    public string SignalRUrl
-	    {
-	        get
-	        {
-	            return _lazySignalRUrl.Value;
-	        }
-	    }
+		public string SignalRUrl
+		{
+			get
+			{
+				return _lazySignalRUrl.Value;
+			}
+		}
 	}
 }

@@ -21,7 +21,7 @@ var Syringe;
                 this.proxy.client.onProgressUpdated = function (d) {
                     alert("I did a thing");
                 };
-                $.connection.hub.start({ jsonp: true }).done(function () {
+                $.connection.hub.start().done(function () {
                     self.proxy.server.startMonitoringTask(taskId);
                 });
             };
