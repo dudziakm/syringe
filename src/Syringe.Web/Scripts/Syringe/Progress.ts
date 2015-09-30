@@ -23,13 +23,19 @@ module Syringe.Web {
 
             this.proxy = $.connection.taskMonitorHub;
 
-            this.proxy.client.onProgressUpdated = function (d) {
+            this.proxy.client.onProgressUpdated = function(d) {
                 alert("I did a thing");
             };
 
-            $.connection.hub.start().done(function () {
-                self.proxy.server.startMonitoringTask(taskId);
-            });
+            $.connection.hub.start()
+                .done(function() {
+                    self.proxy.server.startMonitoringTask(taskId)
+                        .progress(function(taskState: TaskState) {
+                            console.log(taskState.CompletedTasks + " of " + taskState.TotalTasks);
+                        }).done(function() {
+                            $.connection.hub.stop();
+                        });
+                });
         }
 
         _updatedIds = {};

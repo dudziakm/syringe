@@ -265,6 +265,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ParseResponseItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Progress.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\TaskState.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Testcase.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
