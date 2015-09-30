@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Web.Http;
-using System.Web.Http.Dispatcher;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Owin.Hosting;
 using Owin;
-using StructureMap;
 using Swashbuckle.Application;
 using Syringe.Service.DependencyResolution;
 using Syringe.Service.Parallel;
@@ -27,8 +24,6 @@ namespace Syringe.Service
 		{
 			RavenDbServer.Stop();
 			ParallelTestSessionQueue.Default.StopAll();
-			// Manually eject the IHttpControllerActivator (DependencyResolver) to avoid a StackOverflowException
-			ObjectFactory.EjectAllInstancesOf<IHttpControllerActivator>();
 			WebApplication.Dispose();
 		}
 
