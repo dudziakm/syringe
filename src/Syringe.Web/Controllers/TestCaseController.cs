@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using Syringe.Client;
-using Syringe.Core;
 using Syringe.Core.Security;
+using Syringe.Core.Services;
 using Syringe.Core.TestCases;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
@@ -12,17 +11,21 @@ namespace Syringe.Web.Controllers
 {
 	public class TestCaseController : Controller
 	{
-		private readonly CasesClient _casesClient;
+		private readonly ICaseService _casesClient;
 		private readonly IUserContext _userContext;
 		private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
 		private readonly ITestCaseCoreModelBuilder _testCaseCoreModelBuilder;
 
-		public TestCaseController()
+		public TestCaseController(
+			ICaseService casesClient,
+			IUserContext userContext,
+			ITestCaseViewModelBuilder testCaseViewModelBuilder,
+			ITestCaseCoreModelBuilder testCaseCoreModelBuilder)
 		{
-			_casesClient = new CasesClient();
-			_userContext = new UserContext();
-			_testCaseViewModelBuilder = new TestCaseViewModelBuilder();
-			_testCaseCoreModelBuilder = new TestCaseCoreModelBuilder();
+			_casesClient = casesClient;
+			_userContext = userContext;
+			_testCaseViewModelBuilder = testCaseViewModelBuilder;
+			_testCaseCoreModelBuilder = testCaseCoreModelBuilder;
 		}
 
 		public ActionResult View(string filename)
