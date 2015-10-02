@@ -46,9 +46,14 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Run(string filename)
 		{
+			return View("Run", "", filename);
+		}
+
+        public ActionResult RunSignalR(string filename)
+		{
 			var runViewModel = _runViewModelFactory();
 			runViewModel.Run(_userContext, filename);
-			return View("Run", runViewModel);
+			return View(runViewModel);
 		}
 
 		private void CheckServiceIsRunning()

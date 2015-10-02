@@ -1,23 +1,21 @@
-﻿@using System.Globalization
-@model IRunViewModel
+﻿@model string
 @section Scripts
 {
-	<script type="text/javascript" src="~/Scripts/Syringe.js"></script>
-	@Scripts.Render("~/bundles/signalR")
-	<script type="text/javascript" src="@Model.SignalRUrl/js"></script>
+	<script src="~/Scripts/Syringe.js"></script>
 	<script type="text/javascript">
-		var filename = "@Model.FileName";
+		var filename = "@Model";
 
-		$(document).ready(function () {
-			var progress = new Syringe.Web.Progress("@Model.SignalRUrl");
-			progress.monitor(@Model.CurrentTaskId);
+		$(document).ready(function()
+		{
+			var runner = new Syringe.Web.TestCaseRunner();
+			runner.start(filename);
 		});
 	</script>
 }
 
 <div class="container">
 	<div class="row">
-		<h2>@Model.FileName</h2>
+		<h2>@Model</h2>
 	</div>
 	<div class="row">
 		<div class="row">
@@ -28,36 +26,8 @@
 					</div>
 				</div>
 
-				<div id="running-items">
-					@foreach (var testCase in Model.TestCases)
-					{
-						<div class="panel" id="case-@testCase.Id">
-							<div class="panel-heading">
-								<h3 class="panel-title">@string.Format(CultureInfo.CurrentCulture, "{0} - {1}", testCase.Id, testCase.Description)</h3>
-							</div>
-							<div class="panel-body">
-								<div>
-									<div class="pull-left case-result-url"></div>
-									<div class="pull-right">
-										<a class="hidden view-html btn btn-primary" href="#">View HTML</a>
-										<a class="hidden view-raw btn btn-primary" href="#">View raw</a>
-									</div>
-								</div>
-								<div class="case-result-errors">
-									<div class="hidden case-result-exception">
-										<h2 class="label label-danger">Error</h2>
-										<textarea></textarea>
-									</div>
-									<div class="hidden case-result-html">
-										<textarea style="display: none"></textarea>
-									</div>
-								</div>
-							</div>
-						</div>
-					}
-				</div>
+				<div id="running-items"></div>
 			</div>
 		</div>
-
 	</div>
 </div>

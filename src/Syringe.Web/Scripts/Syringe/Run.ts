@@ -1,115 +1,131 @@
 ﻿/// <reference path="../typings/jquery/jquery.d.ts" />
 
-module Syringe.Web
-{
-	export class TestCaseRunner
-	{
-		private intervalHandle: any;
-		private lastCaseId: number;
-		private intervalTime = 500;
+module Syringe.Web {
+    export class TestCaseRunner {
+        private intervalHandle: any;
+        private lastCaseId: number;
+        private intervalTime = 500;
 
-		start(taskId: number)
-		{
-			if (taskId === 0) {
-				throw Error("Task ID was 0.");
-			}
+        start(filename: string) {
+            this.bindStopButton();
+            this.loadCases(filename);
 
-			this.bindStopButton();
+            var that = this;
+            $.post("/json/run", { filename: filename })
+                .done(function (data) {
+                    if (data.taskId === 0) {
+                        alert("An error occured - taskid was 0");
+                        return;
+                    }
 
-			var that = this;
-			that.intervalHandle = setInterval(function ()
-			{
-				that.updateProgress(taskId);
-			}, that.intervalTime);
-		}
+                    that.intervalHandle = setInterval(function () {
+                        that.updateProgress(data.taskId);
+                    }, that.intervalTime);
+                });
+        }
 
-		private bindStopButton() {
-			var self = this;
-			$("#stopbutton").click(function ()
-			{
-				clearTimeout(self.intervalHandle);
-			});
-		}
+        private bindStopButton() {
+            $("#stopbutton").click(function () {
+                clearTimeout(this._intervalHandle);
+            });
+        }
 
-		_updatedIds = {};
+        private loadCases(filename: string) {
+            $.get("/json/GetCases", { "filename": filename })
+                .done(function (data) {
+                    $.each(data.TestCases, function (index, item) {
+                        var html = "";
+                        html = '<div class="panel" id="case-' + item.Id + '">';
+                        html += '	<div class="panel-heading"><h3 class="panel-title">' + item.Id + " - " + item.ShortDescription + "</h3></div>";
+                        html += '		<div class="panel-body">';
+                        html += '			<div>';
+                        html += '				<div class="pull-left case-result-url"></div>';
+                        html += '				<div class="pull-right">';
+                        html += '					<a class="view-html btn btn-primary" href="#">View HTML</a>';
+                        html += '					<a class="view-raw btn btn-primary" href="#">View raw</a>';
+                        html += '				</div>';
+                        html += '			</div>';
+                        html += '			<div class="case-result-errors">';
+                        html += '				<div class="hidden case-result-exception"><h2 class="label label-danger">Error</h4><textarea></textarea></div>';
+                        html += '				<div class="hidden case-result-html"><textarea style="display:none"></textarea></span>';
+                        html += '			</div>';
+                        html += "		</div>";
+                        html += "	</div>";
+                        html += "</div>";
 
-		updateProgress(taskId)
-		{
-			var that = this;
+                        $("#running-items").append(html);
+                    });
+                });
+        }
 
-			$.get("/json/GetProgress", { "taskId": taskId })
-				.done(function (data)
-			{
-				$.each(data.Results, function (index, item: TestCaseResult)
-				{
-					var selector = "#case-" + item.TestCase.Id;
+        _updatedIds = {};
 
-					if (that._updatedIds[selector])
-					{
-						return;
-					}
+        updateProgress(taskId) {
+            var that = this;
 
-					that._updatedIds[selector] = true;
+            $.get("/json/GetProgress", { "taskId": taskId })
+                .done(function (data) {
+                    $.each(data.Results, function (index, item: TestCaseResult) {
+                        var selector = "#case-" + item.TestCase.Id;
 
-					var cssClass = "";
-					var iframeTextArea = selector + " .case-result-html textarea";
+                        if (that._updatedIds[selector]) {
+                            return;
+                        }
 
-					// Url
-					var urlSelector = selector + " " + ".case-result-url";
-					$(urlSelector).text(item.ActualUrl);
+                        that._updatedIds[selector] = true;
 
-					// Add HTML into the hidden iframe
-					if (item.HttpResponse != null && $(iframeTextArea).text() === "")
-					{
-						$(iframeTextArea).text(item.HttpResponse.Content);
-					}
+                        var cssClass = "";
+                        var iframeTextArea = selector + " .case-result-html textarea";
 
-					$(selector + " a.view-html").click(function ()
-					{
-						var newWindow = window.open("", item.TestCase.Id.toString());
-						newWindow.document.write($(iframeTextArea).text());
-						$(newWindow.document).find("head").append('<base href="' + item.ActualUrl + '" />');
-					});
+                        // Url
+                        var urlSelector = selector + " " + ".case-result-url";
+                        $(urlSelector).text(item.ActualUrl);
 
-					$(selector + " a.view-raw").click(function ()
-					{
-						var newWindow = window.open("", "plaintext-" +item.TestCase.Id.toString());
-						newWindow.document.write("<PLAINTEXT>" +$(iframeTextArea).text());
-					});
+                        // Add HTML into the hidden iframe
+                        if (item.HttpResponse != null && $(iframeTextArea).text() === "") {
+                            $(iframeTextArea).text(item.HttpResponse.Content);
+                        }
+
+                        $(selector + " a.view-html").click(function () {
+                            var newWindow = window.open("", item.TestCase.Id.toString());
+                            newWindow.document.write($(iframeTextArea).text());
+                            $(newWindow.document).find("head").append('<base href="' + item.ActualUrl + '" />');
+                        });
+
+                        $(selector + " a.view-raw").click(function () {
+                            var newWindow = window.open("", "plaintext-" + item.TestCase.Id.toString());
+                            newWindow.document.write("<PLAINTEXT>" + $(iframeTextArea).text());
+                        });
 
 	
-					// Change background color
-					if (item.Success === true)
-					{
-						cssClass = "panel-success";
-					}
-					else if (item.Success === false)
-					{
-						cssClass = "panel-warning";
-					}
+                        // Change background color
+                        if (item.Success === true) {
+                            cssClass = "panel-success";
+                        }
+                        else if (item.Success === false) {
+                            cssClass = "panel-warning";
+                        }
 
-					// Exceptions
-					if (item.ExceptionMessage !== null)
-					{
-						cssClass = "panel-danger";
-						$(selector + " .case-result-exception").removeClass("hidden");
-						$(selector + " .case-result-exception textarea").text(item.ExceptionMessage);
-					}
+                        // Exceptions
+                        if (item.ExceptionMessage !== null) {
+                            cssClass = "panel-danger";
+                            $(selector + " .case-result-exception").removeClass("hidden");
+                            $(selector + " .case-result-exception textarea").text(item.ExceptionMessage);
+                        }
 
-					$(selector).addClass(cssClass);
-				});
+                        $(selector).addClass(cssClass);
+                    });
 
-				var percentage = (data.CurrentIndex / data.TotalCases) * 100;
-				$(".progress-bar").css("width", percentage + "%");
-				$("#progress-text").html(data.Status);
+                    var percentage = (data.CurrentIndex / data.TotalCases) * 100;
+                    $(".progress-bar").css("width", percentage + "%");
+                    $("#progress-text").html(data.Status);
 
-				if (data.Status === "RanToCompletion")
-				{
-					clearTimeout(that.intervalHandle);
-					console.log("stopped");
-					return;
-				}
-			});
-		}
-	}
+                    if (data.Status === "RanToCompletion") {
+                        clearTimeout(that.intervalHandle);
+                        console.log("stopped");
+                        return;
+                    }
+                });
+        }
+    }
 }

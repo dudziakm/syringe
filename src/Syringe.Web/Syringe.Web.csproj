@@ -260,6 +260,7 @@
     <Content Include="Views\TestCase\EditorTemplates\Partials\_RemoveRow.cshtml" />
     <Content Include="Views\Home\AllResults.cshtml" />
     <Content Include="Views\Home\ViewResult.cshtml" />
+    <Content Include="Views\Home\RunSignalR.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
