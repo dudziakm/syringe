@@ -14,7 +14,7 @@ module Syringe.Web {
             $.post("/json/run", { filename: filename })
                 .done(function (data) {
                     if (data.taskId === 0) {
-                        alert("An error occured - taskid was 0");
+                        alert("An error occurred - taskid was 0");
                         return;
                     }
 
