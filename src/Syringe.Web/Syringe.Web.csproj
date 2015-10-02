@@ -286,7 +286,7 @@
     <Content Include="Scripts\jquery-1.11.3.min.map" />
     <Content Include="Views\TestCase\EditorTemplates\HeaderItem.cshtml" />
     <Content Include="Views\TestCase\EditorTemplates\ParseResponseItem.cshtml" />
-    <Content Include="Views\TestCase\EditorTemplates\VerificationItem.cshtml" />
+    <Content Include="Views\TestCase\EditorTemplates\VerificationItemModel.cshtml" />
     <Content Include="Views\TestCase\Edit.cshtml" />
     <Content Include="Views\TestCase\View.cshtml" />
     <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts">

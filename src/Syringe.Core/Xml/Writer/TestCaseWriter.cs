@@ -9,152 +9,168 @@ using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Xml.Writer
 {
-	public class TestCaseWriter : ITestCaseWriter
-	{
-		public string Write(CaseCollection caseCollection)
-		{
-			var stringBuilder = new StringBuilder();
-			using (var stringWriter = new Utf8StringWriter(stringBuilder))
-			{
-				var settings = new XmlWriterSettings
-				{
-					IndentChars = "\t",
-					Indent = true
-				};
+    public class TestCaseWriter : ITestCaseWriter
+    {
+        public string Write(CaseCollection caseCollection)
+        {
+            var stringBuilder = new StringBuilder();
+            using (var stringWriter = new Utf8StringWriter(stringBuilder))
+            {
+                var settings = new XmlWriterSettings
+                {
+                    IndentChars = "\t",
+                    Indent = true
+                };
 
-				using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
-				{
+                using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
+                {
 
-					XElement testCasesElement = new XElement("testcases");
-					testCasesElement.Add(new XAttribute("repeat", caseCollection.Repeat.ToString()));
+                    XElement testCasesElement = new XElement("testcases");
+                    testCasesElement.Add(new XAttribute("repeat", caseCollection.Repeat.ToString()));
 
-					foreach (Case testCase in caseCollection.TestCases)
-					{
-						XElement headersElement = GetHeadersElement(testCase);
-						XElement postbodyElement = GetPostBodyElement(testCase);
-						XElement parseResponsesElement = GetParseResponsesElement(testCase);
-						XElement verificationElement = GetVerificationElement(testCase);
+                    if (caseCollection.Variables.Count > 0)
+                    {
+                        XElement variableElements = new XElement("variables");
 
-						XElement caseElement = GetCaseElement(testCase);
-						caseElement.Add(headersElement);
-						caseElement.Add(postbodyElement);
-						caseElement.Add(parseResponsesElement);
-						caseElement.Add(verificationElement);
+                        foreach (var variable in caseCollection.Variables)
+                        {
+                            XElement variableElement = new XElement("variable");
+                            variableElement.Add(new XAttribute("name", variable.Key));
+                            variableElement.Value = variable.Value;
 
-						testCasesElement.Add(caseElement);
-					}
+                            variableElements.Add(variableElement);
+                        }
 
-					XDocument doc = new XDocument(testCasesElement);
-					doc.WriteTo(xmlWriter);
-				}
+                        testCasesElement.Add(variableElements);
+                    }
 
-				return stringBuilder.ToString();
-			}
-		}
+                    foreach (Case testCase in caseCollection.TestCases)
+                    {
+                        XElement headersElement = GetHeadersElement(testCase);
+                        XElement postbodyElement = GetPostBodyElement(testCase);
+                        XElement parseResponsesElement = GetParseResponsesElement(testCase);
+                        XElement verificationElement = GetVerificationElement(testCase);
 
-		private XElement GetCaseElement(Case testCase)
-		{
-			XElement element = new XElement("case");
+                        XElement caseElement = GetCaseElement(testCase);
+                        caseElement.Add(headersElement);
+                        caseElement.Add(postbodyElement);
+                        caseElement.Add(parseResponsesElement);
+                        caseElement.Add(verificationElement);
 
-			element.Add(new XAttribute("id", testCase.Id));
-			element.Add(new XAttribute("shortdescription", testCase.ShortDescription ?? ""));
-			element.Add(new XAttribute("longdescription", testCase.LongDescription ?? ""));
-			element.Add(new XAttribute("url", testCase.Url ?? ""));
-			element.Add(new XAttribute("method", testCase.Method ?? ""));
-			element.Add(new XAttribute("posttype", testCase.PostType ?? ""));
-			element.Add(new XAttribute("verifyresponsecode", (int)testCase.VerifyResponseCode));
-			element.Add(new XAttribute("errormessage", testCase.ErrorMessage ?? ""));
-			element.Add(new XAttribute("logrequest", testCase.LogRequest));
-			element.Add(new XAttribute("logresponse", testCase.LogResponse));
-			element.Add(new XAttribute("sleep", testCase.Sleep));
+                        testCasesElement.Add(caseElement);
+                    }
 
-			return element;
-		}
+                    XDocument doc = new XDocument(testCasesElement);
+                    doc.WriteTo(xmlWriter);
+                }
 
-		private XElement GetHeadersElement(Case testCase)
-		{
-			XElement headerElement = new XElement("headers");
+                return stringBuilder.ToString();
+            }
+        }
 
-			foreach (HeaderItem keyValuePair in testCase.Headers)
-			{
-				if (!string.IsNullOrEmpty(keyValuePair.Key))
-				{
-					XElement element = new XElement("header");
-					element.Add(new XAttribute("name", keyValuePair.Key));
+        private XElement GetCaseElement(Case testCase)
+        {
+            XElement element = new XElement("case");
 
-					AddCDataToElementValue(keyValuePair.Value, element);
+            element.Add(new XAttribute("id", testCase.Id));
+            element.Add(new XAttribute("shortdescription", testCase.ShortDescription ?? ""));
+            element.Add(new XAttribute("longdescription", testCase.LongDescription ?? ""));
+            element.Add(new XAttribute("url", testCase.Url ?? ""));
+            element.Add(new XAttribute("method", testCase.Method ?? ""));
+            element.Add(new XAttribute("posttype", testCase.PostType ?? ""));
+            element.Add(new XAttribute("verifyresponsecode", (int)testCase.VerifyResponseCode));
+            element.Add(new XAttribute("errormessage", testCase.ErrorMessage ?? ""));
+            element.Add(new XAttribute("logrequest", testCase.LogRequest));
+            element.Add(new XAttribute("logresponse", testCase.LogResponse));
+            element.Add(new XAttribute("sleep", testCase.Sleep));
 
-					headerElement.Add(element);
-				}
-			}
+            return element;
+        }
 
-			return headerElement;
-		}
+        private XElement GetHeadersElement(Case testCase)
+        {
+            XElement headerElement = new XElement("headers");
 
-		private XElement GetPostBodyElement(Case testCase)
-		{
-			XElement postBodyElement = new XElement("postbody");
+            foreach (HeaderItem keyValuePair in testCase.Headers)
+            {
+                if (!string.IsNullOrEmpty(keyValuePair.Key))
+                {
+                    XElement element = new XElement("header");
+                    element.Add(new XAttribute("name", keyValuePair.Key));
 
-			if (!string.IsNullOrEmpty(testCase.PostBody))
-				postBodyElement.Add(new XCData(testCase.PostBody));
+                    AddCDataToElementValue(keyValuePair.Value, element);
 
-			return postBodyElement;
-		}
+                    headerElement.Add(element);
+                }
+            }
 
-		private XElement GetParseResponsesElement(Case testCase)
-		{
-			XElement parseresponsesElement = new XElement("parseresponses");
+            return headerElement;
+        }
 
-			foreach (ParseResponseItem item in testCase.ParseResponses)
-			{
-				if (!string.IsNullOrEmpty(item.Regex))
-				{
-					XElement element = new XElement("parseresponse");
-					element.Add(new XAttribute("description", item.Description));
-					element.Value = item.Regex;
+        private XElement GetPostBodyElement(Case testCase)
+        {
+            XElement postBodyElement = new XElement("postbody");
 
-					parseresponsesElement.Add(element);
-				}
-			}
+            if (!string.IsNullOrEmpty(testCase.PostBody))
+                postBodyElement.Add(new XCData(testCase.PostBody));
 
-			return parseresponsesElement;
-		}
+            return postBodyElement;
+        }
 
-		private XElement GetVerificationElement(Case testCase)
-		{
-			XElement headerElement = new XElement("verifications");
+        private XElement GetParseResponsesElement(Case testCase)
+        {
+            XElement parseresponsesElement = new XElement("parseresponses");
 
-			foreach (VerificationItem verifyItem in testCase.VerifyPositives.Union(testCase.VerifyNegatives))
-			{
-				if (!string.IsNullOrEmpty(verifyItem.Description))
-				{
-					XElement element = new XElement("verify");
-					element.Add(new XAttribute("description", verifyItem.Description));
-					element.Add(new XAttribute("type", verifyItem.VerifyType.ToString().ToLower()));
+            foreach (ParseResponseItem item in testCase.ParseResponses)
+            {
+                if (!string.IsNullOrEmpty(item.Regex))
+                {
+                    XElement element = new XElement("parseresponse");
+                    element.Add(new XAttribute("description", item.Description));
+                    element.Value = item.Regex;
 
-					AddCDataToElementValue(verifyItem.Regex, element);
+                    parseresponsesElement.Add(element);
+                }
+            }
 
-					headerElement.Add(element);
-				}
-			}
+            return parseresponsesElement;
+        }
 
-			return headerElement;
-		}
+        private XElement GetVerificationElement(Case testCase)
+        {
+            XElement headerElement = new XElement("verifications");
 
-		private static void AddCDataToElementValue(string value, XElement element)
-		{
-			if (!string.IsNullOrEmpty(value))
-			{
-				if (value.Contains("&") ||
-					value.Contains("<") || value.Contains(">"))
-				{
-					element.Add(new XCData(value));
-				}
-				else
-				{
-					element.Value = value;
-				}
-			}
-		}
-	}
+            foreach (VerificationItem verifyItem in testCase.VerifyPositives.Union(testCase.VerifyNegatives))
+            {
+                if (!string.IsNullOrEmpty(verifyItem.Description))
+                {
+                    XElement element = new XElement("verify");
+                    element.Add(new XAttribute("description", verifyItem.Description));
+                    element.Add(new XAttribute("type", verifyItem.VerifyType.ToString().ToLower()));
+
+                    AddCDataToElementValue(verifyItem.Regex, element);
+
+                    headerElement.Add(element);
+                }
+            }
+
+            return headerElement;
+        }
+
+        private static void AddCDataToElementValue(string value, XElement element)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (value.Contains("&") ||
+                    value.Contains("<") || value.Contains(">"))
+                {
+                    element.Add(new XCData(value));
+                }
+                else
+                {
+                    element.Value = value;
+                }
+            }
+        }
+    }
 }

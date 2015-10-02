@@ -69,7 +69,7 @@ namespace Syringe.Web.Controllers
 				VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
 			};
 
-			return PartialView("~/Views/TestCase/EditorTemplates/VerificationItem.cshtml", item);
+			return PartialView("~/Views/TestCase/EditorTemplates/VerificationItemModel.cshtml", item);
 		}
 
 		public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
