@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Net;
+using Moq;
 using NUnit.Framework;
-using Syringe.Core;
-using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
@@ -12,7 +11,6 @@ using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
-using Syringe.Core.Xml;
 using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
@@ -37,7 +35,6 @@ namespace Syringe.Tests.Unit.Runner
 		public void Run_should_repeat_testcases_from_repeat_property()
 		{
 			// Arrange
-			var stringReader = new StringReader("");
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
@@ -51,7 +48,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Count, Is.EqualTo(10));
+			Assert.That(session.TestCaseResults.Count(), Is.EqualTo(10));
 		}
 
 		[Test]
@@ -59,8 +56,6 @@ namespace Syringe.Tests.Unit.Runner
 		{
 			// Arrange
 			var config = new Config();
-			var stringReader = new StringReader("");
-			var testCaseReader = new TestCaseReaderMock();
 
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
@@ -100,8 +95,6 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var beforeStart = DateTime.UtcNow;
 			var config = new Config();
-			var testCaseReader = new TestCaseReaderMock();
-			var stringReader = new StringReader("");
 
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
@@ -140,7 +133,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].ActualUrl, Is.EqualTo("http://www.yahoo.com/foo/test.html"));
+			Assert.That(session.TestCaseResults.Single().ActualUrl, Is.EqualTo("http://www.yahoo.com/foo/test.html"));
 		}
 
 		[Test]
@@ -173,7 +166,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(session.TestCaseResults.Single().VerifyPositiveResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -242,8 +235,8 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[1].VerifyPositiveResults[0].Success, Is.True);
-			Assert.That(session.TestCaseResults[2].VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(session.TestCaseResults.ElementAt(1).VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(session.TestCaseResults.ElementAt(2).VerifyPositiveResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -267,8 +260,8 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].Success, Is.True);
-			Assert.That(session.TestCaseResults[0].HttpResponse, Is.EqualTo(_httpClientMock.Response));
+			Assert.That(session.TestCaseResults.Single().Success, Is.True);
+			Assert.That(session.TestCaseResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
 		}
 
 		[Test]
@@ -292,8 +285,8 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].Success, Is.False);
-			Assert.That(session.TestCaseResults[0].HttpResponse, Is.EqualTo(_httpClientMock.Response));
+			Assert.That(session.TestCaseResults.Single().Success, Is.False);
+			Assert.That(session.TestCaseResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
 		}
 
 		[Test]
@@ -312,7 +305,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].Message, Is.EqualTo("It broke"));
+			Assert.That(session.TestCaseResults.Single().Message, Is.EqualTo("It broke"));
 		}
 
 
@@ -336,7 +329,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Assert
 			Assert.That(repository.SavedSession, Is.Not.Null);
-			Assert.That(repository.SavedSession.TestCaseResults.Count, Is.EqualTo(1));
+			Assert.That(repository.SavedSession.TestCaseResults.Count(), Is.EqualTo(1));
 		}
 
 		[Test]
@@ -413,12 +406,13 @@ namespace Syringe.Tests.Unit.Runner
 			TestCaseSession session = runner.Run(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults[0].Success, Is.True);
-			Assert.That(session.TestCaseResults[0].VerifyPositiveResults.Count, Is.EqualTo(1));
-			Assert.That(session.TestCaseResults[0].VerifyPositiveResults[0].Success, Is.True);
+			var result = session.TestCaseResults.Single();
+			Assert.That(result.Success, Is.True);
+			Assert.That(result.VerifyPositiveResults.Count, Is.EqualTo(1));
+			Assert.That(result.VerifyPositiveResults[0].Success, Is.True);
 
-			Assert.That(session.TestCaseResults[0].VerifyNegativeResults.Count, Is.EqualTo(1));
-			Assert.That(session.TestCaseResults[0].VerifyNegativeResults[0].Success, Is.True);
+			Assert.That(result.VerifyNegativeResults.Count, Is.EqualTo(1));
+			Assert.That(result.VerifyNegativeResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -529,7 +523,157 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(shouldLog, Is.True);
 		}
 
-		private TestSessionRunner CreateRunner(Config config)
+        [Test]
+        public void Run_should_notify_observers_of_existing_results()
+        {
+            // Arrange
+            var observedResults = new List<TestCaseResult>();
+
+            var config = new Config();
+            TestSessionRunner runner = CreateRunner(config);
+
+            var caseCollection = CreateCaseCollection(new[]
+            {
+                new Case() { Url = "foo1" },
+                new Case() { Url = "foo2" },
+                new Case() { Url = "foo3" }
+            });
+
+            runner.Run(caseCollection);
+
+            // Act
+            runner.Subscribe(r => { observedResults.Add(r); });
+
+            // Assert
+            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+        }
+
+        [Test]
+        public void Run_should_notify_observers_of_new_results()
+        {
+            // Arrange
+            var config = new Config();
+            TestSessionRunner runner = CreateRunner(config);
+
+            var caseCollection = CreateCaseCollection(new[]
+            {
+                new Case() { Url = "foo1" },
+                new Case() { Url = "foo2" },
+                new Case() { Url = "foo3" }
+            });
+
+            var observedResults = new List<TestCaseResult>();
+
+            // Act
+            runner.Subscribe(r => { observedResults.Add(r); });
+
+            runner.Run(caseCollection);
+
+            // Assert
+            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+        }
+
+        [Test]
+        public void Run_should_not_notify_disposed_observers_of_new_results()
+        {
+            // Arrange
+            var config = new Config();
+            var httpClientMock = new Mock<IHttpClient>();
+
+            IDisposable subscription = null;
+
+            httpClientMock
+                .Setup(
+                    c =>
+                        c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+                            It.IsAny<IEnumerable<HeaderItem>>()))
+                .Returns(new HttpResponse());
+
+            // Dispose of the subscription before processing the third request.
+            httpClientMock
+                .Setup(c => c.ExecuteRequest(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
+                .Callback(() => { if (subscription != null) subscription.Dispose(); })
+                .Returns(new HttpResponse());
+
+            TestSessionRunner runner = new TestSessionRunner(config, httpClientMock.Object, GetRepository());
+
+            var caseCollection = CreateCaseCollection(new[]
+            {
+                new Case() { Url = "foo1" },
+                new Case() { Url = "foo2" },
+                new Case() { Url = "foo3" }
+            });
+
+            var observedResults = new List<TestCaseResult>();
+
+            // Act
+            subscription = runner.Subscribe(r => { observedResults.Add(r); });
+
+            runner.Run(caseCollection);
+
+            // Assert
+            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
+        }
+
+        [Test]
+        public void Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
+        {
+            // Arrange
+            var config = new Config();
+            TestSessionRunner runner = CreateRunner(config);
+
+            var caseCollection = CreateCaseCollection(new[]
+            {
+                new Case() { Url = "foo1" },
+                new Case() { Url = "foo2" },
+                new Case() { Url = "foo3" }
+            });
+
+            var completed = false;
+
+            runner.Subscribe(r => { }, onCompleted: () => completed = true);
+
+            Assume.That(completed, Is.False);
+
+            // Act
+            runner.Run(caseCollection);
+
+            // Assert
+            Assert.That(completed, Is.True, "Should have notified of completion.");
+        }
+
+        [Test]
+        public void Run_should_notify_subscribers_of_errors()
+        {
+            // Arrange
+            var httpClientMock = new Mock<IHttpClient>();
+
+            // Throw an error.
+            httpClientMock
+                .Setup(c => c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
+                .Throws(new InvalidOperationException("Bad"));
+
+            TestSessionRunner runner = new TestSessionRunner(new Config(), httpClientMock.Object, GetRepository());
+
+            var caseCollection = CreateCaseCollection(new[]
+            {
+                new Case() { Url = "foo1" },
+                new Case() { Url = "foo2" },
+                new Case() { Url = "foo3" }
+            });
+
+            Exception error = null;
+
+            runner.Subscribe(r => { }, onError: e => error = e);
+
+            // Act
+            runner.Run(caseCollection);
+
+            // Assert
+            Assert.That(error, Is.InstanceOf<InvalidOperationException>().With.Message.EqualTo("Bad"), "Should have notified of the exception.");
+        }
+
+        private TestSessionRunner CreateRunner(Config config)
 		{
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);

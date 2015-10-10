@@ -5,7 +5,7 @@ namespace Syringe.Service.Schedule
 {
 	public class QuartzJob : IJob
 	{
-		private readonly ParallelTestSessionQueue _caseQueue;
+		private readonly ITestSessionQueue _caseQueue;
 
 		public QuartzJob()
 	    {

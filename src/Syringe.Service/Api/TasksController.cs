@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Syringe.Core.Runner;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Service.Parallel;
@@ -10,7 +9,7 @@ namespace Syringe.Service.Api
 	// TODO: Tests
 	public class TasksController : ApiController, ITasksService
 	{
-	    private readonly ParallelTestSessionQueue _sessionQueue;
+	    private readonly ITestSessionQueue _sessionQueue;
 
 	    public TasksController()
 	    {

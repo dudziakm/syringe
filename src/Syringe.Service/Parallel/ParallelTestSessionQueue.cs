@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Raven.Client.Document;
 using RestSharp;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
@@ -18,7 +17,6 @@ using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Service.Parallel
@@ -26,7 +24,7 @@ namespace Syringe.Service.Parallel
 	/// <summary>
 	/// A TPL based queue for running XML cases using the default <see cref="TestSessionRunner"/>
 	/// </summary>
-	internal class ParallelTestSessionQueue
+	internal class ParallelTestSessionQueue : ITestSessionQueue
 	{
 		private static DocumentStore _documentStore;
 
@@ -34,7 +32,7 @@ namespace Syringe.Service.Parallel
 		private readonly IApplicationConfiguration _appConfig;
 		private RavenDbTestCaseSessionRepository _repository;
 
-		public static ParallelTestSessionQueue Default
+		public static ITestSessionQueue Default
 		{
 			get
 			{
