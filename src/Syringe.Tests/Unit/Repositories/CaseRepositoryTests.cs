@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.FileOperations;
@@ -30,6 +31,7 @@ namespace Syringe.Tests.Unit.Repositories
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case> { new Case() } });
             _caseRepository = new CaseRepository(_testCaseReader.Object, _testCaseWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            _fileHandler.Setup(x => x.GetFileNames(It.IsAny<string>())).Returns(new List<string> {{"test"}});
         }
 
         [Test]
@@ -68,6 +70,29 @@ namespace Syringe.Tests.Unit.Repositories
 
             // then
             Assert.IsTrue(testCase);
+        }
+
+        [Test]
+        public void GetTestCaseCollection_should_return_test_case_collection()
+        {
+            // given + when
+            var testCase = _caseRepository.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>());
+
+            // then
+            Assert.NotNull(testCase.TestCases);
+            Assert.AreEqual(1, testCase.TestCases.Count());
+        }
+
+        [Test]
+        public void ListCasesForTeam_should_return_list_of_file_names()
+        {
+            // given + when
+            var testCase = _caseRepository.ListCasesForTeam(It.IsAny<string>());
+
+            // then
+            Assert.NotNull(testCase);
+            Assert.AreEqual(1, testCase.Count());
+            Assert.AreEqual("test", testCase.First());
         }
     }
 }
