@@ -17,7 +17,7 @@ namespace Syringe.Core.FileOperations
 
         public FileHandler() : this(new ApplicationConfig()) { }
 
-        public string GetFullPath(string fileName, string teamName)
+        public string GetFileFullPath(string fileName, string teamName)
         {
             string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
             if (!File.Exists(fullPath))
@@ -29,8 +29,8 @@ namespace Syringe.Core.FileOperations
         public string GetFullPath(string teamName)
         {
             string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName);
-            if (!File.Exists(fullPath))
-                throw new FileNotFoundException("The team full path cannot be found", teamName);
+            if (!Directory.Exists(fullPath))
+                throw new DirectoryNotFoundException("The team full path cannot be found");
 
             return fullPath;
         }

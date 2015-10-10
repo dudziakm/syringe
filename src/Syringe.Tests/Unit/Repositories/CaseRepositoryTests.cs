@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Repositories
             _testCaseWriter = new Mock<ITestCaseWriter>();
             _fileHandler = new Mock<IFileHandler>();
 
-            _fileHandler.Setup(x => x.GetFullPath(It.IsAny<string>(), It.IsAny<string>())).Returns("path");
+            _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>())).Returns("path");
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns("<xml></xml>");
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case> { new Case() } });
             _caseRepository = new CaseRepository(_testCaseReader.Object, _testCaseWriter.Object, _fileHandler.Object);

@@ -26,7 +26,7 @@ namespace Syringe.Core.Repositories
 
         public Case GetTestCase(string filename, string teamName, int caseId)
         {
-            var fullPath = _fileHandler.GetFullPath(filename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             using (var stringReader = new StringReader(xml))
@@ -52,7 +52,7 @@ namespace Syringe.Core.Repositories
                 throw new ArgumentNullException("testCase");
             }
 
-            var fullPath = _fileHandler.GetFullPath(testCase.ParentFilename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             CaseCollection collection;
@@ -90,7 +90,7 @@ namespace Syringe.Core.Repositories
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
         {
-            var fullPath = _fileHandler.GetFullPath(filename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             using (var stringReader = new StringReader(xml))
