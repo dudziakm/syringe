@@ -8,6 +8,12 @@ namespace Syringe.Service.Parallel
 {
 	internal class SessionRunnerTaskInfo
 	{
+		public SessionRunnerTaskInfo(int id)
+		{
+			Id = id;
+		}
+
+		public int Id { get; private set; }
 		public string Username { get; set; }
 		public string TeamName { get; set; }
 		public DateTime StartTime { get; set; }
