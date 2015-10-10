@@ -29,24 +29,45 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns("<xml></xml>");
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case> { new Case() } });
             _caseRepository = new CaseRepository(_testCaseReader.Object, _testCaseWriter.Object, _fileHandler.Object);
+            _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
         }
 
         [Test]
         public void GetTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
         {
+            // given + when
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection());
 
+            // then
             Assert.Throws<NullReferenceException>(() => _caseRepository.GetTestCase(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
         }
 
         [Test]
         public void GetTestCase_should_set_parent_filename_when_testcase_is_found()
         {
+            // given + when
             var testCase = _caseRepository.GetTestCase("parentFileName", It.IsAny<string>(), It.IsAny<int>());
 
+            // then
             Assert.AreEqual("parentFileName", testCase.ParentFilename);
         }
 
+        [Test]
+        public void SaveTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
+        {
+            // given + when + then
+            Assert.Throws<ArgumentNullException>(() => _caseRepository.SaveTestCase(null, It.IsAny<string>()));
+        }
 
+
+        [Test]
+        public void SaveTestCase_should_return_true_when_testcase_is_saved()
+        {
+            // given + when
+            var testCase = _caseRepository.SaveTestCase(new Case(), It.IsAny<string>());
+
+            // then
+            Assert.IsTrue(testCase);
+        }
     }
 }
