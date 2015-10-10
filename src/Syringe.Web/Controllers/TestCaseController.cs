@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -34,7 +35,7 @@ namespace Syringe.Web.Controllers
 
 			// TODO: tests
 			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-			var caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
+			IEnumerable<TestCaseViewModel> caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
 
 			return View("View", caseList);
 		}
@@ -42,7 +43,7 @@ namespace Syringe.Web.Controllers
 		public ActionResult Edit(string filename, int testCaseId)
 		{
 			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-			var model = _testCaseViewModelBuilder.BuildTestCase(testCase);
+            TestCaseViewModel model = _testCaseViewModelBuilder.BuildTestCase(testCase);
 
 			return View(model);
 		}
@@ -52,7 +53,7 @@ namespace Syringe.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var testCase = _testCaseCoreModelBuilder.Build(model);
+				Case testCase = _testCaseCoreModelBuilder.Build(model);
 				_casesClient.AddTestCase(testCase, _userContext.TeamName);
 				return RedirectToAction("View", new { filename = model.ParentFilename });
 			}
@@ -60,16 +61,16 @@ namespace Syringe.Web.Controllers
 			return View("Edit", model);
 		}
 
-		public ActionResult AddVerification(Models.VerificationItemModel model)
+		public ActionResult AddVerification(VerificationItemModel model)
 		{
-			var item = new Models.VerificationItemModel
+			var item = new VerificationItemModel
 			{
 				Description = model.Description,
 				Regex = model.Regex,
 				VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
 			};
 
-			return PartialView("~/Views/TestCase/EditorTemplates/VerificationItemModel.cshtml", item);
+			return PartialView("EditorTemplates/VerificationItemModel", item);
 		}
 
 		public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
@@ -80,7 +81,7 @@ namespace Syringe.Web.Controllers
 				Regex = model.Regex
 			};
 
-			return PartialView("~/Views/TestCase/EditorTemplates/ParseResponseItem.cshtml", item);
+			return PartialView("EditorTemplates/ParseResponseItem", item);
 		}
 
 		public ActionResult AddHeaderItem(Models.HeaderItem model)
@@ -91,7 +92,7 @@ namespace Syringe.Web.Controllers
 				Value = model.Value
 			};
 
-			return PartialView("~/Views/TestCase/EditorTemplates/HeaderItem.cshtml", item);
+			return PartialView("EditorTemplates/HeaderItem", item);
 		}
 	}
 }
