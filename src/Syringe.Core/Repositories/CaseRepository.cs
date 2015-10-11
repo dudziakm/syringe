@@ -45,6 +45,30 @@ namespace Syringe.Core.Repositories
             }
         }
 
+        public bool CreateTestCase(Case testCase, string teamName)
+        {
+            if (testCase == null)
+            {
+                throw new ArgumentNullException("testCase");
+            }
+
+            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
+
+            CaseCollection collection;
+
+            using (var stringReader = new StringReader(xml))
+            {
+                collection = _testCaseReader.Read(stringReader);
+                collection.TestCases = collection.TestCases.Concat(new[] { testCase });
+            }
+
+            string contents = _testCaseWriter.Write(collection);
+
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
+
+
         public bool SaveTestCase(Case testCase, string teamName)
         {
             if (testCase == null)

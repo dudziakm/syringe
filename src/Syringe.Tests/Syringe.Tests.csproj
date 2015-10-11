@@ -100,7 +100,7 @@
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
-    <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
+    <Compile Include="Unit\Repository\CaseRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />
     <Compile Include="Unit\Web\RunViewModelTests.cs" />

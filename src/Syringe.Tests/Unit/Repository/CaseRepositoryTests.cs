@@ -10,7 +10,7 @@ using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;
 
-namespace Syringe.Tests.Unit.Repositories
+namespace Syringe.Tests.Unit.Repository
 {
     [TestFixture]
     public class CaseRepositoryTests
@@ -67,6 +67,16 @@ namespace Syringe.Tests.Unit.Repositories
         {
             // given + when
             var testCase = _caseRepository.SaveTestCase(new Case(), It.IsAny<string>());
+
+            // then
+            Assert.IsTrue(testCase);
+        }
+
+        [Test]
+        public void CreateTestCase_should_return_true_when_testcase_is_saved()
+        {
+            // given + when
+            var testCase = _caseRepository.CreateTestCase(new Case(), It.IsAny<string>());
 
             // then
             Assert.IsTrue(testCase);
