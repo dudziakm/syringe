@@ -60,6 +60,15 @@ namespace Syringe.Core.Repositories
             using (var stringReader = new StringReader(xml))
             {
                 collection = _testCaseReader.Read(stringReader);
+
+                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
+
+                if (item != null)
+                {
+                    throw new Exception("case already exists");
+                }
+
+
                 collection.TestCases = collection.TestCases.Concat(new[] { testCase });
             }
 
@@ -85,7 +94,7 @@ namespace Syringe.Core.Repositories
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.First(x => x.Id == testCase.Id);
+                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
 
                 item.Id = testCase.Id;
                 item.ShortDescription = testCase.ShortDescription;

@@ -73,9 +73,25 @@ namespace Syringe.Tests.Unit.Repository
         }
 
         [Test]
+        public void CreateTestCase_should_throw_ArgumentNullException_when_testcase_is_null()
+        {
+            // given + when + then
+            Assert.Throws<ArgumentNullException>(() => _caseRepository.CreateTestCase(null, It.IsAny<string>()));
+        }
+
+        [Test]
+        public void CreateTestCase_should_throw_exception_when_testcase_already_exists()
+        {
+            // given + when + then
+            Assert.Throws<ArgumentNullException>(() => _caseRepository.CreateTestCase(null, It.IsAny<string>()));
+        }
+
+        [Test]
         public void CreateTestCase_should_return_true_when_testcase_is_saved()
         {
             // given + when
+            _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection());
+
             var testCase = _caseRepository.CreateTestCase(new Case(), It.IsAny<string>());
 
             // then
