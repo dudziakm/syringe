@@ -9,7 +9,9 @@ namespace Syringe.Web.Models
     {
         [Required]
         public int Id { get; set; }
+        [Required]
         public string Method { get; set; }
+        [Required]
         public string Url { get; set; }
 
         [Display(Name = "Post Body")]

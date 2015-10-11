@@ -6,8 +6,14 @@
         </div>
         <div class="col-md-10">
             <h2>Test cases for @Model.Filename</h2>
-
-            @Html.Partial("~/Views/Shared/Partials/_TestCasePager.cshtml")
+            <div class="row">
+                <nav class="col-xs-10">
+                    @Html.Partial("~/Views/Shared/Partials/_TestCasePager.cshtml")
+                </nav>
+                <div class="col-xs-2 text-right">
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("Add","TestCase", new {filename=Model.Filename})">Add</a>
+                </div>
+            </div>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>

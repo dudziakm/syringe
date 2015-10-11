@@ -56,17 +56,37 @@ namespace Syringe.Web.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         public ActionResult Edit(TestCaseViewModel model)
         {
             if (ModelState.IsValid)
             {
                 Case testCase = _testCaseCoreModelBuilder.Build(model);
-                _casesClient.AddTestCase(testCase, _userContext.TeamName);
+                _casesClient.EditTestCase(testCase, _userContext.TeamName);
                 return RedirectToAction("View", new { filename = model.ParentFilename });
             }
 
             return View("Edit", model);
+        }
+
+        public ActionResult Add(string filename)
+        {
+            var model = new TestCaseViewModel { ParentFilename = filename };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Add(TestCaseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Case testCase = _testCaseCoreModelBuilder.Build(model);
+                _casesClient.CreateTestCase(testCase, _userContext.TeamName);
+                return RedirectToAction("View", new { filename = model.ParentFilename });
+            }
+
+            return View("Add", model);
         }
 
         public ActionResult AddVerification(VerificationItemModel model)

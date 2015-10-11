@@ -263,6 +263,7 @@
     <Content Include="Views\Home\ViewResult.cshtml" />
     <Content Include="Views\Home\RunSignalR.cshtml" />
     <Content Include="Views\Shared\Partials\_TestCasePager.cshtml" />
+    <Content Include="Views\TestCase\Add.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
@@ -330,6 +331,7 @@
     <Content Include="Css\bootstrap-theme.css.map" />
     <Content Include="Css\bootstrap.css.map" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
