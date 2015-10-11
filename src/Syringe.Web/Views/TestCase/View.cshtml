@@ -1,35 +1,47 @@
 ﻿@model IEnumerable<TestCaseViewModel>
 <div class="container">
-	<div class="row">
-		<div class="col-md-2">
-			<img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
-		</div>
+    <div class="row">
+        <div class="col-md-2">
+            <img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
+        </div>
+        <div class="col-md-10">
+            <h2>Test cases for @ViewData["Filename"]</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TestCaseViewModel testCase in Model)
+                    {
+                        <tr>
+                            <td>@testCase.Id</td>
+                            <td>
+                                <p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = ViewData["Filename"], testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-		<div class="col-md-10">
-			<h2>Test cases for @ViewData["Filename"]</h2>
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<td></td>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (TestCaseViewModel testCase in Model)
-					{
-					<tr>
-						<td>@testCase.Id</td>
-						<td>
-							<p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
-						</td>
-						<td>
-							<a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new { filename = ViewData["Filename"], testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
-						</td>
-					</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	</div>
+            <nav>
+                <ul class="pagination">
+
+                    @for (int i = 1; i <= (int)ViewData["TotalCases"]; i++)
+                    {
+                        <li class=@((int)ViewData["PageNumber"] == i ? "active" :"") ><a href="@Url.Action("View", "TestCase", new { pageNumber = i, filename = ViewData["Filename"] })">@i</a></li>
+                    }
+                </ul>
+            </nav>
+
+
+
+        </div>
+    </div>
 </div>

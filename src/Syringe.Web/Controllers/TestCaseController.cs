@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -29,23 +30,18 @@ namespace Syringe.Web.Controllers
             _testCaseCoreModelBuilder = testCaseCoreModelBuilder;
         }
 
-        public ActionResult View(string filename)
+        public ActionResult View(string filename, int pageNumber = 1, int take = 10)
         {
             ViewData["Filename"] = filename;
 
             // TODO: tests
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-            IEnumerable<TestCaseViewModel> caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
 
-            return View("View", caseList);
-        }
+            ViewData["TotalCases"] = testCases.TestCases.Count() / take;
+            ViewData["PageNumber"] = pageNumber;
 
-        public ActionResult PagedView(string filename, int pageNumber = 0, int take = 10)
-        {
-            ViewData["Filename"] = filename;
+            testCases.TestCases = testCases.TestCases.Skip((pageNumber - 1) * take).Take(take);
 
-            // TODO: tests
-            CaseCollection testCases = _casesClient.GetPagedTestCaseCollection(filename, _userContext.TeamName, pageNumber, take);
             IEnumerable<TestCaseViewModel> caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
 
             return View("View", caseList);
