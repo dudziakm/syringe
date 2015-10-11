@@ -30,19 +30,20 @@ namespace Syringe.Web.Controllers
             _testCaseCoreModelBuilder = testCaseCoreModelBuilder;
         }
 
-        public ActionResult View(string filename, int pageNumber = 1, int take = 10)
+        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
         {
-            ViewData["Filename"] = filename;
-
-            // TODO: tests
+            // TODO: extract paging to separate class
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+            var pagedTestCases = testCases.TestCases.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
 
-            ViewData["TotalCases"] = testCases.TestCases.Count() / take;
-            ViewData["PageNumber"] = pageNumber;
-
-            testCases.TestCases = testCases.TestCases.Skip((pageNumber - 1) * take).Take(take);
-
-            IEnumerable<TestCaseViewModel> caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
+            TestSuiteViewModel caseList = new TestSuiteViewModel
+            {
+                TotalCases = Math.Ceiling((double)testCases.TestCases.Count() / noOfResults),
+                TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),
+                Filename = filename,
+                PageNumber = pageNumber,
+                NoOfResults = noOfResults
+            };
 
             return View("View", caseList);
         }
@@ -67,8 +68,6 @@ namespace Syringe.Web.Controllers
 
             return View("Edit", model);
         }
-
-
 
         public ActionResult AddVerification(VerificationItemModel model)
         {
