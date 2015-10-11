@@ -99,6 +99,19 @@ namespace Syringe.Core.Repositories
             }
         }
 
+        public CaseCollection GetPagedTestCaseCollection(string filename, string teamName, int pageNumber, int take)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
+
+            using (var stringReader = new StringReader(xml))
+            {
+                var casecollection = _testCaseReader.Read(stringReader);
+                casecollection.TestCases = casecollection.TestCases.Skip(pageNumber*take).Take(take);
+                return casecollection;
+            }
+        }
+
         public IEnumerable<string> ListCasesForTeam(string teamName)
         {
             string fullPath = _fileHandler.GetFullPath(teamName);

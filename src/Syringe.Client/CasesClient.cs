@@ -58,7 +58,22 @@ namespace Syringe.Client
 			return DeserializeOrThrow<CaseCollection>(response);
 		}
 
-		public bool AddTestCase(Case testCase, string teamName)
+	    public CaseCollection GetPagedTestCaseCollection(string filename, string teamName, int pageNumber, int take)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("GetPagedTestCaseCollection");
+            request.AddParameter("filename", filename);
+            request.AddParameter("teamName", teamName);
+            request.AddParameter("pageNumber", pageNumber);
+            request.AddParameter("take", take);
+
+            IRestResponse response = client.Execute(request);
+
+            return DeserializeOrThrow<CaseCollection>(response);
+        }
+
+
+        public bool AddTestCase(Case testCase, string teamName)
 		{
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("AddTestCase");
