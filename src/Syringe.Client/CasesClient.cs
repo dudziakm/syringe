@@ -58,10 +58,10 @@ namespace Syringe.Client
 			return DeserializeOrThrow<CaseCollection>(response);
 		}
 
-		public bool AddTestCase(Case testCase, string teamName)
+        public bool EditTestCase(Case testCase, string teamName)
 		{
 			var client = new RestClient(_baseUrl);
-			IRestRequest request = CreateRequest("AddTestCase");
+			IRestRequest request = CreateRequest("EditTestCase");
 			request.Method = Method.POST;
 			request.AddJsonBody(testCase);
 			request.AddQueryParameter("teamName", teamName);
@@ -70,19 +70,29 @@ namespace Syringe.Client
 			return DeserializeOrThrow<bool>(response);
 		}
 
-		private T DeserializeOrThrow<T>(IRestResponse response)
-		{
-			if (response.StatusCode == HttpStatusCode.OK)
+        public bool CreateTestCase(Case testCase, string teamName)
+        {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("CreateTestCase");
+            request.Method = Method.POST;
+            request.AddJsonBody(testCase);
+            request.AddQueryParameter("teamName", teamName);
+
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<bool>(response);
+        }
+
+        private T DeserializeOrThrow<T>(IRestResponse response)
+        {
+            if (response.StatusCode == HttpStatusCode.OK)
 			{
 				return JsonConvert.DeserializeObject<T>(response.Content);
 			}
-			else
-			{
-				throw new Exception(response.Content);
-			}
-		}
 
-		private IRestRequest CreateRequest(string action)
+            throw new Exception(response.Content);
+        }
+
+	    private IRestRequest CreateRequest(string action)
 		{
 			return new RestRequest(string.Format("/api/cases/{0}", action));
 		}

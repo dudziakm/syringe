@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -9,89 +11,116 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	public class TestCaseController : Controller
-	{
-		private readonly ICaseService _casesClient;
-		private readonly IUserContext _userContext;
-		private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
-		private readonly ITestCaseCoreModelBuilder _testCaseCoreModelBuilder;
+    public class TestCaseController : Controller
+    {
+        private readonly ICaseService _casesClient;
+        private readonly IUserContext _userContext;
+        private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
+        private readonly ITestCaseCoreModelBuilder _testCaseCoreModelBuilder;
 
-		public TestCaseController(
-			ICaseService casesClient,
-			IUserContext userContext,
-			ITestCaseViewModelBuilder testCaseViewModelBuilder,
-			ITestCaseCoreModelBuilder testCaseCoreModelBuilder)
-		{
-			_casesClient = casesClient;
-			_userContext = userContext;
-			_testCaseViewModelBuilder = testCaseViewModelBuilder;
-			_testCaseCoreModelBuilder = testCaseCoreModelBuilder;
-		}
+        public TestCaseController(
+            ICaseService casesClient,
+            IUserContext userContext,
+            ITestCaseViewModelBuilder testCaseViewModelBuilder,
+            ITestCaseCoreModelBuilder testCaseCoreModelBuilder)
+        {
+            _casesClient = casesClient;
+            _userContext = userContext;
+            _testCaseViewModelBuilder = testCaseViewModelBuilder;
+            _testCaseCoreModelBuilder = testCaseCoreModelBuilder;
+        }
 
-		public ActionResult View(string filename)
-		{
-			ViewData["Filename"] = filename;
+        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
+        {
+            // TODO: extract paging to separate class
+            CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+            var pagedTestCases = testCases.TestCases.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
 
-			// TODO: tests
-			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-			var caseList = _testCaseViewModelBuilder.BuildTestCases(testCases);
+            TestSuiteViewModel caseList = new TestSuiteViewModel
+            {
+                TotalCases = Math.Ceiling((double)testCases.TestCases.Count() / noOfResults),
+                TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),
+                Filename = filename,
+                PageNumber = pageNumber,
+                NoOfResults = noOfResults
+            };
 
-			return View("View", caseList);
-		}
+            return View("View", caseList);
+        }
 
-		public ActionResult Edit(string filename, int testCaseId)
-		{
-			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-			var model = _testCaseViewModelBuilder.BuildTestCase(testCase);
+        public ActionResult Edit(string filename, int testCaseId)
+        {
+            Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
+            TestCaseViewModel model = _testCaseViewModelBuilder.BuildTestCase(testCase);
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		[HttpPost]
-		public ActionResult Edit(TestCaseViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var testCase = _testCaseCoreModelBuilder.Build(model);
-				_casesClient.AddTestCase(testCase, _userContext.TeamName);
-				return RedirectToAction("View", new { filename = model.ParentFilename });
-			}
 
-			return View("Edit", model);
-		}
+        [HttpPost]
+        public ActionResult Edit(TestCaseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Case testCase = _testCaseCoreModelBuilder.Build(model);
+                _casesClient.EditTestCase(testCase, _userContext.TeamName);
+                return RedirectToAction("View", new { filename = model.ParentFilename });
+            }
 
-		public ActionResult AddVerification(Models.VerificationItemModel model)
-		{
-			var item = new Models.VerificationItemModel
-			{
-				Description = model.Description,
-				Regex = model.Regex,
-				VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
-			};
+            return View("Edit", model);
+        }
 
-			return PartialView("~/Views/TestCase/EditorTemplates/VerificationItemModel.cshtml", item);
-		}
+        public ActionResult Add(string filename)
+        {
+            var model = new TestCaseViewModel { ParentFilename = filename };
+            return View(model);
+        }
 
-		public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
-		{
-			var item = new Models.ParseResponseItem
-			{
-				Description = model.Description,
-				Regex = model.Regex
-			};
+        [HttpPost]
+        public ActionResult Add(TestCaseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Case testCase = _testCaseCoreModelBuilder.Build(model);
+                _casesClient.CreateTestCase(testCase, _userContext.TeamName);
+                return RedirectToAction("View", new { filename = model.ParentFilename });
+            }
 
-			return PartialView("~/Views/TestCase/EditorTemplates/ParseResponseItem.cshtml", item);
-		}
+            return View("Add", model);
+        }
 
-		public ActionResult AddHeaderItem(Models.HeaderItem model)
-		{
-			var item = new Models.HeaderItem
-			{
-				Key = model.Key,
-				Value = model.Value
-			};
+        public ActionResult AddVerification(VerificationItemModel model)
+        {
+            var item = new VerificationItemModel
+            {
+                Description = model.Description,
+                Regex = model.Regex,
+                VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
+            };
 
-			return PartialView("~/Views/TestCase/EditorTemplates/HeaderItem.cshtml", item);
-		}
-	}
+            return PartialView("EditorTemplates/VerificationItemModel", item);
+        }
+
+        public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
+        {
+            var item = new Models.ParseResponseItem
+            {
+                Description = model.Description,
+                Regex = model.Regex
+            };
+
+            return PartialView("EditorTemplates/ParseResponseItem", item);
+        }
+
+        public ActionResult AddHeaderItem(Models.HeaderItem model)
+        {
+            var item = new Models.HeaderItem
+            {
+                Key = model.Key,
+                Value = model.Value
+            };
+
+            return PartialView("EditorTemplates/HeaderItem", item);
+        }
+    }
 }

@@ -48,7 +48,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			};
 
 			// when
-			var testCaseViewModels = testCaseViewModelBuilder.BuildTestCases(caseCollection);
+			var testCaseViewModels = testCaseViewModelBuilder.BuildTestCases(caseCollection.TestCases);
 
 			// then
 			Assert.NotNull(testCaseViewModels);

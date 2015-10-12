@@ -9,5 +9,6 @@ namespace Syringe.Core.Repositories
 		CaseCollection GetTestCaseCollection(string filename, string teamName);
         Case GetTestCase(string filename, string teamName, int caseId);
 		bool SaveTestCase(Case testCase, string teamName);
+        bool CreateTestCase(Case testCase, string teamName);
     }
 }

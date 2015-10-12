@@ -2,129 +2,143 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Syringe.Core.Configuration;
-using Syringe.Core.Logging;
+using Syringe.Core.FileOperations;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;
 
 namespace Syringe.Core.Repositories
 {
-	public class CaseRepository : ICaseRepository
-	{
-		private readonly ITestCaseReader _testCaseReader;
-		private readonly IApplicationConfiguration _appConfig;
-		private readonly ITestCaseWriter _testCaseWriter;
+    public class CaseRepository : ICaseRepository
+    {
+        private readonly ITestCaseReader _testCaseReader;
+        private readonly ITestCaseWriter _testCaseWriter;
+        private readonly IFileHandler _fileHandler;
 
-		public CaseRepository() : this(new TestCaseReader(), new ApplicationConfig(), new TestCaseWriter()) { }
+        public CaseRepository() : this(new TestCaseReader(), new TestCaseWriter(), new FileHandler()) { }
 
-		internal CaseRepository(ITestCaseReader testCaseReader, IApplicationConfiguration appConfig, ITestCaseWriter testCaseWriter)
-		{
-			_testCaseReader = testCaseReader;
-			_appConfig = appConfig;
-			_testCaseWriter = testCaseWriter;
-		}
+        internal CaseRepository(ITestCaseReader testCaseReader, ITestCaseWriter testCaseWriter, IFileHandler fileHandler)
+        {
+            _testCaseReader = testCaseReader;
+            _testCaseWriter = testCaseWriter;
+            _fileHandler = fileHandler;
+        }
 
-		public Case GetTestCase(string filename, string teamName, int caseId)
-		{
-			string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, filename);
-			if (!File.Exists(fullPath))
-				throw new FileNotFoundException("The test case cannot be found", filename);
+        public Case GetTestCase(string filename, string teamName, int caseId)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
+
+            using (var stringReader = new StringReader(xml))
+            {
+                CaseCollection collection = _testCaseReader.Read(stringReader);
+                Case testCase = collection.TestCases.FirstOrDefault(x => x.Id == caseId);
+
+                if (testCase == null)
+                {
+                    throw new NullReferenceException("Could not find specified Test Case:" + caseId);
+                }
+
+                testCase.ParentFilename = filename;
+
+                return testCase;
+            }
+        }
+
+        public bool CreateTestCase(Case testCase, string teamName)
+        {
+            if (testCase == null)
+            {
+                throw new ArgumentNullException("testCase");
+            }
+
+            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
+
+            CaseCollection collection;
+
+            using (var stringReader = new StringReader(xml))
+            {
+                collection = _testCaseReader.Read(stringReader);
+
+                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
+
+                if (item != null)
+                {
+                    throw new Exception("case already exists");
+                }
 
 
-			string xml = File.ReadAllText(fullPath);
-			using (var stringReader = new StringReader(xml))
-			{
-				CaseCollection collection = _testCaseReader.Read(stringReader);
-				Case testCase = collection.TestCases.First(x => x.Id == caseId);
+                collection.TestCases = collection.TestCases.Concat(new[] { testCase });
+            }
 
-				if (testCase == null)
-				{
-					throw new NullReferenceException("Could not find specified Test Case:" + caseId);
-				}
+            string contents = _testCaseWriter.Write(collection);
 
-				testCase.ParentFilename = filename;
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
 
-				return testCase;
-			}
-		}
 
-		public bool SaveTestCase(Case testCase, string teamName)
-		{
-			if (testCase == null)
-			{
-				throw new ArgumentNullException("testCase");
-			}
+        public bool SaveTestCase(Case testCase, string teamName)
+        {
+            if (testCase == null)
+            {
+                throw new ArgumentNullException("testCase");
+            }
 
-			string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, testCase.ParentFilename);
-			if (!File.Exists(fullPath))
-				throw new FileNotFoundException("The test case cannot be found", testCase.ParentFilename);
+            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
 
-			CaseCollection collection;
-			string xml = File.ReadAllText(fullPath);
-			using (var stringReader = new StringReader(xml))
-			{
-				collection = _testCaseReader.Read(stringReader);
+            CaseCollection collection;
 
-				foreach (var item in collection.TestCases.Where(x => x.Id == testCase.Id))
-				{
-					item.Id = testCase.Id;
-					item.ShortDescription = testCase.ShortDescription;
-					item.ErrorMessage = testCase.ErrorMessage;
-					item.Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
-					item.LogRequest = testCase.LogRequest;
-					item.LogResponse = testCase.LogResponse;
-					item.LongDescription = testCase.LongDescription;
-					item.Method = testCase.Method;
-					item.ParentFilename = testCase.ParentFilename;
-					item.ParseResponses = testCase.ParseResponses;
-					item.PostBody = testCase.PostBody;
-					item.VerifyPositives = testCase.VerifyPositives;
-					item.VerifyNegatives = testCase.VerifyNegatives;
-					item.ShortDescription = testCase.ShortDescription;
-					item.Url = testCase.Url;
-					item.Sleep = testCase.Sleep;
-					item.PostType = testCase.PostType;
-					item.VerifyResponseCode = testCase.VerifyResponseCode;
-				}
-			}
+            using (var stringReader = new StringReader(xml))
+            {
+                collection = _testCaseReader.Read(stringReader);
 
-			string contents = _testCaseWriter.Write(collection);
+                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
 
-			try
-			{
-				File.WriteAllText(fullPath, contents);
-				return true;
-			}
-			catch (Exception exception)
-			{
-				//todo log error
-				Log.Error(exception, exception.Message);
-			}
+                item.Id = testCase.Id;
+                item.ShortDescription = testCase.ShortDescription;
+                item.ErrorMessage = testCase.ErrorMessage;
+                item.Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
+                item.LogRequest = testCase.LogRequest;
+                item.LogResponse = testCase.LogResponse;
+                item.LongDescription = testCase.LongDescription;
+                item.Method = testCase.Method;
+                item.ParentFilename = testCase.ParentFilename;
+                item.ParseResponses = testCase.ParseResponses;
+                item.PostBody = testCase.PostBody;
+                item.VerifyPositives = testCase.VerifyPositives;
+                item.VerifyNegatives = testCase.VerifyNegatives;
+                item.ShortDescription = testCase.ShortDescription;
+                item.Url = testCase.Url;
+                item.Sleep = testCase.Sleep;
+                item.PostType = testCase.PostType;
+                item.VerifyResponseCode = testCase.VerifyResponseCode;
+            }
 
-			return false;
-		}
+            string contents = _testCaseWriter.Write(collection);
 
-		public CaseCollection GetTestCaseCollection(string filename, string teamName)
-		{
-			string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, filename);
-			string xml = File.ReadAllText(fullPath);
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
 
-			using (var stringReader = new StringReader(xml))
-			{
-				return _testCaseReader.Read(stringReader);
-			}
-		}
+        public CaseCollection GetTestCaseCollection(string filename, string teamName)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
 
-		public IEnumerable<string> ListCasesForTeam(string teamName)
-		{
-			string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName);
+            using (var stringReader = new StringReader(xml))
+            {
+                return _testCaseReader.Read(stringReader);
+            }
+        }
 
-			foreach (string file in Directory.EnumerateFiles(fullPath))
-			{
-				var fileInfo = new FileInfo(file);
-				yield return fileInfo.Name;
-			}
-		}
-	}
+        public IEnumerable<string> ListCasesForTeam(string teamName)
+        {
+            string fullPath = _fileHandler.GetFullPath(teamName);
+
+            var fileNames = _fileHandler.GetFileNames(fullPath);
+
+            return fileNames;
+        }
+    }
 }

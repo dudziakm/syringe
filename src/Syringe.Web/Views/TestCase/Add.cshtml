@@ -1,0 +1,176 @@
+﻿@model TestCaseViewModel
+
+@{
+    ViewBag.Title = "Add Test Case";
+}
+<div class="container" id="edit-test">
+    <div class="row">
+        <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
+            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+            {
+                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+            }
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">General</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.HiddenFor(x => x.ParentFilename)
+                    <div class="row"></div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Id, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.Id, new { @class = "form-control", placeholder = "Enter Id" })
+                        </div>
+
+                        @Html.LabelFor(x => x.ShortDescription, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.ShortDescription, new { @class = "form-control", placeholder = "Enter Short Description" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.LongDescription, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextAreaFor(x => x.LongDescription, new { @class = "form-control", placeholder = "Enter Long Description" })
+                        </div>
+                        @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.PostType, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.EnumDropDownListFor(x => x.PostType, new { @class = "form-control" })
+                        </div>
+                        @Html.LabelFor(x => x.VerifyResponseCode, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.EnumDropDownListFor(x => x.VerifyResponseCode, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ErrorMessage, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.ErrorMessage, new { @class = "form-control", placeholder = "Enter error message" })
+                        </div>
+                        @Html.LabelFor(x => x.LogRequest, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.LogRequest, new { @class = "form-control", placeholder = "Log Request" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.LogResponse, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.LogResponse, new { @class = "form-control", placeholder = "Log Response" })
+                        </div>
+                        @Html.LabelFor(x => x.Sleep, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.Sleep, new { @class = "form-control", placeholder = "Log Response", type = "number" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.PostBody, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Headers</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorFor(x => x.Headers)
+
+                    <div class="form-group">
+                        <label for="headerKey" class="control-label col-sm-2">Key</label>
+
+                        <div class="col-sm-3">
+                            <input id="headerKey" type="text" class="form-control" placeholder="Key" />
+                        </div>
+
+                        <label for="headerValue" class="control-label col-sm-2">Value</label>
+
+                        <div class="col-xs-4 col-sm-3 col-lg-4">
+                            <input id="headerValue" type="text" class="form-control" placeholder="Value" />
+                        </div>
+                        <div class="col-xs-1 col-sm-2 col-lg-1">
+                            <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addHeaderItem"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Parse Responses</h3>
+                </div>
+                <div class="panel-body">
+
+                    @Html.EditorFor(x => x.ParseResponses)
+
+                    <div class="form-group">
+                        <label for="parseDescription" class="control-label col-sm-2">Description</label>
+
+                        <div class="col-sm-3">
+                            <input id="parseDescription" type="text" class="form-control" placeholder="Description" />
+                        </div>
+
+                        <label for="parseRegex" class="control-label col-sm-2">Regex</label>
+
+                        <div class="col-xs-4 col-sm-3 col-lg-4">
+                            <input id="parseRegex" type="text" class="form-control" placeholder="Regex" />
+                        </div>
+                        <div class="col-xs-1 col-sm-2 col-lg-1">
+                            <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addParsedItem"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Verifications</h3>
+                </div>
+                <div class="panel-body">
+
+                    @Html.EditorFor(x => x.Verifications)
+
+                    <div class="form-group">
+                        <label for="verificationDescription" class="control-label col-sm-2">Description</label>
+
+                        <div class="col-sm-2">
+                            <input id="verificationDescription" type="text" class="form-control" placeholder="Description" />
+                        </div>
+
+                        <label for="verificationRegex" class="control-label col-sm-2 col-md-1">Regex</label>
+
+                        <div class="col-sm-2">
+                            <input id="verificationRegex" type="text" class="form-control" placeholder="Regex" />
+                        </div>
+
+                        <label for="verificationType" class="col-sm-1 col-md-2 control-label">Verify Type</label>
+
+                        <div class="col-sm-2">
+                            <select class="form-control" id="verificationType">
+                                <option value="1">Positive</option>
+                                <option value="0">Negative</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addVerification"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" />
+        </form>
+    </div>
+</div>

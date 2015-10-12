@@ -63,14 +63,14 @@ namespace Syringe.Web.ModelBuilders
                         });
         }
 
-        public IEnumerable<TestCaseViewModel> BuildTestCases(CaseCollection caseCollection)
+        public IEnumerable<TestCaseViewModel>  BuildTestCases(IEnumerable<Case> cases)
         {
-            if (caseCollection == null)
+            if (cases == null)
             {
-                throw new ArgumentNullException("caseCollection");
+                throw new ArgumentNullException("cases");
             }
 
-            return caseCollection.TestCases.Select(x => new TestCaseViewModel()
+            return cases.Select(x => new TestCaseViewModel()
             {
                 Id = x.Id,
                 ShortDescription = x.ShortDescription,

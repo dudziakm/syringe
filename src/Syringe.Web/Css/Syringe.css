@@ -60,3 +60,6 @@ p {
 .panel .btn {
   margin-top: 0;
 }
+.pagination {
+  margin: 10px 0;
+}

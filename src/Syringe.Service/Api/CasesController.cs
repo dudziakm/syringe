@@ -43,11 +43,18 @@ namespace Syringe.Service.Api
 			return _caseRepository.GetTestCaseCollection(filename, teamName);
 		}
 
-		[Route("api/cases/AddTestCase")]
+	    [Route("api/cases/EditTestCase")]
 		[HttpPost]
-		public bool AddTestCase([FromBody]Case testCase, [FromUri]string teamName)
+		public bool EditTestCase([FromBody]Case testCase, [FromUri]string teamName)
 		{
 			return _caseRepository.SaveTestCase(testCase, teamName);
 		}
-	}
+
+        [Route("api/cases/CreateTestCase")]
+        [HttpPost]
+        public bool CreateTestCase([FromBody]Case testCase, [FromUri]string teamName)
+        {
+            return _caseRepository.CreateTestCase(testCase, teamName);
+        }
+    }
 }
