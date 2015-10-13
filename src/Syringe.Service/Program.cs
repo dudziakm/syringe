@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
+using Syringe.Service.DependencyResolution;
 using Topshelf;
 
 namespace Syringe.Service
@@ -19,11 +20,13 @@ namespace Syringe.Service
 			// help or –help Displays help
 			// install Installs the service
 
+		    var container = IoC.Initialize();
+
 			TopshelfExitCode exitCode = HostFactory.Run(host =>
 			{
 				host.Service<SyringeApplication>(service =>
 				{
-					service.ConstructUsing(() => new SyringeApplication());
+					service.ConstructUsing(() => container.GetInstance<SyringeApplication>());
 					service.WhenStarted(x => x.Start());
 					service.WhenStopped(x => x.Stop());
 				});

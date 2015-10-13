@@ -131,7 +131,6 @@
     <Compile Include="Canary\CanaryResult.cs" />
     <Compile Include="FileOperations\FileHandler.cs" />
     <Compile Include="FileOperations\IFileHandler.cs" />
-    <Compile Include="Repositories\RavenDB\DocumentStoreManager.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\RavenDB\RavenDBConfiguration.cs" />
     <Compile Include="Repositories\RavenDB\RavenDbTestCaseSessionRepository.cs" />

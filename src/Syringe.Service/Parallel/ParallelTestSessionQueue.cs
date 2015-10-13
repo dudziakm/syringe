@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Raven.Client.Document;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
@@ -26,49 +25,17 @@ namespace Syringe.Service.Parallel
 	/// </summary>
 	internal class ParallelTestSessionQueue : ITestSessionQueue
 	{
-		private static DocumentStore _documentStore;
-
 		private int _lastTaskId;
 		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
 		private readonly IApplicationConfiguration _appConfig;
-		private RavenDbTestCaseSessionRepository _repository;
+		private readonly ITestCaseSessionRepository _repository;
 
-		public static ITestSessionQueue Default
-		{
-			get
-			{
-				return Nested.Instance;
-			}
-		}
-
-		static ParallelTestSessionQueue()
-		{
-			// TODO: IoC this with the repository
-			var ravenDbConfig = new RavenDBConfiguration();
-			_documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
-			_documentStore.Initialize();
-		}
- 
-		/// <summary>
-		/// This queue is a Singleton, the appdomain only gets one queue.
-		/// </summary>
-		class Nested
-		{
-			// "Explicit static constructor to tell C# compiler
-			// not to mark type as beforefieldinit"
-			static Nested()
-			{
-			}
-			internal static readonly ParallelTestSessionQueue Instance = new ParallelTestSessionQueue();
-		}
-
-		internal ParallelTestSessionQueue()
+		public ParallelTestSessionQueue(ITestCaseSessionRepository repository)
 		{
 			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
 			_appConfig = new ApplicationConfig();
 
-			// TODO: IoC this up
-			_repository = new RavenDbTestCaseSessionRepository(_documentStore);
+			_repository = repository;
 		}
 
 		/// <summary>

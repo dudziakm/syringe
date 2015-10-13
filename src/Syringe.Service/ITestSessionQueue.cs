@@ -3,7 +3,7 @@ using Syringe.Core.Tasks;
 
 namespace Syringe.Service
 {
-    internal interface ITestSessionQueue
+    public interface ITestSessionQueue
     {
         /// <summary>
         /// Adds a request to run a test case XML file the queue of tasks to run.

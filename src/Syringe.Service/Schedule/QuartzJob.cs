@@ -7,9 +7,9 @@ namespace Syringe.Service.Schedule
 	{
 		private readonly ITestSessionQueue _caseQueue;
 
-		public QuartzJob()
+		public QuartzJob(ITestSessionQueue caseQueue)
 	    {
-		    _caseQueue = ParallelTestSessionQueue.Default;
+		    _caseQueue = caseQueue;
 	    }
 
 		public void Execute(IJobExecutionContext context)

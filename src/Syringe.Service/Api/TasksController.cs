@@ -2,7 +2,6 @@
 using System.Web.Http;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api
 {
@@ -11,9 +10,9 @@ namespace Syringe.Service.Api
 	{
 	    private readonly ITestSessionQueue _sessionQueue;
 
-	    public TasksController()
+	    public TasksController(ITestSessionQueue sessionQueue)
 	    {
-		    _sessionQueue = ParallelTestSessionQueue.Default;
+		    _sessionQueue = sessionQueue;
 	    }
 
 		[Route("api/tasks/Start")]

@@ -8,26 +8,41 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
-using Syringe.Service.DependencyResolution;
-using Syringe.Service.Parallel;
-using WebApiContrib.IoC.StructureMap;
+using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace Syringe.Service
 {
 	public class SyringeApplication
 	{
 		protected IDisposable WebApplication;
+		private readonly IDependencyResolver _webDependencyResolver;
+		private readonly IApplicationConfiguration _applicationConfiguration;
+		private readonly ITestSessionQueue _testSessionQueue;
+		private readonly Microsoft.AspNet.SignalR.IDependencyResolver _signalRDependencyResolver;
+
+		public SyringeApplication(
+			IDependencyResolver webDependencyResolver,
+			IApplicationConfiguration applicationConfiguration,
+			ITestSessionQueue testSessionQueue,
+			Microsoft.AspNet.SignalR.IDependencyResolver signalRDependencyResolver)
+		{
+			_webDependencyResolver = webDependencyResolver;
+			_applicationConfiguration = applicationConfiguration;
+			_testSessionQueue = testSessionQueue;
+			_signalRDependencyResolver = signalRDependencyResolver;
+		}
 
 		public void Start()
 		{
-			WebApplication = WebApp.Start<SyringeApplication>("http://localhost:8086");
+			WebApplication = WebApp.Start("http://localhost:8086", Configuration);
 			RavenDbServer.Start();
 		}
 
 		public void Stop()
 		{
 			RavenDbServer.Stop();
-			ParallelTestSessionQueue.Default.StopAll();
+			_testSessionQueue.StopAll();
+
 			WebApplication.Dispose();
 		}
 
@@ -44,8 +59,7 @@ namespace Syringe.Service
 
 			config.MapHttpAttributeRoutes();
 
-			var container = IoC.Initialize();
-			config.DependencyResolver = new StructureMapResolver(container);
+			config.DependencyResolver = _webDependencyResolver;
 
 			var corsOptions = new CorsOptions
 			{
@@ -55,7 +69,7 @@ namespace Syringe.Service
 					{
 						var policy = new CorsPolicy();
 						// Allow CORS requests from the web frontend
-						policy.Origins.Add(container.GetInstance<IApplicationConfiguration>().WebsiteCorsUrl);
+						policy.Origins.Add(_applicationConfiguration.WebsiteCorsUrl);
 						policy.AllowAnyMethod = true;
 						policy.AllowAnyHeader = true;
 						policy.SupportsCredentials = true;
@@ -66,7 +80,7 @@ namespace Syringe.Service
 
 			application.UseCors(corsOptions);
 			application.UseWebApi(config);
-			application.MapSignalR(new HubConfiguration { EnableDetailedErrors = true, Resolver = new StructureMapSignalRDependencyResolver(container) });
+			application.MapSignalR(new HubConfiguration { EnableDetailedErrors = true, Resolver = _signalRDependencyResolver });
 		}
 	}
 }

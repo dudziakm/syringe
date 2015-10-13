@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Raven.Client;
-using Raven.Client.Document;
 using Syringe.Core.Results;
 
 namespace Syringe.Core.Repositories.RavenDB
