@@ -1,35 +1,49 @@
-﻿using System;
+﻿using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using Syringe.Core.Results;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api.Hubs
 {
     public class TaskMonitorHub : Hub<ITaskMonitorHubClient>
     {
-        public async Task StartMonitoringTask(int taskId, IProgress<TaskState> progress)
+        private readonly ITaskObserver _taskObserver;
+
+        public TaskMonitorHub(ITaskObserver taskObserver)
         {
-            progress.Report(new TaskState { TotalTasks = 5, CompletedTasks = 0 });
-            await Task.Delay(100);
-
-            progress.Report(new TaskState { TotalTasks = 5, CompletedTasks = 2 });
-            await Task.Delay(100);
-
-            progress.Report(new TaskState { TotalTasks = 5, CompletedTasks = 4 });
-            await Task.Delay(100);
-
-            progress.Report(new TaskState { TotalTasks = 5, CompletedTasks = 5 });
-            await Task.Delay(100);
+            _taskObserver = taskObserver;
         }
-    }
 
-    public class TaskState
-    {
-        public int CompletedTasks { get; set; }
-        public int TotalTasks { get; set; }
-    }
+        public async Task<TaskState> StartMonitoringTask(int taskId)
+        {
+            await Groups.Add(Context.ConnectionId, GetTaskGroup(taskId));
 
-    public interface ITaskMonitorHubClient
-    {
-        void OnProgressUpdated(int taskId);
+            TaskMonitoringInfo details = _taskObserver.StartMonitoringTask(taskId);
+
+            if (details == null)
+            {
+                return new TaskState {TotalCases = 0};
+            }
+
+            return new TaskState {TotalCases = details.TotalCases};
+        }
+
+        public void SendTaskCompletionNotification(int taskId, TestCaseResult result)
+        {
+            Clients.Group(GetTaskGroup(taskId))
+                .OnTaskCompleted(new CompletedTaskInfo
+                {
+                    ActualUrl = result.ActualUrl,
+                    TaskId = result.Id,
+                    Success = result.Success,
+                    HttpResponse = result.HttpResponse
+                });
+        }
+
+        private string GetTaskGroup(int taskId)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Task-{0}", taskId);
+        }
     }
 }

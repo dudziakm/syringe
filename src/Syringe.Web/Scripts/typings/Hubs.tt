@@ -40,7 +40,7 @@ foreach (var hub in hubmanager.GetHubs())
     /**
       * The hub implemented by <#=hub.HubType.FullName#>
       */
-    <#= hub.NameSpecified?hub.Name:FirstCharLowered(hub.Name) #> : <#= hub.HubType.Name #>;
+    <#= hub.NameSpecified?hub.Name:FirstCharLowered(hub.Name) #> : <#= hub.HubType.FullName #>;
 <#
 }
 #>
@@ -62,17 +62,18 @@ Type clientType = ClientType(hubType);
 
 //#region <#= hub.Name#> hub
 
+declare module <#= hubType.Namespace #> {
 interface <#= hubType.Name #> {
     
     /**
       * This property lets you send messages to the <#= hub.Name#> hub.
       */
-    server : <#= hubType.Name #>Server;
+    server : <#= hubType.FullName #>Server;
 
     /**
       * The functions on this property should be replaced if you want to receive messages from the <#= hub.Name#> hub.
       */
-    client : <#= clientType != null?clientType.Name:"any"#>;
+    client : <#= clientType != null?clientType.FullName:"any"#>;
 }
 
 <#
@@ -100,11 +101,12 @@ var docs = GetXmlDocForMethod(hubType.GetMethod(method.Name));
 #>
       * @return {JQueryPromise of <#= GetTypeContractName(method.ReturnType)#>}
       */
-    <#= FirstCharLowered(method.Name) #>(<#=string.Join(", ", ps)#>) : JQueryPromise<<#= GetTypeContractName(method.ReturnType)#>>
+    <#= FirstCharLowered(method.Name) #>(<#=string.Join(", ", ps)#>) : JQueryPromise<<#= GetTypeContractName(method.ReturnType)#>>;
 <#
     }
 #>
 }
+} // end module
 
 <#
 /* Client type definition */
@@ -113,6 +115,8 @@ var docs = GetXmlDocForMethod(hubType.GetMethod(method.Name));
     if (clientType != null)
     {
 #>
+declare module <#= clientType.Namespace #>
+{
 interface <#= clientType.Name #>
 {
 <#
@@ -141,6 +145,7 @@ var docs = GetXmlDocForMethod(method);
     }
 #>
 }
+}
 
 <#
     }
@@ -159,16 +164,17 @@ var docs = GetXmlDocForMethod(method);
 ////////////////////
 //#region data contracts
 <#
-while(viewTypes.Count!=0)
+while(interfaceTypes.Count!=0)
 {
-    var type = viewTypes.Pop();
+    var type = interfaceTypes.Pop();
 #>
 
 
 /**
   * Data contract for <#= type.FullName#>
   */
-interface <#= GenericSpecificName(type) #> {
+declare module <#= type.Namespace #> {
+interface <#= GenericSpecificName(type, false) #> {
 <#
     foreach (var property in type.GetProperties(BindingFlags.Instance|BindingFlags.Public|BindingFlags.DeclaredOnly))
     {
@@ -178,6 +184,33 @@ interface <#= GenericSpecificName(type) #> {
     }
 #>
 }
+} // end module
+<#
+}
+#>
+
+<#
+while(enumTypes.Count!=0)
+{
+    var type = enumTypes.Pop();
+#>
+
+
+/**
+  * Data contract for <#= type.FullName#>
+  */
+declare module <#= type.Namespace #> {
+enum <#= GenericSpecificName(type, false) #> {
+<#
+    foreach (var name in Enum.GetNames(type))
+    {
+#>
+    <#= name#> = <#= string.Format("{0:D}", Enum.Parse(type, name)) #>,
+<#
+    }
+#>
+}
+} // end module
 <#
 }
 #>
@@ -186,7 +219,8 @@ interface <#= GenericSpecificName(type) #> {
 
 <#+
 
-    private Stack<Type> viewTypes = new Stack<Type>();
+private Stack<Type> interfaceTypes = new Stack<Type>();
+private Stack<Type> enumTypes = new Stack<Type>();
 private HashSet<Type> doneTypes = new HashSet<Type>();
 
 private string GetTypeContractName(Type type)
@@ -201,28 +235,29 @@ private string GetTypeContractName(Type type)
         return GetTypeContractName(type.GetElementType()) + "[]";
     }
 
-    if (type.IsGenericType && typeof(Task<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
+    if (type.IsGenericType)
     {
-        return GetTypeContractName(type.GetGenericArguments()[0]);
+        if (typeof(Task<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
+        {
+            return GetTypeContractName(type.GetGenericArguments()[0]);
+        }
+
+        if (typeof(Nullable<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
+        {
+            return GetTypeContractName(type.GetGenericArguments()[0]);
+        }
+
+        if (typeof(List<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
+        {
+            return GetTypeContractName(type.GetGenericArguments()[0]) + "[]";
+        }
     }
-
-    if (type.IsGenericType && typeof(Nullable<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
-    {
-        return GetTypeContractName(type.GetGenericArguments()[0]);
-    }
-
-    if (type.IsGenericType && typeof(List<>).IsAssignableFrom(type.GetGenericTypeDefinition()))
-    {
-        return GetTypeContractName(type.GetGenericArguments()[0]) + "[]";
-    }
-
-
 
     switch (type.Name.ToLowerInvariant())
     {
 
         case "datetime":
-            return "string";
+            return "Date";
         case "int16":
         case "int32":
         case "int64":
@@ -230,7 +265,7 @@ private string GetTypeContractName(Type type)
         case "double":
             return "number";
         case "boolean":
-            return "bool";
+            return "boolean";
         case "void":
         case "string":
             return type.Name.ToLowerInvariant();
@@ -239,17 +274,24 @@ private string GetTypeContractName(Type type)
     if (!doneTypes.Contains(type))
     {
         doneTypes.Add(type);
-        viewTypes.Push(type);
+        if (type.IsEnum)
+        {
+            enumTypes.Push(type);
+        }
+        else
+        {
+            interfaceTypes.Push(type);
+        }
     }
-    return GenericSpecificName(type);
+    return GenericSpecificName(type, true);
 }
 
-private string GenericSpecificName(Type type)
+private string GenericSpecificName(Type type, bool referencing)
 {
-    string name = type.Name.Split('`').First();
+    string name = (referencing ? type.FullName : type.Name).Split('`').First();
     if (type.IsGenericType)
     {
-        name += "<" + string.Join(", ", type.GenericTypeArguments.Select(GenericSpecificName)) + ">";
+        name += "_" + string.Join("_", type.GenericTypeArguments.Select(a => GenericSpecificName(a, false))) + "_";
     }
     return name;
 }

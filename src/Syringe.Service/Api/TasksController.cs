@@ -8,12 +8,12 @@ namespace Syringe.Service.Api
 	// TODO: Tests
 	public class TasksController : ApiController, ITasksService
 	{
-	    private readonly ITestSessionQueue _sessionQueue;
+		private readonly ITestSessionQueue _sessionQueue;
 
-	    public TasksController(ITestSessionQueue sessionQueue)
-	    {
-		    _sessionQueue = sessionQueue;
-	    }
+		public TasksController(ITestSessionQueue sessionQueue)
+		{
+			_sessionQueue = sessionQueue;
+		}
 
 		[Route("api/tasks/Start")]
 		[HttpPost]
@@ -49,5 +49,5 @@ namespace Syringe.Service.Api
 		{
 			return _sessionQueue.GetRunningTaskDetails(taskId);
 		}
-    }
+	}
 }

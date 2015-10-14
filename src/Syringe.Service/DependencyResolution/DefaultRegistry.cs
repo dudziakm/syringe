@@ -51,6 +51,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>().Singleton();
             For<ITestSessionQueue>().Use<ParallelTestSessionQueue>().Singleton();
+            Forward<ITaskObserver, ITestSessionQueue>();
         }
 
         private static DocumentStore CreateDocumentStore()

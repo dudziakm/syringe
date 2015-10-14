@@ -11,23 +11,21 @@ var Syringe;
                 this.signalRUrl = signalRUrl;
             }
             Progress.prototype.monitor = function (taskId) {
+                var _this = this;
                 if (taskId === 0) {
                     throw Error("Task ID was 0.");
                 }
-                var self = this;
                 $.connection.hub.logging = true;
                 $.connection.hub.url = this.signalRUrl;
                 this.proxy = $.connection.taskMonitorHub;
-                this.proxy.client.onProgressUpdated = function (d) {
-                    alert("I did a thing");
+                this.proxy.client.onTaskCompleted = function (taskInfo) {
+                    console.log("Completed task " + taskInfo.TaskId);
                 };
                 $.connection.hub.start()
                     .done(function () {
-                    self.proxy.server.startMonitoringTask(taskId)
-                        .progress(function (taskState) {
-                        console.log(taskState.CompletedTasks + " of " + taskState.TotalTasks);
-                    }).done(function () {
-                        $.connection.hub.stop();
+                    _this.proxy.server.startMonitoringTask(taskId)
+                        .done(function () {
+                        console.log("Started monitoring task " + taskId);
                     });
                 });
             };

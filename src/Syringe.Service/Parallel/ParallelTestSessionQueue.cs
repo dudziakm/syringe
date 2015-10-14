@@ -23,7 +23,7 @@ namespace Syringe.Service.Parallel
 	/// <summary>
 	/// A TPL based queue for running XML cases using the default <see cref="TestSessionRunner"/>
 	/// </summary>
-	internal class ParallelTestSessionQueue : ITestSessionQueue
+	internal class ParallelTestSessionQueue : ITestSessionQueue, ITaskObserver
 	{
 		private int _lastTaskId;
 		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
@@ -145,9 +145,9 @@ namespace Syringe.Service.Parallel
 				Username = task.Username,
 				TeamName = task.TeamName,
 				Status = task.CurrentTask.Status.ToString(),
-				Results = (runner != null) ? task.Runner.CurrentResults.ToList() : new List<TestCaseResult>(),
-				CurrentIndex = (runner != null) ? task.Runner.CasesRun : 0,
-				TotalCases = (runner != null) ? task.Runner.TotalCases : 0,
+				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestCaseResult>(),
+				CurrentIndex = (runner != null) ? runner.CasesRun : 0,
+				TotalCases = (runner != null) ? runner.TotalCases : 0,
 				Errors = task.Errors
 			};
 		}
@@ -183,6 +183,20 @@ namespace Syringe.Service.Parallel
 			}
 
 			return results;
+		}
+
+		public TaskMonitoringInfo StartMonitoringTask(int taskId)
+		{
+			SessionRunnerTaskInfo task;
+			_currentTasks.TryGetValue(taskId, out task);
+			if (task == null)
+			{
+				return null;
+			}
+
+			TestSessionRunner runner = task.Runner;
+
+			return new TaskMonitoringInfo(runner.TotalCases);
 		}
 	}
 }
