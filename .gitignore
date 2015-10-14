@@ -198,3 +198,5 @@ FakesAssemblies/
 # Typescript generated scripts
 Scripts/Syringe/*.js
 Scripts/Syringe/*.map
+*.ncrunchsolution
+*.ncrunchproject

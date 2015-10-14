@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syringe.Core.Xml;
 using System.Linq;
-using System.Security.Principal;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
 

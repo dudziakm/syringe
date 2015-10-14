@@ -4,7 +4,7 @@
 
 module Syringe.Web {
     export class Progress {
-        private proxy: any;
+        private proxy: Service.Api.Hubs.TaskMonitorHub;
         private signalRUrl: string;
 
         constructor(signalRUrl: string) {
@@ -16,24 +16,20 @@ module Syringe.Web {
             if (taskId === 0) {
                 throw Error("Task ID was 0.");
             }
-
-            var self = this;
             $.connection.hub.logging = true;
             $.connection.hub.url = this.signalRUrl;
 
             this.proxy = $.connection.taskMonitorHub;
 
-            this.proxy.client.onProgressUpdated = function(d) {
-                alert("I did a thing");
+            this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
+                console.log(`Completed task ${taskInfo.TaskId}`);
             };
 
             $.connection.hub.start()
-                .done(function() {
-                    self.proxy.server.startMonitoringTask(taskId)
-                        .progress(function(taskState: TaskState) {
-                            console.log(taskState.CompletedTasks + " of " + taskState.TotalTasks);
-                        }).done(function() {
-                            $.connection.hub.stop();
+                .done(() => {
+                    this.proxy.server.startMonitoringTask(taskId)
+                        .done(() => {
+                            console.log(`Started monitoring task ${taskId}`);
                         });
                 });
         }

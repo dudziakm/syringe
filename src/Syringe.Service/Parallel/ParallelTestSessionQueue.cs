@@ -6,19 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Raven.Client.Document;
 using RestSharp;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Service.Parallel
@@ -26,50 +23,19 @@ namespace Syringe.Service.Parallel
 	/// <summary>
 	/// A TPL based queue for running XML cases using the default <see cref="TestSessionRunner"/>
 	/// </summary>
-	internal class ParallelTestSessionQueue
+	internal class ParallelTestSessionQueue : ITestSessionQueue, ITaskObserver
 	{
-		private static DocumentStore _documentStore;
-
-		private readonly ConcurrentBag<Task<SessionRunnerTaskInfo>> _currentTasks;
+		private int _lastTaskId;
+		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
 		private readonly IApplicationConfiguration _appConfig;
-		private RavenDbTestCaseSessionRepository _repository;
+		private readonly ITestCaseSessionRepository _repository;
 
-		public static ParallelTestSessionQueue Default
+		public ParallelTestSessionQueue(ITestCaseSessionRepository repository)
 		{
-			get
-			{
-				return Nested.Instance;
-			}
-		}
-
-		static ParallelTestSessionQueue()
-		{
-			// TODO: IoC this with the repository
-			var ravenDbConfig = new RavenDBConfiguration();
-			_documentStore = new DocumentStore() { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
-			_documentStore.Initialize();
-		}
- 
-		/// <summary>
-		/// This queue is a Singleton, the appdomain only gets one queue.
-		/// </summary>
-		class Nested
-		{
-			// "Explicit static constructor to tell C# compiler
-			// not to mark type as beforefieldinit"
-			static Nested()
-			{
-			}
-			internal static readonly ParallelTestSessionQueue Instance = new ParallelTestSessionQueue();
-		}
-
-		internal ParallelTestSessionQueue()
-		{
-			_currentTasks = new ConcurrentBag<Task<SessionRunnerTaskInfo>>();
+			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
 			_appConfig = new ApplicationConfig();
 
-			// TODO: IoC this up
-			_repository = new RavenDbTestCaseSessionRepository(_documentStore);
+			_repository = repository;
 		}
 
 		/// <summary>
@@ -77,30 +43,27 @@ namespace Syringe.Service.Parallel
 		/// </summary>
 		public int Add(TaskRequest item)
 		{
-			Task<SessionRunnerTaskInfo> parentTask = Task.Run(() =>
+			int taskId = Interlocked.Increment(ref _lastTaskId);
+
+			var cancelTokenSource = new CancellationTokenSource();
+			var cancelToken = cancelTokenSource.Token;
+
+			var taskInfo = new SessionRunnerTaskInfo(taskId);
+			taskInfo.Request = item;
+			taskInfo.StartTime = DateTime.UtcNow;
+			taskInfo.Username = item.Username;
+			taskInfo.TeamName = item.TeamName;
+
+			Task childTask = Task.Run(() =>
 			{
-				var cancelTokenSource = new CancellationTokenSource();
-				var cancelToken = cancelTokenSource.Token;
+				StartSession(taskInfo);
+			}, cancelToken);
 
-				var taskInfo = new SessionRunnerTaskInfo();
-				taskInfo.Request = item;
-				taskInfo.StartTime = DateTime.UtcNow;
-				taskInfo.Username = item.Username;
-				taskInfo.TeamName = item.TeamName;
+			taskInfo.CancelTokenSource = cancelTokenSource;
+			taskInfo.CurrentTask = childTask;
 
-				Task childTask = Task.Run(() =>
-				{
-					StartSession(taskInfo);
-				}, cancelToken);
-
-				taskInfo.CancelTokenSource = cancelTokenSource;
-				taskInfo.CurrentTask = childTask;
-
-				return taskInfo;
-			});
-
-			_currentTasks.Add(parentTask);
-			return parentTask.Id;
+			_currentTasks.TryAdd(taskId, taskInfo);
+			return taskId;
 		}
 
 		/// <summary>
@@ -124,7 +87,7 @@ namespace Syringe.Service.Parallel
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 					caseCollection.Filename = xmlFilename;
-                    var config = new Config();
+					var config = new Config();
 					var logStringBuilder = new StringBuilder();
 					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 					var httpClient = new HttpClient(httpLogWriter, new RestClient());
@@ -146,18 +109,18 @@ namespace Syringe.Service.Parallel
 		/// </summary>
 		public IEnumerable<TaskDetails> GetRunningTasks()
 		{
-			return _currentTasks.Select(task =>
+			return _currentTasks.Values.Select(task =>
 			{
-				TestSessionRunner runner = task.Result.Runner;
+				TestSessionRunner runner = task.Runner;
 
 				return new TaskDetails()
 				{
 					TaskId = task.Id,
-					Username = task.Result.Username,
-					TeamName = task.Result.TeamName,
-					Status = task.Result.CurrentTask.Status.ToString(),
-					CurrentIndex = (runner != null) ? task.Result.Runner.CasesRun : 0,
-					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
+					Username = task.Username,
+					TeamName = task.TeamName,
+					Status = task.CurrentTask.Status.ToString(),
+					CurrentIndex = (runner != null) ? task.Runner.CasesRun : 0,
+					TotalCases = (runner != null) ? task.Runner.TotalCases : 0,
 				};
 			});
 		}
@@ -168,51 +131,44 @@ namespace Syringe.Service.Parallel
 		/// </summary>
 		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
-			Task<SessionRunnerTaskInfo> task = _currentTasks.FirstOrDefault(x => x.Id == taskId);
-			if (task != null)
+			SessionRunnerTaskInfo task;
+			_currentTasks.TryGetValue(taskId, out task);
+			if (task == null)
 			{
-				TestSessionRunner runner = task.Result.Runner;
-				return new TaskDetails()
-				{
-					TaskId = task.Id,
-					Username = task.Result.Username,
-					TeamName = task.Result.TeamName,
-					Status = task.Result.CurrentTask.Status.ToString(),
-					Results = (runner != null) ? task.Result.Runner.CurrentResults.ToList() : new List<TestCaseResult>(),
-					CurrentIndex = (runner != null) ? task.Result.Runner.CasesRun : 0,
-					TotalCases = (runner != null) ? task.Result.Runner.TotalCases : 0,
-					Errors = task.Result.Errors
-				};
+				return null;
 			}
 
-			return null;
+			TestSessionRunner runner = task.Runner;
+			return new TaskDetails()
+			{
+				TaskId = task.Id,
+				Username = task.Username,
+				TeamName = task.TeamName,
+				Status = task.CurrentTask.Status.ToString(),
+				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestCaseResult>(),
+				CurrentIndex = (runner != null) ? runner.CasesRun : 0,
+				TotalCases = (runner != null) ? runner.TotalCases : 0,
+				Errors = task.Errors
+			};
 		}
 
 		/// <summary>
 		/// Stops a case XML request task in the queue, returning a message of whether the stop succeeded or not.
 		/// </summary>
-		public string Stop(int id)
+		public string Stop(int taskId)
 		{
-			Task<SessionRunnerTaskInfo> task = _currentTasks.FirstOrDefault(t => t.Id == id);
-			if (task != null)
+			SessionRunnerTaskInfo task;
+			_currentTasks.TryRemove(taskId, out task);
+			if (task == null)
 			{
-				task.Result.Runner.Stop();
-				task.Result.CancelTokenSource.Cancel(false);
+				return "FAILED - Cancel request made, but removing from the list of tasks failed";
+			}
 
-				Task<SessionRunnerTaskInfo> result;
-				if (_currentTasks.TryTake(out result))
-				{
-					return string.Format("OK - Task {0} stopped and removed", task.Id);
-				}
-				else
-				{
-					return "FAILED - Cancel request made, but removing from the list of tasks failed";
-				}
-			}
-			else
-			{
-				return string.Format("FAILED - Cannot find task with id {0}", id);
-			}
+
+			task.Runner.Stop();
+			task.CancelTokenSource.Cancel(false);
+
+			return string.Format("OK - Task {0} stopped and removed", task.Id);
 		}
 
 		/// <summary>
@@ -221,12 +177,26 @@ namespace Syringe.Service.Parallel
 		public List<string> StopAll()
 		{
 			List<string> results = new List<string>();
-			foreach (Task<SessionRunnerTaskInfo> task in _currentTasks)
+			foreach (SessionRunnerTaskInfo task in _currentTasks.Values)
 			{
 				results.Add(Stop(task.Id));
 			}
 
 			return results;
+		}
+
+		public TaskMonitoringInfo StartMonitoringTask(int taskId)
+		{
+			SessionRunnerTaskInfo task;
+			_currentTasks.TryGetValue(taskId, out task);
+			if (task == null)
+			{
+				return null;
+			}
+
+			TestSessionRunner runner = task.Runner;
+
+			return new TaskMonitoringInfo(runner.TotalCases);
 		}
 	}
 }

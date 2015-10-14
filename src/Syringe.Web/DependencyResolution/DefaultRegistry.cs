@@ -52,6 +52,7 @@ namespace Syringe.Web.DependencyResolution
             For<ICanaryService>().Use<CanaryClient>();
             For<ITasksService>().Use<TasksClient>();
 
+            // TODO: This repository stuff should only be accessed by the service.
             For<IDocumentStore>().Use(() => CreateDocumentStore()).Singleton();
 
             For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syringe.Core;
 using Syringe.Core.Results;
 using Syringe.Core.TestCases;
 
@@ -8,8 +7,8 @@ namespace Syringe.Tests.Unit.Runner
 {
 	internal class TestCaseResultsBuilder
 	{
-		private TestCaseResult _currentTestCaseResult;
 		private readonly List<TestCaseResult> _testCases;
+		private TestCaseResult _currentTestCaseResult;
 
 		public TestCaseResultsBuilder()
 		{
@@ -36,13 +35,15 @@ namespace Syringe.Tests.Unit.Runner
 
 		public TestCaseResultsBuilder AddPositiveVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyPositiveResults.Add(new VerificationItem("item " + DateTime.Now, "regex", VerifyType.Positive) { Success = success });
+			_currentTestCaseResult.VerifyPositiveResults.Add(new VerificationItem("item " + DateTime.Now, "regex",
+				VerifyType.Positive) {Success = success});
 			return this;
 		}
 
 		public TestCaseResultsBuilder AddNegativeVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyNegativeResults.Add(new VerificationItem("item " + DateTime.Now, "regex", VerifyType.Negative) { Success = success });
+			_currentTestCaseResult.VerifyNegativeResults.Add(new VerificationItem("item " + DateTime.Now, "regex",
+				VerifyType.Negative) {Success = success});
 			return this;
 		}
 
@@ -55,6 +56,12 @@ namespace Syringe.Tests.Unit.Runner
 		public List<TestCaseResult> GetCollection()
 		{
 			return _testCases;
+		}
+
+		public TestCaseResultsBuilder WithMessage(string message)
+		{
+			_currentTestCaseResult.Message = message;
+			return this;
 		}
 	}
 }

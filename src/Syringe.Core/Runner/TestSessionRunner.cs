@@ -4,35 +4,40 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Raven.Client.Document;
 using RestSharp;
-using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
-using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Results;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
-using Syringe.Core.Xml;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
 {
-	public class TestSessionRunner
+	public class TestSessionRunner : IObservable<TestCaseResult>
 	{
 		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
 		private bool _isStopPending;
 		private List<TestCaseResult> _currentResults;
 
+		private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers =
+			new Dictionary<Guid, TestSessionRunnerSubscriber>();
+
 		public ITestCaseSessionRepository Repository { get; set; }
 		public Guid SessionId { get; internal set; }
 
 		public IEnumerable<TestCaseResult> CurrentResults
 		{
-			get { return _currentResults; }
+			get
+			{
+				lock (_currentResults)
+				{
+					return _currentResults.AsReadOnly();
+				}
+			}
 		}
 
 		public int CasesRun { get; set; }
@@ -72,15 +77,59 @@ namespace Syringe.Core.Runner
 			return new TestSessionRunner(config, httpClient, repository);
 		}
 
+		private void NotifySubscribers(Action<IObserver<TestCaseResult>> observerAction)
+		{
+			IDictionary<Guid, TestSessionRunnerSubscriber> currentSubscribers;
+			lock (_subscribers)
+			{
+				currentSubscribers = _subscribers.ToDictionary(k => k.Key, v => v.Value);
+			}
+
+			foreach (var testCaseSessionSubscriber in currentSubscribers.Values)
+			{
+				observerAction(testCaseSessionSubscriber.Observer);
+			}
+		}
+
+		private void NotifySubscribersOfAddedResult(TestCaseResult result)
+		{
+			NotifySubscribers(observer => observer.OnNext(result));
+		}
+
+		private void NotifySubscribersOfCompletion()
+		{
+			NotifySubscribers(observer => observer.OnCompleted());
+		}
+
 		public void Stop()
 		{
 			_isStopPending = true;
 		}
 
+		public IDisposable Subscribe(IObserver<TestCaseResult> observer)
+		{
+			// Notify of the observer of existing results.
+			IEnumerable<TestCaseResult> resultsCopy;
+			lock (_currentResults)
+			{
+				resultsCopy = _currentResults.AsReadOnly();
+			}
+
+			foreach (var testCaseResult in resultsCopy)
+			{
+				observer.OnNext(testCaseResult);
+			}
+
+			return new TestSessionRunnerSubscriber(observer, _subscribers);
+		}
+
 		public TestCaseSession Run(CaseCollection testCollection)
 		{
 			_isStopPending = false;
-			_currentResults = new List<TestCaseResult>();
+			lock (_currentResults)
+			{
+				_currentResults = new List<TestCaseResult>();
+			}
 
 			var session = new TestCaseSession();
 			session.TestCaseFilename = testCollection.Filename;
@@ -100,7 +149,6 @@ namespace Syringe.Core.Runner
 			TimeSpan minResponseTime = TimeSpan.MaxValue;
 			TimeSpan maxResponseTime = TimeSpan.MinValue;
 			int totalCasesRun = 0;
-
 			CasesRun = 0;
 			TotalCases = testCases.Count;
 			RepeatCount = 0;
@@ -116,8 +164,7 @@ namespace Syringe.Core.Runner
 					try
 					{
 						TestCaseResult result = RunCase(testCase, variables, verificationsMatcher);
-						session.TestCaseResults.Add(result);
-						_currentResults.Add(result);
+						AddResult(session, result);
 
 						if (result.ResponseTime < minResponseTime)
 							minResponseTime = result.ResponseTime;
@@ -132,7 +179,6 @@ namespace Syringe.Core.Runner
 					finally
 					{
 						totalCasesRun++;
-
 						CasesRun++;
 						RepeatCount = i;
 					}
@@ -151,12 +197,29 @@ namespace Syringe.Core.Runner
 			session.MinResponseTime = minResponseTime;
 			session.MaxResponseTime = maxResponseTime;
 
+			NotifySubscribersOfCompletion();
+
 			if (saveSession)
 			{
 				Repository.Save(session);
 			}
 
 			return session;
+		}
+
+		private void AddResult(TestCaseSession session, TestCaseResult result)
+		{
+			session.TestCaseResults.Add(result);
+			lock (_currentResults)
+			{
+				_currentResults.Add(result);
+			}
+			NotifySubscribersOfAddedResult(result);
+		}
+
+		public void ReportError(Exception exception)
+		{
+			NotifySubscribers(observer => observer.OnError(exception));
 		}
 
 		internal TestCaseResult RunCase(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
@@ -209,11 +272,14 @@ namespace Syringe.Core.Runner
 					_httpClient.LogLastResponse();
 				}
 
+				// TODO: Inject a delay service for testing purposes (holding up unit tests for orders of seconds is bad).
 				if (testCase.Sleep > 0)
 					Thread.Sleep(testCase.Sleep * 1000);
 			}
 			catch (Exception ex)
 			{
+				ReportError(ex);
+
 				testResult.ResponseCodeSuccess = false;
 				testResult.ExceptionMessage = ex.Message;
 			}
@@ -233,6 +299,35 @@ namespace Syringe.Core.Runner
 			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
 				   || _config.GlobalHttpLog == LogType.All
 				   || testCase.LogResponse;
+		}
+
+		private sealed class TestSessionRunnerSubscriber : IDisposable
+		{
+			private readonly Guid _key;
+			private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscriptionList;
+
+			public TestSessionRunnerSubscriber(IObserver<TestCaseResult> observer,
+				Dictionary<Guid, TestSessionRunnerSubscriber> subscriptionList)
+			{
+				Observer = observer;
+				_subscriptionList = subscriptionList;
+				_key = Guid.NewGuid();
+
+				lock (subscriptionList)
+				{
+					subscriptionList.Add(_key, this);
+				}
+			}
+
+			public IObserver<TestCaseResult> Observer { get; }
+
+			public void Dispose()
+			{
+				lock (_subscriptionList)
+				{
+					_subscriptionList.Remove(_key);
+				}
+			}
 		}
 	}
 }

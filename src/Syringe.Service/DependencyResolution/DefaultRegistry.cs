@@ -15,9 +15,16 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Raven.Client;
+using Raven.Client.Document;
 using StructureMap.Configuration.DSL;
+using StructureMap.Graph;
 using Syringe.Core.Configuration;
+using Syringe.Core.Repositories;
+using Syringe.Core.Repositories.RavenDB;
 using Syringe.Service.Api.Hubs;
+using Syringe.Service.Parallel;
+using WebApiContrib.IoC.StructureMap;
 
 namespace Syringe.Service.DependencyResolution
 {
@@ -32,8 +39,27 @@ namespace Syringe.Service.DependencyResolution
                     scan.WithDefaultConventions();
                 });
 
+            For<Microsoft.AspNet.SignalR.IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>();
+            For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
+
+            For<SyringeApplication>().Use<SyringeApplication>().Singleton();
+
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
             For<IApplicationConfiguration>().Use<ApplicationConfig>();
+
+            For<IDocumentStore>().Use(() => CreateDocumentStore()).Singleton();
+
+            For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>().Singleton();
+            For<ITestSessionQueue>().Use<ParallelTestSessionQueue>().Singleton();
+            Forward<ITaskObserver, ITestSessionQueue>();
+        }
+
+        private static DocumentStore CreateDocumentStore()
+        {
+            var ravenDbConfig = new RavenDBConfiguration();
+            var ds = new DocumentStore { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
+            ds.Initialize();
+            return ds;
         }
     }
 }
