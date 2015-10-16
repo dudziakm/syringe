@@ -1,4 +1,4 @@
-﻿// Get signalr.d.ts.ts from https://github.com/borisyankov/DefinitelyTyped (or delete the reference)
+// Get signalr.d.ts.ts from https://github.com/borisyankov/DefinitelyTyped (or delete the reference)
 /// <reference path="signalr/signalr.d.ts" />
 /// <reference path="jquery/jquery.d.ts" />
 
