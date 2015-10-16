@@ -36,7 +36,7 @@ namespace Syringe.Web.Controllers
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
             var pagedTestCases = testCases.TestCases.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
 
-            TestSuiteViewModel caseList = new TestSuiteViewModel
+            TestFileViewModel caseList = new TestFileViewModel
             {
                 TotalCases = Math.Ceiling((double)testCases.TestCases.Count() / noOfResults),
                 TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),

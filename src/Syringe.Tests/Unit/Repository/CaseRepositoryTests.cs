@@ -27,8 +27,9 @@ namespace Syringe.Tests.Unit.Repository
             _fileHandler = new Mock<IFileHandler>();
 
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>())).Returns("path");
+            _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>(), It.IsAny<string>())).Returns("filepath.xml");
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns("<xml></xml>");
-            _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case> { new Case() } });
+            _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { Filename="filepath.xml", TestCases = new List<Case> { new Case() } });
             _caseRepository = new CaseRepository(_testCaseReader.Object, _testCaseWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames(It.IsAny<string>())).Returns(new List<string> {{"test"}});
@@ -150,6 +151,32 @@ namespace Syringe.Tests.Unit.Repository
             Assert.NotNull(testCase);
             Assert.AreEqual(1, testCase.Count());
             Assert.AreEqual("test", testCase.First());
+        }
+
+        [Test]
+        public void CreateTestFile_should_throw_IO_exception_if_file_exists()
+        {
+            // given = when
+            _fileHandler.Setup(x=>x.FileExists(It.IsAny<string>())).Returns(true);
+
+            // then
+            Assert.Throws<IOException>(()=>_caseRepository.CreateTestFile(new CaseCollection {Filename="filePath.xml"}, It.IsAny<string>()));
+        }
+
+        [Test]
+        public void CreateTestFile_should_return_true_if_file_does_not_exist()
+        {
+            // given + when
+            _fileHandler.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
+            var testFile = _caseRepository.CreateTestFile(new CaseCollection { Filename = "filePath.xml" }, It.IsAny<string>());
+
+            // then
+            Assert.IsTrue(testFile);
+            _fileHandler.Verify(x => x.CreateFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.CreateFilename(It.IsAny<string>()), Times.Once);
+            _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
         }
     }
 }

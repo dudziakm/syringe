@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Syringe.Core;
 using Syringe.Core.Repositories;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
@@ -62,6 +61,13 @@ namespace Syringe.Service.Api
         public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
         {
             return _caseRepository.DeleteTestCase(testCaseId, fileName, teamName);
+        }
+
+        [Route("api/cases/CreateTestFile")]
+        [HttpPost]
+        public bool CreateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
+        {
+            return _caseRepository.CreateTestFile(caseCollection, teamName);
         }
     }
 }

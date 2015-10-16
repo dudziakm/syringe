@@ -45,7 +45,10 @@ var Syringe;
         parseRegex: $("#parseRegex"),
         addHeaderItemButton: $("#addHeaderItem"),
         headerKey: $("#headerKey"),
-        headerValue: $("#headerValue")
+        headerValue: $("#headerValue"),
+        addVariableItemButton: $("#addVariableItem"),
+        variableKey: $("#variableKey"),
+        variableValue: $("#variableValue"),
     };
     var elements = {
         removeRow: "#removeRow",
@@ -87,6 +90,18 @@ var Syringe;
                 appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
                 jQueryElements.headerKey.val('');
                 jQueryElements.headerValue.val('');
+            });
+        });
+        jQueryElements.addVariableItemButton.click(function (e) {
+            e.preventDefault();
+            var model = {
+                Key: jQueryElements.variableKey.val(),
+                Value: jQueryElements.variableValue.val(),
+            };
+            $.get("/TestFile/AddVariableItem", model, function (data) {
+                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
+                jQueryElements.variableKey.val('');
+                jQueryElements.variableValue.val('');
             });
         });
         $("body").on("click", elements.removeRow, function (e) {

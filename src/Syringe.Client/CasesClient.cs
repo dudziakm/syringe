@@ -95,6 +95,18 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
+	    public bool CreateTestFile(CaseCollection caseCollection, string teamName)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("CreateTestFile");
+            request.Method = Method.POST;
+            request.AddJsonBody(caseCollection);
+            request.AddQueryParameter("fileName", caseCollection.Filename);
+            request.AddQueryParameter("teamName", teamName);
+
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<bool>(response);
+        }
 
         private T DeserializeOrThrow<T>(IRestResponse response)
         {

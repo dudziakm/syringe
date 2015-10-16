@@ -136,13 +136,30 @@ namespace Syringe.Core.Repositories
                 {
                     throw new NullReferenceException(string.Concat("could not find test case:", testCaseId));
                 }
-                
+
                 collection.TestCases = collection.TestCases.Where(x => x.Id != testCaseId);
             }
 
             string contents = _testCaseWriter.Write(collection);
 
             return _fileHandler.WriteAllText(fullPath, contents);
+        }
+
+        public bool CreateTestFile(CaseCollection caseCollection, string teamName)
+        {
+            caseCollection.Filename = _fileHandler.CreateFilename(caseCollection.Filename);
+
+            var filePath = _fileHandler.CreateFileFullPath(caseCollection.Filename, teamName);
+            var fileExists = _fileHandler.FileExists(filePath);
+
+            if (fileExists)
+            {
+                throw new IOException("File already exists");
+            }
+
+            string contents = _testCaseWriter.Write(caseCollection);
+
+            return _fileHandler.WriteAllText(filePath, contents);
         }
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
