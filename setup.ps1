@@ -69,7 +69,6 @@ Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.x
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Setup complete." -ForegroundColor Green
 Write-host "Now start the REST data service using .\run-rest-service.ps1" -ForegroundColor Cyan
-Write-host "- MVC site          : http://localhost:8085/"
+Write-host "- MVC site          : http://localhost:1980/"
 Write-Host "- REST api          : http://localhost:8086/swagger/"
-Write-Host "- RavenDB dashboard : http://localhost:8087/"
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow

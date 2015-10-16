@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Raven.Client.Document;
 using Syringe.Core.Repositories.MongoDB;
-using Syringe.Core.Repositories.RavenDB;
 using Syringe.Core.Schedule;
-using Syringe.Core.Security;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
 {

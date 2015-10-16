@@ -73,18 +73,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.3800\lib\net45\Raven.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Client.3.0.3800\lib\net45\Raven.Client.Lightweight.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.Database.3.0.3800\lib\net45\Raven.Database.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RestSharp.105.1.0\lib\net451\RestSharp.dll</HintPath>
@@ -149,8 +137,6 @@
     <Compile Include="Repositories\MongoDB\TestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\UserRepository.cs" />
     <Compile Include="Repositories\MongoDB\Configuration.cs" />
-    <Compile Include="Repositories\RavenDB\RavenDBConfiguration.cs" />
-    <Compile Include="Repositories\RavenDB\RavenDbTestCaseSessionRepository.cs" />
     <Compile Include="Results\SessionInfo.cs" />
     <Compile Include="Security\Teamcity\Group.cs" />
     <Compile Include="Security\Teamcity\Properties.cs" />
@@ -177,9 +163,6 @@
     <Compile Include="Repositories\IScheduledJobRepository.cs" />
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\RavenDB\RavenDbScheduledJobRepository.cs" />
-    <Compile Include="Repositories\RavenDB\RavenDbTeamRepository.cs" />
-    <Compile Include="Repositories\RavenDB\RavenDbUserRepository.cs" />
     <Compile Include="Security\User.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ICaseService.cs" />
@@ -231,9 +214,6 @@
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Raven.Studio.Html5.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup />

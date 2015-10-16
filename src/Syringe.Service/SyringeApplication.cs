@@ -35,14 +35,11 @@ namespace Syringe.Service
 		public void Start()
 		{
 			WebApplication = WebApp.Start("http://localhost:8086", Configuration);
-			RavenDbServer.Start();
 		}
 
 		public void Stop()
 		{
-			RavenDbServer.Stop();
 			_testSessionQueue.StopAll();
-
 			WebApplication.Dispose();
 		}
 
