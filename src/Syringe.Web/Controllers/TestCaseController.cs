@@ -36,7 +36,7 @@ namespace Syringe.Web.Controllers
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
             var pagedTestCases = testCases.TestCases.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
 
-            TestSuiteViewModel caseList = new TestSuiteViewModel
+            TestFileViewModel caseList = new TestFileViewModel
             {
                 TotalCases = Math.Ceiling((double)testCases.TestCases.Count() / noOfResults),
                 TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),
@@ -87,6 +87,18 @@ namespace Syringe.Web.Controllers
             }
 
             return View("Add", model);
+        }
+
+        public ActionResult Delete(int testCaseId, string fileName)
+        {
+            var deleteTestCase = _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
+
+            if (deleteTestCase)
+            {
+                return RedirectToAction("View", new { filename = fileName });
+            }
+
+            return View();
         }
 
         public ActionResult AddVerification(VerificationItemModel model)

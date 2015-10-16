@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
 
@@ -24,6 +25,16 @@ namespace Syringe.Core.FileOperations
                 throw new FileNotFoundException("The test case path cannot be found", fileName);
 
             return fullPath;
+        }
+
+        public string CreateFileFullPath(string fileName, string teamName)
+        {
+            return Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
+        }
+
+        public bool FileExists(string filePath)
+        {
+            return File.Exists(filePath);
         }
 
         public string GetFullPath(string teamName)
@@ -64,5 +75,21 @@ namespace Syringe.Core.FileOperations
                 yield return fileInfo.Name;
             }
         }
+
+        public string CreateFilename(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+            {
+                throw new Exception("filename is empty");
+            }
+
+            if (!filename.EndsWith(".xml"))
+            {
+                filename = string.Concat(filename, ".xml");
+            }
+
+            return filename;
+        }
+
     }
 }

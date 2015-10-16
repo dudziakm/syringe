@@ -167,6 +167,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\TestFileController.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="LessHttpHandler.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
@@ -190,7 +191,8 @@
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestCaseViewModel.cs" />
     <Compile Include="Models\ParseResponseItem.cs" />
-    <Compile Include="Models\TestSuiteViewModel.cs" />
+    <Compile Include="Models\TestFileViewModel.cs" />
+    <Compile Include="Models\VariableItem.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -264,6 +266,8 @@
     <Content Include="Views\Home\RunSignalR.cshtml" />
     <Content Include="Views\Shared\Partials\_TestCasePager.cshtml" />
     <Content Include="Views\TestCase\Add.cshtml" />
+    <Content Include="Views\TestFile\Add.cshtml" />
+    <Content Include="Views\TestFile\EditorTemplates\VariableItem.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
