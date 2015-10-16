@@ -89,7 +89,6 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-        [HttpPost]
         public ActionResult Delete(int testCaseId, string fileName)
         {
             var deleteTestCase = _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
@@ -101,7 +100,6 @@ namespace Syringe.Web.Controllers
 
             return View();
         }
-
 
         public ActionResult AddVerification(VerificationItemModel model)
         {

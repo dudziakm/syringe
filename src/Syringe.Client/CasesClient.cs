@@ -87,9 +87,9 @@ namespace Syringe.Client
             var client = new RestClient(_baseUrl);
             IRestRequest request = CreateRequest("DeleteTestCase");
             request.Method = Method.POST;
-            request.AddParameter("filename", fileName);
-            request.AddParameter("teamName", teamName);
-            request.AddParameter("testCaseId", testCaseId);
+            request.AddQueryParameter("fileName", fileName);
+            request.AddQueryParameter("teamName", teamName);
+            request.AddQueryParameter("testCaseId", testCaseId.ToString());
 
             IRestResponse response = client.Execute(request);
             return DeserializeOrThrow<bool>(response);

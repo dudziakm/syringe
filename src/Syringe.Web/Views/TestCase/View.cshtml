@@ -32,6 +32,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-action-delete"></i></a>
                             </td>
                         </tr>
                     }
