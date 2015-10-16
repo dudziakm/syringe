@@ -26,7 +26,6 @@ namespace Syringe.Web.ModelBuilders
 				LogRequest = testCase.LogRequest,
 				LogResponse = testCase.LogResponse,
 				LongDescription = testCase.LongDescription,
-				Method = testCase.Method,
 				ParentFilename = testCase.ParentFilename,
 				ParseResponses = testCase.ParseResponses.Select(x => new ParseResponseItem(x.Description, x.Regex)).ToList(),
 				PostBody = testCase.PostBody,

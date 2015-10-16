@@ -35,7 +35,6 @@ namespace Syringe.Web.ModelBuilders
                 LogRequest = testCase.LogRequest,
                 LogResponse = testCase.LogResponse,
                 LongDescription = testCase.LongDescription,
-                Method = testCase.Method,
                 ParseResponses = parsedResponses,
                 PostBody = testCase.PostBody,
                 PostType = testCase.PostType == PostType.GET.ToString() ? PostType.GET : PostType.POST,

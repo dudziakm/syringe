@@ -104,7 +104,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testCase.LogRequest, testCaseViewModel.LogRequest);
 			Assert.AreEqual(testCase.LogResponse, testCaseViewModel.LogResponse);
 			Assert.AreEqual(testCase.LongDescription, testCaseViewModel.LongDescription);
-			Assert.AreEqual(testCase.Method, testCaseViewModel.Method);
 			Assert.AreEqual(testCase.PostBody, testCaseViewModel.PostBody);
 			Assert.AreEqual(PostType.GET, testCaseViewModel.PostType);
 			Assert.AreEqual(testCase.VerifyResponseCode, testCaseViewModel.VerifyResponseCode);

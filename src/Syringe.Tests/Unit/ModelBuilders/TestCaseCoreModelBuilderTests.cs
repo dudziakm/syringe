@@ -33,7 +33,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testCaseViewModel.LogRequest, build.LogRequest);
 			Assert.AreEqual(testCaseViewModel.LogResponse, build.LogResponse);
 			Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
-			Assert.AreEqual(testCaseViewModel.Method, build.Method);
 			Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
 			Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
 			Assert.AreEqual(testCaseViewModel.PostBody, build.PostBody);
@@ -59,7 +58,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 						   LogRequest = true,
 						   LogResponse = true,
 						   LongDescription = "long description",
-						   Method = "POST",
 						   ParentFilename = "Test.xml",
 						   ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
 						   PostBody = "Post Body",
