@@ -29,13 +29,15 @@ namespace Syringe.Service.Parallel
 		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
 		private readonly IApplicationConfiguration _appConfig;
 		private readonly ITestCaseSessionRepository _repository;
+	    private readonly ITaskPublisher _taskPublisher;
 
-		public ParallelTestSessionQueue(ITestCaseSessionRepository repository)
+	    public ParallelTestSessionQueue(ITestCaseSessionRepository repository, ITaskPublisher taskPublisher)
 		{
 			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
 			_appConfig = new ApplicationConfig();
 
 			_repository = repository;
+	        _taskPublisher = taskPublisher;
 		}
 
 		/// <summary>
@@ -195,6 +197,8 @@ namespace Syringe.Service.Parallel
 			}
 
 			TestSessionRunner runner = task.Runner;
+
+			_taskPublisher.Start(taskId, runner);
 
 			return new TaskMonitoringInfo(runner.TotalCases);
 		}

@@ -10,6 +10,9 @@ namespace Syringe.Web
             bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
                     "~/Scripts/jquery-{version}.js",
                     "~/Scripts/jquery.signalR-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Syringe").Include(
+                    "~/Scripts/Syringe.js"));
         }
     }
 }

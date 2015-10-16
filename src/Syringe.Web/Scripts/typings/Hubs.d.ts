@@ -47,15 +47,6 @@ interface TaskMonitorHubServer {
       * @return {JQueryPromise of Syringe.Service.Api.Hubs.TaskState}
       */
     startMonitoringTask(taskId : number) : JQueryPromise<Syringe.Service.Api.Hubs.TaskState>;
-
-    /** 
-      * Sends a "sendTaskCompletionNotification" message to the TaskMonitorHub hub.
-      * Contract Documentation: ---
-      * @param taskId {number} 
-      * @param result {Syringe.Core.Results.TestCaseResult} 
-      * @return {JQueryPromise of void}
-      */
-    sendTaskCompletionNotification(taskId : number, result : Syringe.Core.Results.TestCaseResult) : JQueryPromise<void>;
 }
 } // end module
 
@@ -92,9 +83,11 @@ interface ITaskMonitorHubClient
 declare module Syringe.Service.Api.Hubs {
 interface CompletedTaskInfo {
     ActualUrl : string;
-    TaskId : System.Guid;
+    ResultId : System.Guid;
     Success : boolean;
     HttpResponse : Syringe.Core.Http.HttpResponse;
+    CaseId : number;
+    ExceptionMessage : string;
 }
 } // end module
 
@@ -153,91 +146,6 @@ interface Guid {
 
 
 /**
-  * Data contract for Syringe.Core.Results.TestCaseResult
-  */
-declare module Syringe.Core.Results {
-interface TestCaseResult {
-    Id : System.Guid;
-    SessionId : System.Guid;
-    TestCase : Syringe.Core.TestCases.Case;
-    ActualUrl : string;
-    Message : string;
-    ResponseTime : System.TimeSpan;
-    VerifyPositiveResults : Syringe.Core.TestCases.VerificationItem[];
-    VerifyNegativeResults : Syringe.Core.TestCases.VerificationItem[];
-    ResponseCodeSuccess : boolean;
-    HttpResponse : Syringe.Core.Http.HttpResponse;
-    ExceptionMessage : string;
-    Success : boolean;
-    VerifyPositivesSuccess : boolean;
-    VerifyNegativeSuccess : boolean;
-}
-} // end module
-
-
-/**
-  * Data contract for Syringe.Core.TestCases.VerificationItem
-  */
-declare module Syringe.Core.TestCases {
-interface VerificationItem {
-    Description : string;
-    Regex : string;
-    TransformedRegex : string;
-    Success : boolean;
-    VerifyType : Syringe.Core.TestCases.VerifyType;
-}
-} // end module
-
-
-/**
-  * Data contract for Syringe.Core.TestCases.Case
-  */
-declare module Syringe.Core.TestCases {
-interface Case {
-    Id : number;
-    Method : string;
-    Url : string;
-    PostBody : string;
-    ErrorMessage : string;
-    PostType : string;
-    VerifyResponseCode : System.Net.HttpStatusCode;
-    LogRequest : boolean;
-    LogResponse : boolean;
-    Headers : Syringe.Core.TestCases.HeaderItem[];
-    ParentFilename : string;
-    Sleep : number;
-    ShortDescription : string;
-    LongDescription : string;
-    ParseResponses : Syringe.Core.TestCases.ParseResponseItem[];
-    VerifyPositives : Syringe.Core.TestCases.VerificationItem[];
-    VerifyNegatives : Syringe.Core.TestCases.VerificationItem[];
-}
-} // end module
-
-
-/**
-  * Data contract for Syringe.Core.TestCases.ParseResponseItem
-  */
-declare module Syringe.Core.TestCases {
-interface ParseResponseItem {
-    Description : string;
-    Regex : string;
-}
-} // end module
-
-
-/**
-  * Data contract for Syringe.Core.TestCases.HeaderItem
-  */
-declare module Syringe.Core.TestCases {
-interface HeaderItem {
-    Key : string;
-    Value : string;
-}
-} // end module
-
-
-/**
   * Data contract for Syringe.Service.Api.Hubs.TaskState
   */
 declare module Syringe.Service.Api.Hubs {
@@ -246,17 +154,6 @@ interface TaskState {
 }
 } // end module
 
-
-
-/**
-  * Data contract for Syringe.Core.TestCases.VerifyType
-  */
-declare module Syringe.Core.TestCases {
-enum VerifyType {
-    Negative = 0,
-    Positive = 1,
-}
-} // end module
 
 
 /**

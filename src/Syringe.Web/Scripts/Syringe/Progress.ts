@@ -1,118 +1,154 @@
 ﻿/// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/signalr/signalr.d.ts" />
 /// <reference path="../typings/Hubs.d.ts" />
+module Syringe.Web
+{
+	export class Progress
+	{
+		private proxy: Service.Api.Hubs.TaskMonitorHub;
+		private signalRUrl: string;
+		private totalCases: number;
+		private completedCases: number;
 
-module Syringe.Web {
-    export class Progress {
-        private proxy: Service.Api.Hubs.TaskMonitorHub;
-        private signalRUrl: string;
+		constructor(signalRUrl: string)
+		{
+			this.signalRUrl = signalRUrl;
+		}
 
-        constructor(signalRUrl: string) {
-            this.signalRUrl = signalRUrl;
-        }
+		monitor(taskId: number)
+		{
+			if (taskId === 0)
+			{
+				throw Error("Task ID was 0.");
+			}
 
-        monitor(taskId: number) {
+			$.connection.hub.logging = true;
+			$.connection.hub.url = this.signalRUrl;
 
-            if (taskId === 0) {
-                throw Error("Task ID was 0.");
-            }
-            $.connection.hub.logging = true;
-            $.connection.hub.url = this.signalRUrl;
+			this.proxy = $.connection.taskMonitorHub;
 
-            this.proxy = $.connection.taskMonitorHub;
+			this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) =>
+			{
+				++this.completedCases;
 
-            this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
-                console.log(`Completed task ${taskInfo.TaskId}`);
-            };
+				console.log(`Completed task ${taskInfo.CaseId} (${this.completedCases} of ${this.totalCases}).`);
 
-            $.connection.hub.start()
-                .done(() => {
-                    this.proxy.server.startMonitoringTask(taskId)
-                        .done(() => {
-                            console.log(`Started monitoring task ${taskId}`);
-                        });
-                });
-        }
+				if (this.totalCases > 0)
+				{
+					var percentage = (this.completedCases / this.totalCases) * 100;
+					$(".progress-bar").css("width", percentage + "%");
+				}
 
-        _updatedIds = {};
+				var selector = `#case-${taskInfo.CaseId}`;
+				var $selector = $(selector);
 
-        //updateProgress(taskId)
-        //{
-        //	var that = this;
+				// Change background color
+				var resultClass = taskInfo.Success ? "panel-success" : "panel-warning";
 
-        //	$.get("/json/GetProgress", { "taskId": taskId })
-        //		.done(function (data)
-        //	{
-        //		$.each(data.Results, function (index, item: TestCaseResult)
-        //		{
-        //			var selector = "#case-" + item.TestCase.Id;
+				// Exceptions
+				if (taskInfo.ExceptionMessage !== null)
+				{
+					resultClass = "panel-danger";
+					$(`${selector} .case-result-exception`).removeClass("hidden");
+					$(`${selector} .case-result-exception textarea`).text(taskInfo.ExceptionMessage);
+				}
 
-        //			if (that._updatedIds[selector])
-        //			{
-        //				return;
-        //			}
+				$selector.addClass(resultClass);
+			};
 
-        //			that._updatedIds[selector] = true;
+			$.connection.hub.start()
+				.done(() =>
+				{
+					this.totalCases = 0;
+					this.completedCases = 0;
+					this.proxy.server.startMonitoringTask(taskId)
+						.done(taskState =>
+						{
+							this.totalCases = taskState.TotalCases;
+							console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalCases} cases.`);
+						});
+				});
+		}
 
-        //			var cssClass = "";
-        //			var iframeTextArea = selector + " .case-result-html textarea";
+		_updatedIds = {};
 
-        //			// Url
-        //			var urlSelector = selector + " " + ".case-result-url";
-        //			$(urlSelector).text(item.ActualUrl);
+		//updateProgress(taskId)
+		//{
+		//	var that = this;
 
-        //			// Add HTML into the hidden iframe
-        //			if (item.HttpResponse != null && $(iframeTextArea).text() === "")
-        //			{
-        //				$(iframeTextArea).text(item.HttpResponse.Content);
-        //			}
+		//	$.get("/json/GetProgress", { "taskId": taskId })
+		//		.done(function (data)
+		//	{
+		//		$.each(data.Results, function (index, item: TestCaseResult)
+		//		{
+		//			var selector = "#case-" + item.TestCase.Id;
 
-        //			$(selector + " a.view-html").click(function ()
-        //			{
-        //				var newWindow = window.open("", item.TestCase.Id.toString());
-        //				newWindow.document.write($(iframeTextArea).text());
-        //				$(newWindow.document).find("head").append('<base href="' + item.ActualUrl + '" />');
-        //			});
+		//			if (that._updatedIds[selector])
+		//			{
+		//				return;
+		//			}
 
-        //			$(selector + " a.view-raw").click(function ()
-        //			{
-        //				var newWindow = window.open("", "plaintext-" +item.TestCase.Id.toString());
-        //				newWindow.document.write("<PLAINTEXT>" +$(iframeTextArea).text());
-        //			});
+		//			that._updatedIds[selector] = true;
 
-	
-        //			// Change background color
-        //			if (item.Success === true)
-        //			{
-        //				cssClass = "panel-success";
-        //			}
-        //			else if (item.Success === false)
-        //			{
-        //				cssClass = "panel-warning";
-        //			}
+		//			var cssClass = "";
+		//			var iframeTextArea = selector + " .case-result-html textarea";
 
-        //			// Exceptions
-        //			if (item.ExceptionMessage !== null)
-        //			{
-        //				cssClass = "panel-danger";
-        //				$(selector + " .case-result-exception").removeClass("hidden");
-        //				$(selector + " .case-result-exception textarea").text(item.ExceptionMessage);
-        //			}
+		//			// Url
+		//			var urlSelector = selector + " " + ".case-result-url";
+		//			$(urlSelector).text(item.ActualUrl);
 
-        //			$(selector).addClass(cssClass);
-        //		});
+		//			// Add HTML into the hidden iframe
+		//			if (item.HttpResponse != null && $(iframeTextArea).text() === "")
+		//			{
+		//				$(iframeTextArea).text(item.HttpResponse.Content);
+		//			}
 
-        //		var percentage = (data.CurrentIndex / data.TotalCases) * 100;
-        //		$(".progress-bar").css("width", percentage + "%");
-        //		$("#progress-text").html(data.Status);
+		//			$(selector + " a.view-html").click(function ()
+		//			{
+		//				var newWindow = window.open("", item.TestCase.Id.toString());
+		//				newWindow.document.write($(iframeTextArea).text());
+		//				$(newWindow.document).find("head").append('<base href="' + item.ActualUrl + '" />');
+		//			});
 
-        //		if (data.Status === "RanToCompletion")
-        //		{
-        //			clearTimeout(that.intervalHandle);
-        //			console.log("stopped");
-        //			return;
-        //		}
-        //	});
-        //}
-    }
+		//			$(selector + " a.view-raw").click(function ()
+		//			{
+		//				var newWindow = window.open("", "plaintext-" +item.TestCase.Id.toString());
+		//				newWindow.document.write("<PLAINTEXT>" +$(iframeTextArea).text());
+		//			});
+
+
+		//			// Change background color
+		//			if (item.Success === true)
+		//			{
+		//				cssClass = "panel-success";
+		//			}
+		//			else if (item.Success === false)
+		//			{
+		//				cssClass = "panel-warning";
+		//			}
+
+		//			// Exceptions
+		//			if (item.ExceptionMessage !== null)
+		//			{
+		//				cssClass = "panel-danger";
+		//				$(selector + " .case-result-exception").removeClass("hidden");
+		//				$(selector + " .case-result-exception textarea").text(item.ExceptionMessage);
+		//			}
+
+		//			$(selector).addClass(cssClass);
+		//		});
+
+		//		var percentage = (data.CurrentIndex / data.TotalCases) * 100;
+		//		$(".progress-bar").css("width", percentage + "%");
+		//		$("#progress-text").html(data.Status);
+
+		//		if (data.Status === "RanToCompletion")
+		//		{
+		//			clearTimeout(that.intervalHandle);
+		//			console.log("stopped");
+		//			return;
+		//		}
+		//	});
+		//}
+	}
 }

@@ -19,13 +19,32 @@ var Syringe;
                 $.connection.hub.url = this.signalRUrl;
                 this.proxy = $.connection.taskMonitorHub;
                 this.proxy.client.onTaskCompleted = function (taskInfo) {
-                    console.log("Completed task " + taskInfo.TaskId);
+                    ++_this.completedCases;
+                    console.log("Completed task " + taskInfo.CaseId + " (" + _this.completedCases + " of " + _this.totalCases + ").");
+                    if (_this.totalCases > 0) {
+                        var percentage = (_this.completedCases / _this.totalCases) * 100;
+                        $(".progress-bar").css("width", percentage + "%");
+                    }
+                    var selector = "#case-" + taskInfo.CaseId;
+                    var $selector = $(selector);
+                    // Change background color
+                    var resultClass = taskInfo.Success ? "panel-success" : "panel-warning";
+                    // Exceptions
+                    if (taskInfo.ExceptionMessage !== null) {
+                        resultClass = "panel-danger";
+                        $(selector + " .case-result-exception").removeClass("hidden");
+                        $(selector + " .case-result-exception textarea").text(taskInfo.ExceptionMessage);
+                    }
+                    $selector.addClass(resultClass);
                 };
                 $.connection.hub.start()
                     .done(function () {
+                    _this.totalCases = 0;
+                    _this.completedCases = 0;
                     _this.proxy.server.startMonitoringTask(taskId)
-                        .done(function () {
-                        console.log("Started monitoring task " + taskId);
+                        .done(function (taskState) {
+                        _this.totalCases = taskState.TotalCases;
+                        console.log("Started monitoring task " + taskId + ". There are " + taskState.TotalCases + " cases.");
                     });
                 });
             };
@@ -45,10 +64,7 @@ var Syringe;
         parseRegex: $("#parseRegex"),
         addHeaderItemButton: $("#addHeaderItem"),
         headerKey: $("#headerKey"),
-        headerValue: $("#headerValue"),
-        addVariableItemButton: $("#addVariableItem"),
-        variableKey: $("#variableKey"),
-        variableValue: $("#variableValue"),
+        headerValue: $("#headerValue")
     };
     var elements = {
         removeRow: "#removeRow",
@@ -90,18 +106,6 @@ var Syringe;
                 appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
                 jQueryElements.headerKey.val('');
                 jQueryElements.headerValue.val('');
-            });
-        });
-        jQueryElements.addVariableItemButton.click(function (e) {
-            e.preventDefault();
-            var model = {
-                Key: jQueryElements.variableKey.val(),
-                Value: jQueryElements.variableValue.val(),
-            };
-            $.get("/TestFile/AddVariableItem", model, function (data) {
-                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
-                jQueryElements.variableKey.val('');
-                jQueryElements.variableValue.val('');
             });
         });
         $("body").on("click", elements.removeRow, function (e) {
