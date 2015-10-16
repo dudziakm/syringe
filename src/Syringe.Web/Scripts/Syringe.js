@@ -7,7 +7,6 @@ var Syringe;
     (function (Web) {
         var Progress = (function () {
             function Progress(signalRUrl) {
-                this._updatedIds = {};
                 this.signalRUrl = signalRUrl;
             }
             Progress.prototype.monitor = function (taskId) {
@@ -24,16 +23,25 @@ var Syringe;
                     if (_this.totalCases > 0) {
                         var percentage = (_this.completedCases / _this.totalCases) * 100;
                         $(".progress-bar").css("width", percentage + "%");
+                        $(".progress-bar .sr-only").text(percentage + "% Complete");
                     }
                     var selector = "#case-" + taskInfo.CaseId;
                     var $selector = $(selector);
+                    // Url
+                    var $urlSelector = $(".case-result-url", $selector);
+                    $urlSelector.text(taskInfo.ActualUrl);
                     // Change background color
                     var resultClass = taskInfo.Success ? "panel-success" : "panel-warning";
                     // Exceptions
                     if (taskInfo.ExceptionMessage !== null) {
                         resultClass = "panel-danger";
-                        $(selector + " .case-result-exception").removeClass("hidden");
-                        $(selector + " .case-result-exception textarea").text(taskInfo.ExceptionMessage);
+                        $(".case-result-exception", $selector).removeClass("hidden");
+                        $(".case-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
+                    }
+                    else {
+                        // Show HTML/Raw buttons.
+                        $(".view-html", $selector).removeClass("hidden");
+                        $(".view-raw", $selector).removeClass("hidden");
                     }
                     $selector.addClass(resultClass);
                 };
@@ -64,7 +72,10 @@ var Syringe;
         parseRegex: $("#parseRegex"),
         addHeaderItemButton: $("#addHeaderItem"),
         headerKey: $("#headerKey"),
-        headerValue: $("#headerValue")
+        headerValue: $("#headerValue"),
+        addVariableItemButton: $("#addVariableItem"),
+        variableKey: $("#variableKey"),
+        variableValue: $("#variableValue"),
     };
     var elements = {
         removeRow: "#removeRow",
@@ -106,6 +117,18 @@ var Syringe;
                 appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
                 jQueryElements.headerKey.val('');
                 jQueryElements.headerValue.val('');
+            });
+        });
+        jQueryElements.addVariableItemButton.click(function (e) {
+            e.preventDefault();
+            var model = {
+                Key: jQueryElements.variableKey.val(),
+                Value: jQueryElements.variableValue.val(),
+            };
+            $.get("/TestFile/AddVariableItem", model, function (data) {
+                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
+                jQueryElements.variableKey.val('');
+                jQueryElements.variableValue.val('');
             });
         });
         $("body").on("click", elements.removeRow, function (e) {

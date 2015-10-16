@@ -38,8 +38,8 @@
 								<div>
 									<div class="pull-left case-result-url"></div>
 									<div class="pull-right">
-										<a class="hidden view-html btn btn-primary" href="#">View HTML</a>
-										<a class="hidden view-raw btn btn-primary" href="#">View raw</a>
+										<a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new { taskId = Model.CurrentTaskId, caseId = testCase.Id })">View HTML</a>
+										<a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new { taskId = Model.CurrentTaskId, caseId = testCase.Id })">View raw</a>
 									</div>
 								</div>
 								<div class="case-result-errors">
