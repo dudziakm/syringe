@@ -15,7 +15,7 @@ Syringe is a .NET automated HTTP testing tool for headless, script-less tests. I
 
 If you're on a server, you will need the Microsoft build tools installed:
 
- choco install microsoft-build-tools -version 14.0.23107.10 -y
+    choco install microsoft-build-tools -version 14.0.23107.10 -y
 
 You will also need MongoDB installed:
 
