@@ -76,7 +76,6 @@ namespace Syringe.Core.Repositories
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-
         public bool SaveTestCase(Case testCase, string teamName)
         {
             if (testCase == null)
@@ -130,7 +129,16 @@ namespace Syringe.Core.Repositories
             using (var stringReader = new StringReader(xml))
             {
                 collection = _testCaseReader.Read(stringReader);
+
+                var testCaseToDelete = collection.TestCases.FirstOrDefault(x => x.Id == testCaseId);
+
+                if (testCaseToDelete == null)
+                {
+                    throw new NullReferenceException(string.Concat("could not find test case:", testCaseId));
+                }
+                
                 collection.TestCases = collection.TestCases.Where(x => x.Id != testCaseId);
+
             }
 
             string contents = _testCaseWriter.Write(collection);

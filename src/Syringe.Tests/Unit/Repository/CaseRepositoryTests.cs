@@ -64,7 +64,6 @@ namespace Syringe.Tests.Unit.Repository
             Assert.Throws<ArgumentNullException>(() => _caseRepository.SaveTestCase(null, It.IsAny<string>()));
         }
 
-
         [Test]
         public void SaveTestCase_should_return_true_when_testcase_is_saved()
         {
@@ -118,7 +117,6 @@ namespace Syringe.Tests.Unit.Repository
             Assert.AreEqual(1, testCase.TestCases.Count());
         }
 
-
         [Test]
         public void DeleteTestCase_should_return_true_when_testCase_exists()
         {
@@ -132,6 +130,14 @@ namespace Syringe.Tests.Unit.Repository
             _fileHandler.Verify(x=>x.WriteAllText(It.IsAny<string>(),It.IsAny<string>()));
             _testCaseReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
             Assert.IsTrue(testCase);
+        }
+
+        [Test]
+        public void DeleteTestCase_should_throw_null_reference_exception_when_test_case_is_missing()
+        {
+            // given + when + then
+            _testCaseReader.Setup(x=>x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case>() });
+            Assert.Throws<NullReferenceException>(()=>_caseRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
         }
 
         [Test]
