@@ -68,7 +68,6 @@ namespace Syringe.Core.Repositories
                     throw new Exception("case already exists");
                 }
 
-
                 collection.TestCases = collection.TestCases.Concat(new[] { testCase });
             }
 
@@ -120,6 +119,25 @@ namespace Syringe.Core.Repositories
 
             return _fileHandler.WriteAllText(fullPath, contents);
         }
+
+        public bool DeleteTestCase(int testCaseId, string filename, string teamName)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            string xml = _fileHandler.ReadAllText(fullPath);
+
+            CaseCollection collection;
+
+            using (var stringReader = new StringReader(xml))
+            {
+                collection = _testCaseReader.Read(stringReader);
+                collection.TestCases = collection.TestCases.Where(x => x.Id != testCaseId);
+            }
+
+            string contents = _testCaseWriter.Write(collection);
+
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
+
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
         {

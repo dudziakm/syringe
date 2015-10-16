@@ -32,6 +32,7 @@ namespace Syringe.Tests.Unit.Repository
             _caseRepository = new CaseRepository(_testCaseReader.Object, _testCaseWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames(It.IsAny<string>())).Returns(new List<string> {{"test"}});
+            _testCaseWriter.Setup(x => x.Write(It.IsAny<CaseCollection>())).Returns("<xml></xml>");
         }
 
         [Test]
@@ -52,6 +53,8 @@ namespace Syringe.Tests.Unit.Repository
 
             // then
             Assert.AreEqual("parentFileName", testCase.ParentFilename);
+            _fileHandler.Verify(x=>x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()),Times.Once);
+            _fileHandler.Verify(x=>x.ReadAllText(It.IsAny<string>()),Times.Once);
         }
 
         [Test]
@@ -69,6 +72,9 @@ namespace Syringe.Tests.Unit.Repository
             var testCase = _caseRepository.SaveTestCase(new Case(), It.IsAny<string>());
 
             // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
             Assert.IsTrue(testCase);
         }
 
@@ -95,6 +101,9 @@ namespace Syringe.Tests.Unit.Repository
             var testCase = _caseRepository.CreateTestCase(new Case(), It.IsAny<string>());
 
             // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
             Assert.IsTrue(testCase);
         }
 
@@ -107,6 +116,22 @@ namespace Syringe.Tests.Unit.Repository
             // then
             Assert.NotNull(testCase.TestCases);
             Assert.AreEqual(1, testCase.TestCases.Count());
+        }
+
+
+        [Test]
+        public void DeleteTestCase_should_return_true_when_testCase_exists()
+        {
+            // given + when
+            var testCase = _caseRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
+            _fileHandler.Verify(x=>x.WriteAllText(It.IsAny<string>(),It.IsAny<string>()));
+            _testCaseReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
+            Assert.IsTrue(testCase);
         }
 
         [Test]

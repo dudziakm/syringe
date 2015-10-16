@@ -167,6 +167,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\TestFileController.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="LessHttpHandler.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
@@ -331,7 +332,9 @@
     <Content Include="Css\bootstrap-theme.css.map" />
     <Content Include="Css\bootstrap.css.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\TestFile\" />
+  </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
