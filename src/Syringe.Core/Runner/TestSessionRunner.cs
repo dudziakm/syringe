@@ -201,7 +201,7 @@ namespace Syringe.Core.Runner
 
 			if (saveSession)
 			{
-				Repository.Save(session);
+				Repository.Add(session);
 			}
 
 			return session;

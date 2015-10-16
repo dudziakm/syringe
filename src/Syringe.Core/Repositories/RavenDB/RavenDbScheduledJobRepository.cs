@@ -35,6 +35,11 @@ namespace Syringe.Core.Repositories.RavenDB
 			_documentSession.SaveChanges();
 		}
 
+		public void Wipe()
+		{
+			throw new NotImplementedException();
+		}
+
 		public IEnumerable<ScheduledJob> GetAll()
 		{
 			return _documentSession.Query<ScheduledJob>();

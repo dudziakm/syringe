@@ -15,13 +15,18 @@ namespace Syringe.Core.Repositories.RavenDB
 			_documentSession = documentStore.OpenSession();
 		}
 
-		public void Save(TestCaseSession session)
+		public void Add(TestCaseSession session)
 		{
 			_documentSession.Store(session);
 			_documentSession.SaveChanges();
 		}
 
-		public IEnumerable<SessionInfo> LoadAll()
+		public void Wipe()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<SessionInfo> GetSummaries()
 		{
 			var items = _documentSession.Query<TestCaseSession>().Select(x => new SessionInfo() { Id = x.Id });
 			return items;
@@ -32,13 +37,13 @@ namespace Syringe.Core.Repositories.RavenDB
 			return _documentSession.Load<TestCaseSession>(id);
 		}
 
-		public void Delete(Guid id)
+		public void Delete(TestCaseSession session)
 		{
-			_documentSession.Delete<TestCaseSession>(id);
+			_documentSession.Delete<TestCaseSession>(session);
 			_documentSession.SaveChanges();
 		}
 
-		public IEnumerable<SessionInfo> ResultsForToday()
+		public IEnumerable<SessionInfo> GetSummariesForToday()
 		{
 			DateTime today = DateTime.UtcNow.Date;
 

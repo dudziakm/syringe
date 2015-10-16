@@ -53,6 +53,18 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.1.0.124, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Bson.2.1.0-rc0\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.1.0.124, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.2.1.0-rc0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.1.0.124, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.1.0-rc0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -132,6 +144,11 @@
     <Compile Include="FileOperations\FileHandler.cs" />
     <Compile Include="FileOperations\IFileHandler.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
+    <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />
+    <Compile Include="Repositories\MongoDB\TeamRepository.cs" />
+    <Compile Include="Repositories\MongoDB\TestCaseSessionRepository.cs" />
+    <Compile Include="Repositories\MongoDB\UserRepository.cs" />
+    <Compile Include="Repositories\MongoDB\Configuration.cs" />
     <Compile Include="Repositories\RavenDB\RavenDBConfiguration.cs" />
     <Compile Include="Repositories\RavenDB\RavenDbTestCaseSessionRepository.cs" />
     <Compile Include="Results\SessionInfo.cs" />
@@ -219,9 +236,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\Redis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

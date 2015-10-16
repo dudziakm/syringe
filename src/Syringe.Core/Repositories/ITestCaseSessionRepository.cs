@@ -4,12 +4,14 @@ using Syringe.Core.Results;
 
 namespace Syringe.Core.Repositories
 {
-	public interface ITestCaseSessionRepository : IDisposable
+	public interface ITestCaseSessionRepository
 	{
-		void Delete(Guid id);
+		void Add(TestCaseSession session);
+		void Delete(TestCaseSession session);
 		TestCaseSession GetById(Guid id);
-		IEnumerable<SessionInfo> LoadAll();
-		IEnumerable<SessionInfo> ResultsForToday();
-		void Save(TestCaseSession session);
+		void Wipe();
+
+		IEnumerable<SessionInfo> GetSummaries();
+		IEnumerable<SessionInfo> GetSummariesForToday();
 	}
 }

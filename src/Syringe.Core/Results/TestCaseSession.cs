@@ -13,7 +13,8 @@ namespace Syringe.Core.Results
 		public DateTime EndTime { get; set; }
         public TimeSpan TotalRunTime { get; set; }
         public int TotalCasesRun { get; set; }
-
+		public TimeSpan MaxResponseTime { get; set; }
+		public TimeSpan MinResponseTime { get; set; }
 		public List<TestCaseResult> TestCaseResults { get; set; }
 
 		public int TotalCasesPassed
@@ -43,9 +44,6 @@ namespace Syringe.Core.Results
 												x.VerifyNegativeResults.Count(v => v.Success == false)); 
 			}
 		}
-
-        public TimeSpan MaxResponseTime { get; set; }
-        public TimeSpan MinResponseTime { get; set; }
 
         public TestCaseSession()
         {

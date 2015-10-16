@@ -73,6 +73,11 @@ namespace Syringe.Core.Repositories.RavenDB
 			_documentSession.SaveChanges();
 		}
 
+		public void Wipe()
+		{
+			throw new NotImplementedException();
+		}
+
 		public IEnumerable<Team> GetTeams()
 		{
 			return _documentSession.Query<Team>();

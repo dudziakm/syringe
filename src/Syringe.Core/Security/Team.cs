@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syringe.Core.Configuration;
 using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Security

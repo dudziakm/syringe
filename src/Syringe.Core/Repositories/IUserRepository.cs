@@ -8,7 +8,9 @@ namespace Syringe.Core.Repositories
 		void AddUser(User user);
 		void UpdateUser(User user, bool passwordHasChanged);
 		void DeleteUser(User user);
+		void Wipe();
 
 		IEnumerable<User> GetUsers();
+		IEnumerable<User> GetUsersInTeam(Team team);
 	}
 }

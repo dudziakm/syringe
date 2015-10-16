@@ -31,9 +31,19 @@ namespace Syringe.Core.Repositories.RavenDB
 			_documentSession.SaveChanges();
 		}
 
+		public void Wipe()
+		{
+			throw new NotImplementedException();
+		}
+
 		public IEnumerable<User> GetUsers()
 		{
 			return _documentSession.Query<User>();
+		}
+
+		public IEnumerable<User> GetUsersInTeam(Team team)
+		{
+			throw new NotImplementedException();
 		}
 
 		public void DeleteUser(User user)

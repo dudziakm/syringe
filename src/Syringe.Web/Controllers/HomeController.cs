@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Core.Canary;
 using Syringe.Core.Repositories;
+using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.Models;
@@ -68,12 +69,12 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult AllResults()
 		{
-			return View("AllResults", _repository.LoadAll());
+			return View("AllResults", _repository.GetSummaries());
 		}
 
 		public ActionResult TodaysResults()
 		{
-			return View("AllResults", _repository.ResultsForToday());
+			return View("AllResults", _repository.GetSummariesForToday());
 		}
 
 		public ActionResult ViewResult(Guid id)
@@ -84,7 +85,9 @@ namespace Syringe.Web.Controllers
 		[HttpPost]
 		public ActionResult DeleteResult(Guid id)
 		{
-			_repository.Delete(id);
+			TestCaseSession session = _repository.GetById(id);
+			_repository.Delete(session);
+
 			return RedirectToAction("AllResults");
 		}
 	}
