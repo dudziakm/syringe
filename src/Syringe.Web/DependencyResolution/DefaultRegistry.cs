@@ -15,12 +15,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Raven.Client;
-using Raven.Client.Document;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Repositories;
-using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.ModelBuilders;
@@ -53,17 +51,7 @@ namespace Syringe.Web.DependencyResolution
             For<ITasksService>().Use<TasksClient>();
 
             // TODO: This repository stuff should only be accessed by the service.
-            For<IDocumentStore>().Use(() => CreateDocumentStore()).Singleton();
-
-            For<ITestCaseSessionRepository>().Use<RavenDbTestCaseSessionRepository>();
-        }
-
-        private static DocumentStore CreateDocumentStore()
-        {
-            var ravenDbConfig = new RavenDBConfiguration();
-            var ds = new DocumentStore { Url = ravenDbConfig.Url, DefaultDatabase = ravenDbConfig.DefaultDatabase };
-            ds.Initialize();
-            return ds;
+            For<ITestCaseSessionRepository>().Use<TestCaseSessionRepository>();
         }
     }
 }

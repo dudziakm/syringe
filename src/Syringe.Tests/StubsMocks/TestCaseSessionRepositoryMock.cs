@@ -9,11 +9,7 @@ namespace Syringe.Tests.StubsMocks
 	{
 		public TestCaseSession SavedSession { get; set; }
 
-		public void Dispose()
-		{
-		}
-
-		public void Delete(Guid id)
+		public void Delete(TestCaseSession session)
 		{
 		}
 
@@ -22,17 +18,22 @@ namespace Syringe.Tests.StubsMocks
 			return new TestCaseSession();
 		}
 
-		public IEnumerable<SessionInfo> LoadAll()
+		public void Wipe()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<SessionInfo> GetSummaries()
 		{
 			return new List<SessionInfo>();
 		}
 
-		public IEnumerable<SessionInfo> ResultsForToday()
+		public IEnumerable<SessionInfo> GetSummariesForToday()
 		{
 			return new List<SessionInfo>();
 		}
 
-		public void Save(TestCaseSession session)
+		public void Add(TestCaseSession session)
 		{
 			SavedSession = session;
 		}

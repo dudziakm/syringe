@@ -9,6 +9,7 @@ namespace Syringe.Core.Repositories
 		void AddJob(ScheduledJob job);
 		void UpdateJob(ScheduledJob job);
 		void DeleteJob(ScheduledJob job);
+		void Wipe();
 
 		IEnumerable<ScheduledJob> GetAll();
 		IEnumerable<ScheduledJob> GetForTeam(Team team);

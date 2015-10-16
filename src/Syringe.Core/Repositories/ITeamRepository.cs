@@ -10,9 +10,9 @@ namespace Syringe.Core.Repositories
 		void Delete(Team team);
 		void AddUserToTeam(Team team, User user);
 		void RemoveUserFromTeam(Team team, User user);
+		void Wipe();
 
 		IEnumerable<Team> GetTeams();
-		IEnumerable<User> GetUsersInTeam(Team team);
 		Team GetTeam(string name);
 	}
 }

@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Syringe.Core.Repositories.RavenDB;
-using Syringe.Core.Schedule;
+using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
 
-namespace Syringe.Tests.Integration.Repository.RavenDB
+namespace Syringe.Tests.Integration.Repository.MongoDB
 {
 	public class UserRepositoryTests
 	{
-		private RavenDbUserRepository CreateUserRepository()
+		private UserRepository CreateUserRepository()
 		{
-			return new RavenDbUserRepository(RavenDbTestSetup.DocumentStore);	
+			return new UserRepository(new Configuration() { DatabaseName = "Syringe-Tests"});	
 		}
 
 		[SetUp]
 		public void SetUp()
 		{
-			RavenDbTestSetup.ClearDocuments<User>();
+			CreateUserRepository().Wipe();
 		}
 
 		[Test]
@@ -34,7 +33,7 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 				Password = "This will be a hashed password"
 			};
 
-			var repository = CreateUserRepository();
+			UserRepository repository = CreateUserRepository();
 
 			// Act
 			repository.AddUser(expectedUser);
@@ -64,7 +63,7 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 				Password = plainTextPassword
 			};
 
-			var repository = CreateUserRepository();
+			UserRepository repository = CreateUserRepository();
 
 			// Act
 			repository.AddUser(expectedUser);
@@ -90,9 +89,8 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 				Password = "This will be a hashed password"
 			};
 
-			var repository = CreateUserRepository();
+			UserRepository repository = CreateUserRepository();
 			repository.AddUser(newUser);
-
 			
 			// Act
 			IEnumerable<User> users = repository.GetUsers();
@@ -128,7 +126,7 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 				Password = "This will be a hashed password"
 			};
 
-			var repository = CreateUserRepository();
+			UserRepository repository = CreateUserRepository();
 			repository.AddUser(newUser);
 
 			IEnumerable<User> users = repository.GetUsers();
@@ -157,7 +155,7 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 				Password = plainTextPassword
 			};
 
-			var repository = CreateUserRepository();
+			UserRepository repository = CreateUserRepository();
 			repository.AddUser(user);
 
 			// Act
@@ -166,6 +164,56 @@ namespace Syringe.Tests.Integration.Repository.RavenDB
 			// Assert
 			IEnumerable<User> users = repository.GetUsers();
 			Assert.That(users.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void GetUsersInTeam_should_store_a_user()
+		{
+			// Arrange
+			var user1 = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano1@nano.com",
+				Firstname = "Nano1",
+				Lastname = "Smith1",
+				Password = "pass"
+			};
+
+			var user2 = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano2@nano.com",
+				Firstname = "Nano2",
+				Lastname = "Smith2",
+				Password = "pass2"
+			};
+
+			var user3 = new User()
+			{
+				Id = Guid.NewGuid(),
+				Email = "nano3@nano.com",
+				Firstname = "Nano3",
+				Lastname = "Smith3",
+				Password = "pass3"
+			};
+
+			UserRepository repository = CreateUserRepository();
+			repository.AddUser(user1);
+			repository.AddUser(user2);
+			repository.AddUser(user3);
+
+			var team = new Team();
+			team.UserIds.Add(user1.Id);
+			team.UserIds.Add(user2.Id);
+
+			// Act
+
+			// Assert
+			IEnumerable<User> users = repository.GetUsersInTeam(team);
+
+			Assert.That(users.Count(), Is.EqualTo(2));
+			Assert.That(users, Contains.Item(user1));
+			Assert.That(users, Contains.Item(user2));
 		}
 	}
 }

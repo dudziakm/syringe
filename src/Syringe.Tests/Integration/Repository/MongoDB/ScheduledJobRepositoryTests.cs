@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Raven.Client.Document;
-using Syringe.Core.Repositories.RavenDB;
+using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Schedule;
-using Syringe.Core.Security;
 
-namespace Syringe.Tests.Integration.Repository.RavenDB
+namespace Syringe.Tests.Integration.Repository.MongoDB
 {
 	public class ScheduledJobRepositoryTests
 	{
+		private ScheduledJobRepository CreateScheduledJobRepository()
+		{
+			return new ScheduledJobRepository(new Configuration() { DatabaseName = "Syringe-Tests" });
+		}
+
 		[SetUp]
 		public void SetUp()
 		{
-			RavenDbTestSetup.ClearDocuments<ScheduledJob>();
-        }
-
-		private RavenDbScheduledJobRepository CreateScheduledJobRepository()
-		{
-			return new RavenDbScheduledJobRepository(RavenDbTestSetup.DocumentStore);	
+			CreateScheduledJobRepository().Wipe();
 		}
 
 		[Test]
