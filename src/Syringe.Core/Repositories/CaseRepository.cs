@@ -119,9 +119,9 @@ namespace Syringe.Core.Repositories
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool DeleteTestCase(int testCaseId, string filename, string teamName)
+        public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
         {
-            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(fileName, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             CaseCollection collection;
@@ -138,14 +138,12 @@ namespace Syringe.Core.Repositories
                 }
                 
                 collection.TestCases = collection.TestCases.Where(x => x.Id != testCaseId);
-
             }
 
             string contents = _testCaseWriter.Write(collection);
 
             return _fileHandler.WriteAllText(fullPath, contents);
         }
-
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
         {

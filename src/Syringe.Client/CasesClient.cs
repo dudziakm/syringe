@@ -82,6 +82,20 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
+	    public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("DeleteTestCase");
+            request.Method = Method.POST;
+            request.AddParameter("filename", fileName);
+            request.AddParameter("teamName", teamName);
+            request.AddParameter("testCaseId", testCaseId);
+
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<bool>(response);
+        }
+
+
         private T DeserializeOrThrow<T>(IRestResponse response)
         {
             if (response.StatusCode == HttpStatusCode.OK)
