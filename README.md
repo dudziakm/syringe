@@ -3,19 +3,27 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, script-less tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
-## Dev installation
+## Getting started
 
 *Note: For Visual Studio 2013: install Typescript from http://www.typescriptlang.org/#Download*
 
-Open powershell and run the `setup.ps1` script, this will:
+ Open a new powershell window and run the `setup.ps1` script, this will:
 
+* Make sure you have IIS installed
 * Install chocolatey  
 * Install nuget command line  
 * Build the solution, restoring the nuget packages  
 * Create an IIS site
 * Create C:\syringe folder with an example file.
 
-Once this is complete, run `.\run-rest-service.ps1` and go to http://localhost:8085
+You will need MongoDB installed:
+
+- Install MongoDB: https://www.mongodb.org/downloads
+- Create `c:\mongodb\data\db`
+- Run `start-mongodb.ps1`
+  - Or install it as a service: https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/#configure-a-windows-service-for-mongodb
+
+Once this is complete, run `.\run-service.ps1` and go to http://localhost:1980
 
 ###Additional VS 2013 setup (for Bal)
 
