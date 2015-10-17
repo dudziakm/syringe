@@ -227,6 +227,7 @@
     <Content Include="Scripts\Syringe\ViewResult.js" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
+    <Content Include="Views\TestFile\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\bootstrap-theme.css" />
