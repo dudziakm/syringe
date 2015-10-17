@@ -2,7 +2,7 @@
 <#@ output extension=".d.ts" #>
 <# /* Update this line to match your version of SignalR */ #>
 <#@ assembly name="$(SolutionDir)packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll" #>
-<#@ assembly name="$(SolutionDir)packages\Newtonsoft.Json.7.0.1\lib\net45\NewtonSoft.JSON.dll" #>
+<#@ assembly name="$(SolutionDir)packages\Newtonsoft.Json.7.0.1\lib\net45\NewtonSoft.Json.dll" #>
 <# /* Load the Service project's DLL to make sure the DefaultHubManager can find things */ #>
 <#@ assembly name="$(SolutionDir)src\Syringe.Service\bin\$(Configuration)\Syringe.Service.exe" #>
 <#@ assembly name="System.Core" #>

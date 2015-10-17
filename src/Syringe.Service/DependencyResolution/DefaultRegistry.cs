@@ -15,6 +15,9 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;
@@ -37,7 +40,7 @@ namespace Syringe.Service.DependencyResolution
                     scan.WithDefaultConventions();
                 });
 
-            For<Microsoft.AspNet.SignalR.IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>();
+            For<IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>().Singleton();
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
 
             For<SyringeApplication>().Use<SyringeApplication>().Singleton();
@@ -47,7 +50,13 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITestCaseSessionRepository>().Use<TestCaseSessionRepository>().Singleton();
             For<ITestSessionQueue>().Use<ParallelTestSessionQueue>().Singleton();
-            Forward<ITaskObserver, ITestSessionQueue>();
+            Forward<ITestSessionQueue, ITaskObserver>();
+
+            For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
+            For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
+
+            For<IHubConnectionContext<ITaskMonitorHubClient>>()
+                .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
         }
     }
 }

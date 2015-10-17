@@ -162,6 +162,7 @@
   <ItemGroup>
     <Compile Include="Api\CanaryController.cs" />
     <Compile Include="Api\Hubs\ITaskMonitorHubClient.cs" />
+    <Compile Include="Api\Hubs\TaskGroupProvider.cs" />
     <Compile Include="Api\Hubs\TaskMonitorHub.cs" />
     <Compile Include="Api\Hubs\TaskState.cs" />
     <Compile Include="Api\TasksController.cs" />
@@ -172,9 +173,12 @@
     <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
     <Compile Include="ITaskObserver.cs" />
     <Compile Include="ITestSessionQueue.cs" />
+    <Compile Include="Api\Hubs\ITaskGroupProvider.cs" />
+    <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
     <Compile Include="Api\TeamController.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
+    <Compile Include="Parallel\TaskPublisher.cs" />
     <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

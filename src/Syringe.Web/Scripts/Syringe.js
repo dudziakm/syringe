@@ -7,7 +7,6 @@ var Syringe;
     (function (Web) {
         var Progress = (function () {
             function Progress(signalRUrl) {
-                this._updatedIds = {};
                 this.signalRUrl = signalRUrl;
             }
             Progress.prototype.monitor = function (taskId) {
@@ -19,13 +18,41 @@ var Syringe;
                 $.connection.hub.url = this.signalRUrl;
                 this.proxy = $.connection.taskMonitorHub;
                 this.proxy.client.onTaskCompleted = function (taskInfo) {
-                    console.log("Completed task " + taskInfo.TaskId);
+                    ++_this.completedCases;
+                    console.log("Completed task " + taskInfo.CaseId + " (" + _this.completedCases + " of " + _this.totalCases + ").");
+                    if (_this.totalCases > 0) {
+                        var percentage = (_this.completedCases / _this.totalCases) * 100;
+                        $(".progress-bar").css("width", percentage + "%");
+                        $(".progress-bar .sr-only").text(percentage + "% Complete");
+                    }
+                    var selector = "#case-" + taskInfo.CaseId;
+                    var $selector = $(selector);
+                    // Url
+                    var $urlSelector = $(".case-result-url", $selector);
+                    $urlSelector.text(taskInfo.ActualUrl);
+                    // Change background color
+                    var resultClass = taskInfo.Success ? "panel-success" : "panel-warning";
+                    // Exceptions
+                    if (taskInfo.ExceptionMessage !== null) {
+                        resultClass = "panel-danger";
+                        $(".case-result-exception", $selector).removeClass("hidden");
+                        $(".case-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
+                    }
+                    else {
+                        // Show HTML/Raw buttons.
+                        $(".view-html", $selector).removeClass("hidden");
+                        $(".view-raw", $selector).removeClass("hidden");
+                    }
+                    $selector.addClass(resultClass);
                 };
                 $.connection.hub.start()
                     .done(function () {
+                    _this.totalCases = 0;
+                    _this.completedCases = 0;
                     _this.proxy.server.startMonitoringTask(taskId)
-                        .done(function () {
-                        console.log("Started monitoring task " + taskId);
+                        .done(function (taskState) {
+                        _this.totalCases = taskState.TotalCases;
+                        console.log("Started monitoring task " + taskId + ". There are " + taskState.TotalCases + " cases.");
                     });
                 });
             };
@@ -34,98 +61,6 @@ var Syringe;
         Web.Progress = Progress;
     })(Web = Syringe.Web || (Syringe.Web = {}));
 })(Syringe || (Syringe = {}));
-(function () {
-    var jQueryElements = {
-        addVerificationButton: $("#addVerification"),
-        verificationDescription: $("#verificationDescription"),
-        verificationRegex: $("#verificationRegex"),
-        verificationType: $("#verificationType"),
-        addParsedItemButton: $("#addParsedItem"),
-        parseDescription: $("#parseDescription"),
-        parseRegex: $("#parseRegex"),
-        addHeaderItemButton: $("#addHeaderItem"),
-        headerKey: $("#headerKey"),
-        headerValue: $("#headerValue"),
-        addVariableItemButton: $("#addVariableItem"),
-        variableKey: $("#variableKey"),
-        variableValue: $("#variableValue"),
-    };
-    var elements = {
-        removeRow: "#removeRow",
-        formGroup: ".form-group"
-    };
-    function setupButtons() {
-        jQueryElements.addVerificationButton.click(function (e) {
-            e.preventDefault();
-            var verificationItem = {
-                Description: jQueryElements.verificationDescription.val(),
-                Regex: jQueryElements.verificationRegex.val(),
-                VerifyTypeValue: jQueryElements.verificationType.val()
-            };
-            $.get("/TestCase/AddVerification", verificationItem, function (data) {
-                appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");
-                jQueryElements.verificationDescription.val('');
-                jQueryElements.verificationRegex.val('');
-            });
-        });
-        jQueryElements.addParsedItemButton.click(function (e) {
-            e.preventDefault();
-            var parseResponseItem = {
-                Description: jQueryElements.parseDescription.val(),
-                Regex: jQueryElements.parseRegex.val(),
-            };
-            $.get("/TestCase/AddParseResponseItem", parseResponseItem, function (data) {
-                appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
-                jQueryElements.parseDescription.val('');
-                jQueryElements.parseRegex.val('');
-            });
-        });
-        jQueryElements.addHeaderItemButton.click(function (e) {
-            e.preventDefault();
-            var headerItem = {
-                Key: jQueryElements.headerKey.val(),
-                Value: jQueryElements.headerValue.val(),
-            };
-            $.get("/TestCase/AddHeaderItem", headerItem, function (data) {
-                appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
-                jQueryElements.headerKey.val('');
-                jQueryElements.headerValue.val('');
-            });
-        });
-        jQueryElements.addVariableItemButton.click(function (e) {
-            e.preventDefault();
-            var model = {
-                Key: jQueryElements.variableKey.val(),
-                Value: jQueryElements.variableValue.val(),
-            };
-            $.get("/TestFile/AddVariableItem", model, function (data) {
-                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
-                jQueryElements.variableKey.val('');
-                jQueryElements.variableValue.val('');
-            });
-        });
-        $("body").on("click", elements.removeRow, function (e) {
-            e.preventDefault();
-            $(this).closest(elements.formGroup).remove();
-        });
-    }
-    function appendDataItem(element, data, elementPrefix) {
-        var currentRow = element.closest(elements.formGroup);
-        var rowNumber = 0;
-        var previousRow = currentRow.prev();
-        //check if previous row exists then increase number
-        if (previousRow.hasClass("form-group")) {
-            var firstInputName = previousRow.find("input:first").attr("name");
-            //get the last index number of the row and increment it by 1
-            rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
-        }
-        var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
-        currentRow.before(newData);
-    }
-    $(document).ready(function () {
-        setupButtons();
-    });
-}());
 /// <reference path="../typings/jquery/jquery.d.ts" />
 var Syringe;
 (function (Syringe) {
@@ -240,6 +175,98 @@ var Syringe;
         Web.TestCaseRunner = TestCaseRunner;
     })(Web = Syringe.Web || (Syringe.Web = {}));
 })(Syringe || (Syringe = {}));
+(function () {
+    var jQueryElements = {
+        addVerificationButton: $("#addVerification"),
+        verificationDescription: $("#verificationDescription"),
+        verificationRegex: $("#verificationRegex"),
+        verificationType: $("#verificationType"),
+        addParsedItemButton: $("#addParsedItem"),
+        parseDescription: $("#parseDescription"),
+        parseRegex: $("#parseRegex"),
+        addHeaderItemButton: $("#addHeaderItem"),
+        headerKey: $("#headerKey"),
+        headerValue: $("#headerValue"),
+        addVariableItemButton: $("#addVariableItem"),
+        variableKey: $("#variableKey"),
+        variableValue: $("#variableValue"),
+    };
+    var elements = {
+        removeRow: "#removeRow",
+        formGroup: ".form-group"
+    };
+    function setupButtons() {
+        jQueryElements.addVerificationButton.click(function (e) {
+            e.preventDefault();
+            var verificationItem = {
+                Description: jQueryElements.verificationDescription.val(),
+                Regex: jQueryElements.verificationRegex.val(),
+                VerifyTypeValue: jQueryElements.verificationType.val()
+            };
+            $.get("/TestCase/AddVerification", verificationItem, function (data) {
+                appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");
+                jQueryElements.verificationDescription.val('');
+                jQueryElements.verificationRegex.val('');
+            });
+        });
+        jQueryElements.addParsedItemButton.click(function (e) {
+            e.preventDefault();
+            var parseResponseItem = {
+                Description: jQueryElements.parseDescription.val(),
+                Regex: jQueryElements.parseRegex.val(),
+            };
+            $.get("/TestCase/AddParseResponseItem", parseResponseItem, function (data) {
+                appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
+                jQueryElements.parseDescription.val('');
+                jQueryElements.parseRegex.val('');
+            });
+        });
+        jQueryElements.addHeaderItemButton.click(function (e) {
+            e.preventDefault();
+            var headerItem = {
+                Key: jQueryElements.headerKey.val(),
+                Value: jQueryElements.headerValue.val(),
+            };
+            $.get("/TestCase/AddHeaderItem", headerItem, function (data) {
+                appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
+                jQueryElements.headerKey.val('');
+                jQueryElements.headerValue.val('');
+            });
+        });
+        jQueryElements.addVariableItemButton.click(function (e) {
+            e.preventDefault();
+            var model = {
+                Key: jQueryElements.variableKey.val(),
+                Value: jQueryElements.variableValue.val(),
+            };
+            $.get("/TestFile/AddVariableItem", model, function (data) {
+                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
+                jQueryElements.variableKey.val('');
+                jQueryElements.variableValue.val('');
+            });
+        });
+        $("body").on("click", elements.removeRow, function (e) {
+            e.preventDefault();
+            $(this).closest(elements.formGroup).remove();
+        });
+    }
+    function appendDataItem(element, data, elementPrefix) {
+        var currentRow = element.closest(elements.formGroup);
+        var rowNumber = 0;
+        var previousRow = currentRow.prev();
+        //check if previous row exists then increase number
+        if (previousRow.hasClass("form-group")) {
+            var firstInputName = previousRow.find("input:first").attr("name");
+            //get the last index number of the row and increment it by 1
+            rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
+        }
+        var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
+        currentRow.before(newData);
+    }
+    $(document).ready(function () {
+        setupButtons();
+    });
+}());
 var VerifyType;
 (function (VerifyType) {
     VerifyType[VerifyType["Negative"] = 0] = "Negative";

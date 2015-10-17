@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using Syringe.Core.Configuration;
 using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Security
@@ -38,5 +37,10 @@ namespace Syringe.Core.Security
 			User other = obj as User;
 			return other != null && other.Id.Equals(Id);
 		}
+
+	    public override int GetHashCode()
+	    {
+	        return Id.GetHashCode();
+	    }
 	}
 }

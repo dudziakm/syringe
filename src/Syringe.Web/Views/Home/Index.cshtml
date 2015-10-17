@@ -16,16 +16,19 @@
 					</tr>
 				</thead>
 				<tbody>
-				@foreach (string filename in Model.Files)
+				@using (Html.BeginForm("Run", "Home"))
 				{
+					 foreach (string filename in Model.Files)
+					 {
 					<tr>
 						<td>@filename</td>
 						<td>
-							<a class="btn btn-sm btn-primary" href="@Url.Action("Run", "Home", new { filename = filename })">Run</a>
+                            <button class="btn btn-sm btn-primary" type="submit" name="filename" value="@filename">Run</button>
 							<a class="btn btn-sm btn-primary" href="@Url.Action("View", "TestCase", new { filename = filename })">View</a>
 							<a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new { filename = filename })">Edit</a>
 						</td>
 					</tr>
+				}
 				}
 				</tbody>
 			</table>
