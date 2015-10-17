@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core.Canary;
+using Syringe.Core.Extensions;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
@@ -32,17 +34,22 @@ namespace Syringe.Web.Controllers
 			_repository = repository;
 		}
 
-		public ActionResult Index()
+		public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
 		{
 			CheckServiceIsRunning();
 
 			// TODO: team name from the user context?
-			IEnumerable<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName);
+			IList<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName).ToList();
 
-			var model = new IndexViewModel();
-			model.AddFiles(files);
+		    var model = new IndexViewModel
+		    {
+		        PageNumber = pageNumber,
+		        NoOfResults = noOfResults,
+		        PageNumbers = files.GetPageNumbersToShow(noOfResults),
+		        Files = files.GetPaged(noOfResults, pageNumber)
+		    };
 
-			return View(model);
+		    return View(model);
 		}
 
 		[HttpPost]

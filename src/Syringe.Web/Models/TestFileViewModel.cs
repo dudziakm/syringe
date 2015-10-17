@@ -11,7 +11,7 @@ namespace Syringe.Web.Models
         public int PageNumber { get; set; }
         public int NoOfResults { get; set; }
         public string Filename { get; set; }
-        public double TotalCases { get; set; }
+        public double PageNumbers { get; set; }
         public List<VariableItem> Variables { get; set; } 
     }
 }
