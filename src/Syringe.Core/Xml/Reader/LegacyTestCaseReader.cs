@@ -282,7 +282,7 @@ namespace Syringe.Core.Xml.Reader
 					}
 					catch (ArgumentException e)
 					{
-						Log.Information("ParseResponse conversion to a regex failed: {0}", regexText);
+						Log.Information("ParseResponse conversion to a regex failed: {0}. {1}", regexText, e);
 						responseVariables.Add(item);
 					}
 				}

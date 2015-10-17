@@ -1,5 +1,0 @@
-enum VerifyType
-{
-	Negative,
-	Positive
-}

@@ -38,9 +38,9 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" }, 
+				new Case() { Url = "foo1" },
 			});
 			caseCollection.Repeat = 10;
 
@@ -73,9 +73,9 @@ namespace Syringe.Tests.Unit.Runner
 
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" }, 
+				new Case() { Url = "foo1" },
 				new Case() { Url = "foo2" },
 				new Case() { Url = "foo3" },
 				new Case() { Url = "foo4" },
@@ -102,9 +102,9 @@ namespace Syringe.Tests.Unit.Runner
 			HttpClientMock httpClient = new HttpClientMock(response);
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" }, 
+				new Case() { Url = "foo1" },
 			});
 
 			// Act
@@ -124,9 +124,9 @@ namespace Syringe.Tests.Unit.Runner
 			config.BaseUrl = "http://www.yahoo.com";
 			TestSessionRunner runner = CreateRunner(config);
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "{baseurl}/foo/test.html" }, 
+				new Case() { Url = "{baseurl}/foo/test.html" },
 			});
 
 			// Act
@@ -145,11 +145,11 @@ namespace Syringe.Tests.Unit.Runner
 			_httpClientMock.Response.Content = "some content";
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case()
 				{
-					Url = "case1", 
+					Url = "case1",
 					VerifyResponseCode = HttpStatusCode.OK,
 					ParseResponses = new List<ParseResponseItem>()
 					{
@@ -194,20 +194,20 @@ namespace Syringe.Tests.Unit.Runner
 				}
 			};
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case()
 				{
-					Url = "case1", 
+					Url = "case1",
 					VerifyResponseCode = HttpStatusCode.OK,
 					ParseResponses = new List<ParseResponseItem>()
 					{
 						new ParseResponseItem("1", @"(SECRET_KEY)")
 					},
-				}, 
+				},
 				new Case()
 				{
-					Url = "case2", 
+					Url = "case2",
 					VerifyResponseCode = HttpStatusCode.OK,
 					ParseResponses = new List<ParseResponseItem>()
 					{
@@ -218,10 +218,10 @@ namespace Syringe.Tests.Unit.Runner
 						// Test the parsedresponse variable from the 1st case
 						new VerificationItem("positive-for-case-2", "{parsedresponse1}", VerifyType.Positive)
 					},
-				}, 
+				},
 				new Case()
 				{
-					Url = "case3", 
+					Url = "case3",
 					VerifyResponseCode = HttpStatusCode.OK,
 					VerifyPositives = new List<VerificationItem>()
 					{
@@ -247,13 +247,13 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case()
 				{
-					Url = "foo1", 
+					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.OK
-				}, 
+				},
 			});
 
 			// Act
@@ -272,13 +272,13 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case()
 				{
-					Url = "foo1", 
+					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.Ambiguous
-				}, 
+				},
 			});
 
 			// Act
@@ -296,9 +296,9 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous}, 
+				new Case() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
 			});
 
 			// Act
@@ -319,9 +319,9 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 			runner.Repository = repository;
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1"}, 
+				new Case() { Url = "foo1"},
 			});
 
 			// Act
@@ -341,7 +341,7 @@ namespace Syringe.Tests.Unit.Runner
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case() { Url = "foo1", Sleep = seconds }
 			});
@@ -363,9 +363,9 @@ namespace Syringe.Tests.Unit.Runner
 
 			TestSessionRunner runner = CreateRunner(config);
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" } 
+				new Case() { Url = "foo1" }
 			});
 
 			// Act
@@ -385,11 +385,11 @@ namespace Syringe.Tests.Unit.Runner
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 			_httpClientMock.Response.Content = "some content";
 
-			var caseCollection = CreateCaseCollection(new[] 
+			var caseCollection = CreateCaseCollection(new[]
 			{
 				new Case()
 				{
-					Url = "foo1", 
+					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.OK,
 					VerifyPositives = new List<VerificationItem>()
 					{
@@ -399,7 +399,7 @@ namespace Syringe.Tests.Unit.Runner
 					{
 						new VerificationItem("negative-1", "no text like this", VerifyType.Negative)
 					}
-				}, 
+				},
 			});
 
 			// Act
@@ -441,7 +441,7 @@ namespace Syringe.Tests.Unit.Runner
 			config.GlobalHttpLog = LogType.All;
 			TestSessionRunner runner = CreateRunner(config);
 
-			var testResult = new TestCaseResult() {ResponseCodeSuccess = true };
+			var testResult = new TestCaseResult() { ResponseCodeSuccess = true };
 			var testCase = new Case();
 
 			// Act
@@ -460,7 +460,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestSessionRunner runner = CreateRunner(config);
 
 			var testResult = new TestCaseResult();
-			var testCase = new Case() {LogRequest = true};
+			var testCase = new Case() { LogRequest = true };
 
 			// Act
 			bool shouldLog = runner.ShouldLogRequest(testResult, testCase);
@@ -523,157 +523,157 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(shouldLog, Is.True);
 		}
 
-        [Test]
-        public void Run_should_notify_observers_of_existing_results()
-        {
-            // Arrange
-            var observedResults = new List<TestCaseResult>();
+		[Test]
+		public void Run_should_notify_observers_of_existing_results()
+		{
+			// Arrange
+			var observedResults = new List<TestCaseResult>();
 
-            var config = new Config();
-            TestSessionRunner runner = CreateRunner(config);
+			var config = new Config();
+			TestSessionRunner runner = CreateRunner(config);
 
-            var caseCollection = CreateCaseCollection(new[]
-            {
-                new Case() { Url = "foo1" },
-                new Case() { Url = "foo2" },
-                new Case() { Url = "foo3" }
-            });
+			var caseCollection = CreateCaseCollection(new[]
+			{
+				new Case() { Url = "foo1" },
+				new Case() { Url = "foo2" },
+				new Case() { Url = "foo3" }
+			});
 
-            runner.Run(caseCollection);
+			runner.Run(caseCollection);
 
-            // Act
-            runner.Subscribe(r => { observedResults.Add(r); });
+			// Act
+			runner.Subscribe(r => { observedResults.Add(r); });
 
-            // Assert
-            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
-        }
+			// Assert
+			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+		}
 
-        [Test]
-        public void Run_should_notify_observers_of_new_results()
-        {
-            // Arrange
-            var config = new Config();
-            TestSessionRunner runner = CreateRunner(config);
+		[Test]
+		public void Run_should_notify_observers_of_new_results()
+		{
+			// Arrange
+			var config = new Config();
+			TestSessionRunner runner = CreateRunner(config);
 
-            var caseCollection = CreateCaseCollection(new[]
-            {
-                new Case() { Url = "foo1" },
-                new Case() { Url = "foo2" },
-                new Case() { Url = "foo3" }
-            });
+			var caseCollection = CreateCaseCollection(new[]
+			{
+				new Case() { Url = "foo1" },
+				new Case() { Url = "foo2" },
+				new Case() { Url = "foo3" }
+			});
 
-            var observedResults = new List<TestCaseResult>();
+			var observedResults = new List<TestCaseResult>();
 
-            // Act
-            runner.Subscribe(r => { observedResults.Add(r); });
+			// Act
+			runner.Subscribe(r => { observedResults.Add(r); });
 
-            runner.Run(caseCollection);
+			runner.Run(caseCollection);
 
-            // Assert
-            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
-        }
+			// Assert
+			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+		}
 
-        [Test]
-        public void Run_should_not_notify_disposed_observers_of_new_results()
-        {
-            // Arrange
-            var config = new Config();
-            var httpClientMock = new Mock<IHttpClient>();
+		[Test]
+		public void Run_should_not_notify_disposed_observers_of_new_results()
+		{
+			// Arrange
+			var config = new Config();
+			var httpClientMock = new Mock<IHttpClient>();
 
-            IDisposable subscription = null;
+			IDisposable subscription = null;
 
-            httpClientMock
-                .Setup(
-                    c =>
-                        c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                            It.IsAny<IEnumerable<HeaderItem>>()))
-                .Returns(new HttpResponse());
+			httpClientMock
+				.Setup(
+					c =>
+						c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+							It.IsAny<IEnumerable<HeaderItem>>()))
+				.Returns(new HttpResponse());
 
-            // Dispose of the subscription before processing the third request.
-            httpClientMock
-                .Setup(c => c.ExecuteRequest(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
-                .Callback(() => { if (subscription != null) subscription.Dispose(); })
-                .Returns(new HttpResponse());
+			// Dispose of the subscription before processing the third request.
+			httpClientMock
+				.Setup(c => c.ExecuteRequest(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
+				.Callback(() => { if (subscription != null) subscription.Dispose(); })
+				.Returns(new HttpResponse());
 
-            TestSessionRunner runner = new TestSessionRunner(config, httpClientMock.Object, GetRepository());
+			TestSessionRunner runner = new TestSessionRunner(config, httpClientMock.Object, GetRepository());
 
-            var caseCollection = CreateCaseCollection(new[]
-            {
-                new Case() { Url = "foo1" },
-                new Case() { Url = "foo2" },
-                new Case() { Url = "foo3" }
-            });
+			var caseCollection = CreateCaseCollection(new[]
+			{
+				new Case() { Url = "foo1" },
+				new Case() { Url = "foo2" },
+				new Case() { Url = "foo3" }
+			});
 
-            var observedResults = new List<TestCaseResult>();
+			var observedResults = new List<TestCaseResult>();
 
-            // Act
-            subscription = runner.Subscribe(r => { observedResults.Add(r); });
+			// Act
+			subscription = runner.Subscribe(r => { observedResults.Add(r); });
 
-            runner.Run(caseCollection);
+			runner.Run(caseCollection);
 
-            // Assert
-            Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
-        }
+			// Assert
+			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
+		}
 
-        [Test]
-        public void Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
-        {
-            // Arrange
-            var config = new Config();
-            TestSessionRunner runner = CreateRunner(config);
+		[Test]
+		public void Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
+		{
+			// Arrange
+			var config = new Config();
+			TestSessionRunner runner = CreateRunner(config);
 
-            var caseCollection = CreateCaseCollection(new[]
-            {
-                new Case() { Url = "foo1" },
-                new Case() { Url = "foo2" },
-                new Case() { Url = "foo3" }
-            });
+			var caseCollection = CreateCaseCollection(new[]
+			{
+				new Case() { Url = "foo1" },
+				new Case() { Url = "foo2" },
+				new Case() { Url = "foo3" }
+			});
 
-            var completed = false;
+			var completed = false;
 
-            runner.Subscribe(r => { }, onCompleted: () => completed = true);
+			runner.Subscribe(r => { }, onCompleted: () => completed = true);
 
-            Assume.That(completed, Is.False);
+			Assume.That(completed, Is.False);
 
-            // Act
-            runner.Run(caseCollection);
+			// Act
+			runner.Run(caseCollection);
 
-            // Assert
-            Assert.That(completed, Is.True, "Should have notified of completion.");
-        }
+			// Assert
+			Assert.That(completed, Is.True, "Should have notified of completion.");
+		}
 
-        [Test]
-        public void Run_should_notify_subscribers_of_errors()
-        {
-            // Arrange
-            var httpClientMock = new Mock<IHttpClient>();
+		[Test]
+		public void Run_should_notify_subscribers_of_result_on_error()
+		{
+			// Arrange
+			var httpClientMock = new Mock<IHttpClient>();
 
-            // Throw an error.
-            httpClientMock
-                .Setup(c => c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
-                .Throws(new InvalidOperationException("Bad"));
+			// Throw an error.
+			httpClientMock
+				.Setup(c => c.ExecuteRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
+				.Throws(new InvalidOperationException("Bad"));
 
-            TestSessionRunner runner = new TestSessionRunner(new Config(), httpClientMock.Object, GetRepository());
+			TestSessionRunner runner = new TestSessionRunner(new Config(), httpClientMock.Object, GetRepository());
 
-            var caseCollection = CreateCaseCollection(new[]
-            {
-                new Case() { Url = "foo1" },
-                new Case() { Url = "foo2" },
-                new Case() { Url = "foo3" }
-            });
+			var caseCollection = CreateCaseCollection(new[]
+			{
+				new Case() { Url = "foo1" },
+				new Case() { Url = "foo2" },
+				new Case() { Url = "foo3" }
+			});
 
-            Exception error = null;
+			TestCaseResult capturedResult = null;
+			runner.Subscribe(r => capturedResult = r);
 
-            runner.Subscribe(r => { }, onError: e => error = e);
+			// Act
+			runner.Run(caseCollection);
 
-            // Act
-            runner.Run(caseCollection);
+			// Assert
+			Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
+			Assert.That(capturedResult.Success, Is.False, "Should not have succeeded.");
+		}
 
-            // Assert
-            Assert.That(error, Is.InstanceOf<InvalidOperationException>().With.Message.EqualTo("Bad"), "Should have notified of the exception.");
-        }
-
-        private TestSessionRunner CreateRunner(Config config)
+		private TestSessionRunner CreateRunner(Config config)
 		{
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);

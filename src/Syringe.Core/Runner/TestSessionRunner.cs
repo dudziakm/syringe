@@ -112,7 +112,7 @@ namespace Syringe.Core.Runner
 			IEnumerable<TestCaseResult> resultsCopy;
 			lock (_currentResults)
 			{
-				resultsCopy = _currentResults.AsReadOnly();
+				resultsCopy = _currentResults.ToArray();
 			}
 
 			foreach (var testCaseResult in resultsCopy)
@@ -175,6 +175,7 @@ namespace Syringe.Core.Runner
 					catch (Exception ex)
 					{
 						Log.Error(ex, "An exception occurred running case {0}", testCase.Id);
+						ReportError(ex);
 					}
 					finally
 					{
@@ -278,8 +279,6 @@ namespace Syringe.Core.Runner
 			}
 			catch (Exception ex)
 			{
-				ReportError(ex);
-
 				testResult.ResponseCodeSuccess = false;
 				testResult.ExceptionMessage = ex.Message;
 			}
