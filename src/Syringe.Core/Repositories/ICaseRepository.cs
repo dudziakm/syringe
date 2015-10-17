@@ -5,12 +5,13 @@ namespace Syringe.Core.Repositories
 {
     public interface ICaseRepository
     {
-	    IEnumerable<string> ListCasesForTeam(string teamName);
-		CaseCollection GetTestCaseCollection(string filename, string teamName);
+        IEnumerable<string> ListCasesForTeam(string teamName);
+        CaseCollection GetTestCaseCollection(string filename, string teamName);
         Case GetTestCase(string filename, string teamName, int caseId);
-		bool SaveTestCase(Case testCase, string teamName);
+        bool SaveTestCase(Case testCase, string teamName);
         bool CreateTestCase(Case testCase, string teamName);
         bool DeleteTestCase(int testCaseId, string fileName, string teamName);
         bool CreateTestFile(CaseCollection caseCollection, string teamName);
+        bool UpdateTestFile(CaseCollection caseCollection, string teamName);
     }
 }

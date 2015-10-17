@@ -10,7 +10,7 @@ using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;
 
-namespace Syringe.Tests.Unit.Repository
+namespace Syringe.Tests.Unit.Repositories
 {
     [TestFixture]
     public class CaseRepositoryTests
@@ -176,6 +176,20 @@ namespace Syringe.Tests.Unit.Repository
             _fileHandler.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.CreateFilename(It.IsAny<string>()), Times.Once);
+            _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
+        }
+
+
+        [Test]
+        public void UpdateTestFile_should_return_true_if_file_exists()
+        {
+            // given + when
+            var testFile = _caseRepository.UpdateTestFile(new CaseCollection { Filename = "filePath.xml" }, It.IsAny<string>());
+
+            // then
+            Assert.IsTrue(testFile);
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
         }
     }

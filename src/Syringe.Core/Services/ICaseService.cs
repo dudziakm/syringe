@@ -12,5 +12,6 @@ namespace Syringe.Core.Services
 	    bool CreateTestCase(Case testCase, string teamName);
         bool DeleteTestCase(int testCaseId, string fileName, string teamName);
 	    bool CreateTestFile(CaseCollection caseCollection, string teamName);
+	    bool UpdateTestFile(CaseCollection caseCollection, string teamName);
 	}
 }

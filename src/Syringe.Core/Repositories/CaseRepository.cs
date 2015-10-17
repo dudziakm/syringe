@@ -149,7 +149,7 @@ namespace Syringe.Core.Repositories
         {
             caseCollection.Filename = _fileHandler.CreateFilename(caseCollection.Filename);
 
-            var filePath = _fileHandler.CreateFileFullPath(caseCollection.Filename, teamName);
+            string filePath = _fileHandler.CreateFileFullPath(caseCollection.Filename, teamName);
             var fileExists = _fileHandler.FileExists(filePath);
 
             if (fileExists)
@@ -160,6 +160,15 @@ namespace Syringe.Core.Repositories
             string contents = _testCaseWriter.Write(caseCollection);
 
             return _fileHandler.WriteAllText(filePath, contents);
+        }
+
+        public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
+        {
+            string fileFullPath = _fileHandler.GetFileFullPath(caseCollection.Filename, teamName);
+
+            string contents = _testCaseWriter.Write(caseCollection);
+
+            return _fileHandler.WriteAllText(fileFullPath, contents);
         }
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)

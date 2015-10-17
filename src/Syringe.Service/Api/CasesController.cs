@@ -11,10 +11,7 @@ namespace Syringe.Service.Api
     {
         private readonly ICaseRepository _caseRepository;
 
-        public CasesController()
-            : this(new CaseRepository())
-        {
-        }
+        public CasesController() : this(new CaseRepository()) { }
 
         internal CasesController(ICaseRepository caseRepository)
         {
@@ -68,6 +65,13 @@ namespace Syringe.Service.Api
         public bool CreateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
         {
             return _caseRepository.CreateTestFile(caseCollection, teamName);
+        }
+
+        [Route("api/cases/UpdateTestFile")]
+        [HttpPost]
+        public bool UpdateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
+        {
+            return _caseRepository.UpdateTestFile(caseCollection, teamName);
         }
     }
 }

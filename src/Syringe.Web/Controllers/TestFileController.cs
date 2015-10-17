@@ -36,11 +36,47 @@ namespace Syringe.Web.Controllers
                 var caseCollection = new CaseCollection
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables!= null ? model.Variables.ToDictionary(x => x.Key, x => x.Value) : new Dictionary<string, string>()
+                    Variables = model.Variables != null ? model.Variables.ToDictionary(x => x.Key, x => x.Value) : new Dictionary<string, string>()
                 };
 
-                var testFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
-                return RedirectToAction("Index", "Home");
+                var createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
+                if (createdTestFile)
+                    return RedirectToAction("Index", "Home");
+            }
+
+            return View(model);
+        }
+
+        // GET: TestFile
+        public ActionResult Update(string fileName)
+        {
+            var testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
+
+            TestFileViewModel model = new TestFileViewModel
+            {
+                Filename = fileName,
+                Variables =
+                    testCaseCollection.Variables.Select(x => new VariableItem {Key = x.Key, Value = x.Value}).ToList()
+            };
+
+            return View(model);
+        }
+
+        // GET: TestFile
+        [HttpPost]
+        public ActionResult Update(TestFileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var caseCollection = new CaseCollection
+                {
+                    Filename = model.Filename,
+                    Variables = model.Variables != null ? model.Variables.ToDictionary(x => x.Key, x => x.Value) : new Dictionary<string, string>()
+                };
+
+                var updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
+                if (updateTestFile)
+                    return RedirectToAction("Index", "Home");
             }
 
             return View(model);

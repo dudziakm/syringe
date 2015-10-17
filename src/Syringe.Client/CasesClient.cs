@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json;
 using RestSharp;
-using Syringe.Core;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
@@ -108,7 +107,19 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
-        private T DeserializeOrThrow<T>(IRestResponse response)
+	    public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("UpdateTestFile");
+            request.Method = Method.POST;
+            request.AddJsonBody(caseCollection);
+            request.AddQueryParameter("teamName", teamName);
+
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<bool>(response);
+        }
+
+	    private T DeserializeOrThrow<T>(IRestResponse response)
         {
             if (response.StatusCode == HttpStatusCode.OK)
 			{
