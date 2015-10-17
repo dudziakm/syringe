@@ -228,6 +228,7 @@
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />
+    <Content Include="Views\Shared\Partials\_TestFilePager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\bootstrap-theme.css" />
