@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
+using Syringe.Core.Extensions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
@@ -32,13 +31,12 @@ namespace Syringe.Web.Controllers
 
         public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
         {
-            // TODO: extract paging to separate class
             CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-            var pagedTestCases = testCases.TestCases.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
+            var pagedTestCases = testCases.TestCases.GetPaged(noOfResults, pageNumber);
 
             TestFileViewModel caseList = new TestFileViewModel
             {
-                TotalCases = Math.Ceiling((double)testCases.TestCases.Count() / noOfResults),
+                TotalCases = testCases.TestCases.GetPageNumbersToShow(noOfResults),
                 TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),
                 Filename = filename,
                 PageNumber = pageNumber,

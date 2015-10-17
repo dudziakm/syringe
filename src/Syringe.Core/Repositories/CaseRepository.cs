@@ -169,6 +169,7 @@ namespace Syringe.Core.Repositories
 
             using (var stringReader = new StringReader(xml))
             {
+                //todo: extract this so it can be testable
                 var collection = _testCaseReader.Read(stringReader);
 
                 collection.Variables = caseCollection.Variables;
