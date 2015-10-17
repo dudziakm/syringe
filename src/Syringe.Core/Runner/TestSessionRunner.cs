@@ -318,7 +318,7 @@ namespace Syringe.Core.Runner
 				}
 			}
 
-			public IObserver<TestCaseResult> Observer { get; }
+			public IObserver<TestCaseResult> Observer { get; private set; }
 
 			public void Dispose()
 			{

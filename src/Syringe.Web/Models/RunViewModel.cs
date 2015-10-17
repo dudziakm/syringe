@@ -42,10 +42,13 @@ namespace Syringe.Web.Models
 			CurrentTaskId = _tasksService.Start(taskRequest);
 		}
 
-		public IEnumerable<RunningTestCaseViewModel> TestCases => _runningTestCases;
+		public IEnumerable<RunningTestCaseViewModel> TestCases
+		{
+			get { return _runningTestCases; }
+		}
 
 		public int CurrentTaskId { get; private set; }
 		public string FileName { get; private set; }
-	    public string SignalRUrl { get; private set; }
+		public string SignalRUrl { get; private set; }
 	}
 }
