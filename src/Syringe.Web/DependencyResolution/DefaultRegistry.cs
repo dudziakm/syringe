@@ -42,8 +42,7 @@ namespace Syringe.Web.DependencyResolution
                 });
 
             For<IRunViewModel>().Use<RunViewModel>();
-            For<ITestCaseViewModelBuilder>().Use<TestCaseViewModelBuilder>();
-            For<ITestCaseCoreModelBuilder>().Use<TestCaseCoreModelBuilder>();
+            For<ITestCaseMapper>().Use<TestCaseMapper>();
             For<IApplicationConfiguration>().Use<ApplicationConfig>();
             For<IUserContext>().Use<UserContext>();
             For<ICaseService>().Use<CasesClient>();

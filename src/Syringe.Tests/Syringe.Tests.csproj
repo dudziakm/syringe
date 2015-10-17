@@ -103,8 +103,7 @@
     <Compile Include="Integration\Repository\MongoDB\UserRepositoryTests.cs" />
     <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
-    <Compile Include="Unit\ModelBuilders\TestCaseCoreModelBuilderTests.cs" />
-    <Compile Include="Unit\ModelBuilders\TestCaseViewModelBuilderTests.cs" />
+    <Compile Include="Unit\ModelBuilders\TestCaseMapperTests.cs" />
     <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />

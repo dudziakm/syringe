@@ -5,9 +5,10 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.ModelBuilders
 {
-    public interface ITestCaseViewModelBuilder
+    public interface ITestCaseMapper
     {
-        TestCaseViewModel BuildTestCase(Case testCase);
+        TestCaseViewModel BuildViewModel(Case testCase);
         IEnumerable<TestCaseViewModel> BuildTestCases(IEnumerable<Case> cases);
+        Case BuildCoreModel(TestCaseViewModel testCase);
     }
 }

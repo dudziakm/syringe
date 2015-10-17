@@ -14,19 +14,16 @@ namespace Syringe.Web.Controllers
     {
         private readonly ICaseService _casesClient;
         private readonly IUserContext _userContext;
-        private readonly ITestCaseViewModelBuilder _testCaseViewModelBuilder;
-        private readonly ITestCaseCoreModelBuilder _testCaseCoreModelBuilder;
+        private readonly ITestCaseMapper _testCaseMapper;
 
         public TestCaseController(
             ICaseService casesClient,
             IUserContext userContext,
-            ITestCaseViewModelBuilder testCaseViewModelBuilder,
-            ITestCaseCoreModelBuilder testCaseCoreModelBuilder)
+            ITestCaseMapper testCaseMapper)
         {
             _casesClient = casesClient;
             _userContext = userContext;
-            _testCaseViewModelBuilder = testCaseViewModelBuilder;
-            _testCaseCoreModelBuilder = testCaseCoreModelBuilder;
+            _testCaseMapper = testCaseMapper;
         }
 
         public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
@@ -37,7 +34,7 @@ namespace Syringe.Web.Controllers
             TestFileViewModel caseList = new TestFileViewModel
             {
                 PageNumbers = testCases.TestCases.GetPageNumbersToShow(noOfResults),
-                TestCases = _testCaseViewModelBuilder.BuildTestCases(pagedTestCases),
+                TestCases = _testCaseMapper.BuildTestCases(pagedTestCases),
                 Filename = filename,
                 PageNumber = pageNumber,
                 NoOfResults = noOfResults
@@ -49,7 +46,7 @@ namespace Syringe.Web.Controllers
         public ActionResult Edit(string filename, int testCaseId)
         {
             Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-            TestCaseViewModel model = _testCaseViewModelBuilder.BuildTestCase(testCase);
+            TestCaseViewModel model = _testCaseMapper.BuildViewModel(testCase);
 
             return View(model);
         }
@@ -60,7 +57,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Case testCase = _testCaseCoreModelBuilder.Build(model);
+                Case testCase = _testCaseMapper.BuildCoreModel(model);
                 _casesClient.EditTestCase(testCase, _userContext.TeamName);
                 return RedirectToAction("View", new { filename = model.ParentFilename });
             }
@@ -79,7 +76,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Case testCase = _testCaseCoreModelBuilder.Build(model);
+                Case testCase = _testCaseMapper.BuildCoreModel(model);
                 _casesClient.CreateTestCase(testCase, _userContext.TeamName);
                 return RedirectToAction("View", new { filename = model.ParentFilename });
             }
