@@ -190,7 +190,10 @@ namespace Syringe.Tests.Unit.Repositories
             Assert.IsTrue(testFile);
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+
             _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
+            _testCaseReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
         }
     }
 }

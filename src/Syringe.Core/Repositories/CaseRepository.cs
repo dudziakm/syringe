@@ -165,10 +165,18 @@ namespace Syringe.Core.Repositories
         public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
         {
             string fileFullPath = _fileHandler.GetFileFullPath(caseCollection.Filename, teamName);
+            string xml = _fileHandler.ReadAllText(fileFullPath);
 
-            string contents = _testCaseWriter.Write(caseCollection);
+            using (var stringReader = new StringReader(xml))
+            {
+                var collection = _testCaseReader.Read(stringReader);
 
-            return _fileHandler.WriteAllText(fileFullPath, contents);
+                collection.Variables = caseCollection.Variables;
+                collection.Repeat = caseCollection.Repeat;
+
+                string contents = _testCaseWriter.Write(collection);
+                return _fileHandler.WriteAllText(fileFullPath, contents);
+            }
         }
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
