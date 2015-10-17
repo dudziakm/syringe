@@ -57,6 +57,9 @@ p {
   background-image: none;
   padding: inherit;
 }
+.panel .input-validation-error {
+  border: 1px solid red !important;
+}
 .panel .btn {
   margin-top: 0;
 }
