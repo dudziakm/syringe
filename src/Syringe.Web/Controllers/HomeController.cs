@@ -45,13 +45,8 @@ namespace Syringe.Web.Controllers
 			return View(model);
 		}
 
-		public ActionResult Run(string filename)
-		{
-			return View("Run", "", filename);
-		}
-
 		[HttpPost]
-		public ActionResult RunSignalR(string filename)
+		public ActionResult Run(string filename)
 		{
 			var runViewModel = _runViewModelFactory();
 			runViewModel.Run(_userContext, filename);
