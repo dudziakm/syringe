@@ -53,11 +53,13 @@ p {
   padding: inherit;
 }
 .panel .form-control:focus {
-  border: 1px solid #d2d2d2 !important;
   background-image: none;
   padding: inherit;
 }
-.panel .input-validation-error {
+.panel .form-control.input-validation-error {
+  border: 1px solid red !important;
+}
+.panel .form-control.input-validation-error:focus {
   border: 1px solid red !important;
 }
 .panel .btn {

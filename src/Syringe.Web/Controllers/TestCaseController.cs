@@ -86,14 +86,9 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Delete(int testCaseId, string fileName)
         {
-            var deleteTestCase = _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
+            _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
 
-            if (deleteTestCase)
-            {
-                return RedirectToAction("View", new { filename = fileName });
-            }
-
-            return View();
+            return RedirectToAction("View", new { filename = fileName });
         }
 
         public ActionResult AddVerification(VerificationItemModel model)
