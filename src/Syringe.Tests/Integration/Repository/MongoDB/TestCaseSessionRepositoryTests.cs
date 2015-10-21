@@ -27,6 +27,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public void SetUp()
 		{
 			CreateTestCaseSessionRepository().Wipe();
+			Thread.Sleep(250);
 		}
 
 		[Test]
