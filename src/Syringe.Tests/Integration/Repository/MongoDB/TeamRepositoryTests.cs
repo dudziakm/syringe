@@ -25,7 +25,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			CreateUserRepository().Wipe();
 			CreateTeamRepository().Wipe();
-			Thread.Sleep(200);
+			SetUpFixture.WaitForDatabaseWipe();
 		}
 
 		private User AddJohnDoeUser()
