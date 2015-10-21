@@ -31,8 +31,14 @@
                                 <p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
-                                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-action-delete"></i></a>
+                                @using (Html.BeginForm("Delete", "TestCase"))
+                                {
+                                    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
+
+                                    <input type="hidden" name="filename" value="@Model.Filename" />
+                                    <input type="hidden" name="testCaseId" value="@testCase.Id" />
+                                    <button class="btn btn-sm btn-danger" type="submit"><i class="mdi-action-delete"></i></button>
+                                }
                             </td>
                         </tr>
                     }
@@ -40,9 +46,6 @@
             </table>
 
             @Html.Partial("~/Views/Shared/Partials/_TestCasePager.cshtml")
-
-
-
         </div>
     </div>
 </div>

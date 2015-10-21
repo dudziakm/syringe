@@ -83,7 +83,7 @@ namespace Syringe.Web.Controllers
 
             return View("Add", model);
         }
-
+        [HttpPost]
         public ActionResult Delete(int testCaseId, string fileName)
         {
             _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
