@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
@@ -24,6 +25,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			CreateUserRepository().Wipe();
 			CreateTeamRepository().Wipe();
+			Thread.Sleep(200);
 		}
 
 		private User AddJohnDoeUser()
