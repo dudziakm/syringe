@@ -11,9 +11,7 @@ namespace Syringe.Service.Api
     {
         private readonly ICaseRepository _caseRepository;
 
-        public CasesController() : this(new CaseRepository()) { }
-
-        internal CasesController(ICaseRepository caseRepository)
+        public CasesController(ICaseRepository caseRepository)
         {
             _caseRepository = caseRepository;
         }

@@ -16,8 +16,6 @@ namespace Syringe.Core.FileOperations
             _appConfig = appConfig;
         }
 
-        public FileHandler() : this(new ApplicationConfig()) { }
-
         public string GetFileFullPath(string fileName, string teamName)
         {
             string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);

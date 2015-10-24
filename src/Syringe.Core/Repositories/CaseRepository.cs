@@ -15,9 +15,7 @@ namespace Syringe.Core.Repositories
         private readonly ITestCaseWriter _testCaseWriter;
         private readonly IFileHandler _fileHandler;
 
-        public CaseRepository() : this(new TestCaseReader(), new TestCaseWriter(), new FileHandler()) { }
-
-        internal CaseRepository(ITestCaseReader testCaseReader, ITestCaseWriter testCaseWriter, IFileHandler fileHandler)
+        public CaseRepository(ITestCaseReader testCaseReader, ITestCaseWriter testCaseWriter, IFileHandler fileHandler)
         {
             _testCaseReader = testCaseReader;
             _testCaseWriter = testCaseWriter;
