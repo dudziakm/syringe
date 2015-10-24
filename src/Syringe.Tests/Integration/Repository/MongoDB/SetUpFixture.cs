@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
@@ -27,6 +28,11 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 				// Only kill mongod if the tests started it
 				_mongoDbProcess.Kill();
 			}
+		}
+
+		public static void WaitForDatabaseWipe()
+		{
+			Thread.Sleep(300);
 		}
 	}
 }

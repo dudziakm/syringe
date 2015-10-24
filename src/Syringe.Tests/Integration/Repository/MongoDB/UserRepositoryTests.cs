@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
@@ -18,6 +19,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public void SetUp()
 		{
 			CreateUserRepository().Wipe();
+			SetUpFixture.WaitForDatabaseWipe();
 		}
 
 		[Test]

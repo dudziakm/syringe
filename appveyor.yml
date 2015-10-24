@@ -10,8 +10,8 @@ branches:
   only:
     - master
 
+services:
+  - mongodb
+
 before_build:
   ps: nuget restore Syringe.sln
-
-after_build:
-  ps: choco install redis -y
