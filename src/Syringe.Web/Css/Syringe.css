@@ -74,3 +74,6 @@ p {
 .validation-summary-valid {
   padding: 0px !important;
 }
+.form-horizontal .checkbox {
+  padding-top: 7px;
+}
