@@ -14,12 +14,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 	[TestFixture]
 	public class TestCaseMapperTests
 	{
-		[Test]
-		public void Build_should_throw_argument_null_exception_if_view_model_is_null()
-		{
-			var testCaseMapper = new TestCaseMapper();
-			Assert.Throws<ArgumentNullException>(() => testCaseMapper.BuildCoreModel(null));
-		}
 
 		[Test]
 		public void Build_should_set_correct_properties_when_model_is_populated()
