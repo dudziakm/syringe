@@ -293,7 +293,6 @@
     <Content Include="Views\Home\ViewResult.cshtml" />
     <Content Include="Views\Home\Run.cshtml" />
     <Content Include="Views\Shared\Partials\_TestCasePager.cshtml" />
-    <Content Include="Views\TestCase\Add.cshtml" />
     <Content Include="Views\TestFile\Add.cshtml" />
     <Content Include="Views\TestFile\EditorTemplates\VariableItem.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
