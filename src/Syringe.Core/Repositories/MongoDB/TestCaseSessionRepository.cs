@@ -16,10 +16,6 @@ namespace Syringe.Core.Repositories.MongoDB
 		private readonly IMongoDatabase _database;
 		private readonly IMongoCollection<TestCaseSession> _collection;
 
-		public TestCaseSessionRepository() : this(new Configuration())
-		{
-		}
-
 		public TestCaseSessionRepository(Configuration configuration)
 		{
 			_configuration = configuration;

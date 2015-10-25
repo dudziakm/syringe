@@ -13,11 +13,6 @@ namespace Syringe.Client
 	{
 		private readonly string _baseUrl;
 
-		public CasesClient()
-			: this(new ApplicationConfig())
-		{
-		}
-
 		public CasesClient(IApplicationConfiguration appConfig)
 		{
 			_baseUrl = appConfig.ServiceUrl;

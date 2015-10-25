@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Driver;
 using Syringe.Core.Security;
 
@@ -15,10 +12,6 @@ namespace Syringe.Core.Repositories.MongoDB
 		private readonly MongoClient _mongoClient;
 		private readonly IMongoDatabase _database;
 		private readonly IMongoCollection<User> _collection;
-
-		public UserRepository() : this(new Configuration())
-		{
-		}
 
 		public UserRepository(Configuration configuration)
 		{

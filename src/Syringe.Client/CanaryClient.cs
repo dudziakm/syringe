@@ -10,11 +10,6 @@ namespace Syringe.Client
 	{
 		private readonly string _baseUrl;
 
-		public CanaryClient()
-			: this(new ApplicationConfig())
-		{
-		}
-
 		public CanaryClient(IApplicationConfiguration appConfig)
 		{
 			_baseUrl = appConfig.ServiceUrl;

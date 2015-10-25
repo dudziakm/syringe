@@ -17,10 +17,6 @@ namespace Syringe.Core.Repositories.MongoDB
 		private readonly IMongoDatabase _database;
 		private readonly IMongoCollection<Team> _collection;
 
-		public TeamRepository() : this(new Configuration())
-		{
-		}
-
 		public TeamRepository(Configuration configuration)
 		{
 			_configuration = configuration;

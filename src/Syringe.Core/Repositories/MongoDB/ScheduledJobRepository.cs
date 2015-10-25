@@ -15,10 +15,6 @@ namespace Syringe.Core.Repositories.MongoDB
 		private readonly IMongoDatabase _database;
 		private readonly IMongoCollection<ScheduledJob> _collection;
 
-		public ScheduledJobRepository() : this(new Configuration())
-		{
-		}
-
 		public ScheduledJobRepository(Configuration configuration)
 		{
 			_configuration = configuration;
