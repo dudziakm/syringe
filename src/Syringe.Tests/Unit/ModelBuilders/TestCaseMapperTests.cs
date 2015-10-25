@@ -56,6 +56,14 @@ namespace Syringe.Tests.Unit.ModelBuilders
         }
 
         [Test]
+        public void BuildTestCases_should_throw_argumentnullexception_when_testcase_is_null()
+        {
+            var testCaseMapper = new TestCaseMapper();
+
+            Assert.Throws<ArgumentNullException>(() => testCaseMapper.BuildTestCases(null));
+        }
+
+        [Test]
         public void BuildTestCases_should_return_correct_model_values_from_casecollection()
         {
             // given
