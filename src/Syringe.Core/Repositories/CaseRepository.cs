@@ -24,7 +24,7 @@ namespace Syringe.Core.Repositories
 
         public Case GetTestCase(string filename, string teamName, Guid caseId)
         {
-            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(teamName, filename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             using (var stringReader = new StringReader(xml))
@@ -50,7 +50,7 @@ namespace Syringe.Core.Repositories
                 throw new ArgumentNullException("testCase");
             }
 
-            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(teamName, testCase.ParentFilename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             CaseCollection collection;
@@ -81,7 +81,7 @@ namespace Syringe.Core.Repositories
                 throw new ArgumentNullException("testCase");
             }
 
-            var fullPath = _fileHandler.GetFileFullPath(testCase.ParentFilename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(teamName, testCase.ParentFilename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             CaseCollection collection;
@@ -119,7 +119,7 @@ namespace Syringe.Core.Repositories
 
         public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
         {
-            var fullPath = _fileHandler.GetFileFullPath(fileName, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(teamName, fileName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             CaseCollection collection;
@@ -147,7 +147,7 @@ namespace Syringe.Core.Repositories
         {
             caseCollection.Filename = _fileHandler.CreateFilename(caseCollection.Filename);
 
-            string filePath = _fileHandler.CreateFileFullPath(caseCollection.Filename, teamName);
+            string filePath = _fileHandler.CreateFileFullPath(teamName, caseCollection.Filename);
             var fileExists = _fileHandler.FileExists(filePath);
 
             if (fileExists)
@@ -162,7 +162,7 @@ namespace Syringe.Core.Repositories
 
         public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
         {
-            string fileFullPath = _fileHandler.GetFileFullPath(caseCollection.Filename, teamName);
+            string fileFullPath = _fileHandler.GetFileFullPath(teamName, caseCollection.Filename);
             string xml = _fileHandler.ReadAllText(fileFullPath);
 
             using (var stringReader = new StringReader(xml))
@@ -179,7 +179,7 @@ namespace Syringe.Core.Repositories
 
         public CaseCollection GetTestCaseCollection(string filename, string teamName)
         {
-            var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
+            var fullPath = _fileHandler.GetFileFullPath(teamName, filename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             using (var stringReader = new StringReader(xml))
@@ -190,7 +190,7 @@ namespace Syringe.Core.Repositories
 
         public IEnumerable<string> ListCasesForTeam(string teamName)
         {
-            string fullPath = _fileHandler.GetFullPath(teamName);
+            string fullPath = _fileHandler.GetTeamDirectoryFullPath(teamName);
 
             var fileNames = _fileHandler.GetFileNames(fullPath);
 

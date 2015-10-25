@@ -16,7 +16,7 @@ namespace Syringe.Core.FileOperations
             _appConfig = appConfig;
         }
 
-        public string GetFileFullPath(string fileName, string teamName)
+        public string GetFileFullPath(string teamName, string fileName)
         {
             string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
             if (!File.Exists(fullPath))
@@ -25,7 +25,7 @@ namespace Syringe.Core.FileOperations
             return fullPath;
         }
 
-        public string CreateFileFullPath(string fileName, string teamName)
+        public string CreateFileFullPath(string teamName, string fileName)
         {
             return Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
         }
@@ -35,7 +35,7 @@ namespace Syringe.Core.FileOperations
             return File.Exists(filePath);
         }
 
-        public string GetFullPath(string teamName)
+        public string GetTeamDirectoryFullPath(string teamName)
         {
             string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName);
             if (!Directory.Exists(fullPath))
@@ -65,9 +65,9 @@ namespace Syringe.Core.FileOperations
             return false;
         }
 
-        public IEnumerable<string> GetFileNames(string teamName)
+        public IEnumerable<string> GetFileNames(string fullPath)
         {
-            foreach (string file in Directory.EnumerateFiles(teamName))
+            foreach (string file in Directory.EnumerateFiles(fullPath))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;
@@ -78,7 +78,7 @@ namespace Syringe.Core.FileOperations
         {
             if (string.IsNullOrEmpty(filename))
             {
-                throw new Exception("filename is empty");
+                throw new ArgumentNullException("filename");
             }
 
             if (!filename.EndsWith(".xml"))
@@ -88,6 +88,5 @@ namespace Syringe.Core.FileOperations
 
             return filename;
         }
-
     }
 }
