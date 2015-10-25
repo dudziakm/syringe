@@ -87,25 +87,6 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(testCollection.Variables["SUCCESSFULL_TEST_TEXT"], Is.EqualTo("Welcome Bob"));
 		}
 
-		[Test]
-		public void Read_should_parse_case_ids_and_order_numerically()
-		{
-			// Arrange
-			string xml = GetFullExample();
-			var stringReader = new StringReader(xml);
-			var testCaseReader = GetTestCaseReader();
-
-			// Act
-			CaseCollection testCollection = testCaseReader.Read(stringReader);
-
-			// Assert
-			List<Case> testCases = testCollection.TestCases.ToList();
-
-			Assert.That(testCases[0].Id, Is.EqualTo(1));
-			Assert.That(testCases[1].Id, Is.EqualTo(9));
-			Assert.That(testCases[2].Id, Is.EqualTo(20));
-			Assert.That(testCases[3].Id, Is.EqualTo(300));
-		}
 
 		[Test]
 		public void Read_should_parse_description_attributes()

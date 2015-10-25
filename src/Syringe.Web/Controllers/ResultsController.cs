@@ -19,7 +19,7 @@ namespace Syringe.Web.Controllers
 			_tasksClient = tasksClient;
 		}
 
-		public ActionResult Html(int taskId, int caseId)
+		public ActionResult Html(int taskId, Guid caseId)
 		{
 			var taskCase = FindTestCaseResult(taskId, caseId);
 
@@ -75,7 +75,7 @@ namespace Syringe.Web.Controllers
 			return body.OuterHtml;
 		}
 
-		private TestCaseResult FindTestCaseResult(int taskId, int caseId)
+		private TestCaseResult FindTestCaseResult(int taskId, Guid caseId)
 		{
 			TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
 
@@ -83,7 +83,7 @@ namespace Syringe.Web.Controllers
 			return taskCase;
 		}
 
-		public ActionResult Raw(int taskId, int caseId)
+		public ActionResult Raw(int taskId, Guid caseId)
 		{
 			var taskCase = FindTestCaseResult(taskId, caseId);
 

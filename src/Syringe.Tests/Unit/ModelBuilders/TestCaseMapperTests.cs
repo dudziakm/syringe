@@ -60,13 +60,14 @@ namespace Syringe.Tests.Unit.ModelBuilders
         {
             // given
             var testCaseMapper = new TestCaseMapper();
-
+            var testCaseId = Guid.NewGuid();
+            var testCaseId2 = Guid.NewGuid();
             var caseCollection = new CaseCollection
             {
                 TestCases = new List<Case>
                 {
-                    new Case {Id = 1, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
-                    new Case {Id = 2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
+                    new Case {Id = testCaseId, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
+                    new Case {Id = testCaseId2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
                 }
             };
 
@@ -78,12 +79,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(2, testCaseViewModels.Count());
 
             var firstCase = testCaseViewModels.First();
-            Assert.AreEqual(1, firstCase.Id);
+            Assert.AreEqual(testCaseId, firstCase.Id);
             Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
 
             var lastCase = testCaseViewModels.Last();
-            Assert.AreEqual(2, lastCase.Id);
+            Assert.AreEqual(testCaseId2, lastCase.Id);
             Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
             Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
         }
@@ -96,7 +97,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             var testCase = new Case
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 ShortDescription = "Short Description",
                 Url = "http://www.google.com",
                 ErrorMessage = "Error",
@@ -145,7 +146,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					   {
 						   ErrorMessage = "error",
 						   Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
-						   Id = 10,
+						   Id = Guid.Empty,
 						   LogRequest = true,
 						   LogResponse = true,
 						   LongDescription = "long description",

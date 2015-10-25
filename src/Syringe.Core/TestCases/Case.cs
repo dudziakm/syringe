@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Syringe.Core.TestCases
 {
 	public class Case
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 		public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }

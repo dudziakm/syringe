@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Repositories
@@ -7,10 +8,10 @@ namespace Syringe.Core.Repositories
     {
         IEnumerable<string> ListCasesForTeam(string teamName);
         CaseCollection GetTestCaseCollection(string filename, string teamName);
-        Case GetTestCase(string filename, string teamName, int caseId);
+        Case GetTestCase(string filename, string teamName, Guid caseId);
         bool SaveTestCase(Case testCase, string teamName);
         bool CreateTestCase(Case testCase, string teamName);
-        bool DeleteTestCase(int testCaseId, string fileName, string teamName);
+        bool DeleteTestCase(Guid testCaseId, string fileName, string teamName);
         bool CreateTestFile(CaseCollection caseCollection, string teamName);
         bool UpdateTestFile(CaseCollection caseCollection, string teamName);
     }

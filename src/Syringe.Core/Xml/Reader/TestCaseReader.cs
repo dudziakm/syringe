@@ -37,7 +37,7 @@ namespace Syringe.Core.Xml.Reader
 				Case testCase = GetTestCase(element);
 				testCases.Add(testCase);
 			}
-			testCollection.TestCases = testCases.OrderBy(x => x.Id);
+			testCollection.TestCases = testCases;
 
 			return testCollection;
 		}
@@ -71,7 +71,7 @@ namespace Syringe.Core.Xml.Reader
 			var testCase = new Case();
 
 			// Required Properties
-			testCase.Id = XmlHelper.AttributeAsInt(element, "id");
+			testCase.Id = XmlHelper.AttributeAsGuid(element, "id");
 			testCase.Url = XmlHelper.GetOptionalAttribute(element, "url");
 			if (string.IsNullOrEmpty(testCase.Url))
 				throw new TestCaseException("The url parameter is missing for test case {0}", testCase.Id);

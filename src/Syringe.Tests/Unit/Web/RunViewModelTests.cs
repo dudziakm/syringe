@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
@@ -48,15 +49,16 @@ namespace Syringe.Tests.Unit.Web
 			{
 				const string fileName = "Some file";
 				const string teamName = "My team";
-
+			    Guid testCase1 = Guid.NewGuid();
+			    Guid testCase2 = Guid.NewGuid();
 				var cases =
 					Mock.Of<CaseCollection>(
 						c =>
 							c.TestCases ==
 							new[]
 							{
-								new Case {Id = 1, ShortDescription = "Desc1"},
-								new Case {Id = 2, ShortDescription = "Desc2"}
+								new Case {Id = testCase1, ShortDescription = "Desc1"},
+								new Case {Id = testCase2, ShortDescription = "Desc2"}
 							});
 
 				var caseService =
@@ -71,8 +73,8 @@ namespace Syringe.Tests.Unit.Web
 				Assert.That(viewModel.TestCases, Is.Not.Null);
 				Assert.That(viewModel.TestCases.Select(c => new { c.Id, c.Description }), Is.EquivalentTo(new[]
 				{
-					new { Id = 1, Description = "Desc1" },
-					new { Id = 2, Description = "Desc2" }
+					new { Id = testCase1, Description = "Desc1" },
+					new { Id = testCase2, Description = "Desc2" }
 				}));
 			}
 

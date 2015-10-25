@@ -22,7 +22,7 @@ namespace Syringe.Core.Repositories
             _fileHandler = fileHandler;
         }
 
-        public Case GetTestCase(string filename, string teamName, int caseId)
+        public Case GetTestCase(string filename, string teamName, Guid caseId)
         {
             var fullPath = _fileHandler.GetFileFullPath(filename, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);
@@ -117,7 +117,7 @@ namespace Syringe.Core.Repositories
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
+        public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
         {
             var fullPath = _fileHandler.GetFileFullPath(fileName, teamName);
             string xml = _fileHandler.ReadAllText(fullPath);

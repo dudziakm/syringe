@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core.Repositories;
 using Syringe.Core.Services;
@@ -25,7 +26,7 @@ namespace Syringe.Service.Api
 
         [Route("api/cases/GetTestCase")]
         [HttpGet]
-        public Case GetTestCase(string filename, string teamName, int caseId)
+        public Case GetTestCase(string filename, string teamName, Guid caseId)
         {
             return _caseRepository.GetTestCase(filename, teamName, caseId);
         }
@@ -53,7 +54,7 @@ namespace Syringe.Service.Api
 
         [Route("api/cases/DeleteTestCase")]
         [HttpPost]
-        public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
+        public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
         {
             return _caseRepository.DeleteTestCase(testCaseId, fileName, teamName);
         }

@@ -17,7 +17,6 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Name</th>
                         <td></td>
                     </tr>
@@ -26,7 +25,6 @@
                     @foreach (TestCaseViewModel testCase in Model.TestCases)
                     {
                         <tr>
-                            <td>@testCase.Id</td>
                             <td>
                                 <p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
                             </td>

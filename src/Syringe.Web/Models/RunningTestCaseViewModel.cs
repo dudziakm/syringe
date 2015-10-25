@@ -1,14 +1,16 @@
+using System;
+
 namespace Syringe.Web.Models
 {
     public class RunningTestCaseViewModel
     {
-        public RunningTestCaseViewModel(int id, string description)
+        public RunningTestCaseViewModel(Guid id, string description)
         {
             Id = id;
             Description = description;
         }
 
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Description { get; private set; }
     }
 }

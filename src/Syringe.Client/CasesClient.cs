@@ -33,7 +33,7 @@ namespace Syringe.Client
 			return DeserializeOrThrow<IEnumerable<string>>(response);
 		}
 
-		public Case GetTestCase(string filename, string teamName, int caseId)
+		public Case GetTestCase(string filename, string teamName, Guid caseId)
 		{
 			var client = new RestClient(_baseUrl);
 			IRestRequest request = CreateRequest("GetTestCase");
@@ -81,7 +81,7 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public bool DeleteTestCase(int testCaseId, string fileName, string teamName)
+	    public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
 	    {
             var client = new RestClient(_baseUrl);
             IRestRequest request = CreateRequest("DeleteTestCase");

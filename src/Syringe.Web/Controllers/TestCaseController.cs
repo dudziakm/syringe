@@ -43,7 +43,7 @@ namespace Syringe.Web.Controllers
             return View("View", caseList);
         }
 
-        public ActionResult Edit(string filename, int testCaseId)
+        public ActionResult Edit(string filename, Guid testCaseId)
         {
             Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
             TestCaseViewModel model = _testCaseMapper.BuildViewModel(testCase);
@@ -67,7 +67,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Add(string filename)
         {
-            var model = new TestCaseViewModel { ParentFilename = filename };
+            var model = new TestCaseViewModel { ParentFilename = filename,Id=Guid.NewGuid() };
             return View("Edit", model);
         }
 
@@ -84,7 +84,7 @@ namespace Syringe.Web.Controllers
             return View("Edit", model);
         }
         [HttpPost]
-        public ActionResult Delete(int testCaseId, string fileName)
+        public ActionResult Delete(Guid testCaseId, string fileName)
         {
             _casesClient.DeleteTestCase(testCaseId, fileName, _userContext.TeamName);
 
