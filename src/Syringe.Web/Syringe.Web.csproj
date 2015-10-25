@@ -198,34 +198,12 @@
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />
     <Content Include="Scripts\Syringe.js.map" />
-    <Content Include="Scripts\Syringe\Case.js" />
-    <Content Include="Scripts\Syringe\HeaderItem.js" />
-    <Content Include="Scripts\Syringe\HttpResponse.js" />
-    <Content Include="Scripts\Syringe\ParseResponseItem.js" />
-    <Content Include="Scripts\Syringe\Progress.js" />
-    <Content Include="Scripts\Syringe\Run.js.map" />
-    <Content Include="Scripts\Syringe\Testcase.js.map" />
-    <Content Include="Scripts\Syringe\TestCaseResult.js.map" />
-    <Content Include="Scripts\Syringe\VerificationItem.js.map" />
-    <Content Include="Scripts\Syringe\VerifyType.js.map" />
-    <Content Include="Scripts\Syringe\ViewResult.js.map" />
-    <Content Include="Scripts\Syringe\Case.js.map" />
-    <Content Include="Scripts\Syringe\HeaderItem.js.map" />
-    <Content Include="Scripts\Syringe\HttpResponse.js.map" />
-    <Content Include="Scripts\Syringe\ParseResponseItem.js.map" />
-    <Content Include="Scripts\Syringe\Progress.js.map" />
     <None Include="Scripts\typings\Hubs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Hubs.d.ts</LastGenOutput>
     </None>
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
-    <Content Include="Scripts\Syringe\Run.js" />
-    <Content Include="Scripts\Syringe\TestCase.js" />
-    <Content Include="Scripts\Syringe\TestCaseResult.js" />
-    <Content Include="Scripts\Syringe\VerificationItem.js" />
-    <Content Include="Scripts\Syringe\VerifyType.js" />
-    <Content Include="Scripts\Syringe\ViewResult.js" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />
