@@ -5,8 +5,8 @@
 2. Ensure all repository actions go through a service.
 
 ###Iteration 1.1
-1. Add new test cases.
-2. Delete existing ones.
+1. UI: Add new test cases.
+2. UI: Delete existing ones.
 
 ###Iteration 2
 1. Command line tool to convert old XML cases to new.
