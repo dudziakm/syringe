@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using Syringe.Core.Schedule;
 using Syringe.Core.Security;
@@ -23,19 +24,19 @@ namespace Syringe.Core.Repositories.MongoDB
 			_collection = _database.GetCollection<ScheduledJob>(COLLECTION_NAME);
 		}
 
-		public void AddJob(ScheduledJob job)
+		public async Task AddJobAsync(ScheduledJob job)
 		{
-			_collection.InsertOneAsync(job).Wait();
+			await _collection.InsertOneAsync(job);
 		}
 
-		public void UpdateJob(ScheduledJob job)
+		public async Task UpdateJobAsync(ScheduledJob job)
 		{
-			_collection.ReplaceOneAsync(j => j.Id == job.Id, job).Wait();
+			await _collection.ReplaceOneAsync(j => j.Id == job.Id, job);
 		}
 
-		public void DeleteJob(ScheduledJob job)
+		public async Task DeleteJobAsync(ScheduledJob job)
 		{
-			_collection.DeleteOneAsync(j => j.Id == job.Id).Wait();
+		    await _collection.DeleteOneAsync(j => j.Id == job.Id);
 		}
 
 		public IEnumerable<ScheduledJob> GetAll()

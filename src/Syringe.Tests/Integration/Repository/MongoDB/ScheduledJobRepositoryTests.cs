@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Schedule;
@@ -22,7 +23,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void AddJob_should_store_a_job()
+		public async Task AddJob_should_store_a_job()
 		{
 			// Arrange
 			var expectedJob = new ScheduledJob()
@@ -37,7 +38,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var repository = CreateScheduledJobRepository();
 
 			// Act
-			repository.AddJob(expectedJob);
+			await repository.AddJobAsync(expectedJob);
 
 			// Assert
 			IEnumerable<ScheduledJob> jobs = repository.GetAll();
