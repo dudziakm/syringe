@@ -1,7 +1,7 @@
 # Rebuild the solution
 $ErrorActionPreference = "Stop"
 
-$solutionFile      = "Syringe.IIS.sln"
+$solutionFile      = "Syringe.sln"
 $configuration     = "Debug"
 $platform          = "Mixed Platforms"
 $msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
