@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Syringe.Core.Canary;
 using Syringe.Core.Extensions;
@@ -86,10 +87,10 @@ namespace Syringe.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult DeleteResult(Guid id)
+		public async Task<ActionResult> DeleteResult(Guid id)
 		{
 			TestCaseSession session = _repository.GetById(id);
-			_repository.Delete(session);
+			await _repository.DeleteAsync(session);
 
 			return RedirectToAction("AllResults");
 		}

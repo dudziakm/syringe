@@ -48,7 +48,6 @@ namespace Syringe.Service.Parallel
 			int taskId = Interlocked.Increment(ref _lastTaskId);
 
 			var cancelTokenSource = new CancellationTokenSource();
-			var cancelToken = cancelTokenSource.Token;
 
 			var taskInfo = new SessionRunnerTaskInfo(taskId);
 			taskInfo.Request = item;
@@ -56,10 +55,7 @@ namespace Syringe.Service.Parallel
 			taskInfo.Username = item.Username;
 			taskInfo.TeamName = item.TeamName;
 
-			Task childTask = Task.Run(() =>
-			{
-				StartSession(taskInfo);
-			}, cancelToken);
+		    Task childTask = StartSessionAsync(taskInfo);
 
 			taskInfo.CancelTokenSource = cancelTokenSource;
 			taskInfo.CurrentTask = childTask;
@@ -71,7 +67,7 @@ namespace Syringe.Service.Parallel
 		/// <summary>
 		/// Starts the test case XML file run.
 		/// </summary>
-		internal void StartSession(SessionRunnerTaskInfo item)
+		internal async Task StartSessionAsync(SessionRunnerTaskInfo item)
 		{
 			try
 			{
@@ -96,7 +92,7 @@ namespace Syringe.Service.Parallel
 
 					var runner = new TestSessionRunner(config, httpClient, _repository);
 					item.Runner = runner;
-					runner.Run(caseCollection);
+					await runner.RunAsync(caseCollection);
 				}
 			}
 			catch (Exception e)

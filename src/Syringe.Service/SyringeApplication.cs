@@ -34,7 +34,7 @@ namespace Syringe.Service
 
 		public void Start()
 		{
-			WebApplication = WebApp.Start("http://localhost:8086", Configuration);
+			WebApplication = WebApp.Start("http://*:8086", Configuration);
 		}
 
 		public void Stop()

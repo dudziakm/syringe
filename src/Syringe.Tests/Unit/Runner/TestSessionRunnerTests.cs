@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Http;
@@ -23,7 +24,7 @@ namespace Syringe.Tests.Unit.Runner
 		[SetUp]
 		public void Setup()
 		{
-			Log.UseConsole();
+			TestHelpers.EnableLogging();
 		}
 
 		private ITestCaseSessionRepository GetRepository()
@@ -32,7 +33,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_repeat_testcases_from_repeat_property()
+		public async Task Run_should_repeat_testcases_from_repeat_property()
 		{
 			// Arrange
 			var config = new Config();
@@ -45,14 +46,14 @@ namespace Syringe.Tests.Unit.Runner
 			caseCollection.Repeat = 10;
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Count(), Is.EqualTo(10));
 		}
 
 		[Test]
-		public void Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
+		public async Task Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
 		{
 			// Arrange
 			var config = new Config();
@@ -82,7 +83,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
@@ -90,7 +91,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_populate_StartTime_and_EndTime_and_TotalRunTime()
+		public async Task Run_should_populate_StartTime_and_EndTime_and_TotalRunTime()
 		{
 			// Arrange
 			var beforeStart = DateTime.UtcNow;
@@ -108,7 +109,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
@@ -117,7 +118,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_replace_variables_in_url()
+		public async Task Run_should_replace_variables_in_url()
 		{
 			// Arrange
 			var config = new Config();
@@ -130,14 +131,14 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().ActualUrl, Is.EqualTo("http://www.yahoo.com/foo/test.html"));
 		}
 
 		[Test]
-		public void Run_should_set_parsed_variables()
+		public async Task Run_should_set_parsed_variables()
 		{
 			// Arrange
 			var config = new Config();
@@ -163,14 +164,14 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().VerifyPositiveResults[0].Success, Is.True);
 		}
 
 		[Test]
-		public void Run_should_set_parseresponsevariables_across_testcases()
+		public async Task Run_should_set_parseresponsevariables_across_testcases()
 		{
 			// Arrange
 			var config = new Config();
@@ -232,7 +233,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.ElementAt(1).VerifyPositiveResults[0].Success, Is.True);
@@ -240,7 +241,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_set_testresult_success_and_response_when_httpcode_passes()
+		public async Task Run_should_set_testresult_success_and_response_when_httpcode_passes()
 		{
 			// Arrange
 			var config = new Config();
@@ -257,7 +258,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().Success, Is.True);
@@ -265,7 +266,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_set_testresult_success_and_response_when_httpcode_fails()
+		public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
 		{
 			// Arrange
 			var config = new Config();
@@ -282,7 +283,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().Success, Is.False);
@@ -290,7 +291,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_set_message_from_case_errormessage_when_httpcode_fails()
+		public async Task Run_should_set_message_from_case_errormessage_when_httpcode_fails()
 		{
 			// Arrange
 			var config = new Config();
@@ -302,7 +303,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().Message, Is.EqualTo("It broke"));
@@ -310,7 +311,7 @@ namespace Syringe.Tests.Unit.Runner
 
 
 		[Test]
-		public void Run_should_save_testcasesession_to_repository()
+		public async Task Run_should_save_testcasesession_to_repository()
 		{
 			// Arrange
 			var config = new Config();
@@ -325,7 +326,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(repository.SavedSession, Is.Not.Null);
@@ -333,7 +334,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_sleep_thread_in_seconds_when_case_has_sleep_set()
+		public async Task Run_should_sleep_thread_in_seconds_when_case_has_sleep_set()
 		{
 			// Arrange
 			int seconds = 2;
@@ -347,7 +348,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 			var timeAfterRun = DateTime.UtcNow;
 
 			// Assert
@@ -355,7 +356,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_log_request_and_responses_using_httpclient_when_logging_is_enabled()
+		public async Task Run_should_log_request_and_responses_using_httpclient_when_logging_is_enabled()
 		{
 			// Arrange
 			var config = new Config();
@@ -369,7 +370,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(_httpClientMock.LogLastRequestCalled, Is.True);
@@ -377,7 +378,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_verify_positive_and_negative_items_when_httpcode_passes()
+		public async Task Run_should_verify_positive_and_negative_items_when_httpcode_passes()
 		{
 			// Arrange
 			var config = new Config();
@@ -403,7 +404,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			var result = session.TestCaseResults.Single();
@@ -524,7 +525,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_notify_observers_of_existing_results()
+		public async Task Run_should_notify_observers_of_existing_results()
 		{
 			// Arrange
 			var observedResults = new List<TestCaseResult>();
@@ -539,7 +540,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Case() { Url = "foo3" }
 			});
 
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
@@ -549,7 +550,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void Run_should_notify_observers_of_new_results()
+		public async Task Run_should_notify_observers_of_new_results()
 		{
 			// Arrange
 			var config = new Config();
@@ -567,14 +568,14 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
 
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
 		}
 
 		[Test]
-		public void Run_should_not_notify_disposed_observers_of_new_results()
+		public async Task Run_should_not_notify_disposed_observers_of_new_results()
 		{
 			// Arrange
 			var config = new Config();
@@ -609,14 +610,14 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			subscription = runner.Subscribe(r => { observedResults.Add(r); });
 
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
 		}
 
 		[Test]
-		public void Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
+		public async Task Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
 		{
 			// Arrange
 			var config = new Config();
@@ -636,14 +637,14 @@ namespace Syringe.Tests.Unit.Runner
 			Assume.That(completed, Is.False);
 
 			// Act
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(completed, Is.True, "Should have notified of completion.");
 		}
 
 		[Test]
-		public void Run_should_notify_subscribers_of_result_on_error()
+		public async Task Run_should_notify_subscribers_of_result_on_error()
 		{
 			// Arrange
 			var httpClientMock = new Mock<IHttpClient>();
@@ -666,7 +667,7 @@ namespace Syringe.Tests.Unit.Runner
 			runner.Subscribe(r => capturedResult = r);
 
 			// Act
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");

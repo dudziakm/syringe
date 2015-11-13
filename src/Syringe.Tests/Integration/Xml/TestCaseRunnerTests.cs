@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using RestSharp;
@@ -30,7 +31,7 @@ namespace Syringe.Tests.Integration.Xml
 		}
 
 		[Test]
-		public void should_parse_responses()
+		public async Task should_parse_responses()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
@@ -46,14 +47,14 @@ namespace Syringe.Tests.Integration.Xml
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			// Act
-			TestCaseSession result = runner.Run(caseCollection);
+			TestCaseSession result = await runner.RunAsync(caseCollection);
 
 			// Assert
 			DumpAsYaml(result);
 		}
 
 		[Test]
-		public void should_do_something()
+		public async Task should_run_case()
 		{
 			// Arrange
 			var stringBuilder = new StringBuilder();
@@ -70,11 +71,11 @@ namespace Syringe.Tests.Integration.Xml
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
 			// Act + Assert
-			runner.Run(caseCollection);
+			await runner.RunAsync(caseCollection);
 		}
 
 		[Test]
-		public void should_post()
+		public async Task should_post()
 		{
 			// Arrange
 			//_streamWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write));
@@ -93,7 +94,7 @@ namespace Syringe.Tests.Integration.Xml
 			var caseCollection = reader.Read(stringReader);
 
 			// Act
-			TestCaseSession session = runner.Run(caseCollection);
+			TestCaseSession session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			DumpAsXml(session);
