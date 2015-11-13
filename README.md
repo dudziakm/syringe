@@ -19,7 +19,7 @@ Then run `setup.ps`, this will:
 * Create an IIS site
 * Create C:\syringe folder with an example file.
 
-Once this is complete, run `.\run-service.ps1` and go to http://localhost:1980
+Once this is complete, run `.\start-service.ps1` and go to http://localhost:1980
 
 ###Additional VS 2013 setup (for Bal)
 
