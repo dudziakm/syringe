@@ -15,7 +15,7 @@ namespace Syringe.Tests.Unit.Runner
 		[SetUp]
 		public void Setup()
 		{
-			Log.UseConsole();
+			TestHelpers.EnableLogging();
 		}
 
 		[Test]

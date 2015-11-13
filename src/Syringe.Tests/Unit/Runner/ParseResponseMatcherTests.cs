@@ -16,8 +16,8 @@ namespace Syringe.Tests.Unit.Runner
 		[SetUp]
 		public void Setup()
 		{
-			Log.UseConsole();
-		}
+			TestHelpers.EnableLogging();
+        }
 
 		[Test]
 		public void should_match_regex_groups_and_set_variable_names_and_values_to_matched_items()
