@@ -26,7 +26,6 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <WebGreaseLibPath>..\..\packages\WebGrease.1.5.1\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -156,8 +155,8 @@
       <HintPath>..\..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="WebGrease, Version=1.5.1.25624, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebGrease.1.5.1\lib\WebGrease.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -388,14 +387,14 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\..\packages\BuildWebCompiler.1.4.171\build\BuildWebCompiler.targets" Condition="Exists('..\..\packages\BuildWebCompiler.1.4.171\build\BuildWebCompiler.targets')" />
+  <Import Project="..\..\build\TransformOnBuild.targets" Condition="Exists('..\..\build\TransformOnBuild.targets')" />
+  <Import Project="..\..\packages\BuildWebCompiler.1.8.277\build\BuildWebCompiler.targets" Condition="Exists('..\..\packages\BuildWebCompiler.1.8.277\build\BuildWebCompiler.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\BuildWebCompiler.1.4.171\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BuildWebCompiler.1.4.171\build\BuildWebCompiler.targets'))" />
+    <Error Condition="!Exists('..\..\packages\BuildWebCompiler.1.8.277\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BuildWebCompiler.1.8.277\build\BuildWebCompiler.targets'))" />
   </Target>
-  <Import Project="..\..\build\TransformOnBuild.targets" Condition="Exists('..\..\build\TransformOnBuild.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
