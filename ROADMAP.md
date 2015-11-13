@@ -2,7 +2,7 @@
 This is more of a backlog than roadmap, these stories are in no particular order.
 
 ###Refactors
-1. Remove RavenDb and put MongoDB there
+1. [DONE] Remove RavenDb and put MongoDB there
 2. Ensure all repository actions go through a service.
 3. Re-engineer the runner (pair up)
 4. Better test coverage of the runners, docs.
