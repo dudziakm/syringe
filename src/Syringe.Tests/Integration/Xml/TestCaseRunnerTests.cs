@@ -69,11 +69,8 @@ namespace Syringe.Tests.Integration.Xml
 
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
-			// Act
+			// Act + Assert
 			runner.Run(caseCollection);
-
-			// Assert
-			Console.WriteLine(stringBuilder);
 		}
 
 		[Test]
@@ -101,8 +98,6 @@ namespace Syringe.Tests.Integration.Xml
 			// Assert
 			DumpAsXml(session);
 			DumpAsYaml(session);
-
-			Console.WriteLine(stringBuilder);
 		}
 
 		private static void DumpAsYaml(TestCaseSession session)
@@ -111,7 +106,6 @@ namespace Syringe.Tests.Integration.Xml
 			var stringBuilder = new StringBuilder();
 			var serializer = new Serializer();
 			serializer.Serialize(new IndentedTextWriter(new StringWriter(stringBuilder)), session);
-			Console.WriteLine(stringBuilder);
 		}
 
 		private static void DumpAsXml(TestCaseSession session)
@@ -119,8 +113,6 @@ namespace Syringe.Tests.Integration.Xml
 			var stringBuilder = new StringBuilder();
 			var serializer = new XmlSerializer(typeof (TestCaseSession));
 			serializer.Serialize(new StringWriter(stringBuilder), session);
-
-			Console.WriteLine(stringBuilder);
 		}
 	}
 }
