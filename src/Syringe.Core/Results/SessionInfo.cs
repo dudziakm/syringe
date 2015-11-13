@@ -6,5 +6,6 @@ namespace Syringe.Core.Results
 	{
 		public Guid Id { get; set; }
         public DateTime DateRun { get; set; }
+        public string TestCaseFileName { get; set; }
 	}
 }
