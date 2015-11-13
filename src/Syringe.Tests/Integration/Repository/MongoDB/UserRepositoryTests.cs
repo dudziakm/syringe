@@ -19,7 +19,6 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public void SetUp()
 		{
 			CreateUserRepository().Wipe();
-			SetUpFixture.WaitForDatabaseWipe();
 		}
 
 		[Test]

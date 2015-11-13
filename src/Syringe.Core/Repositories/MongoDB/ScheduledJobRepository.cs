@@ -25,17 +25,17 @@ namespace Syringe.Core.Repositories.MongoDB
 
 		public void AddJob(ScheduledJob job)
 		{
-			_collection.InsertOneAsync(job);
+			_collection.InsertOneAsync(job).Wait();
 		}
 
 		public void UpdateJob(ScheduledJob job)
 		{
-			_collection.ReplaceOneAsync(j => j.Id == job.Id, job);
+			_collection.ReplaceOneAsync(j => j.Id == job.Id, job).Wait();
 		}
 
 		public void DeleteJob(ScheduledJob job)
 		{
-			_collection.DeleteOneAsync(j => j.Id == job.Id);
+			_collection.DeleteOneAsync(j => j.Id == job.Id).Wait();
 		}
 
 		public IEnumerable<ScheduledJob> GetAll()

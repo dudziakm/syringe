@@ -25,7 +25,6 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			CreateUserRepository().Wipe();
 			CreateTeamRepository().Wipe();
-			SetUpFixture.WaitForDatabaseWipe();
 		}
 
 		private User AddJohnDoeUser()
@@ -67,10 +66,9 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			TeamRepository teamRepository = CreateTeamRepository();
-			Team expectedTeam = AddPowerRangersTeam(teamRepository);
 
-			// Act
-			teamRepository.AddTeam(expectedTeam);
+            // Act
+			Team expectedTeam = AddPowerRangersTeam(teamRepository);
 
 			// Assert
 			IEnumerable<Team> teams = teamRepository.GetTeams();

@@ -27,7 +27,7 @@ namespace Syringe.Core.Repositories.MongoDB
 		public void AddUser(User user)
 		{
 			user.Password = User.HashPassword(user.Password);
-			_collection.InsertOneAsync(user);
+			_collection.InsertOneAsync(user).Wait();
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Syringe.Core.Repositories.MongoDB
 			if (passwordHasChanged)
 				user.Password = User.HashPassword(user.Password);
 
-			_collection.ReplaceOneAsync(u => u.Id == user.Id, user);
+			_collection.ReplaceOneAsync(u => u.Id == user.Id, user).Wait();
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// </summary>
 		public void DeleteUser(User user)
 		{
-			_collection.DeleteOneAsync(u => u.Id == user.Id);
+			_collection.DeleteOneAsync(u => u.Id == user.Id).Wait();
 		}
 
 		/// <summary>
