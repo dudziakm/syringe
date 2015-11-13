@@ -7,9 +7,9 @@
 #
 $ErrorActionPreference = "Stop"
 
-$solutionFile      = "Syringe.IIS.sln"
+$solutionFile      = "Syringe.sln"
 $configuration     = "Debug"
-$platform          = "Mixed Platforms"
+$platform          = "Any CPU"
 $msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 $configTool        = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
 
