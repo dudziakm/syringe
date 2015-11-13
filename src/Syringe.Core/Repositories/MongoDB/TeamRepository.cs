@@ -30,7 +30,7 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// </summary>
 		public void AddTeam(Team team)
 		{
-			_collection.InsertOneAsync(team);
+			_collection.InsertOneAsync(team).Wait();
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// </summary>
 		public void UpdateTeam(Team team)
 		{
-			_collection.ReplaceOneAsync(t => t.Id == team.Id, team);
+			_collection.ReplaceOneAsync(t => t.Id == team.Id, team).Wait();
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// </summary>
 		public void Delete(Team team)
 		{
-			_collection.DeleteOneAsync(t => t.Id == team.Id);
+			_collection.DeleteOneAsync(t => t.Id == team.Id).Wait();
 		}
 
 		/// <summary>

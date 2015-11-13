@@ -29,10 +29,5 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 				_mongoDbProcess.Kill();
 			}
 		}
-
-		public static void WaitForDatabaseWipe()
-		{
-			Thread.Sleep(300);
-		}
 	}
 }
