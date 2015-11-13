@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Results;
 
 namespace Syringe.Core.Repositories
 {
 	public interface ITestCaseSessionRepository
 	{
-		void Add(TestCaseSession session);
-		void Delete(TestCaseSession session);
+		Task AddAsync(TestCaseSession session);
+		Task DeleteAsync(TestCaseSession session);
 		TestCaseSession GetById(Guid id);
 		void Wipe();
 

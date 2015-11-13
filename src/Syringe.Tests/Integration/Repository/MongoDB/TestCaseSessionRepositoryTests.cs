@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -30,7 +31,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void Add_should_save_session()
+		public async Task Add_should_save_session()
 		{
 			// Arrange
 			var fixture = new Fixture();
@@ -39,7 +40,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
 
 			// Act
-			repository.Add(session);
+			await repository.AddAsync(session);
 
 			// Assert
 			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
@@ -47,17 +48,17 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void Delete_should_remove_the_session()
+		public async Task Delete_should_remove_the_session()
 		{
 			// Arrange
 			var fixture = new Fixture();
 			var session = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
-			repository.Add(session);
+			await repository.AddAsync(session);
 
 			// Act
-			repository.Delete(session);
+			await repository.DeleteAsync(session);
 
 			// Assert
 			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
@@ -65,14 +66,14 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetById_should_return_session()
+		public async Task GetById_should_return_session()
 		{
 			// Arrange
 			var fixture = new Fixture();
 			var expectedSession = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
-			repository.Add(expectedSession);
+			await repository.AddAsync(expectedSession);
 
 			// Act
 			TestCaseSession actualSession = repository.GetById(expectedSession.Id);
@@ -86,7 +87,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetSummaries_should_return_sessioninfos()
+		public async Task GetSummaries_should_return_sessioninfos()
 		{
 			// Arrange
 			var fixture = new Fixture();
@@ -94,9 +95,8 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var session2 = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
-			repository.Add(session1);
-			repository.Add(session2);
-			Thread.Sleep(100);
+			await repository.AddAsync(session1);
+			await repository.AddAsync(session2);
 
 			// Act
 			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
@@ -110,7 +110,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetSummariesForToday_should_return_sessioninfo_objects_for_today_only()
+		public async Task GetSummariesForToday_should_return_sessioninfo_objects_for_today_only()
 		{
 			// Arrange
 			var fixture = new Fixture();
@@ -132,10 +132,10 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			otherSession2.EndTime = otherSession2.StartTime.AddMinutes(10);
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
-			repository.Add(todaySession1);
-			repository.Add(todaySession2);
-			repository.Add(otherSession1);
-			repository.Add(otherSession2);
+			await repository.AddAsync(todaySession1);
+			await repository.AddAsync(todaySession2);
+			await repository.AddAsync(otherSession1);
+			await repository.AddAsync(otherSession2);
 
 			// Act
 			IEnumerable<SessionInfo> summaries = repository.GetSummariesForToday();

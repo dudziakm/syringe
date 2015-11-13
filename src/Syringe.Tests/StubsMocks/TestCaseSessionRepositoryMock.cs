@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 
@@ -9,8 +10,9 @@ namespace Syringe.Tests.StubsMocks
 	{
 		public TestCaseSession SavedSession { get; set; }
 
-		public void Delete(TestCaseSession session)
+		public Task DeleteAsync(TestCaseSession session)
 		{
+			return Task.FromResult<object>(null);
 		}
 
 		public TestCaseSession GetById(Guid id)
@@ -33,9 +35,10 @@ namespace Syringe.Tests.StubsMocks
 			return new List<SessionInfo>();
 		}
 
-		public void Add(TestCaseSession session)
+		public Task AddAsync(TestCaseSession session)
 		{
 			SavedSession = session;
+		    return Task.FromResult<object>(null);
 		}
 	}
 }

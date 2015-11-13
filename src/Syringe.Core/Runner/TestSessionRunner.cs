@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
@@ -123,7 +124,7 @@ namespace Syringe.Core.Runner
 			return new TestSessionRunnerSubscriber(observer, _subscribers);
 		}
 
-		public TestCaseSession Run(CaseCollection testCollection)
+		public async Task<TestCaseSession> RunAsync(CaseCollection testCollection)
 		{
 			_isStopPending = false;
 			lock (_currentResults)
@@ -202,7 +203,7 @@ namespace Syringe.Core.Runner
 
 			if (saveSession)
 			{
-				Repository.Add(session);
+				await Repository.AddAsync(session);
 			}
 
 			return session;

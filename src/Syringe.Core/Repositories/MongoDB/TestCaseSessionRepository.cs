@@ -24,14 +24,14 @@ namespace Syringe.Core.Repositories.MongoDB
 			_collection = _database.GetCollection<TestCaseSession>(COLLECTION_NAME);
 		}
 
-		public void Add(TestCaseSession session)
+		public async Task AddAsync(TestCaseSession session)
 		{
-			_collection.InsertOneAsync(session);
+			await _collection.InsertOneAsync(session);
 		}
 
-		public void Delete(TestCaseSession session)
+		public async Task DeleteAsync(TestCaseSession session)
 		{
-			_collection.DeleteOneAsync(x => x.Id == session.Id);
+			await _collection.DeleteOneAsync(x => x.Id == session.Id);
 		}
 
 		public TestCaseSession GetById(Guid id)
