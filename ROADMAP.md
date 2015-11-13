@@ -13,7 +13,7 @@ This is more of a backlog than roadmap, these stories are in no particular order
 3. API documentation
 4. XML documentation
 
-###UI
+###Editor UI
 1. UI: Add new test cases.
 2. UI: Delete existing ones.
 
