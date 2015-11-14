@@ -17,10 +17,10 @@ services:
 
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
-  - 7z a .\build\_deploymentOutput\%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
+  - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
   
 artifacts:
-  - path: .\build\_deploymentOutput\%APPVEYOR_BUILD_VERSION%.zip
+  - path: Syringe-%APPVEYOR_BUILD_VERSION%.zip
     name: CurrentVersion
 
 deploy:
