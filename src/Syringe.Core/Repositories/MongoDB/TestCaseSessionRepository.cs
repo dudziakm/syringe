@@ -43,7 +43,16 @@ namespace Syringe.Core.Repositories.MongoDB
         {
             return _collection.AsQueryable()
                                 .ToList()
-                                .Select(x => new SessionInfo() { Id = x.Id, DateRun = x.StartTime, TestCaseFileName = x.TestCaseFilename})
+                                .Select(x => new SessionInfo()
+                                {
+                                    Id = x.Id,
+                                    DateRun = x.StartTime,
+                                    TestCaseFileName = x.TestCaseFilename,
+                                    TotalRunTime = x.TotalRunTime,
+                                    TotalPassed = x.TotalCasesPassed,
+                                    TotalFailed = x.TotalCasesFailed,
+                                    TotalRun = x.TotalCasesRun
+                                })
                                 .OrderByDescending(x => x.DateRun);
         }
 
@@ -51,8 +60,17 @@ namespace Syringe.Core.Repositories.MongoDB
         {
             return _collection.AsQueryable()
                                 .Where(x => x.StartTime >= DateTime.Today)
-                                .ToList()
-                                .Select(x => new SessionInfo() { Id = x.Id, DateRun = x.StartTime, TestCaseFileName = x.TestCaseFilename })
+                                 .ToList()
+                                .Select(x => new SessionInfo()
+                                {
+                                    Id = x.Id,
+                                    DateRun = x.StartTime,
+                                    TestCaseFileName = x.TestCaseFilename,
+                                    TotalRunTime = x.TotalRunTime,
+                                    TotalPassed = x.TotalCasesPassed,
+                                    TotalFailed = x.TotalCasesFailed,
+                                    TotalRun = x.TotalCasesRun
+                                })
                                 .OrderByDescending(x => x.DateRun);
         }
 
