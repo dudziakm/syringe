@@ -6,7 +6,7 @@ cache:
   - packages ->  **\packages.config
 
 build_script:
-    - ps: .\build\build.ps1
+    - ps: $(APPVEYOR_PROJECT_SLUG)\build\build.ps1
   
 branches:
   only:
@@ -16,8 +16,8 @@ services:
   - mongodb
 
 after_build:
-  - ps: .\build\nupkg-to-zip.ps1
-  - 7z a $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\*.zip
+  - ps: $(APPVEYOR_PROJECT_SLUG)\build\nupkg-to-zip.ps1
+  - ps: 7z a $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\*.zip
   
 artifacts:
   - path: $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip
