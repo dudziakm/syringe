@@ -17,8 +17,8 @@ after_build:
   - 7z a \build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip \build\_deploymentOutput\*.zip
   
 artifacts:
-  -name: CurrentVersion
   -path: $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip
+   name: CurrentVersion
 
 deploy:
   provider: AzureBlob
