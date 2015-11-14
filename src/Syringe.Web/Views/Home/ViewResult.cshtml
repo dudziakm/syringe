@@ -1,71 +1,111 @@
 ﻿@model TestCaseSession
 <div class="container" id="testcase-result">
-	<div class="row">
-		<div class="col-md-2">
-			<img alt="Brand" src="/img/syringe.svg" width="150" height="150">
-		</div>
+    <div class="row">
+        <div class="col-md-2">
+            <img alt="Brand" src="/img/syringe.svg" width="150" height="150">
+        </div>
 
-		<div class="col-md-10">
-			<form action="@Url.Action("DeleteResult", "Home")" method="POST">
-				<input type="hidden" name="id" value="@Model.Id" />
-				<button class="btn-link btn-sm pull-right" onclick="return confirm('Are you sure?');">
-					Delete
-				</button>
-			</form>
-			<h1>
-				Results for @Model.TestCaseFilename
-			</h1>
-			<h4>
-				@Model.StartTime.ToString("ddd dd MMM yyyy HH:ss")
-			</h4>
+        <div class="col-md-10">
+            <form action="@Url.Action("DeleteResult", "Home")" method="POST">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button class="btn-link btn-sm pull-right" onclick="return confirm('Are you sure?');">
+                    Delete
+                </button>
+            </form>
+            <h1>
+                Results for @Model.TestCaseFilename
+            </h1>
+            <h4>
+                @Model.StartTime.ToString("ddd dd MMM yyyy HH:ss")
+            </h4>
 
-			<div class="row">
-				<div class="col-md-12">
-					<a href="#" class="btn btn-success" id="tests-passed-count">
-						@Model.TotalCasesPassed tests passed
-					</a>
-					<a href="#" class="btn btn-warning" id="tests-failed-count">
-						@Model.TotalCasesFailed tests failed
-					</a>
-					<a href="#" class="btn btn-info">
-						Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
-					</a>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="panel"></div>
-			</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-success" id="tests-passed-count">
+                        @Model.TotalCasesPassed tests passed
+                    </a>
+                    <a href="#" class="btn btn-warning" id="tests-failed-count">
+                        @Model.TotalCasesFailed tests failed
+                    </a>
+                    <a href="#" class="btn btn-info">
+                        Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
+                    </a>
+                </div>
+            </div>
 
-			<div class="list-group">
-				@foreach (TestCaseResult result in Model.TestCaseResults)
-				{
-					string cssClass = "test-passed";
-					if (!result.Success)
-					{
-						cssClass = "test-failed";
-					}
-					<div class="@cssClass">
-						<div class="list-group-item">
-							<div class="row-action-primary">
-								<i class="mdi-file-folder"></i>
-							</div>
-							<div class="row-content">
-								<div class="least-content">@result.ResponseTime.MinutesAndSecondsFormat()</div>
-								<h4 class="list-group-item-heading">@result.TestCase.ShortDescription</h4>
-								<p class="list-group-item-text">
-									@result.ActualUrl
-								</p>
-								<p class="list-group-item-text">
-									<a href="#">more...</a>
-								</p>
-							</div>
-						</div>
-						<div class="list-group-separator"></div>
-					</div>
-				}
-			</div>
+            <div class="row">
+                <div class="panel"></div>
+            </div>
 
-		</div>
-	</div>
+            <div class="list-group">
+                @foreach (TestCaseResult result in Model.TestCaseResults)
+                {
+                    string cssClass = "test-passed";
+                    if (!result.Success)
+                    {
+                        cssClass = "test-failed";
+                    }
+                    <div class="@cssClass">
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i class="mdi-file-folder"></i>
+                            </div>
+                            <div class="row-content">
+                                <div class="least-content">@result.ResponseTime.MinutesAndSecondsFormat()</div>
+                                <h4 class="list-group-item-heading">@result.TestCase.ShortDescription</h4>
+                                <p class="list-group-item-text">
+                                    @result.ActualUrl
+                                </p>
+
+                                @result.Message
+
+                                <p class="list-group-item-text">
+
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td>Verify Type</td>
+                                            <td>Description</td>
+                                            <td>Regex</td>
+                                        </tr>
+                                        
+                                        @foreach (var item in result.VerifyNegativeResults)
+                                        {
+                                            <tr class="@(item.Success ? "success" :"danger")">
+                                                <td>
+                                                    Negative
+                                                </td>
+                                                <td>
+                                                    @item.Description
+                                                </td>
+                                                <td>
+                                                    @item.Regex
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        @foreach (var item in result.VerifyPositiveResults)
+                                        {
+                                            <tr class="@(item.Success ? "success" :"danger")">
+                                                <td>
+                                                    Positive
+                                                </td>
+                                                <td>
+                                                    @item.Description
+                                                </td>
+                                                <td>
+                                                    @item.Regex
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="list-group-separator"></div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
 </div>
