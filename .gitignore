@@ -200,3 +200,5 @@ Scripts/Syringe/*.js
 Scripts/Syringe/*.map
 *.ncrunchsolution
 *.ncrunchproject
+
+_deploymentOutput/
