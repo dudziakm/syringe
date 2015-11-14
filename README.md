@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/7l5ooplj6mbdkvfv?svg=true)](https://ci.appveyor.com/project/yetanotherchris/syringe)
+[![Coverage Status](https://coveralls.io/repos/yetanotherchris/syringe/badge.svg?branch=master&service=github)](https://coveralls.io/github/yetanotherchris/syringe?branch=master)
 
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
