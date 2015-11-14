@@ -24,7 +24,7 @@
                     <a href="#" class="btn btn-success" id="tests-passed-count">
                         @Model.TotalCasesPassed tests passed
                     </a>
-                    <a href="#" class="btn btn-warning" id="tests-failed-count">
+                    <a href="#" class="btn btn-danger" id="tests-failed-count">
                         @Model.TotalCasesFailed tests failed
                     </a>
                     <a href="#" class="btn btn-info">
@@ -40,24 +40,23 @@
             <div class="list-group">
                 @foreach (TestCaseResult result in Model.TestCaseResults)
                 {
-                    string cssClass = "test-passed";
-                    if (!result.Success)
-                    {
-                        cssClass = "test-failed";
-                    }
-                    <div class="@cssClass">
-                        <div class="list-group-item">
-                            <div class="row-action-primary">
-                                <i class="mdi-file-folder"></i>
-                            </div>
-                            <div class="row-content">
-                                <div class="least-content">@result.ResponseTime.MinutesAndSecondsFormat()</div>
-                                <h4 class="list-group-item-heading">@result.TestCase.ShortDescription</h4>
-                                <p class="list-group-item-text">
-                                    @result.ActualUrl
+                    <div class="panel @(result.Success ? "test-passed panel-success" :"test-failed panel-danger")">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@result.TestCase.ShortDescription - @result.ResponseTime.MinutesAndSecondsFormat()</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>@result.ActualUrl</p>
+                            <p>Response Code Success: @result.ResponseCodeSuccess</p>
+                            @if (!string.IsNullOrEmpty(result.Message))
+                            {
+                                <p>
+                                    Response Code Success: @result.Message
                                 </p>
+                            }
 
-                                @result.Message
+                            @if (result.ResponseCodeSuccess)
+                            {
+                                result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
 
                                 <p class="list-group-item-text">
 
@@ -67,27 +66,12 @@
                                             <td>Description</td>
                                             <td>Regex</td>
                                         </tr>
-                                        
+
                                         @foreach (var item in result.VerifyNegativeResults)
                                         {
                                             <tr class="@(item.Success ? "success" :"danger")">
                                                 <td>
-                                                    Negative
-                                                </td>
-                                                <td>
-                                                    @item.Description
-                                                </td>
-                                                <td>
-                                                    @item.Regex
-                                                </td>
-                                            </tr>
-                                        }
-
-                                        @foreach (var item in result.VerifyPositiveResults)
-                                        {
-                                            <tr class="@(item.Success ? "success" :"danger")">
-                                                <td>
-                                                    Positive
+                                                    @item.VerifyType.ToString()
                                                 </td>
                                                 <td>
                                                     @item.Description
@@ -99,9 +83,8 @@
                                         }
                                     </table>
                                 </p>
-                            </div>
+                            }
                         </div>
-                        <div class="list-group-separator"></div>
                     </div>
                 }
             </div>
