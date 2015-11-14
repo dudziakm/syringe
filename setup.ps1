@@ -20,7 +20,7 @@ Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Install nuget to restore
 Write-Host "Installing Nuget." -ForegroundColor Green
-choco install nuget.commandline
+choco install nuget.commandline -y
 
 if (!(Test-Path $msbuild))
 {
@@ -32,9 +32,13 @@ Write-Host "Nuget restoring"
 nuget restore $solutionFile
 
 # Build the sln file
+
 Write-Host "Building $solutionFile." -ForegroundColor Green
+
+$octopackTargetDir = "$PSScriptRoot/_deploymentOutput";
 cd $PSScriptRoot
-& $msbuild $solutionFile /p:Configuration=$configuration /p:Platform=$platform /target:Build /verbosity:quiet
+
+& $msbuild $solutionFile /p:Configuration=$configuration /p:RunOctoPack=true /p:OctoPackPublishPackageToFileShare="$octopackTargetDir" /p:Platform=$platform /target:Build /verbosity:minimal 
 if ($LastExitCode -ne 0)
 {
 	throw "Building solution failed."
@@ -43,6 +47,7 @@ else
 {
 	Write-Host "Building solution complete."-ForegroundColor Green
 }
+exit
 
 # Run IISConfig tool
 Write-Host "Running the IIS setup tool." -ForegroundColor Green
