@@ -58,7 +58,6 @@ namespace Syringe.Web.ModelBuilders
                         {
                             Regex = x.Regex,
                             Description = x.Description,
-                            VerifyTypeValue = x.VerifyType.ToString(),
                             VerifyType = x.VerifyType
                         });
         }

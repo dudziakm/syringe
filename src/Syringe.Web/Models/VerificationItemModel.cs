@@ -12,9 +12,6 @@ namespace Syringe.Web.Models
         public string Regex { get; set; }
 
         [Display(Name = "Verify Type")]
-        public string VerifyTypeValue { get; set; }
-
-        [Display(Name = "Verify Type")]
         public VerifyType VerifyType { get; set; }
     }
 }
