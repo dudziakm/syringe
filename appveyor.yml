@@ -13,8 +13,12 @@ services:
   - mongodb
 
 after_build:
-  ps: .\build\nupkg-to-zip.ps1
+  - ps: .\build\nupkg-to-zip.ps1
+  - 7z a \build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip \build\_deploymentOutput\*.zip
   
+artifacts:
+  -name: CurrentVersion
+  -path: $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip
 
 deploy:
   provider: AzureBlob
@@ -23,5 +27,5 @@ deploy:
     secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
   container: syringe
   folder: 
-  artifact: $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\System.Web.$(APPVEYOR_BUILD_VERSION).zip
+  artifact: 
   unzip: false
