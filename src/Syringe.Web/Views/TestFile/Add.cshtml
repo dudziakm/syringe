@@ -26,31 +26,14 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Variables</h3>
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title  pull-left">Variables</h3>
+                    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVariableItem"></button>
                 </div>
                 <div class="panel-body">
                     @Html.EditorFor(x => x.Variables)
-
-                    <div class="form-group">
-                        <label for="variableKey" class="control-label col-sm-2">Key</label>
-
-                        <div class="col-sm-3">
-                            <input id="variableKey" type="text" class="form-control" placeholder="Key" />
-                        </div>
-
-                        <label for="variableValue" class="control-label col-sm-2">Value</label>
-
-                        <div class="col-xs-4 col-sm-3 col-lg-4">
-                            <input id="variableValue" type="text" class="form-control" placeholder="Value" />
-                        </div>
-                        <div class="col-xs-1 col-sm-2 col-lg-1">
-                            <button type="submit" class="btn btn-primary glyphicon glyphicon-plus" id="addVariableItem"></button>
-                        </div>
-                    </div>
                 </div>
             </div>
-
             <input type="submit" class="btn btn-primary" />
         </form>
     </div>

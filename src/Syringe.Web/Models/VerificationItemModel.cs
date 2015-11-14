@@ -6,7 +6,9 @@ namespace Syringe.Web.Models
 {
     public class VerificationItemModel
     {
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string Regex { get; set; }
 
         [Display(Name = "Verify Type")]

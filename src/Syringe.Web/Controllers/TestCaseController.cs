@@ -91,38 +91,19 @@ namespace Syringe.Web.Controllers
             return RedirectToAction("View", new { filename = fileName });
         }
 
-        public ActionResult AddVerification(VerificationItemModel model)
+        public ActionResult AddVerification()
         {
-            var item = new VerificationItemModel
-            {
-                Description = model.Description,
-                Regex = model.Regex,
-                VerifyType = (VerifyType)Enum.Parse(typeof(VerifyType), model.VerifyTypeValue)
-            };
-
-            return PartialView("EditorTemplates/VerificationItemModel", item);
+            return PartialView("EditorTemplates/VerificationItemModel", new VerificationItemModel());
         }
 
-        public ActionResult AddParseResponseItem(Models.ParseResponseItem model)
+        public ActionResult AddParseResponseItem()
         {
-            var item = new Models.ParseResponseItem
-            {
-                Description = model.Description,
-                Regex = model.Regex
-            };
-
-            return PartialView("EditorTemplates/ParseResponseItem", item);
+            return PartialView("EditorTemplates/ParseResponseItem", new Models.ParseResponseItem());
         }
 
-        public ActionResult AddHeaderItem(Models.HeaderItem model)
+        public ActionResult AddHeaderItem()
         {
-            var item = new Models.HeaderItem
-            {
-                Key = model.Key,
-                Value = model.Value
-            };
-
-            return PartialView("EditorTemplates/HeaderItem", item);
+            return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
         }
     }
 }

@@ -26,57 +26,32 @@
         jQueryElements.addVerificationButton.click(function (e) {
             e.preventDefault();
 
-            var verificationItem = {
-                Description: jQueryElements.verificationDescription.val(),
-                Regex: jQueryElements.verificationRegex.val(),
-                VerifyTypeValue: jQueryElements.verificationType.val()
-            };
-            $.get("/TestCase/AddVerification", verificationItem, function (data) {
+            $.get("/TestCase/AddVerification", function (data) {
                 appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");
-                jQueryElements.verificationDescription.val('');
-                jQueryElements.verificationRegex.val('');
             });
         });
 
         jQueryElements.addParsedItemButton.click(function (e) {
             e.preventDefault();
 
-            var parseResponseItem = {
-                Description: jQueryElements.parseDescription.val(),
-                Regex: jQueryElements.parseRegex.val(),
-            };
-            $.get("/TestCase/AddParseResponseItem", parseResponseItem, function (data) {
+            $.get("/TestCase/AddParseResponseItem", function (data) {
                 appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
-                jQueryElements.parseDescription.val('');
-                jQueryElements.parseRegex.val('');
             });
         });
 
         jQueryElements.addHeaderItemButton.click(function (e) {
             e.preventDefault();
 
-            var headerItem = {
-                Key: jQueryElements.headerKey.val(),
-                Value: jQueryElements.headerValue.val(),
-            };
-            $.get("/TestCase/AddHeaderItem", headerItem, function (data) {
+            $.get("/TestCase/AddHeaderItem", function (data) {
                 appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
-                jQueryElements.headerKey.val('');
-                jQueryElements.headerValue.val('');
             });
         });
 
         jQueryElements.addVariableItemButton.click(function (e) {
             e.preventDefault();
 
-            var model = {
-                Key: jQueryElements.variableKey.val(),
-                Value: jQueryElements.variableValue.val(),
-            };
-            $.get("/TestFile/AddVariableItem", model, function (data) {
+            $.get("/TestFile/AddVariableItem", function (data) {
                 appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
-                jQueryElements.variableKey.val('');
-                jQueryElements.variableValue.val('');
             });
         });
 
@@ -88,20 +63,25 @@
 
     function appendDataItem(element, data, elementPrefix) {
 
-        var currentRow = element.closest(elements.formGroup);
-        var rowNumber = 0;
-        var previousRow = currentRow.prev();
+        var panelBody = element.parent().next();
+        var currentRow = panelBody.find(elements.formGroup + ":last-child");
 
-        //check if previous row exists then increase number
-        if (previousRow.hasClass("form-group")) {
-            var firstInputName = previousRow.find("input:first").attr("name");
+        var rowNumber = 0;
+
+        if (currentRow.length !== 0) {
+            var previousRow = currentRow.prev();
+
+            //check if previous row exists then increase number
+            if (previousRow.hasClass("form-group")) {
+                var firstInputName = previousRow.find("input:first").attr("name");
             
-            //get the last index number of the row and increment it by 1
-            rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
+                //get the last index number of the row and increment it by 1
+                rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
+            }
         }
 
         var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
-        currentRow.before(newData);
+        panelBody.append(newData);
 
     }
 

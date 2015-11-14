@@ -82,15 +82,9 @@ namespace Syringe.Web.Controllers
             return View(model);
         }
 
-        public ActionResult AddVariableItem(VariableItem model)
+        public ActionResult AddVariableItem()
         {
-            var item = new VariableItem
-            {
-                Key = model.Key,
-                Value = model.Value
-            };
-
-            return PartialView("EditorTemplates/VariableItem", item);
+            return PartialView("EditorTemplates/VariableItem", new VariableItem());
         }
     }
 }
