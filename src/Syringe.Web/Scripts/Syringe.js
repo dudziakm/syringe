@@ -290,6 +290,11 @@ var Syringe;
                         $(item).show(400);
                     });
                 });
+                $("#all-tests-count").on("click", function () {
+                    $.each($(".test-failed, .test-passed"), function (count, item) {
+                        $(item).show(400);
+                    });
+                });
                 $("#tests-failed-count").on("click", function () {
                     $.each($(".test-passed"), function (count, item) {
                         $(item).hide(250);

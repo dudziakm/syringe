@@ -1,33 +1,42 @@
 ﻿@model IEnumerable<SessionInfo>
 <div class="container">
-	<div class="row">
-		<div class="col-md-2">
-			<img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
-		</div>
+    <div class="row">
+        <div class="col-md-2">
+            <img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
+        </div>
 
-		<div class="col-md-10">
-			<h2>All results</h2>
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>Date</th>
-						<td>Name</td>
-						<td></td>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (SessionInfo session in Model)
-					{
-					    <tr>
-					        <td>@session.DateRun</td>
-					        <td>@session.TestCaseFileName</td>
-					        <td>
-					            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Home", new {id = session.Id})">View</a>
-					        </td>
-					    </tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	</div>
+        <div class="col-md-10">
+            <h2>All results</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <td>Name</td>
+                        <td>Result</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SessionInfo session in Model)
+                    {
+                        <tr>
+                            <td>@session.DateRun</td>
+                            <td>
+                                @session.TestCaseFileName
+
+                        </td>
+                        <td>
+                            <span class="label label-success" style="display: inline-block;">Total Passed: @session.TotalPassed</span>
+                            <span class="label label-danger" style="display: inline-block;">Total Failed: @session.TotalFailed</span>
+                            <span class="label label-info" style="display: inline-block;">Run Time: @session.TotalRunTime.MinutesAndSecondsFormat()</span>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Home", new {id = session.Id})">View</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
