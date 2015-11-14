@@ -23,6 +23,15 @@ module Syringe.Web
 					$(item).show(400);
 				});
 				
+            });
+
+            $("#all-tests-count").on("click", () =>
+			{
+                $.each($(".test-failed, .test-passed"), (count, item) =>
+				{
+					$(item).show(400);
+				});
+
 			});
 
 			$("#tests-failed-count").on("click", () =>
