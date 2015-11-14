@@ -17,7 +17,7 @@ services:
 
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
-  - 7z a \build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip \build\_deploymentOutput\*.zip
+  - 7z a $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\*.zip
   
 artifacts:
   - path: $(APPVEYOR_PROJECT_SLUG)\build\_deploymentOutput\$(APPVEYOR_BUILD_VERSION).zip
