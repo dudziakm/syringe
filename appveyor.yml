@@ -25,6 +25,7 @@ assembly_info:
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
+  - echo %APPVEYOR_BUILD_VERSION% > CURRENTVERSION.txt
 
 environment:
     COVERALLS_REPO_TOKEN:  
@@ -36,7 +37,10 @@ after_test:
   
 artifacts:
   - path: Syringe-$(APPVEYOR_BUILD_VERSION).zip
-    name: CurrentVersion
+    name: CurrentVersionZip
+    
+  - path: CURRENTVERSION.txt
+    name: CurrentVersionTxt
 
 deploy:
   provider: AzureBlob
@@ -45,5 +49,14 @@ deploy:
     secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
   container: syringe
   folder: 
-  artifact: CurrentVersion
+  artifact: CurrentVersionZip
+  unzip: false
+
+  provider: AzureBlob
+  storage_account_name: portalvhdshhv3xmk8gh157
+  storage_access_key:
+    secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
+  container: syringe
+  folder: 
+  artifact: CurrentVersionTxt
   unzip: false
