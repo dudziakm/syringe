@@ -22,11 +22,13 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
+# Convert all Octopack generated nupkg files into zip files
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
   - echo %APPVEYOR_BUILD_VERSION% > currentversion.txt
 
+# Get the test coverage and upload it to Coveralls.IO
 environment:
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
@@ -42,8 +44,9 @@ artifacts:
   - path: currentversion.txt
     name: CurrentVersionTxt
 
+# Upload to Azure Blog Storage.
 # Url: https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt
-# Azure Blob Explorer: http://clumsyleaf.com/products/downloads
+# Explorer: http://clumsyleaf.com/products/downloads
 deploy:
   provider: AzureBlob
   storage_account_name: yetanotherchris
