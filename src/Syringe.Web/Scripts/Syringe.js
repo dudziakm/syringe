@@ -182,15 +182,15 @@ var Syringe;
         addHeaderItemButton: $("#addHeaderItem"),
         addVariableItemButton: $("#addVariableItem")
     };
-    function appendDataItem(panelBody, data, elementPrefix) {
-        var currentRow = panelBody.find(".form-group:last-child");
-        var rowNumber = 0;
+    function appendDataItem(panelBody, html, elementPrefix) {
+        var currentRow = panelBody.find(".form-group:last-child"), rowNumber = 0;
         if (currentRow.length !== 0) {
             var firstInputName = currentRow.find("input:first").attr("name");
-            //get the last index number of the row and increment it by 1
+            // get the last index number of the row and increment it by 1
             rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
         }
-        var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
+        // replace the name value with the correct prefix and row number so it can be posted to the server 
+        var newData = html.replace(/name="/g, "name=\"" + elementPrefix + "[" + rowNumber + "].");
         panelBody.append(newData);
     }
     function setupButtons() {
