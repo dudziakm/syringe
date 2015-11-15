@@ -201,3 +201,5 @@ Scripts/Syringe/*.map
 *.ncrunchproject
 
 _deploymentOutput/
+coverage.xml
+TestResult.xml
