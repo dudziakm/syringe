@@ -25,7 +25,7 @@ assembly_info:
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
-  - echo %APPVEYOR_BUILD_VERSION% > CURRENTVERSION.txt
+  - echo %APPVEYOR_BUILD_VERSION% > currentversion.txt
 
 environment:
     COVERALLS_REPO_TOKEN:  
@@ -39,7 +39,7 @@ artifacts:
   - path: Syringe-$(APPVEYOR_BUILD_VERSION).zip
     name: CurrentVersionZip
     
-  - path: CURRENTVERSION.txt
+  - path: currentversion.txt
     name: CurrentVersionTxt
 
 # Url: https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt
