@@ -180,14 +180,10 @@ var Syringe;
         addVerificationButton: $("#addVerification"),
         addParsedItemButton: $("#addParsedItem"),
         addHeaderItemButton: $("#addHeaderItem"),
-        addVariableItemButton: $("#addVariableItem"),
-    };
-    var elements = {
-        removeRow: "#removeRow",
-        formGroup: ".form-group"
+        addVariableItemButton: $("#addVariableItem")
     };
     function appendDataItem(panelBody, data, elementPrefix) {
-        var currentRow = panelBody.find(elements.formGroup + ":last-child");
+        var currentRow = panelBody.find(".form-group:last-child");
         var rowNumber = 0;
         if (currentRow.length !== 0) {
             var firstInputName = currentRow.find("input:first").attr("name");
@@ -222,9 +218,9 @@ var Syringe;
                 appendDataItem(jQueryElements.addVariableItemButton.parent().next(), data, "Variables");
             });
         });
-        $("body").on("click", elements.removeRow, function (e) {
+        $("body").on("click", "#removeRow", function (e) {
             e.preventDefault();
-            $(this).closest(elements.formGroup).remove();
+            $(this).closest(".form-group").remove();
         });
     }
     $(document).ready(function () {

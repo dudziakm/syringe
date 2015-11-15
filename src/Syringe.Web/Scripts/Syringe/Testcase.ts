@@ -4,17 +4,12 @@
         addVerificationButton: $("#addVerification"),
         addParsedItemButton: $("#addParsedItem"),
         addHeaderItemButton: $("#addHeaderItem"),
-        addVariableItemButton: $("#addVariableItem"),
-    };
-
-    var elements = {
-        removeRow: "#removeRow",
-        formGroup: ".form-group"
+        addVariableItemButton: $("#addVariableItem")
     };
 
     function appendDataItem(panelBody, data, elementPrefix) {
 
-        var currentRow = panelBody.find(elements.formGroup + ":last-child");
+        var currentRow = panelBody.find(".form-group:last-child");
 
         var rowNumber = 0;
 
@@ -64,9 +59,9 @@
             });
         });
 
-        $("body").on("click", elements.removeRow, function (e) {
+        $("body").on("click", "#removeRow", function (e) {
             e.preventDefault();
-            $(this).closest(elements.formGroup).remove();
+            $(this).closest(".form-group").remove();
         });
     }
 
