@@ -2,18 +2,9 @@
 
     var jQueryElements = {
         addVerificationButton: $("#addVerification"),
-        verificationDescription: $("#verificationDescription"),
-        verificationRegex: $("#verificationRegex"),
-        verificationType: $("#verificationType"),
         addParsedItemButton: $("#addParsedItem"),
-        parseDescription: $("#parseDescription"),
-        parseRegex: $("#parseRegex"),
         addHeaderItemButton: $("#addHeaderItem"),
-        headerKey: $("#headerKey"),
-        headerValue: $("#headerValue"),
         addVariableItemButton: $("#addVariableItem"),
-        variableKey: $("#variableKey"),
-        variableValue: $("#variableValue")
     };
 
     var elements = {
@@ -21,49 +12,8 @@
         formGroup: ".form-group"
     };
 
-    function setupButtons() {
+    function appendDataItem(panelBody, data, elementPrefix) {
 
-        jQueryElements.addVerificationButton.click(function (e) {
-            e.preventDefault();
-
-            $.get("/TestCase/AddVerification", function (data) {
-                appendDataItem(jQueryElements.addVerificationButton, data, "Verifications");
-            });
-        });
-
-        jQueryElements.addParsedItemButton.click(function (e) {
-            e.preventDefault();
-
-            $.get("/TestCase/AddParseResponseItem", function (data) {
-                appendDataItem(jQueryElements.addParsedItemButton, data, "ParseResponses");
-            });
-        });
-
-        jQueryElements.addHeaderItemButton.click(function (e) {
-            e.preventDefault();
-
-            $.get("/TestCase/AddHeaderItem", function (data) {
-                appendDataItem(jQueryElements.addHeaderItemButton, data, "Headers");
-            });
-        });
-
-        jQueryElements.addVariableItemButton.click(function (e) {
-            e.preventDefault();
-
-            $.get("/TestFile/AddVariableItem", function (data) {
-                appendDataItem(jQueryElements.addVariableItemButton, data, "Variables");
-            });
-        });
-
-        $("body").on("click", elements.removeRow, function (e) {
-            e.preventDefault();
-            $(this).closest(elements.formGroup).remove();
-        });
-    }
-
-    function appendDataItem(element, data, elementPrefix) {
-
-        var panelBody = element.parent().next();
         var currentRow = panelBody.find(elements.formGroup + ":last-child");
 
         var rowNumber = 0;
@@ -78,6 +28,46 @@
 
         var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
         panelBody.append(newData);
+    }
+
+    function setupButtons() {
+
+        jQueryElements.addVerificationButton.click(function (e) {
+            e.preventDefault();
+
+            $.get("/TestCase/AddVerification", function (data) {
+                appendDataItem(jQueryElements.addVerificationButton.parent().next(), data, "Verifications");
+            });
+        });
+
+        jQueryElements.addParsedItemButton.click(function (e) {
+            e.preventDefault();
+
+            $.get("/TestCase/AddParseResponseItem", function (data) {
+                appendDataItem(jQueryElements.addParsedItemButton.parent().next(), data, "ParseResponses");
+            });
+        });
+
+        jQueryElements.addHeaderItemButton.click(function (e) {
+            e.preventDefault();
+
+            $.get("/TestCase/AddHeaderItem", function (data) {
+                appendDataItem(jQueryElements.addHeaderItemButton.parent().next(), data, "Headers");
+            });
+        });
+
+        jQueryElements.addVariableItemButton.click(function (e) {
+            e.preventDefault();
+
+            $.get("/TestFile/AddVariableItem", function (data) {
+                appendDataItem(jQueryElements.addVariableItemButton.parent().next(), data, "Variables");
+            });
+        });
+
+        $("body").on("click", elements.removeRow, function (e) {
+            e.preventDefault();
+            $(this).closest(elements.formGroup).remove();
+        });
     }
 
     $(document).ready(function () {
