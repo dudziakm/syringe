@@ -1,53 +1,25 @@
-#
+# ===============================================================================
 # This script does the following:
-# 1. Builds the solution, including the IIS install tool
-# 2. Runs the IIS install tool
-# 3. Creates C:\syringe\teamname (default path for tests cases)
-# 4. Copies an example test case XML file to that location
-#
+# 1. Runs the IIS install tool
+# 2. Creates C:\syringe\teamname (default path for tests cases)
+# 3. Copies an example test case XML file to that location
+# ===============================================================================
 $ErrorActionPreference = "Stop"
 
-$solutionFile      = "Syringe.sln"
-$configuration     = "Debug"
-$platform          = "Any CPU"
-$msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
-$configTool        = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
+$configTool = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
+$xmlDir     = "C:\syringe\teamname"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
 Write-Host "Please read the README file before running this script. " -ForegroundColor DarkYellow
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 
-# Install nuget to restore
+# Install nuget
 Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
 
-if (!(Test-Path $msbuild))
-{
-	$msbuild = "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-}
-
-# Nuget restoring
-Write-Host "Nuget restoring"
-nuget restore $solutionFile
-
-# Build the sln file
-
-Write-Host "Building $solutionFile." -ForegroundColor Green
-
-$octopackTargetDir = "$PSScriptRoot/_deploymentOutput";
-cd $PSScriptRoot
-
-& $msbuild $solutionFile /p:Configuration=$configuration /p:RunOctoPack=true /p:OctoPackPublishPackageToFileShare="$octopackTargetDir" /p:Platform=$platform /target:Build /verbosity:minimal 
-if ($LastExitCode -ne 0)
-{
-	throw "Building solution failed."
-}
-else
-{
-	Write-Host "Building solution complete."-ForegroundColor Green
-}
-exit
+# Build
+.\build\build.ps1
 
 # Run IISConfig tool
 Write-Host "Running the IIS setup tool." -ForegroundColor Green
@@ -63,11 +35,11 @@ else
 }
 
 # Create c:\syringe\teamname
-Write-Host "Create c:\Syringe\teamname and copying example XML file" -ForegroundColor Green
-md c:\syringe\teamname -ErrorAction Ignore
+Write-Host "Create $xmlDir and copying example XML file" -ForegroundColor Green
+md $xmlDir -ErrorAction Ignore
 
 # Copy a test file there
-Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.xml" -Destination "C:\syringe\teamname\50-cases.xml"  -ErrorAction Ignore
+Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.xml" -Destination "$xmlDir\50-cases.xml"  -ErrorAction Ignore
 
 # Done
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow

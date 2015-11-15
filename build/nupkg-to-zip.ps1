@@ -1,6 +1,13 @@
-$octopackTargetDir = "$PSScriptRoot/_deploymentOutput";
+# ===============================================================================
+# 1. Creates .zip files from the nupkg files
+# 2. Removes all un-needed folders from the zip files.
+#
+# Note: This script should be run from the root directory, not from the build folder.
+# ===============================================================================
+$root              = $PSScriptRoot;
+$octopackTargetDir = "$root\_deploymentOutput\";
 
-# Rename all Octopack nupkg files to zips
+# Copy all Octopack nupkg files to zips
 $nupkgFiles = dir "$octopackTargetDir/*.nupkg";
 foreach ($file in $nupkgFiles)
 {
@@ -8,7 +15,7 @@ foreach ($file in $nupkgFiles)
     cp $file $newFilename -force;
 }
 
-# Clean up the zip files to remove un-needed nuget metadata
+# Clean up the zip files to remove un-needed nuget metadata folders and guff
 [Reflection.Assembly]::LoadWithPartialName('System.IO.Compression') | out-null
 
 $zipFiles = dir "$octopackTargetDir/*.zip";
@@ -17,7 +24,7 @@ $filesToRemove = "_rels/", "package/", "[Content_Types].xml", "Web.Debug.config"
 
 foreach ($zipFile in $zipFiles)
 {
-    Write-Host "Cleaning $zipfile" -ForegroundColor Cyan;
+    Write-Host "Cleaning $zipfile" -ForegroundColor Green;
 
     $stream = New-Object IO.FileStream($zipfile.FullName, [IO.FileMode]::Open, [IO.FileAccess]::ReadWrite, [IO.FileShare]::ReadWrite)
     $mode   = [IO.Compression.ZipArchiveMode]::Update
