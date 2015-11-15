@@ -57,3 +57,6 @@ deploy:
   folder: 
   artifact: 
   unzip: false
+
+after_deploy:
+  - ps: tools\AzureStorageCleanup\AzureStorageCleanup.exe -storagename yetanotherchris -storagekey $env:AZURE_ACCESS_KEY -container syringe -mindaysold 7 -recursive
