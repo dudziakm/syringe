@@ -13,7 +13,7 @@
         headerValue: $("#headerValue"),
         addVariableItemButton: $("#addVariableItem"),
         variableKey: $("#variableKey"),
-        variableValue: $("#variableValue"),
+        variableValue: $("#variableValue")
     };
 
     var elements = {

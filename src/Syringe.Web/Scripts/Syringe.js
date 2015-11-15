@@ -189,7 +189,7 @@ var Syringe;
         headerValue: $("#headerValue"),
         addVariableItemButton: $("#addVariableItem"),
         variableKey: $("#variableKey"),
-        variableValue: $("#variableValue"),
+        variableValue: $("#variableValue")
     };
     var elements = {
         removeRow: "#removeRow",
