@@ -42,9 +42,11 @@ artifacts:
   - path: CURRENTVERSION.txt
     name: CurrentVersionTxt
 
+# Url: https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt
+# Azure Blob Explorer: http://clumsyleaf.com/products/downloads
 deploy:
   provider: AzureBlob
-  storage_account_name: portalvhdshhv3xmk8gh157
+  storage_account_name: yetanotherchris
   storage_access_key:
     secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
   container: syringe
