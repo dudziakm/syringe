@@ -69,20 +69,15 @@
         var rowNumber = 0;
 
         if (currentRow.length !== 0) {
-            var previousRow = currentRow.prev();
 
-            //check if previous row exists then increase number
-            if (previousRow.hasClass("form-group")) {
-                var firstInputName = previousRow.find("input:first").attr("name");
+            var firstInputName = currentRow.find("input:first").attr("name");
             
-                //get the last index number of the row and increment it by 1
-                rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
-            }
+            //get the last index number of the row and increment it by 1
+            rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
         }
 
         var newData = data.replace(/name="/g, 'name="' + elementPrefix + '[' + rowNumber + '].');
         panelBody.append(newData);
-
     }
 
     $(document).ready(function () {

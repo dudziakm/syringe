@@ -6,10 +6,7 @@
 <div class="container" id="edit-test">
     <div class="row">
         <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
-            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
-            {
-                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
-            }
+           @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
 
             @Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
 
