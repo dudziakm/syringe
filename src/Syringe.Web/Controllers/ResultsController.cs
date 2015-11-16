@@ -51,12 +51,10 @@ namespace Syringe.Web.Controllers
 
         private string AddUrlBase(string baseUrl, string content)
         {
-            // Load content as new Html document
-            var html = new HtmlDocument();
-            html.LoadHtml(content);
-
-            // replace links to use base url
-            var htmlUpdated = html.DocumentNode.OuterHtml.Replace("href=\"/", "href=\"" + baseUrl + "/").Replace("src=\"/", "src=\"" + baseUrl + "/");
+            // add base tag to href
+            var htmlUpdated = content.Replace("href=\"/", "href=\"" + baseUrl);
+            // add base tag to src 
+            htmlUpdated = htmlUpdated.Replace("src=\"/", "src=\"" + baseUrl);
 
             return htmlUpdated;
         }
