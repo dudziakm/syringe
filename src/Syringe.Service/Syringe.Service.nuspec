@@ -6,9 +6,9 @@
     <title>Syringe service</title>
     <authors>Syringe team</authors>
     <owners>C.Small</owners>
-    <licenseUrl></licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/yetanotherchris/syringe/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/yetanotherchris/syringe</projectUrl>
-    <iconUrl></iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/yetanotherchris/syringe/master/src/Syringe.Web/img/syringe.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The syringe service package</description>
     <releaseNotes>Added more awesome</releaseNotes>
