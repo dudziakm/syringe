@@ -27,6 +27,7 @@ install:
   - cd .\src\Syringe.Web\
   - npm install 
   - npm install -g grunt-cli
+  - npm install grunt
   - npm test
   - cd ..\..\
 
