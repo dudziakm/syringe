@@ -3,6 +3,7 @@ shallow_clone: true
 clone_depth: 1
 
 environment:
+    nodejs_version: "5.0"
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     AZURE_ACCESS_KEY:
@@ -13,15 +14,19 @@ environment:
 cache:
   - packages ->  **\packages.config
 
-build_script:
-    - ps: .\build\build.ps1
-  
 branches:
   only:
     - master
 
 services:
   - mongodb
+
+# Add NodeJS/Grunt for the SASS compilation
+install:
+  - cd .\src\Syringe.Web\
+  - npm install -g grunt-cli
+  - npm install 
+  - npm test
 
 # Update the assembly version numbers with the Appveyor version
 assembly_info:
@@ -30,6 +35,11 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+
+# Run grunt, and then the custom build script that runs Octopack
+build_script:
+    - grunt -b "src\Syringe.Web" --gruntfile "src\Syringe.Web\Gruntfile.js"
+    - ps: .\build\build.ps1
 
 # Copy and convert all Octopack generated nupkg files into zip files
 after_build:
