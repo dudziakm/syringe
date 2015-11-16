@@ -23,7 +23,7 @@
         }
     });
 
-    grunt.registerTask("default", ["sasscompile"]);
+    grunt.registerTask("default", ["sass"]);
 
     grunt.loadNpmTasks("grunt-bower-task");
     grunt.loadNpmTasks("grunt-contrib-watch");
