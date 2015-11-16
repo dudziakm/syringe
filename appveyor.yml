@@ -23,6 +23,7 @@ services:
 
 # Add NodeJS/Grunt for the SASS compilation
 install:
+  - gem install sass
   - cd .\src\Syringe.Web\
   - npm install -g grunt-cli
   - npm install 
