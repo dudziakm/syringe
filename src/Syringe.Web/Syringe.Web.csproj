@@ -276,6 +276,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ParseResponseItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Progress.ts" />
     <Content Include="Scripts\_references.js" />
