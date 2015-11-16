@@ -28,6 +28,7 @@ install:
   - npm install -g grunt-cli
   - npm install 
   - npm test
+  - cd ..\..\
 
 # Update the assembly version numbers with the Appveyor version
 assembly_info:
