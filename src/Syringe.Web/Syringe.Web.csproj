@@ -228,17 +228,11 @@
     <Content Include="Css\Syringe.css">
       <DependentUpon>Syringe.scss</DependentUpon>
     </Content>
-    <Content Include="Css\Syringe.min.css">
-      <DependentUpon>Syringe.css</DependentUpon>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\LICENSE.txt" />
     <Content Include="fonts\Material-Design-Icons.svg" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Css\Syringe.scss" />
-    <Content Include="Css\Syringe.css.map">
-      <DependentUpon>Syringe.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="XmlExamples\bing.xml" />
     <Content Include="XmlExamples\single-case.xml" />

@@ -27,7 +27,7 @@ install:
   - cd .\src\Syringe.Web\
   - npm install -g grunt-cli
   - npm install 
-  - npm install grunt
+  - grunt
   - cd ..\..\
 
 # Update the assembly version numbers with the Appveyor version
@@ -40,7 +40,6 @@ assembly_info:
 
 # Run grunt, and then the custom build script that runs Octopack
 build_script:
-    - grunt
     - ps: .\build\build.ps1
 
 # Copy and convert all Octopack generated nupkg files into zip files
