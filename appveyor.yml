@@ -27,8 +27,8 @@ install:
   - cd .\src\Syringe.Web\
   - npm install 
   - npm install -g grunt-cli
+  - npm install -g grunt-cli
   - npm install grunt
-  - npm test
   - cd ..\..\
 
 # Update the assembly version numbers with the Appveyor version
