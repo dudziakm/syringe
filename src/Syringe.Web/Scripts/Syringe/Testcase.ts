@@ -30,11 +30,9 @@
     }
 
     public setupButtons = () => {
-        for (let iTestCase in this.rowsToAdd) {
-            if (this.rowsToAdd.hasOwnProperty(iTestCase)) {
-                var testCase = this.rowsToAdd[iTestCase];
-                testCase.$Button.on("click", { testCase: testCase }, this.getData);
-            }
+        for (let i = 0; i < this.rowsToAdd.length; i++) {
+            let iTestCase = this.rowsToAdd[i];
+            iTestCase.$Button.on("click", { testCase: iTestCase }, this.getData);
         }
     }
 }

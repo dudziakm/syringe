@@ -197,11 +197,9 @@ var RowHandler = (function () {
             _this.addRow(e.data.testCase);
         };
         this.setupButtons = function () {
-            for (var iTestCase in _this.rowsToAdd) {
-                if (_this.rowsToAdd.hasOwnProperty(iTestCase)) {
-                    var testCase = _this.rowsToAdd[iTestCase];
-                    testCase.$Button.on("click", { testCase: testCase }, _this.getData);
-                }
+            for (var i = 0; i < _this.rowsToAdd.length; i++) {
+                var iTestCase = _this.rowsToAdd[i];
+                iTestCase.$Button.on("click", { testCase: iTestCase }, _this.getData);
             }
         };
         this.rowsToAdd = i;
