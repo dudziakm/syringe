@@ -13,6 +13,8 @@ foreach ($file in $nupkgFiles)
 {
     $newFilename = $file.FullName.Replace(".nupkg", ".zip");
     cp $file $newFilename -force;
+
+    Write-Host "Copied $file to $newFilename"
 }
 
 # Clean up the zip files to remove un-needed nuget metadata folders and guff
