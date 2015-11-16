@@ -40,53 +40,60 @@
                 <div class="panel"></div>
             </div>
 
-            <div class="list-group">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 @foreach (TestCaseResult result in Model.TestCaseResults)
                 {
                     <div class="panel @(result.Success ? "test-passed panel-success" :"test-failed panel-danger")">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">@result.TestCase.ShortDescription - @result.ResponseTime.MinutesAndSecondsFormat()</h3>
+                        <div class="panel-heading" role="tab" id="heading@(result.Id)">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse@(result.Id)" aria-expanded="false" aria-controls="collapse@(result.Id)">
+                                    @result.TestCase.ShortDescription - @result.ResponseTime.MinutesAndSecondsFormat()
+                                </a>
+
+                            </h3>
                         </div>
-                        <div class="panel-body">
-                            <p>@result.ActualUrl</p>
-                            <p>Response Code Success: @result.ResponseCodeSuccess</p>
-                            @if (!string.IsNullOrEmpty(result.Message))
-                            {
-                                <p>
-                                    Error Message: @result.Message
-                                </p>
-                            }
+                        <div id="collapse@(result.Id)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Id)">
+                            <div class="panel-body">
+                                <p>@result.ActualUrl</p>
+                                <p>Response Code Success: @result.ResponseCodeSuccess</p>
+                                @if (!string.IsNullOrEmpty(result.Message))
+                                {
+                                    <p>
+                                        Error Message: @result.Message
+                                    </p>
+                                }
 
-                            @if (result.ResponseCodeSuccess)
-                            {
-                                result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
+                                @if (result.ResponseCodeSuccess)
+                                {
+                                    result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
 
-                                <p class="list-group-item-text">
+                                    <p class="list-group-item-text">
 
-                                    <table class="table table-bordered table-striped">
-                                        <tr>
-                                            <td>Verify Type</td>
-                                            <td>Description</td>
-                                            <td>Regex</td>
-                                        </tr>
-
-                                        @foreach (var item in result.VerifyNegativeResults)
-                                        {
-                                            <tr class="@(item.Success ? "success" :"danger")">
-                                                <td>
-                                                    @item.VerifyType.ToString()
-                                                </td>
-                                                <td>
-                                                    @item.Description
-                                                </td>
-                                                <td>
-                                                    @item.Regex
-                                                </td>
+                                        <table class="table table-bordered table-striped">
+                                            <tr>
+                                                <td>Verify Type</td>
+                                                <td>Description</td>
+                                                <td>Regex</td>
                                             </tr>
-                                        }
-                                    </table>
-                                </p>
-                            }
+
+                                            @foreach (var item in result.VerifyNegativeResults)
+                                            {
+                                                <tr class="@(item.Success ? "success" : "danger")">
+                                                    <td>
+                                                        @item.VerifyType.ToString()
+                                                    </td>
+                                                    <td>
+                                                        @item.Description
+                                                    </td>
+                                                    <td>
+                                                        @item.Regex
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </p>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
