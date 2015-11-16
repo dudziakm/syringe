@@ -166,7 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
-    <Compile Include="Controllers\ResultsViewModel.cs" />
+    <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Controllers\TestFileController.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />

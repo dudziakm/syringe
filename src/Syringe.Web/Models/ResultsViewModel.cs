@@ -1,4 +1,4 @@
-namespace Syringe.Web.Controllers
+namespace Syringe.Web.Models
 {
 	public class ResultsViewModel
 	{
