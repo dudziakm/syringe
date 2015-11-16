@@ -192,12 +192,14 @@
     <Compile Include="Models\VariableItem.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="gruntfile.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />
     <Content Include="Scripts\Syringe.js.map" />
+    <Content Include="package.json" />
     <None Include="Scripts\typings\Hubs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Hubs.d.ts</LastGenOutput>
@@ -224,7 +226,7 @@
     <Content Include="Css\roboto.css" />
     <Content Include="Css\roboto.min.css" />
     <Content Include="Css\Syringe.css">
-      <DependentUpon>Syringe.less</DependentUpon>
+      <DependentUpon>Syringe.scss</DependentUpon>
     </Content>
     <Content Include="Css\Syringe.min.css">
       <DependentUpon>Syringe.css</DependentUpon>
@@ -233,7 +235,7 @@
     <Content Include="fonts\LICENSE.txt" />
     <Content Include="fonts\Material-Design-Icons.svg" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Css\Syringe.less" />
+    <None Include="Css\Syringe.scss" />
     <Content Include="Css\Syringe.css.map">
       <DependentUpon>Syringe.css</DependentUpon>
     </Content>
@@ -260,10 +262,6 @@
     <Content Include="fonts\RobotoDraftRegular.woff" />
     <Content Include="fonts\RobotoDraftRegular.woff2" />
     <Content Include="XmlExamples\totaljobs.xml" />
-    <None Include="compilerconfig.json" />
-    <Content Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />

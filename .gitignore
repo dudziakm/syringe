@@ -203,7 +203,3 @@ Scripts/Syringe/*.map
 _deploymentOutput/
 coverage.xml
 TestResult.xml
-
-# Ignore Javascript files as Typescript generates them
-*.js
-*.js.map
