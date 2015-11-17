@@ -1,0 +1,2 @@
+$version = (wget https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt).ToString().Trim()
+wget "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip" -OutFile "Syringe-$version.zip"
