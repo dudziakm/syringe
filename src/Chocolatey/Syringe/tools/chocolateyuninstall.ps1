@@ -2,12 +2,13 @@
 
 $packageName = "Syringe"
 $toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
+
 $serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
 $websiteDir = "$toolsDir\Syringe.Web"
 $websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
 
 # Uninstall the service if it exists
-if (test-path $serviceDir)
+if (test-path $serviceExe)
 {
 	Write-Host "Service found - uninstalling the service."
 	& $serviceExe uninstall
