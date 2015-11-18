@@ -80,6 +80,10 @@
       <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -108,6 +112,7 @@
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />
     <Compile Include="Unit\Web\RunViewModelTests.cs" />
+    <Compile Include="Unit\Web\TestCaseControllerTests.cs" />
     <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
