@@ -6,7 +6,6 @@ param ([string] $websitePath = $PSScriptRoot)
 $appPoolName = "Syringe"
 $websiteName = "Syringe"
 $websitePort = 1980
-$websitePath = $PSScriptRoot
 
 Import-Module WebAdministration
 

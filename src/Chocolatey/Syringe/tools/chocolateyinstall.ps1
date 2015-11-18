@@ -44,5 +44,4 @@ Write-Host "Installing the Syringe service." -ForegroundColor Green
 
 # Run the website installer
 Write-Host "Setting up IIS site." -ForegroundColor Green
-Write-Host "$websiteSetupScript $websiteDir"
 Invoke-Expression "$websiteSetupScript $websiteDir"

@@ -9,6 +9,7 @@
 # ===============================================================================
 $ErrorActionPreference = "Stop"
 $xmlDir     = "C:\syringe\teamname"
+$websiteDir = Resolve-Path ".\src\Syringe.Web\"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
@@ -25,7 +26,7 @@ Write-Host "Building solution." -ForegroundColor Green
 
 # Setup IIS
 Write-Host "Creating IIS app pool and site." -ForegroundColor Green
-.\src\Syringe.Web\bin\setup-iis.ps1
+.\src\Syringe.Web\bin\setup-iis.ps1 $websiteDir
 
 # Create c:\syringe\teamname
 Write-Host "Create $xmlDir and copying example XML file" -ForegroundColor Green
