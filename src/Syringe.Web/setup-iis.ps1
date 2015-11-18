@@ -45,4 +45,4 @@ Set-ItemProperty "IIS:\AppPools\$appPoolName" processModel.pingingEnabled -value
 # Syringe website
 #=================================================================
 Write-Host "  Adding website $websiteName (id:$websitePort, port: $websitePort, path: $websitePath)"
-New-Website -Name $websiteName -Id $websitePort -Port $websitePort -PhysicalPath .\ -ApplicationPool $appPoolName -Force  | Out-Null
+New-Website -Name $websiteName -Id $websitePort -Port $websitePort -PhysicalPath $websitePath -ApplicationPool $appPoolName -Force  | Out-Null
