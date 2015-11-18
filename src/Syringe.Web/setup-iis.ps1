@@ -1,6 +1,8 @@
 #=================================================================
 # Add a Syringe app pool and website, removing any existing ones.
 #=================================================================
+param ([string] $websitePath = $PSScriptRoot)
+
 $appPoolName = "Syringe"
 $websiteName = "Syringe"
 $websitePort = 1980
