@@ -9,6 +9,7 @@ using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
+using System.Configuration;
 
 namespace Syringe.Service
 {
@@ -34,7 +35,8 @@ namespace Syringe.Service
 
 		public void Start()
 		{
-			WebApplication = WebApp.Start("http://*:8086", Configuration);
+			string bindingUrl = ConfigurationManager.AppSettings["ServiceUrl"];
+			WebApplication = WebApp.Start(bindingUrl, Configuration);
 		}
 
 		public void Stop()
@@ -66,7 +68,7 @@ namespace Syringe.Service
 					{
 						var policy = new CorsPolicy();
 						// Allow CORS requests from the web frontend
-						policy.Origins.Add(_applicationConfiguration.WebsiteCorsUrl);
+						policy.Origins.Add(_applicationConfiguration.WebsiteUrl);
 						policy.AllowAnyMethod = true;
 						policy.AllowAnyHeader = true;
 						policy.SupportsCredentials = true;

@@ -1,12 +1,13 @@
 # ===============================================================================
+#
+# Syringe developer setup script.
+#
 # This script does the following:
-# 1. Runs the IIS install tool
+# 1. Runs the IIS setup script
 # 2. Creates C:\syringe\teamname (default path for tests cases)
 # 3. Copies an example test case XML file to that location
 # ===============================================================================
 $ErrorActionPreference = "Stop"
-
-$configTool = ".\src\Syringe.Web.IisConfig\bin\Debug\Syringe.Web.IisConfig.exe"
 $xmlDir     = "C:\syringe\teamname"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
@@ -19,20 +20,12 @@ Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
 
 # Build
-.\build\build.ps1
+Write-Host "Building solution." -ForegroundColor Green
+.\build\build.ps1 "Debug"
 
-# Run IISConfig tool
-Write-Host "Running the IIS setup tool." -ForegroundColor Green
-& $configTool
-if ($LastExitCode -ne 0)
-{
-	Write-Host "IISConfig setup failed."-ForegroundColor Red
-	exit 1
-}
-else
-{
-	Write-Host "IIS Setup complete." -ForegroundColor Green
-}
+# Setup IIS
+Write-Host "Creating IIS app pool and site." -ForegroundColor Green
+.\src\Syringe.Web\bin\setup-iis.ps1
 
 # Create c:\syringe\teamname
 Write-Host "Create $xmlDir and copying example XML file" -ForegroundColor Green
@@ -42,9 +35,12 @@ md $xmlDir -ErrorAction Ignore
 Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.xml" -Destination "$xmlDir\50-cases.xml"  -ErrorAction Ignore
 
 # Done
+Write-Host ""
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Setup complete." -ForegroundColor Green
-Write-host "Now start the REST data service using .\start-service.ps1" -ForegroundColor Cyan
+Write-host "Now start the REST data service using tools\start-service.ps1" -ForegroundColor Cyan
+Write-host "Don't forget to start MongoDB too (if it's not a service) - tools\start-mongodb.ps1" -ForegroundColor Cyan
+Write-Host ""
 Write-host "- MVC site          : http://localhost:1980/"
-Write-Host "- REST api          : http://localhost:8086/swagger/"
+Write-Host "- REST api          : http://localhost:1981/swagger/"
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow

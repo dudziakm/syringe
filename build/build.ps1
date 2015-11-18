@@ -4,10 +4,10 @@
 #
 # Note: This script should be run from the root directory, not from the build folder.
 # ===============================================================================
-$ErrorActionPreference = "Stop"
+param ([string] $configuration = "Release")
 
+$ErrorActionPreference = "Stop"
 $solutionFile      = "Syringe.sln"
-$configuration     = "Release"
 $platform          = "Any CPU"
 $msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
@@ -33,5 +33,5 @@ if ($LastExitCode -ne 0)
 }
 else
 {
-	Write-Host "Building solution complete."-ForegroundColor Green
+	Write-Host "  Building solution complete."-ForegroundColor Green
 }

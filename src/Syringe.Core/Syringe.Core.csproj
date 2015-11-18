@@ -212,7 +212,6 @@
     <Compile Include="Xml\Writer\TestCaseWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

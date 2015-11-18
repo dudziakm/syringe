@@ -211,6 +211,9 @@
     <Content Include="Views\TestFile\Update.cshtml" />
     <Content Include="Views\Shared\Partials\_TestFilePager.cshtml" />
     <Content Include="Views\Shared\Partials\_RemoveRow.cshtml" />
+    <Content Include="setup-iis.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\bootstrap-theme.css" />
