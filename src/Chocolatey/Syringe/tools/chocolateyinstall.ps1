@@ -25,7 +25,7 @@ $serviceDir = "$toolsDir\Syringe.Service"
 $websiteDir = "$toolsDir\Syringe.Web"
 
 $serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
-$websiteSetupScript = "$toolsDir\Syringe.Web\bin\setup-iis.ps1"
+$websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
 
 # Uninstall the service if it exists
 if (test-path $serviceDir)

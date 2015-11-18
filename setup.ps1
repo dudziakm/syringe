@@ -26,7 +26,7 @@ Write-Host "Building solution." -ForegroundColor Green
 
 # Setup IIS
 Write-Host "Creating IIS app pool and site." -ForegroundColor Green
-.\src\Syringe.Web\bin\setup-iis.ps1 $websiteDir
+.\src\Syringe.Web\bin\iis.ps1 $websiteDir
 
 # Create c:\syringe\teamname
 Write-Host "Create $xmlDir and copying example XML file" -ForegroundColor Green

@@ -1,7 +1,7 @@
 #=================================================================
 # Add a Syringe app pool and website, removing any existing ones.
 #=================================================================
-param ([string] $websitePath = $PSScriptRoot)
+param ([string] $websitePath = $PSScriptRoot, [string] $removeOnly = $false)
 
 $appPoolName = "Syringe"
 $websiteName = "Syringe"
@@ -17,6 +17,9 @@ function Test-Website($Name) {
     return Test-Path "IIS:\Sites\$Name"
 }
 
+#=================================================================
+# Remove existing app pool and site
+#=================================================================
 if (Test-WebAppPool $appPoolName)
 {
     Write-Host "  Removing app pool $appPoolName"
@@ -27,6 +30,11 @@ if (Test-Website $websiteName)
 {
     Write-Host "  Removing website $websiteName"
     Remove-Website -Name $websiteName -WarningAction Ignore
+}
+
+if ($removeOnly -eq $true)
+{
+	exit;
 }
 
 #=================================================================

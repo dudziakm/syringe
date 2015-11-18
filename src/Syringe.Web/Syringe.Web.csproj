@@ -211,7 +211,7 @@
     <Content Include="Views\TestFile\Update.cshtml" />
     <Content Include="Views\Shared\Partials\_TestFilePager.cshtml" />
     <Content Include="Views\Shared\Partials\_RemoveRow.cshtml" />
-    <Content Include="setup-iis.ps1">
+    <Content Include="iis.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
