@@ -34,6 +34,8 @@ namespace Syringe.Tests.Unit.Web
             ICaseServiceMock.Setup(x => x.GetTestCaseCollection(It.IsAny<string>(), IUserContextMock.Object.TeamName)).Returns(new CaseCollection());
             ICaseServiceMock.Setup(x => x.GetTestCase(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()));
             ICaseServiceMock.Setup(x => x.DeleteTestCase(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()));
+            ICaseServiceMock.Setup(x => x.EditTestCase(It.IsAny<Case>(), It.IsAny<string>()));
+            ICaseServiceMock.Setup(x => x.CreateTestCase(It.IsAny<Case>(), It.IsAny<string>()));
 
             testCaseController = new TestCaseController(ICaseServiceMock.Object, IUserContextMock.Object, ITestCaseMapperMock.Object);
         }
@@ -65,10 +67,27 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void Edit_should_redirect_to_view_when_validation_succeeded()
+        {
+            // given
+            testCaseController.ModelState.Clear();
+            
+            // when
+            var redirectToRouteResult = testCaseController.Edit(new TestCaseViewModel()) as RedirectToRouteResult;
+
+            // then
+            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestCaseViewModel>()), Times.Once);
+            ICaseServiceMock.Verify(x => x.EditTestCase(It.IsAny<Case>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
         public void Edit_should_return_correct_view_and_model_when_validation_failed_on_post()
         {
-            // given + when
+            // given
             testCaseController.ModelState.AddModelError("error", "error");
+
+            // when
             var viewResult = testCaseController.Edit(new TestCaseViewModel()) as ViewResult;
 
             // then
@@ -77,8 +96,6 @@ namespace Syringe.Tests.Unit.Web
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestCaseViewModel>(viewResult.Model);
         }
-
-
 
         [Test]
         public void Delete_should_return_correct_redirection_to_view()
@@ -100,6 +117,37 @@ namespace Syringe.Tests.Unit.Web
             // then
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestCaseViewModel>(viewResult.Model);
+        }
+
+        [Test]
+        public void Add_should_redirect_to_view_when_validation_succeeded()
+        {
+            // given
+            testCaseController.ModelState.Clear();
+
+            // when
+            var redirectToRouteResult = testCaseController.Add(new TestCaseViewModel()) as RedirectToRouteResult;
+
+            // then
+            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestCaseViewModel>()), Times.Once);
+            ICaseServiceMock.Verify(x => x.CreateTestCase(It.IsAny<Case>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void Add_should_return_correct_view_and_model_when_validation_failed_on_post()
+        {
+            // given
+            testCaseController.ModelState.AddModelError("error", "error");
+
+            // when
+            var viewResult = testCaseController.Add(new TestCaseViewModel()) as ViewResult;
+
+            // then
+            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestCaseViewModel>()), Times.Never);
+            ICaseServiceMock.Verify(x => x.CreateTestCase(It.IsAny<Case>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual("Edit", viewResult.ViewName);
+
         }
 
         [Test]
