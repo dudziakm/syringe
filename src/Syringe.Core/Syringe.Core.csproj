@@ -173,6 +173,7 @@
     <Compile Include="Exceptions\TestCaseException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="TestCases\Configuration\Config.cs" />
+    <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="TestCases\HeaderItem.cs" />
     <Compile Include="Http\Logging\HttpLogWriter.cs" />
     <Compile Include="Http\Logging\IHttpLogWriter.cs" />
