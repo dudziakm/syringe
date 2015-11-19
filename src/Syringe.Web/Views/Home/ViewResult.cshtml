@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <a href="#" class="btn btn-primary" id="all-tests-count">
-                       All Tests
+                        All Tests
                     </a>
                     <a href="#" class="btn btn-success" id="tests-passed-count">
                         @Model.TotalCasesPassed tests passed
@@ -67,31 +67,28 @@
                                 {
                                     result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
 
-                                    <p class="list-group-item-text">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td>Verify Type</td>
+                                            <td>Description</td>
+                                            <td>Regex</td>
+                                        </tr>
 
-                                        <table class="table table-bordered table-striped">
-                                            <tr>
-                                                <td>Verify Type</td>
-                                                <td>Description</td>
-                                                <td>Regex</td>
+                                        @foreach (var item in result.VerifyNegativeResults)
+                                        {
+                                            <tr class="@(item.Success ? "success" : "danger")">
+                                                <td>
+                                                    @item.VerifyType.ToString()
+                                                </td>
+                                                <td>
+                                                    @item.Description
+                                                </td>
+                                                <td>
+                                                    @item.Regex
+                                                </td>
                                             </tr>
-
-                                            @foreach (var item in result.VerifyNegativeResults)
-                                            {
-                                                <tr class="@(item.Success ? "success" : "danger")">
-                                                    <td>
-                                                        @item.VerifyType.ToString()
-                                                    </td>
-                                                    <td>
-                                                        @item.Description
-                                                    </td>
-                                                    <td>
-                                                        @item.Regex
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </p>
+                                        }
+                                    </table>
                                 }
                             </div>
                         </div>
