@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Canary;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
@@ -22,17 +23,25 @@ namespace Syringe.Tests.Unit.Web
         private Mock<ITestCaseSessionRepository> _repository;
         private Mock<Func<ICanaryService>> _canaryClientFactory;
         private HomeController homeController;
+        private Mock<ICanaryService> canaryClientService;
+        private Mock<IRunViewModel> runViewModelMockService;
         [SetUp]
         public void Setup()
         {
             _casesClient = new Mock<ICaseService>();
             _userContext = new Mock<IUserContext>();
             _repository = new Mock<ITestCaseSessionRepository>();
+
             _canaryClientFactory = new Mock<Func<ICanaryService>>();
+            canaryClientService = new Mock<ICanaryService>();
+            canaryClientService.Setup(x => x.Check()).Returns(new CanaryResult { Success = true });
+            _canaryClientFactory.Setup(x => x()).Returns(canaryClientService.Object);
+
+
             _runViewModelFactory = new Mock<Func<IRunViewModel>>();
-            var mockService = new Mock<IRunViewModel>();
-            mockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
-            _runViewModelFactory.Setup(x => x()).Returns(mockService.Object);
+            runViewModelMockService = new Mock<IRunViewModel>();
+            runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
+            _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
             _repository.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
 
@@ -99,6 +108,41 @@ namespace Syringe.Tests.Unit.Web
             _runViewModelFactory.Verify(x => x(), Times.Once);
             Assert.AreEqual("Run", viewResult.ViewName);
             Assert.IsInstanceOf<IRunViewModel>(viewResult.Model);
+        }
+
+        [Test]
+        public void Index_should_throw_InvalidOperationException_if_service_is_null()
+        {
+            // given + when
+            canaryClientService.Setup(x => x.Check()).Returns((CanaryResult)null);
+
+            // then
+            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:8086/");
+            _canaryClientFactory.Verify(x => x(), Times.Once);
+        }
+
+        [Test]
+        public void Index_should_throw_InvalidOperationException_if_service_is_not_running()
+        {
+            // given + when
+            canaryClientService.Setup(x => x.Check()).Returns(new CanaryResult { Success = false });
+
+            // then
+            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:8086/");
+            _canaryClientFactory.Verify(x => x(), Times.Once);
+
+        }
+
+        [Test]
+        public void Index_should_call_run_method_and_return_correct_model()
+        {
+            // given + when
+            var viewResult = homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+
+            // then
+            _casesClient.Verify(x => x.ListFilesForTeam(It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("Index", viewResult.ViewName);
+            Assert.IsInstanceOf<IndexViewModel>(viewResult.Model);
         }
     }
 }
