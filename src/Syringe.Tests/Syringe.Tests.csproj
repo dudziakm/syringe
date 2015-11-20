@@ -136,6 +136,7 @@
     <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />
+    <Compile Include="Unit\Web\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\JsonControllerTests.cs" />
     <Compile Include="Unit\Web\RunViewModelTests.cs" />
