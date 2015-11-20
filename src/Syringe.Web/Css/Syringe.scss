@@ -9,6 +9,12 @@ h1, h2, h3, h4, h5, div, p {
 
 #testgrunt { color: white; }
 
+#view-file {
+	td.description{
+		width: 85%;
+	}
+}
+
 // Test case edit page
 #edit-test {
     .control-label {

@@ -1,50 +1,51 @@
 ﻿@model IndexViewModel
 <div class="container">
-    <div class="row">
-        <div class="col-md-2">
-            <img alt="Brand" src="~/img/syringe.svg" width="150" height="150">
-        </div>
+	<div class="row">
 
-        <div class="col-md-10">
-            <h2>Test cases</h2>
-            <div class="row">
-                <nav class="col-xs-10">
-                    @Html.Partial("Partials/_TestFilePager")
-                </nav>
-                <div class="col-xs-2 text-right">
-                    <a title="Add" class="btn btn-sm btn-primary" href="@Url.Action("Add", "TestFile")">
-                        <i class="mdi-content-add"></i>
-                    </a>
-                </div>
-            </div>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @using (Html.BeginForm("Run", "Home"))
-                    {
-                        foreach (string filename in Model.Files)
-                        {
-                            <tr>
-                                <td>@filename</td>
-                                <td>
-                                    <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@filename">
-                                        <i class="mdi-maps-directions-walk"></i>
-                                     </button>
-                                    <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "TestCase", new {filename = filename})">
-                                        <i class="mdi-editor-insert-drive-file"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-            @Html.Partial("Partials/_TestFilePager")
-        </div>
-    </div>
+		<ul class="breadcrumb">
+			<li>Test cases</li>
+		</ul>
+
+		<div class="col-md-10">
+			<h2>Test cases</h2>
+			<div class="row">
+				<nav class="col-xs-10">
+					@Html.Partial("Partials/_TestFilePager")
+				</nav>
+				<div class="col-xs-2 text-right">
+					<a title="Add" class="btn btn-sm btn-primary" href="@Url.Action("Add", "TestFile")">
+						<i class="mdi-content-add"></i>
+					</a>
+				</div>
+			</div>
+			<table class="table table-bordered table-striped">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<td></td>
+				</tr>
+				</thead>
+				<tbody>
+				@using (Html.BeginForm("Run", "Home"))
+				{
+					foreach (string filename in Model.Files)
+					{
+						<tr>
+							<td>@filename</td>
+							<td>
+								<button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@filename">
+									<i class="mdi-maps-directions-walk"></i>
+								</button>
+								<a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "TestCase", new {filename = filename})">
+									<i class="mdi-editor-insert-drive-file"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				}
+				</tbody>
+			</table>
+			@Html.Partial("Partials/_TestFilePager")
+		</div>
+	</div>
 </div>

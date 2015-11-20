@@ -10,7 +10,11 @@
 
             @Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
 
-            <h2><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.Filename})">@Model.Filename</a></h2>
+	        <ul class="breadcrumb">
+				<li><a title="View" href="/">Test cases</a></li>
+		        <li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.Filename})">@Model.Filename</a></li>
+		        <li>Variables</li>
+	        </ul>
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
