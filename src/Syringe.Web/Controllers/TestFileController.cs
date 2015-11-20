@@ -19,11 +19,11 @@ namespace Syringe.Web.Controllers
             _userContext = userContext;
         }
 
-		public ActionResult Add()
+        public ActionResult Add()
         {
             TestFileViewModel model = new TestFileViewModel();
 
-            return View(model);
+            return View("Add", model);
         }
 
         [HttpPost]
@@ -42,27 +42,27 @@ namespace Syringe.Web.Controllers
                     return RedirectToAction("Index", "Home");
             }
 
-            return View(model);
+            return View("Add", model);
         }
 
         public ActionResult Update(string fileName)
         {
-			var testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
+            var testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
 
             TestFileViewModel model = new TestFileViewModel
             {
                 Filename = fileName,
                 Variables =
-                    testCaseCollection.Variables.Select(x => new VariableItem {Key = x.Key, Value = x.Value}).ToList()
+                    testCaseCollection.Variables.Select(x => new VariableItem { Key = x.Key, Value = x.Value }).ToList()
             };
 
-            return View(model);
+            return View("Update", model);
         }
 
         [HttpPost]
         public ActionResult Update(TestFileViewModel model)
         {
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var caseCollection = new CaseCollection
                 {
@@ -75,12 +75,12 @@ namespace Syringe.Web.Controllers
                     return RedirectToAction("Index", "Home");
             }
 
-            return View(model);
+            return View("Update", model);
         }
 
         public ActionResult AddVariableItem()
         {
             return PartialView("EditorTemplates/VariableItem", new VariableItem());
         }
-	}
+    }
 }
