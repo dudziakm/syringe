@@ -1,12 +1,12 @@
 ﻿@model IndexViewModel
-<div class="container">
+<div class="container" id="test-cases">
 	<div class="row">
 
 		<ul class="breadcrumb">
 			<li>Test cases</li>
 		</ul>
 
-		<div class="col-md-10">
+		<div>
 			<h2>Test cases</h2>
 			<div class="row">
 				<nav class="col-xs-10">
@@ -31,7 +31,7 @@
 					foreach (string filename in Model.Files)
 					{
 						<tr>
-							<td>@filename</td>
+							<td class="filename">@filename</td>
 							<td>
 								<button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@filename">
 									<i class="mdi-maps-directions-walk"></i>

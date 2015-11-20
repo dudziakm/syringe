@@ -39,8 +39,8 @@ namespace Syringe.Web.Controllers
         {
             CheckServiceIsRunning();
 
-            // TODO: team name from the user context?
-            IList<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName).ToList();
+			// TODO: team name from the user context?
+			IList<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName).ToList();
 
             var model = new IndexViewModel
             {

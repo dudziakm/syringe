@@ -7,7 +7,7 @@
 
 		<ul class="breadcrumb">
 			<li><a title="View" href="/">Test cases</a></li>
-			<li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.ParentFilename})">@Model.ParentFilename</a></li>
+			<li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.ParentFilename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.ParentFilename</a></li>
 			<li>@(Model.ShortDescription ?? "Add")</li>
 		</ul>
 

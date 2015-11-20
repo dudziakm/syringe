@@ -16,12 +16,18 @@
 				    @Html.Partial("Partials/_TestCasePager")
 			    </nav>
 			    <div class="col-xs-4 text-right">
-				    <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "TestCase", new {filename = Model.Filename})">Add</a>
-				    <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename})">Variables</a>
+				    <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "TestCase", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Add</a>
+				    <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Variables</a>
 			    </div>
 		    </div>
 
-            <table class="table table-bordered table-striped">
+		@if (Model.TestCases.Any() == false)
+		{
+			<p>No test cases found.</p>
+		}
+		else
+		{ 
+		    <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -38,7 +44,7 @@
                             <td>
                                 @using (Html.BeginForm("Delete", "TestCase"))
                                 {
-                                    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id})"><i class="mdi-image-edit"></i></a>
+                                    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})"><i class="mdi-image-edit"></i></a>
 
                                     <input type="hidden" name="filename" value="@Model.Filename" />
                                     <input type="hidden" name="testCaseId" value="@testCase.Id" />
@@ -51,6 +57,7 @@
             </table>
 
             @Html.Partial("Partials/_TestCasePager")
+		}
         </div>
     </div>
 </div>

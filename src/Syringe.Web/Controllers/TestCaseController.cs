@@ -26,9 +26,15 @@ namespace Syringe.Web.Controllers
             _testCaseMapper = testCaseMapper;
         }
 
-        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
+	    protected override void OnActionExecuting(ActionExecutingContext filterContext)
+	    {
+			AddPagingDataForBreadCrumb();
+			base.OnActionExecuting(filterContext);
+	    }
+
+	    public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
         {
-            CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+	        CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
             var pagedTestCases = testCases.TestCases.GetPaged(noOfResults, pageNumber);
 
             TestFileViewModel caseList = new TestFileViewModel
@@ -43,19 +49,18 @@ namespace Syringe.Web.Controllers
             return View("View", caseList);
         }
 
-        public ActionResult Edit(string filename, Guid testCaseId)
+	    public ActionResult Edit(string filename, Guid testCaseId)
         {
-            Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
+			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
             TestCaseViewModel model = _testCaseMapper.BuildViewModel(testCase);
 
             return View("Edit", model);
         }
 
-
         [HttpPost]
         public ActionResult Edit(TestCaseViewModel model)
         {
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 Case testCase = _testCaseMapper.BuildCoreModel(model);
                 _casesClient.EditTestCase(testCase, _userContext.TeamName);
@@ -67,7 +72,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Add(string filename)
         {
-            var model = new TestCaseViewModel { ParentFilename = filename,Id=Guid.NewGuid() };
+			var model = new TestCaseViewModel { ParentFilename = filename,Id=Guid.NewGuid() };
             return View("Edit", model);
         }
 
@@ -83,6 +88,7 @@ namespace Syringe.Web.Controllers
 
             return View("Edit", model);
         }
+
         [HttpPost]
         public ActionResult Delete(Guid testCaseId, string fileName)
         {
@@ -105,5 +111,12 @@ namespace Syringe.Web.Controllers
         {
             return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
         }
-    }
+
+		private void AddPagingDataForBreadCrumb()
+		{
+			// Paging support for the breadcrmb trail
+			ViewBag.PageNumber = Request.QueryString["pageNumber"];
+			ViewBag.NoOfResults = Request.QueryString["noOfResults"];
+		}
+	}
 }
