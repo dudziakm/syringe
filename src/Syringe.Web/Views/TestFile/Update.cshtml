@@ -10,7 +10,7 @@
 
             @Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
 
-            <h2>@Model.Filename</h2>
+            <h2><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.Filename})">@Model.Filename</a></h2>
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
