@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
 using Syringe.Core.TestCases.Configuration;
 

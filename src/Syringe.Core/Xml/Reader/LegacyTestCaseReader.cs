@@ -33,7 +33,7 @@ namespace Syringe.Core.Xml.Reader
 				throw new TestCaseException("<testcases> node is missing from the config file.");
 
 			// Repeats
-			int repeatValue = 0;
+			int repeatValue;
 			string repeatAttribute = XmlHelper.GetOptionalAttribute(rootElement, "repeat");
 			int.TryParse(repeatAttribute, out repeatValue);
 			testCollection.Repeat = repeatValue;

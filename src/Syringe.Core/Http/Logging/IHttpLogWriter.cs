@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
-
-namespace Syringe.Core.Http.Logging
+﻿namespace Syringe.Core.Http.Logging
 {
 	public interface IHttpLogWriter
 	{

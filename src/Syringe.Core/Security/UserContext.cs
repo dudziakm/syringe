@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Syringe.Core.Security
+﻿namespace Syringe.Core.Security
 {
 	public class UserContext : IUserContext
 	{

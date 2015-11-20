@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
 using Syringe.Core.TestCases;
-using Syringe.Core.Xml;
 
 namespace Syringe.Core.Runner
 {

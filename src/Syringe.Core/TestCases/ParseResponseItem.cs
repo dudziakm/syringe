@@ -14,10 +14,5 @@ namespace Syringe.Core.TestCases
 			Description = description;
 			Regex = regex;
 		}
-
-		public override string ToString()
-		{
-			return string.Format("{0} - {1}", Description, Regex);
-		}
 	}
 }
