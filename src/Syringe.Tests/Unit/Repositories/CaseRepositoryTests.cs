@@ -89,7 +89,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void CreateTestCase_should_throw_exception_when_testcase_already_exists()
         {
             // given + when + then
-            Assert.Throws<ArgumentNullException>(() => _caseRepository.CreateTestCase(null, It.IsAny<string>()));
+            Assert.Throws<Exception>(() => _caseRepository.CreateTestCase(new Case(), It.IsAny<string>()),"case already exists");
         }
 
         [Test]
