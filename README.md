@@ -13,7 +13,7 @@ Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant 
 * Install chocolatey  
 * Install nuget command line : `choco install nuget.commandline`
 * Powershell 4+: `choco install powershell4`
-* If you don't have VS installed, you will need the Microsoft build tools installed: choco install microsoft-build-tools -version 14.0.23107.10 -y
+* If you don't have VS installed, you will need the Microsoft build tools installed: `choco install microsoft-build-tools -version 14.0.23107.10 -y`
 
 Then run `setup.ps`, this will:
 * Build the solution, restoring the nuget packages  
