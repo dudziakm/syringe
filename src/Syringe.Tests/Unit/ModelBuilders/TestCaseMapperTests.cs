@@ -11,33 +11,33 @@ using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
-	[TestFixture]
-	public class TestCaseMapperTests
-	{
+    [TestFixture]
+    public class TestCaseMapperTests
+    {
 
-		[Test]
-		public void Build_should_set_correct_properties_when_model_is_populated()
-		{
-			var testCaseMapper = new TestCaseMapper();
-			var build = testCaseMapper.BuildCoreModel(testCaseViewModel);
+        [Test]
+        public void Build_should_set_correct_properties_when_model_is_populated()
+        {
+            var testCaseMapper = new TestCaseMapper();
+            var build = testCaseMapper.BuildCoreModel(testCaseViewModel);
 
-			Assert.AreEqual(testCaseViewModel.ErrorMessage, build.ErrorMessage);
-			Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
-			Assert.AreEqual(testCaseViewModel.Id, build.Id);
-			Assert.AreEqual(testCaseViewModel.LogRequest, build.LogRequest);
-			Assert.AreEqual(testCaseViewModel.LogResponse, build.LogResponse);
-			Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
-			Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
-			Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
-			Assert.AreEqual(testCaseViewModel.PostBody, build.PostBody);
-			Assert.AreEqual(1, build.VerifyNegatives.Count);
-			Assert.AreEqual(1, build.VerifyPositives.Count);
-			Assert.AreEqual(testCaseViewModel.ShortDescription, build.ShortDescription);
-			Assert.AreEqual(testCaseViewModel.Url, build.Url);
-			Assert.AreEqual(testCaseViewModel.Sleep, build.Sleep);
-			Assert.AreEqual(testCaseViewModel.PostType.ToString(), build.PostType);
-			Assert.AreEqual(testCaseViewModel.VerifyResponseCode, build.VerifyResponseCode);
-		}
+            Assert.AreEqual(testCaseViewModel.ErrorMessage, build.ErrorMessage);
+            Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
+            Assert.AreEqual(testCaseViewModel.Id, build.Id);
+            Assert.AreEqual(testCaseViewModel.LogRequest, build.LogRequest);
+            Assert.AreEqual(testCaseViewModel.LogResponse, build.LogResponse);
+            Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
+            Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
+            Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
+            Assert.AreEqual(testCaseViewModel.PostBody, build.PostBody);
+            Assert.AreEqual(1, build.VerifyNegatives.Count);
+            Assert.AreEqual(1, build.VerifyPositives.Count);
+            Assert.AreEqual(testCaseViewModel.ShortDescription, build.ShortDescription);
+            Assert.AreEqual(testCaseViewModel.Url, build.Url);
+            Assert.AreEqual(testCaseViewModel.Sleep, build.Sleep);
+            Assert.AreEqual(testCaseViewModel.PostType.ToString(), build.PostType);
+            Assert.AreEqual(testCaseViewModel.VerifyResponseCode, build.VerifyResponseCode);
+        }
 
         [Test]
         public void BuildTestCase_should_throw_argumentnullexception_when_testcase_is_null()
@@ -117,7 +117,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 PostType = PostType.GET.ToString(),
                 VerifyResponseCode = HttpStatusCode.Accepted,
                 Sleep = 10,
-                Headers = new List<Core.TestCases.HeaderItem>(),
+                Headers = new List<Core.TestCases.HeaderItem> { new Core.TestCases.HeaderItem() },
                 ParseResponses = new List<Core.TestCases.ParseResponseItem> { new Core.TestCases.ParseResponseItem() },
                 VerifyNegatives = new List<VerificationItem> { new VerificationItem() },
                 VerifyPositives = new List<VerificationItem> { new VerificationItem() },
@@ -143,33 +143,34 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
             Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
+            Assert.AreEqual(1, testCase.Headers.Count);
         }
 
 
         private TestCaseViewModel testCaseViewModel
-		{
-			get
-			{
-				return new TestCaseViewModel
-					   {
-						   ErrorMessage = "error",
-						   Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
-						   Id = Guid.Empty,
-						   LogRequest = true,
-						   LogResponse = true,
-						   LongDescription = "long description",
-						   ParentFilename = "Test.xml",
-						   ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
-						   PostBody = "Post Body",
-						   Verifications = new List<VerificationItemModel>() { new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative }, 
-							   new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Positive } },
-						   ShortDescription = "short d3escription",
-						   Url = "url",
-						   Sleep = 10,
-						   PostType = PostType.POST,
-						   VerifyResponseCode = HttpStatusCode.Accepted
-					   };
-			}
-		}
-	}
+        {
+            get
+            {
+                return new TestCaseViewModel
+                {
+                    ErrorMessage = "error",
+                    Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
+                    Id = Guid.Empty,
+                    LogRequest = true,
+                    LogResponse = true,
+                    LongDescription = "long description",
+                    ParentFilename = "Test.xml",
+                    ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
+                    PostBody = "Post Body",
+                    Verifications = new List<VerificationItemModel>() { new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative },
+                               new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Positive } },
+                    ShortDescription = "short d3escription",
+                    Url = "url",
+                    Sleep = 10,
+                    PostType = PostType.POST,
+                    VerifyResponseCode = HttpStatusCode.Accepted
+                };
+            }
+        }
+    }
 }
