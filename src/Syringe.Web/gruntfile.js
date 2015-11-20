@@ -1,4 +1,5 @@
-﻿module.exports = function (grunt) {
+﻿/// <binding BeforeBuild='default' />
+module.exports = function (grunt) {
     grunt.initConfig({
 
         sass: {
