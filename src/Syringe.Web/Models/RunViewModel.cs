@@ -8,47 +8,50 @@ using Syringe.Core.TestCases;
 
 namespace Syringe.Web.Models
 {
-	public class RunViewModel : IRunViewModel
-	{
-		private readonly ITasksService _tasksService;
-		private readonly ICaseService _caseService;
-	    private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
+    public class RunViewModel : IRunViewModel
+    {
+        private readonly ITasksService _tasksService;
+        private readonly ICaseService _caseService;
+        private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
 
-		public RunViewModel(ITasksService tasksService, ICaseService caseService, IApplicationConfiguration applicationConfiguration)
-		{
-			_tasksService = tasksService;
-			_caseService = caseService;
-		    SignalRUrl = applicationConfiguration.SignalRUrl;
-		}
+        public RunViewModel(ITasksService tasksService, ICaseService caseService, IApplicationConfiguration applicationConfiguration)
+        {
+            _tasksService = tasksService;
+            _caseService = caseService;
+            SignalRUrl = applicationConfiguration.SignalRUrl;
+        }
 
-		public void Run(IUserContext userContext, string fileName)
-		{
-			FileName = fileName;
+        public void Run(IUserContext userContext, string fileName)
+        {
+            FileName = fileName;
 
-			CaseCollection caseCollection = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
+            CaseCollection caseCollection = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
 
-			foreach (var testCase in caseCollection.TestCases)
-			{
-				_runningTestCases.Add(new RunningTestCaseViewModel(testCase.Id, testCase.ShortDescription));
-			}
+            foreach (var testCase in caseCollection.TestCases)
+            {
+                var verifications = new List<VerificationItem>();
+                verifications.AddRange(testCase.VerifyNegatives);
+                verifications.AddRange(testCase.VerifyPositives);
+                _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Id, testCase.ShortDescription, verifications));
+            }
 
-			var taskRequest = new TaskRequest
-			{
-				Filename = fileName,
-				Username = userContext.Username,
-				TeamName = userContext.TeamName,
-			};
+            var taskRequest = new TaskRequest
+            {
+                Filename = fileName,
+                Username = userContext.Username,
+                TeamName = userContext.TeamName,
+            };
 
-			CurrentTaskId = _tasksService.Start(taskRequest);
-		}
+            CurrentTaskId = _tasksService.Start(taskRequest);
+        }
 
-		public IEnumerable<RunningTestCaseViewModel> TestCases
-		{
-			get { return _runningTestCases; }
-		}
+        public IEnumerable<RunningTestCaseViewModel> TestCases
+        {
+            get { return _runningTestCases; }
+        }
 
-		public int CurrentTaskId { get; private set; }
-		public string FileName { get; private set; }
-		public string SignalRUrl { get; private set; }
-	}
+        public int CurrentTaskId { get; private set; }
+        public string FileName { get; private set; }
+        public string SignalRUrl { get; private set; }
+    }
 }

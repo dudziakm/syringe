@@ -1,3 +1,17 @@
+$(document).ready(function () {
+    var rowsToAdd = [
+        { $Button: $("#addVerification"), URL: "/TestCase/AddVerification", Prefix: "Verifications" },
+        { $Button: $("#addParsedItem"), URL: "/TestCase/AddParseResponseItem", Prefix: "ParseResponses" },
+        { $Button: $("#addHeaderItem"), URL: "/TestCase/AddHeaderItem", Prefix: "Headers" },
+        { $Button: $("#addVariableItem"), URL: "/TestFile/AddVariableItem", Prefix: "Variables" }
+    ];
+    var rowHandler = new RowHandler(rowsToAdd);
+    rowHandler.setupButtons();
+    $("body").on("click", "#removeRow", function (e) {
+        e.preventDefault();
+        $(this).closest(".form-group").remove();
+    });
+});
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/signalr/signalr.d.ts" />
 /// <reference path="../typings/Hubs.d.ts" />
@@ -37,11 +51,16 @@ var Syringe;
                         resultClass = "panel-danger";
                         $(".case-result-exception", $selector).removeClass("hidden");
                         $(".case-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
+                        $("table tr.result-row", $selector).addClass("warning");
                     }
                     else {
                         // Show HTML/Raw buttons.
                         $(".view-html", $selector).removeClass("hidden");
                         $(".view-raw", $selector).removeClass("hidden");
+                        for (var i = 0; i < taskInfo.Verifications.length; i++) {
+                            var verificationItemClass = taskInfo.Verifications[i].Success ? "success" : "danger";
+                            $("table tr.result-row:eq(" + i + ")", $selector).addClass(verificationItemClass);
+                        }
                     }
                     $selector.addClass(resultClass);
                 };
@@ -206,20 +225,6 @@ var RowHandler = (function () {
     }
     return RowHandler;
 })();
-$(document).ready(function () {
-    var i = [
-        { $Button: $("#addVerification"), URL: "/TestCase/AddVerification", Prefix: "Verifications" },
-        { $Button: $("#addParsedItem"), URL: "/TestCase/AddParseResponseItem", Prefix: "ParseResponses" },
-        { $Button: $("#addHeaderItem"), URL: "/TestCase/AddHeaderItem", Prefix: "Headers" },
-        { $Button: $("#addVariableItem"), URL: "/TestFile/AddVariableItem", Prefix: "Variables" }
-    ];
-    var rowHandler = new RowHandler(i);
-    rowHandler.setupButtons();
-    $("body").on("click", "#removeRow", function (e) {
-        e.preventDefault();
-        $(this).closest(".form-group").remove();
-    });
-});
 var VerifyType;
 (function (VerifyType) {
     VerifyType[VerifyType["Negative"] = 0] = "Negative";
