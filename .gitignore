@@ -200,6 +200,8 @@ Scripts/Syringe/*.map
 *.ncrunchsolution
 *.ncrunchproject
 
+# Syringe-specific
 _deploymentOutput/
 coverage.xml
 TestResult.xml
+TextTransform.exe
