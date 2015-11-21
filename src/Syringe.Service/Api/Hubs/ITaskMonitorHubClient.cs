@@ -18,6 +18,6 @@ namespace Syringe.Service.Api.Hubs
 		public HttpResponse HttpResponse { get; set; }
 		public Guid CaseId { get; set; }
 		public string ExceptionMessage { get; set; }
-        public List<VerificationItem> Verifications { get; set; } 
+        public List<VerificationItem> Verifications { get; set; }    
 	}
 }
