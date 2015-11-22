@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using RestSharp;
 
 namespace Syringe.Tests.StubsMocks
@@ -10,6 +11,15 @@ namespace Syringe.Tests.StubsMocks
 
 		public IRestRequest RestRequest { get; private set; }
 		public TimeSpan ResponseTime { get; set; }
+
+		public override Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
+		{
+			if (ResponseTime > TimeSpan.MinValue)
+				Thread.Sleep(ResponseTime);
+
+			RestRequest = request;
+			return Task.FromResult(RestResponse);
+		}
 
 		public override IRestResponse Execute(IRestRequest request)
 		{

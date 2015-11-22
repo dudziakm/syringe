@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
 
@@ -20,24 +21,22 @@ namespace Syringe.Tests.StubsMocks
 			Response = response;
 		}
 
-		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		public Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
-			if (Responses == null)
+		    if (Responses == null)
 			{
 				if (ResponseTimes != null)
 				{
 					Response.ResponseTime = ResponseTimes[_responseCounter++];
 				}
 
-				return Response;
+				return Task.FromResult(Response);
 			}
-			else
-			{
-				return Responses[_responseCounter++];
-			}
+
+			return Task.FromResult(Responses[_responseCounter++]);
 		}
 
-		public void LogLastRequest()
+	    public void LogLastRequest()
 		{
 			LogLastRequestCalled = true;
 		}
