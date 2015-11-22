@@ -147,7 +147,7 @@ namespace Syringe.Client
 	    public Task DeleteAsync(Guid sessionId)
 	    {
             var client = new RestClient(_baseUrl);
-            IRestRequest request = CreateRequest("GetById");
+            IRestRequest request = CreateRequest("DeleteAsync");
             request.Method = Method.POST;
             request.AddQueryParameter("sessionId", sessionId.ToString());
             IRestResponse response = client.Execute(request);
