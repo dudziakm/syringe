@@ -49,9 +49,6 @@ namespace Syringe.Web.DependencyResolution
             For<ICaseService>().Use<CasesClient>();
             For<ICanaryService>().Use<CanaryClient>();
             For<ITasksService>().Use<TasksClient>();
-
-            // TODO: This repository stuff should only be accessed by the service.
-            For<ITestCaseSessionRepository>().Use<TestCaseSessionRepository>();
         }
     }
 }

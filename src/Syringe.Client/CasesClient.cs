@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Configuration;
+using Syringe.Core.Results;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
 
@@ -112,6 +114,44 @@ namespace Syringe.Client
 
             IRestResponse response = client.Execute(request);
             return DeserializeOrThrow<bool>(response);
+        }
+
+	    public IEnumerable<SessionInfo> GetSummariesForToday()
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("GetSummariesForToday");
+            request.Method = Method.GET;
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<IEnumerable<SessionInfo>>(response);
+        }
+
+	    public IEnumerable<SessionInfo> GetSummaries()
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("GetSummaries");
+            request.Method = Method.GET;
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<IEnumerable<SessionInfo>>(response);
+        }
+
+	    public TestCaseSession GetById(Guid caseId)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("GetById");
+            request.Method = Method.GET;
+            request.AddQueryParameter("caseId", caseId.ToString());
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<TestCaseSession>(response);
+        }
+
+	    public Task DeleteAsync(Guid sessionId)
+	    {
+            var client = new RestClient(_baseUrl);
+            IRestRequest request = CreateRequest("GetById");
+            request.Method = Method.POST;
+            request.AddQueryParameter("sessionId", sessionId.ToString());
+            IRestResponse response = client.Execute(request);
+            return DeserializeOrThrow<Task>(response);
         }
 
 	    private T DeserializeOrThrow<T>(IRestResponse response)

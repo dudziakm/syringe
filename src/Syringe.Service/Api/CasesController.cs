@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Repositories;
+using Syringe.Core.Results;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
 
@@ -11,10 +13,12 @@ namespace Syringe.Service.Api
     public class CasesController : ApiController, ICaseService
     {
         private readonly ICaseRepository _caseRepository;
+        private readonly ITestCaseSessionRepository _testCaseSessionRepository;
 
-        public CasesController(ICaseRepository caseRepository)
+        public CasesController(ICaseRepository caseRepository, ITestCaseSessionRepository testCaseSessionRepository)
         {
             _caseRepository = caseRepository;
+            _testCaseSessionRepository = testCaseSessionRepository;
         }
 
         [Route("api/cases/ListForTeam")]
@@ -71,6 +75,34 @@ namespace Syringe.Service.Api
         public bool UpdateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
         {
             return _caseRepository.UpdateTestFile(caseCollection, teamName);
+        }
+
+        [Route("api/cases/GetSummariesForToday")]
+        [HttpGet]
+        public IEnumerable<SessionInfo> GetSummariesForToday()
+        {
+            return _testCaseSessionRepository.GetSummariesForToday();
+        }
+
+        [Route("api/cases/GetSummaries")]
+        [HttpGet]
+        public IEnumerable<SessionInfo> GetSummaries()
+        {
+            return _testCaseSessionRepository.GetSummaries();
+        }
+
+        [Route("api/cases/GetById")]
+        [HttpGet]
+        public TestCaseSession GetById(Guid caseId)
+        {
+            return _testCaseSessionRepository.GetById(caseId);
+        }
+
+        [Route("api/cases/DeleteAsync")]
+        [HttpPost]
+        public Task DeleteAsync(Guid sessionId)
+        {
+            return _testCaseSessionRepository.DeleteAsync(sessionId);
         }
     }
 }

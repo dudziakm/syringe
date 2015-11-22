@@ -22,21 +22,18 @@ namespace Syringe.Web.Controllers
         private readonly ICaseService _casesClient;
         private readonly IUserContext _userContext;
         private readonly Func<IRunViewModel> _runViewModelFactory;
-        private readonly ITestCaseSessionRepository _repository;
         private readonly Func<ICanaryService> _canaryClientFactory;
 
         public HomeController(
             ICaseService casesClient,
             IUserContext userContext,
             Func<IRunViewModel> runViewModelFactory,
-            Func<ICanaryService> canaryClientFactory,
-            ITestCaseSessionRepository repository)
+            Func<ICanaryService> canaryClientFactory)
         {
             _casesClient = casesClient;
             _userContext = userContext;
             _runViewModelFactory = runViewModelFactory;
             _canaryClientFactory = canaryClientFactory;
-            _repository = repository;
         }
 
         public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
@@ -81,24 +78,24 @@ namespace Syringe.Web.Controllers
 
         public ActionResult AllResults()
         {
-            return View("AllResults", _repository.GetSummaries());
+            return View("AllResults", _casesClient.GetSummaries());
         }
 
         public ActionResult TodaysResults()
         {
-            return View("AllResults", _repository.GetSummariesForToday());
+            return View("AllResults", _casesClient.GetSummariesForToday());
         }
 
         public ActionResult ViewResult(Guid id)
         {
-            return View("ViewResult", _repository.GetById(id));
+            return View("ViewResult", _casesClient.GetById(id));
         }
 
         [HttpPost]
         public async Task<ActionResult> DeleteResult(Guid id)
         {
-            TestCaseSession session = _repository.GetById(id);
-            await _repository.DeleteAsync(session);
+            TestCaseSession session = _casesClient.GetById(id);
+            await _casesClient.DeleteAsync(session.Id);
 
             return RedirectToAction("AllResults");
         }

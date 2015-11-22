@@ -20,7 +20,6 @@ namespace Syringe.Tests.Unit.Web
         private Mock<ICaseService> _casesClient;
         private Mock<IUserContext> _userContext;
         private Mock<Func<IRunViewModel>> _runViewModelFactory;
-        private Mock<ITestCaseSessionRepository> _repository;
         private Mock<Func<ICanaryService>> _canaryClientFactory;
         private HomeController homeController;
         private Mock<ICanaryService> canaryClientService;
@@ -30,7 +29,6 @@ namespace Syringe.Tests.Unit.Web
         {
             _casesClient = new Mock<ICaseService>();
             _userContext = new Mock<IUserContext>();
-            _repository = new Mock<ITestCaseSessionRepository>();
 
             _canaryClientFactory = new Mock<Func<ICanaryService>>();
             canaryClientService = new Mock<ICanaryService>();
@@ -43,10 +41,13 @@ namespace Syringe.Tests.Unit.Web
             runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
             _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
-            _repository.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
+            _casesClient.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
+
+            _casesClient.Setup(x => x.GetSummaries()).Returns(new List<SessionInfo>());
+            _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<SessionInfo>());
 
             homeController = new HomeController(_casesClient.Object, _userContext.Object, _runViewModelFactory.Object,
-                _canaryClientFactory.Object, _repository.Object);
+                _canaryClientFactory.Object);
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = homeController.AllResults() as ViewResult;
 
             // then
-            _repository.Verify(x => x.GetSummaries(), Times.Once);
+            _casesClient.Verify(x => x.GetSummaries(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<SessionInfo>>(viewResult.Model);
         }
@@ -68,7 +69,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = homeController.TodaysResults() as ViewResult;
 
             // then
-            _repository.Verify(x => x.GetSummariesForToday(), Times.Once);
+            _casesClient.Verify(x => x.GetSummariesForToday(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<SessionInfo>>(viewResult.Model);
         }
@@ -81,7 +82,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = homeController.ViewResult(It.IsAny<Guid>()) as ViewResult;
 
             // then
-            _repository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
+            _casesClient.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("ViewResult", viewResult.ViewName);
             Assert.IsInstanceOf<TestCaseSession>(viewResult.Model);
         }
@@ -93,8 +94,8 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = await homeController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
 
             // then
-            _repository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
-            _repository.Verify(x => x.DeleteAsync(It.IsAny<TestCaseSession>()), Times.Once);
+            _casesClient.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
+            _casesClient.Verify(x => x.DeleteAsync(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
         }
 

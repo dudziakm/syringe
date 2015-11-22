@@ -10,7 +10,7 @@ namespace Syringe.Tests.StubsMocks
 	{
 		public TestCaseSession SavedSession { get; set; }
 
-		public Task DeleteAsync(TestCaseSession session)
+		public Task DeleteAsync(Guid session)
 		{
 			return Task.FromResult<object>(null);
 		}

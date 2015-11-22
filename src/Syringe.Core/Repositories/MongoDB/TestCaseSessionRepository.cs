@@ -29,9 +29,9 @@ namespace Syringe.Core.Repositories.MongoDB
             await _collection.InsertOneAsync(session);
         }
 
-        public async Task DeleteAsync(TestCaseSession session)
+        public async Task DeleteAsync(Guid sessionId)
         {
-            await _collection.DeleteOneAsync(x => x.Id == session.Id);
+            await _collection.DeleteOneAsync(x => x.Id == sessionId);
         }
 
         public TestCaseSession GetById(Guid id)

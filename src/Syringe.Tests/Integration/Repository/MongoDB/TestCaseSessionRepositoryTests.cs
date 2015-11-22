@@ -58,7 +58,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session);
 
 			// Act
-			await repository.DeleteAsync(session);
+			await repository.DeleteAsync(session.Id);
 
 			// Assert
 			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
