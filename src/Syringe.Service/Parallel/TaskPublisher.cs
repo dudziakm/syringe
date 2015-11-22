@@ -25,6 +25,9 @@ namespace Syringe.Service.Parallel
 		private void OnTaskCompleted(string taskGroup, TestCaseResult result)
 		{
 			var clientGroup = _hubConnectionContext.Group(taskGroup);
+		    var verifications = result.VerifyNegativeResults;
+            verifications.AddRange(result.VerifyPositiveResults);
+
 			clientGroup.OnTaskCompleted(new CompletedTaskInfo
 			{
 				ActualUrl = result.ActualUrl,
@@ -32,8 +35,9 @@ namespace Syringe.Service.Parallel
 				Success = result.Success,
 				ResultId = result.Id,
 				CaseId = result.TestCase.Id,
-				ExceptionMessage = result.ExceptionMessage
-			});
+				ExceptionMessage = result.ExceptionMessage,
+                Verifications = verifications
+            });
 		}
 	}
 }

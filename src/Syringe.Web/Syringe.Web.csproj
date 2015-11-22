@@ -378,6 +378,7 @@
     </None>
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
+    <Content Include="Scripts\typings\TextTransform.exe" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />
@@ -421,6 +422,7 @@
     <Content Include="Views\Shared\Partials\_TestCasePager.cshtml" />
     <Content Include="Views\TestFile\Add.cshtml" />
     <Content Include="Views\TestFile\EditorTemplates\VariableItem.cshtml" />
+    <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
@@ -451,7 +453,7 @@
     <Content Include="Views\TestCase\View.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Run.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\TaskState.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Testcase.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\TestCaseResult.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerificationItem.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\VerifyType.ts" />
