@@ -94,7 +94,7 @@ namespace Syringe.Tests.Unit.Web
 
 				var viewModel = GivenARunViewModel(caseService: caseService, tasksService: tasksService.Object);
 
-				viewModel.Run(Mock.Of<IUserContext>(c => c.TeamName == teamName && c.Username == userName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(c => c.TeamName == teamName && c.FullName == userName), fileName);
 
 				tasksService.Verify(
 					s =>

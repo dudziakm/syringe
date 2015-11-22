@@ -70,6 +70,18 @@
       <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -165,6 +177,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Controllers\TestFileController.cs" />
@@ -192,6 +205,30 @@
     <Compile Include="Models\VariableItem.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap-sprockets.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap.min.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\affix.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\alert.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\button.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\carousel.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\collapse.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\dropdown.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\modal.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\popover.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\scrollspy.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\tab.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\tooltip.js" />
+    <Content Include="Css\bootstrap-sass\javascripts\bootstrap\transition.js" />
+    <Content Include="Css\bootstrap-social\assets\css\bootstrap.css" />
+    <Content Include="Css\bootstrap-social\assets\css\docs.css" />
+    <Content Include="Css\bootstrap-social\assets\css\font-awesome.css" />
+    <Content Include="Css\bootstrap-social\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Css\bootstrap-social\assets\img\bootstrap-social.png" />
+    <Content Include="Css\bootstrap-social\assets\js\docs.js" />
+    <Content Include="Css\bootstrap-social\assets\js\jquery.js" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
     <Content Include="gruntfile.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
@@ -200,6 +237,149 @@
     <Content Include="Scripts\ripples.js" />
     <Content Include="Scripts\Syringe.js.map" />
     <Content Include="package.json" />
+    <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="Css\bootstrap-sass\images\.keep" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_alerts.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_buttons.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_center-block.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_forms.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_gradients.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_grid.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_hide-text.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_image.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_labels.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_list-group.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_nav-vertical-align.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_opacity.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_pagination.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_panels.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_progress-bar.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_reset-filter.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_resize.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_responsive-visibility.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_size.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_tab-focus.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_table-row.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_text-overflow.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\mixins\_vendor-prefixes.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_alerts.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_badges.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_breadcrumbs.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_button-groups.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_buttons.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_carousel.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_close.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_code.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_component-animations.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_dropdowns.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_forms.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_glyphicons.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_grid.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_input-groups.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_jumbotron.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_labels.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_list-group.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_media.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_mixins.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_modals.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_navbar.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_navs.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_normalize.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_pager.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_pagination.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_panels.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_popovers.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_print.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_progress-bars.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_responsive-embed.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_responsive-utilities.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_scaffolding.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_tables.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_theme.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_thumbnails.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_tooltip.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_type.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_utilities.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_variables.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\bootstrap\_wells.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\_bootstrap-compass.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\_bootstrap-mincer.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\_bootstrap-sprockets.scss" />
+    <Content Include="Css\bootstrap-sass\stylesheets\_bootstrap.scss" />
+    <Content Include="Css\materialdesign\material-fullpalette.scss" />
+    <Content Include="Css\materialdesign\materialdesign.scss" />
+    <Content Include="Css\materialdesign\ripples.scss" />
+    <Content Include="Css\materialdesign\roboto.scss" />
+    <Content Include="Css\materialdesign\_alerts.scss" />
+    <Content Include="Css\materialdesign\_buttons.scss" />
+    <Content Include="Css\materialdesign\_cards.scss" />
+    <Content Include="Css\materialdesign\_checkboxes.scss" />
+    <Content Include="Css\materialdesign\_colors.scss" />
+    <Content Include="Css\materialdesign\_dialogs.scss" />
+    <Content Include="Css\materialdesign\_dividers.scss" />
+    <Content Include="Css\materialdesign\_form.scss" />
+    <Content Include="Css\materialdesign\_icons-material-design.scss" />
+    <Content Include="Css\materialdesign\_icons.scss" />
+    <Content Include="Css\materialdesign\_import-bs-less.scss" />
+    <Content Include="Css\materialdesign\_import-bs-sass.scss" />
+    <Content Include="Css\materialdesign\_inputs-size.scss" />
+    <Content Include="Css\materialdesign\_inputs.scss" />
+    <Content Include="Css\materialdesign\_labels.scss" />
+    <Content Include="Css\materialdesign\_lists.scss" />
+    <Content Include="Css\materialdesign\_material.scss" />
+    <Content Include="Css\materialdesign\_mixins-fullpalette.scss" />
+    <Content Include="Css\materialdesign\_mixins-shared.scss" />
+    <Content Include="Css\materialdesign\_mixins-utilities.scss" />
+    <Content Include="Css\materialdesign\_mixins.scss" />
+    <Content Include="Css\materialdesign\_navbar.scss" />
+    <Content Include="Css\materialdesign\_panels.scss" />
+    <Content Include="Css\materialdesign\_plugin-dropdownjs.scss" />
+    <Content Include="Css\materialdesign\_plugin-nouislider.scss" />
+    <Content Include="Css\materialdesign\_plugin-selectize.scss" />
+    <Content Include="Css\materialdesign\_plugin-snackbarjs.scss" />
+    <Content Include="Css\materialdesign\_popups.scss" />
+    <Content Include="Css\materialdesign\_progress.scss" />
+    <Content Include="Css\materialdesign\_radios.scss" />
+    <Content Include="Css\materialdesign\_shadows.scss" />
+    <Content Include="Css\materialdesign\_tabs.scss" />
+    <Content Include="Css\materialdesign\_togglebutton.scss" />
+    <Content Include="Css\materialdesign\_typography.scss" />
+    <Content Include="Css\materialdesign\_variables.scss" />
+    <Content Include="Css\materialdesign\_welljumbo.scss" />
+    <Content Include="Css\bootstrap-social\bootstrap-social.scss" />
+    <Content Include="Css\bootstrap-social\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Css\bootstrap-social\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Css\bootstrap-social\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Css\bootstrap-social\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Css\bootstrap-social\assets\fonts\FontAwesome.otf" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Css\font-awesome-4.4.0\fonts\FontAwesome.otf" />
+    <Content Include="Css\font-awesome-4.4.0\scss\font-awesome.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_animated.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_bordered-pulled.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_core.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_fixed-width.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_icons.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_larger.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_list.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_mixins.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_path.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_rotated-flipped.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_stacked.scss" />
+    <Content Include="Css\font-awesome-4.4.0\scss\_variables.scss" />
     <None Include="Scripts\typings\Hubs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Hubs.d.ts</LastGenOutput>
@@ -214,20 +394,9 @@
     <Content Include="iis.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Authentication\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Css\bootstrap-theme.css" />
-    <Content Include="Css\bootstrap-theme.min.css" />
-    <Content Include="Css\bootstrap.css" />
-    <Content Include="Css\bootstrap.min.css" />
-    <Content Include="Css\material-fullpalette.css" />
-    <Content Include="Css\material-fullpalette.min.css" />
-    <Content Include="Css\material.css" />
-    <Content Include="Css\material.min.css" />
-    <Content Include="Css\ripples.css" />
-    <Content Include="Css\ripples.min.css" />
-    <Content Include="Css\roboto.css" />
-    <Content Include="Css\roboto.min.css" />
     <Content Include="Css\Syringe.css">
       <DependentUpon>Syringe.scss</DependentUpon>
     </Content>
@@ -239,14 +408,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="XmlExamples\bing.xml" />
     <Content Include="XmlExamples\single-case.xml" />
-    <Content Include="Css\material-fullpalette.css.map" />
-    <Content Include="Css\material-fullpalette.min.css.map" />
-    <Content Include="Css\material.css.map" />
-    <Content Include="Css\material.min.css.map" />
-    <Content Include="Css\ripples.css.map" />
-    <Content Include="Css\ripples.min.css.map" />
-    <Content Include="Css\roboto.css.map" />
-    <Content Include="Css\roboto.min.css.map" />
     <Content Include="fonts\Material-Design-Icons.eot" />
     <Content Include="fonts\Material-Design-Icons.ttf" />
     <Content Include="fonts\Material-Design-Icons.woff" />
@@ -330,10 +491,6 @@
       <Project>{b3aaaa32-4160-419f-9117-179037f88748}</Project>
       <Name>Syringe.Service</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Css\bootstrap-theme.css.map" />
-    <Content Include="Css\bootstrap.css.map" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

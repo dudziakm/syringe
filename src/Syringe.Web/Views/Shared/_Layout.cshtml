@@ -1,10 +1,9 @@
-﻿<html>
+﻿@using Syringe.Core.Security
+<html>
 <head>
     <title>@ViewBag.Title - Syringe</title>
-    <link href="~/Css/bootstrap.min.css" rel="stylesheet" />
-	<link href="~/Css/material.min.css" rel="stylesheet" />
-	<link href="~/Css/Syringe.css" rel="stylesheet"/>
-	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+	<link href="~/Css/Syringe.css?v=@typeof(Startup).Assembly.GetName().Version" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <!-- Navigation -->
@@ -39,9 +38,9 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Jane Doe<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@(UserContext.GetUserName(this.Context))<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="@Url.Action("Logout", "Authentication")">Logout</a></li>
                         </ul>
                     </li>
                 </ul>

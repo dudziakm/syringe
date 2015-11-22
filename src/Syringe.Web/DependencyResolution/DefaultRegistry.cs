@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Web;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Repositories;

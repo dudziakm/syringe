@@ -25,7 +25,7 @@ namespace Syringe.Web.Controllers
 			var taskRequest = new TaskRequest()
 			{
 				Filename = filename,
-				Username = _userContext.Username,
+				Username = _userContext.FullName,
 				TeamName = _userContext.TeamName,
 			};
 

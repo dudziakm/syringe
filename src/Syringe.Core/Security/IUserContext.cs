@@ -2,7 +2,8 @@
 {
 	public interface IUserContext
 	{
+		string Id { get; set; }
 		string TeamName { get; }
-		string Username { get; }
+		string FullName { get; }
 	}
 }

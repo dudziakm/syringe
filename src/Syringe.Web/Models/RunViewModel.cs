@@ -35,7 +35,7 @@ namespace Syringe.Web.Models
 			var taskRequest = new TaskRequest
 			{
 				Filename = fileName,
-				Username = userContext.Username,
+				Username = userContext.FullName,
 				TeamName = userContext.TeamName,
 			};
 

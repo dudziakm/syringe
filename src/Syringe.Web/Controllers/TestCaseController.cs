@@ -10,7 +10,8 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-    public class TestCaseController : Controller
+	[Authorize]
+	public class TestCaseController : Controller
     {
         private readonly ICaseService _casesClient;
         private readonly IUserContext _userContext;
