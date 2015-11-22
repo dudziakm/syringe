@@ -49,6 +49,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ExternalLoginCallback(string returnUrl)
 		{
+			// TODO: make these into a configuration object, for example Github uses "{urn:github:name: Chris S.}" for its name
 			var claims = System.Security.Claims.ClaimsPrincipal.Current.Claims.ToList();
 			var nameIdentifier = claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", StringComparison.InvariantCultureIgnoreCase));
 			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", StringComparison.InvariantCultureIgnoreCase));
@@ -70,7 +71,7 @@ namespace Syringe.Web.Controllers
 			string userData = JsonConvert.SerializeObject(new UserContext() {FullName = name, Id = id});
 			string encryptedData = FormsAuthentication.Encrypt(new FormsAuthenticationTicket(1, "Syringe", DateTime.Now, DateTime.UtcNow.AddDays(1), true, userData));
 
-			// Add user data by setting the cookie manually.
+			// Add UserData to the forms auth cookie by setting the cookie manually.
 			Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedData)
 			{
 				Expires = DateTime.Now.AddDays(1)

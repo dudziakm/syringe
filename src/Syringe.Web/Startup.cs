@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.MicrosoftAccount;
 using Owin;
 using Syringe.Web;
+using Owin.Security.Providers.GitHub;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -37,7 +38,10 @@ namespace Syringe.Web
 			app.UseCookieAuthentication(cookieOptions);
 			app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
 
-			// Put this into the web.config
+			//
+			// Put these client id/secrets into the web.config or app.config
+			//
+
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
 			{
 				ClientId = "1055607189262-k919rn22c7ddgf6j20n8m96qqve9kl1h.apps.googleusercontent.com",
@@ -52,6 +56,16 @@ namespace Syringe.Web
 				ClientSecret = "ssba5FOQCsg5E18baVQbjoe075fEJd2x",
 				CallbackPath = new PathString("/Authentication/Noop")
 			});
+
+			// For Github: https://github.com/settings/applications/
+			// Set the callback url in the Github console to the same as the homepage url.
+			app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+			{
+				ClientId = "783a88d1d712e79804b4",
+				ClientSecret = "76391542e4d77126aa5136ed2a6e74f2f85dd46f"
+			});
+
+			// TODO: logout drop down needs to switch to Login when not logged in
 		}
 	}
 }
