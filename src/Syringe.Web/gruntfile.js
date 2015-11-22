@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                     style: 'compressed'
                 },
                 files: {
-                    'css/Syringe.css': 'css/Syringe.scss'
+                	'css/Syringe.css': 'css/Syringe.scss'
                 }
             }
         },

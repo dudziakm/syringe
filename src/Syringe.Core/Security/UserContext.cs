@@ -1,16 +1,39 @@
-﻿namespace Syringe.Core.Security
+﻿using System;
+using System.Web;
+using System.Web.Security;
+using Newtonsoft.Json;
+
+namespace Syringe.Core.Security
 {
 	public class UserContext : IUserContext
 	{
-		// temporary
-		public string TeamName
+		public string Id { get; set; }
+
+		public string FullName { get; set; }
+
+		public string TeamName => "teamname";
+
+		public static UserContext GetFromFormsAuth(HttpContextBase httpContext)
 		{
-			get { return "teamname"; }
+			if (httpContext == null || httpContext.Request.Cookies[FormsAuthentication.FormsCookieName] == null)
+				return new UserContext() {FullName = "Not Logged In", Id = "anon"};
+
+			string cookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+			FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
+			string data = ticket.UserData;
+
+			if (string.IsNullOrEmpty(data))
+				throw new InvalidOperationException("The user cookie data is invalid. Please clear all cookies for this doman and re-login.");
+
+			UserContext context = JsonConvert.DeserializeObject<UserContext>(data);
+
+			return context;
 		}
 
-		public string Username
+		public static string GetUserName(HttpContextBase httpContext)
 		{
-			get { return "tim.sherwood"; }
+			UserContext context = GetFromFormsAuth(httpContext);
+			return context.FullName;
 		}
 	}
 }

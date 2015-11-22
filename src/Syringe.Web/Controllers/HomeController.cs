@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.Owin.Security;
 using Syringe.Core.Canary;
 using Syringe.Core.Extensions;
 using Syringe.Core.Repositories;
@@ -13,6 +16,7 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
+	[Authorize]
     public class HomeController : Controller
     {
         private readonly ICaseService _casesClient;
@@ -39,6 +43,8 @@ namespace Syringe.Web.Controllers
         {
             CheckServiceIsRunning();
 
+			ViewBag.Title = "All test case files";
+
 			// TODO: team name from the user context?
 			IList<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName).ToList();
 
@@ -56,8 +62,10 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Run(string filename)
         {
-            var runViewModel = _runViewModelFactory();
-            runViewModel.Run(_userContext, filename);
+			UserContext context = UserContext.GetFromFormsAuth(HttpContext);
+
+			var runViewModel = _runViewModelFactory();
+            runViewModel.Run(context, filename);
             return View("Run", runViewModel);
         }
 
@@ -94,5 +102,5 @@ namespace Syringe.Web.Controllers
 
             return RedirectToAction("AllResults");
         }
-    }
+	}
 }
