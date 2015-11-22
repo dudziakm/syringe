@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Security;
 
 namespace Syringe.Core.Repositories
 {
 	public interface IUserRepository
 	{
-		void AddUser(User user);
-		void UpdateUser(User user, bool passwordHasChanged);
-		void DeleteUser(User user);
+		Task AddUserAsync(User user);
+		Task UpdateUserAsync(User user, bool passwordHasChanged);
+		Task DeleteUserAsync(User user);
 		void Wipe();
 
 		IEnumerable<User> GetUsers();
