@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using RestSharp;
-using Syringe.Core.Extensions;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.TestCases;
 
@@ -24,7 +24,7 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public HttpResponse ExecuteRequest(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
@@ -66,7 +66,7 @@ namespace Syringe.Core.Http
 			// Get the response back, parsing the headers
 			//
             DateTime startTime = DateTime.UtcNow;
-			IRestResponse response = _restClient.Execute(request);
+			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
 			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();

@@ -23,7 +23,7 @@ namespace Syringe.Core.Security
 			string data = ticket.UserData;
 
 			if (string.IsNullOrEmpty(data))
-				throw new InvalidOperationException("The user cookie data is invalid. Please clear all cookies for this doman and re-login.");
+				throw new InvalidOperationException("The user cookie data is invalid. Please clear all cookies for this domain and re-login.");
 
 			UserContext context = JsonConvert.DeserializeObject<UserContext>(data);
 

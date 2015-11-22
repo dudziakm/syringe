@@ -164,7 +164,7 @@ namespace Syringe.Core.Runner
 
 					try
 					{
-						TestCaseResult result = RunCase(testCase, variables, verificationsMatcher);
+						TestCaseResult result = await RunCaseAsync(testCase, variables, verificationsMatcher);
 						AddResult(session, result);
 
 						if (result.ResponseTime < minResponseTime)
@@ -224,7 +224,7 @@ namespace Syringe.Core.Runner
 			NotifySubscribers(observer => observer.OnError(exception));
 		}
 
-		internal TestCaseResult RunCase(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
+		internal async Task<TestCaseResult> RunCaseAsync(Case testCase, SessionVariables variables, VerificationsMatcher verificationMatcher)
 		{
 			var testResult = new TestCaseResult();
 			testResult.SessionId = SessionId;
@@ -235,7 +235,7 @@ namespace Syringe.Core.Runner
 				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
 				testResult.ActualUrl = resolvedUrl;
 
-				HttpResponse response = _httpClient.ExecuteRequest(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
+				HttpResponse response = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
 

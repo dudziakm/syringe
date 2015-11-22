@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using RestSharp;
-using Syringe.Core;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
 using Syringe.Tests.StubsMocks;
@@ -18,7 +18,7 @@ namespace Syringe.Tests.Unit.Http
 		private RestClientMock _restClientMock;
 
 		[Test]
-		public void should_throw_exception_when_uri_is_invalid()
+		public async Task should_throw_exception_when_uri_is_invalid()
 		{
 			// Arrange
 			var restResponse = new RestResponse();
@@ -32,11 +32,19 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act + Assert
-			Assert.Throws<ArgumentException>(() => httpClient.ExecuteRequest(method, url, contentType, postBody, headers));
+
+			try
+			{
+				await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+				Assert.Fail("Should have thrown an exception.");
+			}
+			catch (ArgumentException)
+			{
+			}
 		}
 
 		[Test]
-		public void should_return_expected_html_content()
+		public async Task should_return_expected_html_content()
 		{
 			// Arrange
 			var restResponse = new RestResponseStub()
@@ -53,7 +61,7 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Assert.NotNull(response);
@@ -61,7 +69,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void should_ignore_null_headers()
+		public async Task should_ignore_null_headers()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -73,14 +81,14 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Assert.IsNotNull(response);
 		}
 
 		[Test]
-		public void should_add_postbody_and_contenttype_to_request_when_method_is_post()
+		public async Task should_add_postbody_and_contenttype_to_request_when_method_is_post()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -92,7 +100,7 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Parameter parameter = _restClientMock.RestRequest.Parameters.First();
@@ -102,7 +110,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void should_use_httpmethod_get_when_method_is_invalid()
+		public async Task should_use_httpmethod_get_when_method_is_invalid()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -114,14 +122,14 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Assert.AreEqual(Method.GET, _restClientMock.RestRequest.Method);
 		}
 
 		[Test]
-		public void should_add_headers()
+		public async Task should_add_headers()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -137,7 +145,7 @@ namespace Syringe.Tests.Unit.Http
 			};
 
 			// Act
-			httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			var parameters = _restClientMock.RestRequest.Parameters;
@@ -150,7 +158,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void should_fill_response_properties()
+		public async Task should_fill_response_properties()
 		{
 			// Arrange
 			var restResponseStub = new RestResponseStub();
@@ -167,7 +175,7 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
@@ -187,7 +195,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void should_record_last_request()
+		public async Task should_record_last_request()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -200,8 +208,8 @@ namespace Syringe.Tests.Unit.Http
 				new HeaderItem("cookies", "mmm cookies"),
 			};
 
-			httpClient.ExecuteRequest("get", "http://www.example1.com", contentType, "request 1", request1Headers);
-			httpClient.ExecuteRequest("put", "http://www.example2.com", contentType, "request 2", request2Headers);
+			await httpClient.ExecuteRequestAsync("get", "http://www.example1.com", contentType, "request 1", request1Headers);
+			await httpClient.ExecuteRequestAsync("put", "http://www.example2.com", contentType, "request 2", request2Headers);
 
 			// Act
 			httpClient.LogLastRequest();
@@ -225,7 +233,7 @@ namespace Syringe.Tests.Unit.Http
 		}
 
 		[Test]
-		public void should_record_response_times()
+		public async Task should_record_response_times()
 		{
 			// Arrange
 			HttpClient httpClient = CreateClient(new RestResponse());
@@ -238,7 +246,7 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = httpClient.ExecuteRequest(method, url, contentType, postBody, headers);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
 			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
