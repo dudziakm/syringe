@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Syringe.Core.Security;
@@ -28,43 +26,43 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// <summary>
 		/// Adds a team to the database.
 		/// </summary>
-		public void AddTeam(Team team)
+		public async Task AddTeamAsync(Team team)
 		{
-			_collection.InsertOneAsync(team).Wait();
+			await _collection.InsertOneAsync(team);
 		}
 
 		/// <summary>
 		/// Updates (replaces) a team in the database, based on their id.
 		/// </summary>
-		public void UpdateTeam(Team team)
+		public async Task UpdateTeamAsync(Team team)
 		{
-			_collection.ReplaceOneAsync(t => t.Id == team.Id, team).Wait();
+			await _collection.ReplaceOneAsync(t => t.Id == team.Id, team);
 		}
 
 		/// <summary>
 		/// Removes a team from the database, based on their id.
 		/// </summary>
-		public void Delete(Team team)
+		public async Task DeleteTeamAsync(Team team)
 		{
-			_collection.DeleteOneAsync(t => t.Id == team.Id).Wait();
+			await _collection.DeleteOneAsync(t => t.Id == team.Id);
 		}
 
 		/// <summary>
 		/// Adds the user's id to the team's list of users.
 		/// </summary>
-		public void AddUserToTeam(Team team, User user)
+		public async Task AddUserToTeamAsync(Team team, User user)
 		{
 			team.UserIds.Add(user.Id);
-			UpdateTeam(team);
+			await UpdateTeamAsync(team);
 		}
 
 		/// <summary>
 		/// Removes the user's id to the team's list of users.
 		/// </summary>
-		public void RemoveUserFromTeam(Team team, User user)
+		public async Task RemoveUserFromTeamAsync(Team team, User user)
 		{
 			team.UserIds.Remove(user.Id);
-			UpdateTeam(team);
+			await UpdateTeamAsync(team);
 		}
 
 		/// <summary>

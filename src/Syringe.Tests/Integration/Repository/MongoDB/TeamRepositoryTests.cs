@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
@@ -27,25 +28,25 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			CreateTeamRepository().Wipe();
 		}
 
-		private User AddJohnDoeUser()
+		private async Task<User> AddJohnDoeUserAsync()
 		{
 			User user = new User() { Id = Guid.NewGuid(), Firstname = "John", Lastname = "Doe", Email = "email@example.com" };
 			UserRepository userRepository = CreateUserRepository();
-			userRepository.AddUser(user);
+			await userRepository.AddUserAsync(user);
 
 			return user;
 		}
 
-		private User AddJaneDoeUser()
+		private async Task<User> AddJaneDoeUserAsync()
 		{
 			User user = new User() { Id = Guid.NewGuid(), Firstname = "Jane", Lastname = "Doe", Email = "jane@example.com" };
 			UserRepository userRepository = CreateUserRepository();
-			userRepository.AddUser(user);
+			await userRepository.AddUserAsync(user);
 
 			return user;
 		}
 
-		private Team AddPowerRangersTeam(TeamRepository teamRepository = null)
+		private async Task<Team> AddPowerRangersTeamAsync(TeamRepository teamRepository = null)
 		{
 			Team team = new Team()
 			{
@@ -56,19 +57,19 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			if (teamRepository == null)
 				teamRepository = CreateTeamRepository();
 
-			teamRepository.AddTeam(team);
+			await teamRepository.AddTeamAsync(team);
 
 			return team;
 		}
 
 		[Test]
-		public void AddTeam_should_store_the_team()
+		public async Task AddTeam_should_store_the_team()
 		{
 			// Arrange
 			TeamRepository teamRepository = CreateTeamRepository();
 
             // Act
-			Team expectedTeam = AddPowerRangersTeam(teamRepository);
+			Team expectedTeam = await AddPowerRangersTeamAsync(teamRepository);
 
 			// Assert
 			IEnumerable<Team> teams = teamRepository.GetTeams();
@@ -82,17 +83,17 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void UpdateTeam_should_store_the_updated_team_details()
+		public async Task UpdateTeam_should_store_the_updated_team_details()
 		{
 			// Arrange
 			TeamRepository teamRepository = CreateTeamRepository();
-			Team team = AddPowerRangersTeam(teamRepository);
+			Team team = await AddPowerRangersTeamAsync(teamRepository);
 
 			// Act
 			IEnumerable<Team> teams = teamRepository.GetTeams();
 			Team updatedTeam = teams.FirstOrDefault();
 			team.Name = "Dad's Army";
-			teamRepository.UpdateTeam(updatedTeam);
+			await teamRepository.UpdateTeamAsync(updatedTeam);
 
 			// Assert
 			teams = teamRepository.GetTeams();
@@ -103,14 +104,14 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void DeleteTeam_should_remove_the_team()
+		public async Task DeleteTeam_should_remove_the_team()
 		{
 			// Arrange
 			TeamRepository teamRepository = CreateTeamRepository();
-			Team team = AddPowerRangersTeam(teamRepository);
+			Team team = await AddPowerRangersTeamAsync(teamRepository);
 
 			// Act
-			teamRepository.Delete(team);
+			await teamRepository.DeleteTeamAsync(team);
 
 			// Assert
 			IEnumerable<Team> teams = teamRepository.GetTeams();
@@ -119,11 +120,11 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetTeam_should_return_team_and_be_case_insensitive()
+		public async Task GetTeam_should_return_team_and_be_case_insensitive()
 		{
 			// Arrange
 			TeamRepository teamRepository = CreateTeamRepository();
-			Team expectedTeam = AddPowerRangersTeam(teamRepository);
+			Team expectedTeam = await AddPowerRangersTeamAsync(teamRepository);
 
 			// Act
 			Team actualTeam = teamRepository.GetTeam("POWER rangers");
@@ -149,7 +150,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetTeams_should_return_all_teams()
+		public async Task GetTeams_should_return_all_teams()
 		{
 			// Arrange
 			Team team1 = new Team()
@@ -165,8 +166,8 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			};
 
 			TeamRepository teamRepository = CreateTeamRepository();
-			teamRepository.AddTeam(team1);
-			teamRepository.AddTeam(team2);
+			await teamRepository.AddTeamAsync(team1);
+			await teamRepository.AddTeamAsync(team2);
 
 			// Act
 			IEnumerable<Team> teams = teamRepository.GetTeams();
@@ -176,18 +177,18 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void AddUserToTeam_should_store_user_ids_for_the_team()
+		public async Task AddUserToTeam_should_store_user_ids_for_the_team()
 		{
 			// Arrange
-			User user1 = AddJohnDoeUser();
-			User user2 = AddJaneDoeUser();
+			User user1 = await AddJohnDoeUserAsync();
+			User user2 = await AddJaneDoeUserAsync();
 
 			TeamRepository teamRepository = CreateTeamRepository();
-			Team team = AddPowerRangersTeam(teamRepository);
+			Team team = await AddPowerRangersTeamAsync(teamRepository);
 
 			// Act
-			teamRepository.AddUserToTeam(team, user1);
-			teamRepository.AddUserToTeam(team, user2);
+			await teamRepository.AddUserToTeamAsync(team, user1);
+			await teamRepository.AddUserToTeamAsync(team, user2);
 
 			// Assert
 			Team actualTeam = teamRepository.GetTeam(team.Name);
@@ -195,20 +196,20 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void RemoveUserFromTeam_should_remove_user_id_from_the_team()
+		public async Task RemoveUserFromTeam_should_remove_user_id_from_the_team()
 		{
 			// Arrange
-			User user1 = AddJohnDoeUser();
-			User user2 = AddJaneDoeUser();
+			User user1 = await AddJohnDoeUserAsync();
+			User user2 = await AddJaneDoeUserAsync();
 
-			Team team = AddPowerRangersTeam();
+			Team team = await AddPowerRangersTeamAsync();
 
 			TeamRepository teamRepository = CreateTeamRepository();
-			teamRepository.AddUserToTeam(team, user1);
-			teamRepository.AddUserToTeam(team, user2);
+			await teamRepository.AddUserToTeamAsync(team, user1);
+			await teamRepository.AddUserToTeamAsync(team, user2);
 
 			// Act
-			teamRepository.RemoveUserFromTeam(team, user1);
+			await teamRepository.RemoveUserFromTeamAsync(team, user1);
 
 			// Assert
 			Team actualTeam = teamRepository.GetTeam(team.Name);

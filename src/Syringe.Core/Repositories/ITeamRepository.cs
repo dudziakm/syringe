@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Security;
 
 namespace Syringe.Core.Repositories
 {
 	public interface ITeamRepository
 	{
-		void AddTeam(Team team);
-		void UpdateTeam(Team team);
-		void Delete(Team team);
-		void AddUserToTeam(Team team, User user);
-		void RemoveUserFromTeam(Team team, User user);
+		Task AddTeamAsync(Team team);
+		Task UpdateTeamAsync(Team team);
+		Task DeleteTeamAsync(Team team);
+		Task AddUserToTeamAsync(Team team, User user);
+		Task RemoveUserFromTeamAsync(Team team, User user);
 		void Wipe();
 
 		IEnumerable<Team> GetTeams();

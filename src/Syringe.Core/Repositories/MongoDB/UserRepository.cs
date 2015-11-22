@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using Syringe.Core.Security;
 
@@ -24,29 +25,29 @@ namespace Syringe.Core.Repositories.MongoDB
 		/// <summary>
 		/// Adds a user, hashing the user password before hand.
 		/// </summary>
-		public void AddUser(User user)
+		public async Task AddUserAsync(User user)
 		{
 			user.Password = User.HashPassword(user.Password);
-			_collection.InsertOneAsync(user).Wait();
+			await _collection.InsertOneAsync(user);
 		}
 
 		/// <summary>
 		/// Updates (replaces) a user in the database, hashing the password if it has changed.
 		/// </summary>
-		public void UpdateUser(User user, bool passwordHasChanged)
+		public async Task UpdateUserAsync(User user, bool passwordHasChanged)
 		{
 			if (passwordHasChanged)
 				user.Password = User.HashPassword(user.Password);
 
-			_collection.ReplaceOneAsync(u => u.Id == user.Id, user).Wait();
+			await _collection.ReplaceOneAsync(u => u.Id == user.Id, user);
 		}
 
 		/// <summary>
 		/// Removes a user from the database, based on their id.
 		/// </summary>
-		public void DeleteUser(User user)
+		public async Task DeleteUserAsync(User user)
 		{
-			_collection.DeleteOneAsync(u => u.Id == user.Id).Wait();
+			await _collection.DeleteOneAsync(u => u.Id == user.Id);
 		}
 
 		/// <summary>

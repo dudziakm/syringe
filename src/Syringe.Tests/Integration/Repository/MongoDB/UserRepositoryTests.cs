@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
@@ -22,7 +22,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void AddUser_should_store_a_user()
+		public async Task AddUser_should_store_a_user()
 		{
 			// Arrange
 			var expectedUser = new User()
@@ -37,7 +37,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			UserRepository repository = CreateUserRepository();
 
 			// Act
-			repository.AddUser(expectedUser);
+			await repository.AddUserAsync(expectedUser);
 
 			// Assert
 			IEnumerable<User> users = repository.GetUsers();
@@ -53,7 +53,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void AddUser_should_hash_the_password()
+		public async Task AddUser_should_hash_the_password()
 		{
 			// Arrange
 			string plainTextPassword = "This will be a hashed password";
@@ -67,7 +67,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			UserRepository repository = CreateUserRepository();
 
 			// Act
-			repository.AddUser(expectedUser);
+			await repository.AddUserAsync(expectedUser);
 
 			// Assert
 			IEnumerable<User> users = repository.GetUsers();
@@ -78,7 +78,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void UpdateUser_should_store_the_updated_details()
+		public async Task UpdateUser_should_store_the_updated_details()
 		{
 			// Arrange
 			var newUser = new User()
@@ -91,7 +91,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			};
 
 			UserRepository repository = CreateUserRepository();
-			repository.AddUser(newUser);
+			await repository.AddUserAsync(newUser);
 			
 			// Act
 			IEnumerable<User> users = repository.GetUsers();
@@ -100,7 +100,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			userToUpdate.Lastname = "Updated lastname";
 			userToUpdate.Email = "Updated email";
 
-			repository.UpdateUser(userToUpdate, false);
+			await repository.UpdateUserAsync(userToUpdate, false);
 
 			// Assert
 			users = repository.GetUsers();
@@ -114,7 +114,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void UpdateUser_should_hash_the_new_password_when_set()
+		public async Task UpdateUser_should_hash_the_new_password_when_set()
 		{
 			// Arrange
 			string newPlainTextPassword = "My new password";
@@ -128,7 +128,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			};
 
 			UserRepository repository = CreateUserRepository();
-			repository.AddUser(newUser);
+			await repository.AddUserAsync(newUser);
 
 			IEnumerable<User> users = repository.GetUsers();
 
@@ -136,7 +136,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			User updatedUser = users.FirstOrDefault();
 			updatedUser.Password = newPlainTextPassword;
 
-			repository.UpdateUser(updatedUser, true);
+			await repository.UpdateUserAsync(updatedUser, true);
 
 			// Assert
 			users = repository.GetUsers();
@@ -145,7 +145,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void DeleteUser_should_remove_the_user()
+		public async Task DeleteUser_should_remove_the_user()
 		{
 			// Arrange
 			string plainTextPassword = "This will be a hashed password";
@@ -157,10 +157,10 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			};
 
 			UserRepository repository = CreateUserRepository();
-			repository.AddUser(user);
+			await repository.AddUserAsync(user);
 
 			// Act
-			repository.DeleteUser(user);
+			await repository.DeleteUserAsync(user);
 
 			// Assert
 			IEnumerable<User> users = repository.GetUsers();
@@ -168,7 +168,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public void GetUsersInTeam_should_store_a_user()
+		public async Task GetUsersInTeam_should_store_a_user()
 		{
 			// Arrange
 			var user1 = new User()
@@ -199,9 +199,9 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			};
 
 			UserRepository repository = CreateUserRepository();
-			repository.AddUser(user1);
-			repository.AddUser(user2);
-			repository.AddUser(user3);
+			await repository.AddUserAsync(user1);
+			await repository.AddUserAsync(user2);
+			await repository.AddUserAsync(user3);
 
 			var team = new Team();
 			team.UserIds.Add(user1.Id);
