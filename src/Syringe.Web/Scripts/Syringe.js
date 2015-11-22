@@ -197,7 +197,9 @@ var Syringe;
 var RowHandler = (function () {
     function RowHandler(i) {
         var _this = this;
-        this.addRow = function (testCase) {
+        this.addRow = function (e) {
+            e.preventDefault();
+            var testCase = e.data.testCase;
             $.get(testCase.URL, function (html) {
                 var panelBody = testCase.$Button.parent().next();
                 var formGroup = panelBody.find(".form-group:last-child"), rowNumber = 0;
@@ -211,14 +213,10 @@ var RowHandler = (function () {
                 panelBody.append(newHtml);
             });
         };
-        this.getData = function (e) {
-            e.preventDefault();
-            _this.addRow(e.data.testCase);
-        };
         this.setupButtons = function () {
             for (var i = 0; i < _this.rowsToAdd.length; i++) {
                 var iTestCase = _this.rowsToAdd[i];
-                iTestCase.$Button.on("click", { testCase: iTestCase }, _this.getData);
+                iTestCase.$Button.on("click", { testCase: iTestCase }, _this.addRow);
             }
         };
         this.rowsToAdd = i;

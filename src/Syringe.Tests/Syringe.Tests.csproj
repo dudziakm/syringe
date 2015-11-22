@@ -132,6 +132,7 @@
     <Compile Include="Integration\Repository\MongoDB\UserRepositoryTests.cs" />
     <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="Unit\FileOperations\FIleHandlerTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseMapperTests.cs" />
     <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
@@ -262,7 +263,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unit\FileOperations\TestFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

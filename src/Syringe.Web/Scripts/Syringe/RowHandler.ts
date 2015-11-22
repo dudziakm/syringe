@@ -5,7 +5,10 @@
         this.rowsToAdd = i;
     }
 
-    private addRow = (testCase) => {
+    private addRow = (e) => {
+        e.preventDefault();
+
+        var testCase = e.data.testCase;
 
         $.get(testCase.URL, function (html) {
             var panelBody = testCase.$Button.parent().next();
@@ -24,15 +27,10 @@
         });
     }
 
-    private getData = (e) => {
-        e.preventDefault();
-        this.addRow(e.data.testCase);
-    }
-
     public setupButtons = () => {
         for (let i = 0; i < this.rowsToAdd.length; i++) {
             let iTestCase = this.rowsToAdd[i];
-            iTestCase.$Button.on("click", { testCase: iTestCase }, this.getData);
+            iTestCase.$Button.on("click", { testCase: iTestCase }, this.addRow);
         }
     }
 }
