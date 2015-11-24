@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
-using Syringe.Core.Canary;
-using Syringe.Core.Extensions;
-using Syringe.Core.Repositories;
-using Syringe.Core.Results;
 using Syringe.Core.Security;
-using Syringe.Core.Services;
-using Syringe.Web.Models;
+using Syringe.Core.Security.OAuth2;
 
 namespace Syringe.Web.Controllers
 {
@@ -29,7 +23,7 @@ namespace Syringe.Web.Controllers
 		public ActionResult Login(string provider, string returnUrl)
 		{
 			// Request a redirect to the external login provider
-			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Authentication", new { ReturnUrl = returnUrl }));
+			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Authentication", new { provider = provider, returnUrl = returnUrl }));
 		}
 
 		public ActionResult Logout()
@@ -47,12 +41,24 @@ namespace Syringe.Web.Controllers
 			return Redirect("/");
 		}
 
-		public ActionResult ExternalLoginCallback(string returnUrl)
+		public ActionResult ClaimsDebug()
 		{
-			// TODO: make these into a configuration object, for example Github uses "{urn:github:name: Chris S.}" for its name
-			var claims = System.Security.Claims.ClaimsPrincipal.Current.Claims.ToList();
-			var nameIdentifier = claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", StringComparison.InvariantCultureIgnoreCase));
-			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", StringComparison.InvariantCultureIgnoreCase));
+			var claims = ClaimsPrincipal.Current.Claims.ToList();
+
+			string debugInfo = "";
+			foreach (Claim claim in claims)
+			{
+				debugInfo += $"{claim.Type} : {claim.Value}\n";
+			}
+
+			return Content(debugInfo);
+		}
+
+		public ActionResult ExternalLoginCallback(string returnUrl, string provider)
+		{
+			var claims = ClaimsPrincipal.Current.Claims.ToList();
+			var nameIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForName(provider), StringComparison.InvariantCultureIgnoreCase));
+			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForId(provider), StringComparison.InvariantCultureIgnoreCase));
 
 			if (nameIdentifier == null || uidIdentifier == null)
 			{
@@ -77,28 +83,24 @@ namespace Syringe.Web.Controllers
 				Expires = DateTime.Now.AddDays(1)
 			});
 
-			//return Content($"Redirect url: {returnUrl}, uid: {id}, name: {name}");
 			return Redirect(returnUrl);
 		}
 
-		// Implementation copied from a standard MVC Project, with some stuff
-		// that relates to linking a new external login to an existing identity
-		// account removed.
 		private class ChallengeResult : HttpUnauthorizedResult
 		{
+			private readonly string _loginProvider;
+			private readonly string _redirectUri;
+
 			public ChallengeResult(string provider, string redirectUri)
 			{
-				LoginProvider = provider;
-				RedirectUri = redirectUri;
+				_loginProvider = provider;
+				_redirectUri = redirectUri;
 			}
-
-			public string LoginProvider { get; set; }
-			public string RedirectUri { get; set; }
 
 			public override void ExecuteResult(ControllerContext context)
 			{
-				var properties = new AuthenticationProperties() { RedirectUri = RedirectUri };
-				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+				var properties = new AuthenticationProperties() { RedirectUri = _redirectUri };
+				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, _loginProvider);
 			}
 		}
 	}

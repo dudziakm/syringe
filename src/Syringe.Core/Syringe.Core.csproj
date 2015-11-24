@@ -139,6 +139,7 @@
     <Compile Include="Repositories\MongoDB\UserRepository.cs" />
     <Compile Include="Repositories\MongoDB\Configuration.cs" />
     <Compile Include="Results\SessionInfo.cs" />
+    <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Security\Teamcity\Group.cs" />
     <Compile Include="Security\Teamcity\Properties.cs" />
     <Compile Include="Security\Teamcity\Property.cs" />

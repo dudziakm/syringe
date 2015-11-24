@@ -7,25 +7,19 @@ namespace Syringe.Core.Configuration
 	{
 		private readonly Lazy<string> _lazySignalRUrl;
 
-		public string WebsiteUrl { get { return ConfigurationManager.AppSettings["WebsiteUrl"]; } }
+		public string WebsiteUrl => ConfigurationManager.AppSettings["WebsiteUrl"];
+		public string TestCasesBaseDirectory => ConfigurationManager.AppSettings["TestCasesBaseDirectory"];
+		public string ServiceUrl => ConfigurationManager.AppSettings["ServiceUrl"];
+		public string SignalRUrl => _lazySignalRUrl.Value;
 
-		public string TestCasesBaseDirectory
-		{
-			get { return ConfigurationManager.AppSettings["TestCasesBaseDirectory"]; }
-		}
+		public string GithubAuthClientId => ConfigurationManager.AppSettings["GithubAuthClientId"];
+		public string GithubAuthClientSecret => ConfigurationManager.AppSettings["GithubAuthClientSecret"];
 
-		public string ServiceUrl
-		{
-			get { return ConfigurationManager.AppSettings["ServiceUrl"]; }
-		}
+		public string GoogleAuthClientId => ConfigurationManager.AppSettings["GoogleAuthClientId"];
+		public string GoogleAuthClientSecret => ConfigurationManager.AppSettings["GoogleAuthClientSecret"];
 
-		public string SignalRUrl
-		{
-			get
-			{
-				return _lazySignalRUrl.Value;
-			}
-		}
+		public string MicrosoftAuthClientId => ConfigurationManager.AppSettings["MicrosoftAuthClientId"];
+		public string MicrosoftAuthClientSecret => ConfigurationManager.AppSettings["MicrosoftAuthClientSecret"];
 
 		public ApplicationConfig()
 		{
@@ -38,6 +32,5 @@ namespace Syringe.Core.Configuration
 			builder.Path = "signalr";
 			return builder.ToString();
 		}
-
 	}
 }

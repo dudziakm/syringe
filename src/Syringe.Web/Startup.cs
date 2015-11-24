@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Owin;
 using Syringe.Web;
 using Owin.Security.Providers.GitHub;
+using Syringe.Core.Configuration;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -39,33 +40,34 @@ namespace Syringe.Web
 			app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
 
 			//
-			// Put these client id/secrets into the web.config or app.config
+			// Integrations
 			//
+			var config = new ApplicationConfig();
 
+			// Console: https://console.developers.google.com/home/dashboard
+			// Found under API and credentials.
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
 			{
-				ClientId = "1055607189262-k919rn22c7ddgf6j20n8m96qqve9kl1h.apps.googleusercontent.com",
-				ClientSecret = "8-yD74T-fO-feDrXceg3ll_i"
+				ClientId = config.GoogleAuthClientId,
+				ClientSecret = config.GoogleAuthClientSecret
 			});
 
-			// Make sure https://account.live.com/developers/applications
-			// has the 'redirecturl' set to 'http://localhost:1980/Authentication/Noop' (or the domain being used), to match the CallbackPath
+			// Console: https://account.live.com/developers/applications/
+			// Make sure he 'redirecturl' is set to 'http://localhost:1980/Authentication/Noop' (or the domain being used), to match the CallbackPath
 			app.UseMicrosoftAccountAuthentication(new MicrosoftAccountAuthenticationOptions()
 			{
-				ClientId = "000000004416FD0A",
-				ClientSecret = "ssba5FOQCsg5E18baVQbjoe075fEJd2x",
+				ClientId = config.MicrosoftAuthClientId,
+				ClientSecret = config.MicrosoftAuthClientSecret,
 				CallbackPath = new PathString("/Authentication/Noop")
 			});
 
-			// For Github: https://github.com/settings/applications/
+			// Console:  https://github.com/settings/developers
 			// Set the callback url in the Github console to the same as the homepage url.
 			app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
 			{
-				ClientId = "783a88d1d712e79804b4",
-				ClientSecret = "76391542e4d77126aa5136ed2a6e74f2f85dd46f"
+				ClientId = config.GithubAuthClientId,
+				ClientSecret = config.GithubAuthClientSecret
 			});
-
-			// TODO: logout drop down needs to switch to Login when not logged in
 		}
 	}
 }
