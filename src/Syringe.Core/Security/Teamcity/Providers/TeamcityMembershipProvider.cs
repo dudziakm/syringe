@@ -5,17 +5,17 @@ using RestSharp;
 
 namespace Syringe.Core.Security.Teamcity.Providers
 {
-    public class TeamcityMembershipProvider : ITeamcityMembershipProvider
+    public class TeamLookupProvider : ITeamLookupProvider
     {
         private readonly IRestClient _restClient;
-        const string BaseUrl = "http://teamcity.tjgdev.ds:8500/";
+        private const string BaseUrl = "http://teamcity.yourdomain.com:8500/";
 
-        public TeamcityMembershipProvider()
+        public TeamLookupProvider()
         {
             _restClient = new RestClient();
         }
 
-        public TeamcityMembershipProvider(IRestClient restClient)
+        public TeamLookupProvider(IRestClient restClient)
         {
             _restClient = restClient;
         }

@@ -9,41 +9,29 @@ namespace Syringe.Tests.StubsMocks
 	public class HttpClientMock : IHttpClient
 	{
 		private int _responseCounter;
-		public bool LogLastRequestCalled { get; set; }
-		public bool LogLastResponseCalled { get; set; }
-		public HttpResponse Response { get; set; }
+		public HttpRequestInfo RequestInfo { get; set; }
 		public List<TimeSpan> ResponseTimes { get; set; }
 
-		public List<HttpResponse> Responses { get; set; }
+		public List<HttpRequestInfo> Responses { get; set; }
 
-		public HttpClientMock(HttpResponse response)
+		public HttpClientMock(HttpRequestInfo requestInfo)
 		{
-			Response = response;
+			RequestInfo = requestInfo;
 		}
 
-		public Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		Task<HttpRequestInfo> IHttpClient.ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
-		    if (Responses == null)
+			if (Responses == null)
 			{
 				if (ResponseTimes != null)
 				{
-					Response.ResponseTime = ResponseTimes[_responseCounter++];
+					RequestInfo.ResponseTime = ResponseTimes[_responseCounter++];
 				}
 
-				return Task.FromResult(Response);
+				return Task.FromResult(RequestInfo);
 			}
 
 			return Task.FromResult(Responses[_responseCounter++]);
-		}
-
-	    public void LogLastRequest()
-		{
-			LogLastRequestCalled = true;
-		}
-
-		public void LogLastResponse()
-		{
-			LogLastResponseCalled = true;
 		}
 	}
 }

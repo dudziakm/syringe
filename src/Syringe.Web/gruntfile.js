@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='default' />
+﻿/// <binding AfterBuild='default' />
 module.exports = function (grunt) {
     grunt.initConfig({
 

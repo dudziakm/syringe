@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Syringe.Core.Http;
+using RestSharp;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Results;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
 {
@@ -30,11 +27,19 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			CreateTestCaseSessionRepository().Wipe();
 		}
 
+		private static Fixture CreateFixture()
+		{
+			var fixture = new Fixture();
+			fixture.Register<IRestResponse>(() => new RestResponseStub());
+			fixture.Register<IRestRequest>(() => new RestRequestStub());
+			return fixture;
+		}
+
 		[Test]
 		public async Task Add_should_save_session()
 		{
 			// Arrange
-			var fixture = new Fixture();
+			Fixture fixture = CreateFixture();
 			var session = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
@@ -51,7 +56,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public async Task Delete_should_remove_the_session()
 		{
 			// Arrange
-			var fixture = new Fixture();
+			Fixture fixture = CreateFixture();
 			var session = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
@@ -69,7 +74,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public async Task GetById_should_return_session()
 		{
 			// Arrange
-			var fixture = new Fixture();
+			Fixture fixture = CreateFixture();
 			var expectedSession = fixture.Create<TestCaseSession>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
@@ -90,7 +95,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public async Task GetSummaries_should_return_sessioninfos()
 		{
 			// Arrange
-			var fixture = new Fixture();
+			Fixture fixture = CreateFixture();
 			var session1 = fixture.Create<TestCaseSession>();
 			var session2 = fixture.Create<TestCaseSession>();
 
@@ -113,7 +118,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		public async Task GetSummariesForToday_should_return_sessioninfo_objects_for_today_only()
 		{
 			// Arrange
-			var fixture = new Fixture();
+			Fixture fixture = CreateFixture();
 			var todaySession1 = fixture.Create<TestCaseSession>();
 			var todaySession2 = fixture.Create<TestCaseSession>();
 			var otherSession1 = fixture.Create<TestCaseSession>();

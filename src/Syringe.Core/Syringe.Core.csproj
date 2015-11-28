@@ -132,6 +132,7 @@
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="FileOperations\FileHandler.cs" />
     <Compile Include="FileOperations\IFileHandler.cs" />
+    <Compile Include="Http\HttpRequestInfo.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />
     <Compile Include="Repositories\MongoDB\TeamRepository.cs" />
@@ -148,7 +149,7 @@
     <Compile Include="Security\Teamcity\User.cs" />
     <Compile Include="Security\Teamcity\UserGroupWrapper.cs" />
     <Compile Include="Security\Teamcity\UserWrapper.cs" />
-    <Compile Include="Security\Teamcity\Providers\ITeamcityMembershipProvider.cs" />
+    <Compile Include="Security\ITeamcityMembershipProvider.cs" />
     <Compile Include="Security\Teamcity\Providers\TeamcityMembershipProvider.cs" />
     <Compile Include="Security\Teamcity\Providers\TeamcityUserRequest.cs" />
     <Compile Include="Services\ICanaryService.cs" />
@@ -176,11 +177,6 @@
     <Compile Include="TestCases\Configuration\Config.cs" />
     <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="TestCases\HeaderItem.cs" />
-    <Compile Include="Http\Logging\HttpLogWriter.cs" />
-    <Compile Include="Http\Logging\IHttpLogWriter.cs" />
-    <Compile Include="Http\HttpResponse.cs" />
-    <Compile Include="Http\Logging\RequestDetails.cs" />
-    <Compile Include="Http\Logging\ResponseDetails.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />

@@ -33,7 +33,7 @@ namespace Syringe.Web.Controllers
             var viewModel = new ResultsViewModel
             {
                 ActualUrl = taskCase.ActualUrl,
-                Content = taskCase.HttpResponse == null ? string.Empty : AddUrlBase(GetBaseUrl(taskCase.ActualUrl), taskCase.HttpResponse.Content)
+                Content = taskCase.HttpRequestInfo == null ? string.Empty : AddUrlBase(GetBaseUrl(taskCase.ActualUrl), taskCase.HttpRequestInfo.Response.Content)
             };
 
             return View(viewModel);
@@ -80,7 +80,7 @@ namespace Syringe.Web.Controllers
             var viewModel = new ResultsViewModel
             {
                 ActualUrl = taskCase.ActualUrl,
-                Content = taskCase.HttpResponse == null ? string.Empty : taskCase.HttpResponse.Content
+                Content = taskCase.HttpRequestInfo == null ? string.Empty : taskCase.HttpRequestInfo.Response.Content
             };
 
             return View(viewModel);

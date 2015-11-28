@@ -7,13 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using RestSharp;
 using Syringe.Core.Http;
-using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
-using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
 {
@@ -64,16 +62,10 @@ namespace Syringe.Core.Runner
 			SessionId = Guid.NewGuid();
 		}
 
-		/// <summary>
-		/// Creates a new <see cref="TestSessionRunner"/> using the defaults.
-		/// </summary>
-		/// <returns></returns>
 		public static TestSessionRunner CreateNew(ITestCaseSessionRepository repository)
 		{
 			var config = new Config();
-			var logStringBuilder = new StringBuilder();
-			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
-			var httpClient = new HttpClient(httpLogWriter, new RestClient());
+			var httpClient = new HttpClient(new RestClient());
 
 			return new TestSessionRunner(config, httpClient, repository);
 		}
@@ -235,14 +227,14 @@ namespace Syringe.Core.Runner
 				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
 				testResult.ActualUrl = resolvedUrl;
 
-				HttpResponse response = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
-				testResult.ResponseTime = response.ResponseTime;
-				testResult.HttpResponse = response;
+				HttpRequestInfo requestInfo = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
+				testResult.ResponseTime = requestInfo.ResponseTime;
+				testResult.HttpRequestInfo = requestInfo;
 
-				if (response.StatusCode == testCase.VerifyResponseCode)
+				if (requestInfo.Response.StatusCode == testCase.VerifyResponseCode)
 				{
 					testResult.ResponseCodeSuccess = true;
-					string content = response.ToString();
+					string content = requestInfo.Response.Content;
 
 					// Put the parseresponse regex values in the current variable set
 					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content);
@@ -262,16 +254,6 @@ namespace Syringe.Core.Runner
 				if (testResult.Success == false)
 				{
 					testResult.Message = testCase.ErrorMessage;
-				}
-
-				if (ShouldLogRequest(testResult, testCase))
-				{
-					_httpClient.LogLastRequest();
-				}
-
-				if (ShouldLogResponse(testResult, testCase))
-				{
-					_httpClient.LogLastResponse();
 				}
 
 				// TODO: Inject a delay service for testing purposes (holding up unit tests for orders of seconds is bad).

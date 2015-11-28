@@ -13,7 +13,7 @@ namespace Syringe.Tests.Integration.Security.Teamcity.Providers
             // given
             var user = "test.account";
 
-            var provider = new TeamcityMembershipProvider();
+            var provider = new TeamLookupProvider();
 
             // when
             var result = provider.GetUserForUserName(user);
@@ -30,7 +30,7 @@ namespace Syringe.Tests.Integration.Security.Teamcity.Providers
             var user = "test.account";
             var team = "Loki";
 
-            var provider = new TeamcityMembershipProvider();
+            var provider = new TeamLookupProvider();
 
             // when
             var result = provider.GetTeamNameForUser(user);

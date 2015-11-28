@@ -20,7 +20,7 @@ namespace Syringe.Tests.Unit.Security.Teamcity.Providers
 
             var restclientStub = new RestClientMock {RestResponse = new RestResponse {Content = cannedJson}};
 
-            var provider = new TeamcityMembershipProvider(restclientStub);
+            var provider = new TeamLookupProvider(restclientStub);
 
             // when
             var result = provider.GetUserForUserName(user);
@@ -40,7 +40,7 @@ namespace Syringe.Tests.Unit.Security.Teamcity.Providers
 
             var restclientStub = new RestClientMock {RestResponse = new RestResponse {Content = cannedJson}};
 
-            var provider = new TeamcityMembershipProvider(restclientStub);
+            var provider = new TeamLookupProvider(restclientStub);
 
             // when
             var result = provider.GetTeamNameForUser(user);

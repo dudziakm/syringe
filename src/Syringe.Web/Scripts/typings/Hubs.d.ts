@@ -85,7 +85,7 @@ interface CompletedTaskInfo {
     ActualUrl : string;
     ResultId : System.Guid;
     Success : boolean;
-    HttpResponse : Syringe.Core.Http.HttpResponse;
+    HttpRequestInfo : Syringe.Core.Http.HttpRequestInfo;
     CaseId : System.Guid;
     ExceptionMessage : string;
     Verifications : Syringe.Core.TestCases.VerificationItem[];
@@ -108,13 +108,12 @@ interface VerificationItem {
 
 
 /**
-  * Data contract for Syringe.Core.Http.HttpResponse
+  * Data contract for Syringe.Core.Http.HttpRequestInfo
   */
 declare module Syringe.Core.Http {
-interface HttpResponse {
-    StatusCode : System.Net.HttpStatusCode;
-    Content : string;
-    Headers : System.Collections.Generic.KeyValuePair_String_String_[];
+interface HttpRequestInfo {
+    Request : RestSharp.IRestRequest;
+    Response : RestSharp.IRestResponse;
     ResponseTime : System.TimeSpan;
 }
 } // end module
@@ -141,12 +140,304 @@ interface TimeSpan {
 
 
 /**
-  * Data contract for System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+  * Data contract for RestSharp.IRestResponse
+  */
+declare module RestSharp {
+interface IRestResponse {
+    Request : RestSharp.IRestRequest;
+    ContentType : string;
+    ContentLength : number;
+    ContentEncoding : string;
+    Content : string;
+    StatusCode : System.Net.HttpStatusCode;
+    StatusDescription : string;
+    RawBytes : System.Byte[];
+    ResponseUri : System.Uri;
+    Server : string;
+    Cookies : System.Collections.Generic.IList_RestResponseCookie_;
+    Headers : System.Collections.Generic.IList_Parameter_;
+    ResponseStatus : RestSharp.ResponseStatus;
+    ErrorMessage : string;
+    ErrorException : System.Exception;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Exception
+  */
+declare module System {
+interface Exception {
+    Message : string;
+    Data : System.Collections.IDictionary;
+    InnerException : System.Exception;
+    TargetSite : System.Reflection.MethodBase;
+    StackTrace : string;
+    HelpLink : string;
+    Source : string;
+    HResult : number;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Reflection.MethodBase
+  */
+declare module System.Reflection {
+interface MethodBase {
+    MethodImplementationFlags : System.Reflection.MethodImplAttributes;
+    MethodHandle : System.RuntimeMethodHandle;
+    Attributes : System.Reflection.MethodAttributes;
+    CallingConvention : System.Reflection.CallingConventions;
+    IsGenericMethodDefinition : boolean;
+    ContainsGenericParameters : boolean;
+    IsGenericMethod : boolean;
+    IsSecurityCritical : boolean;
+    IsSecuritySafeCritical : boolean;
+    IsSecurityTransparent : boolean;
+    IsPublic : boolean;
+    IsPrivate : boolean;
+    IsFamily : boolean;
+    IsAssembly : boolean;
+    IsFamilyAndAssembly : boolean;
+    IsFamilyOrAssembly : boolean;
+    IsStatic : boolean;
+    IsFinal : boolean;
+    IsVirtual : boolean;
+    IsHideBySig : boolean;
+    IsAbstract : boolean;
+    IsSpecialName : boolean;
+    IsConstructor : boolean;
+}
+} // end module
+
+
+/**
+  * Data contract for System.RuntimeMethodHandle
+  */
+declare module System {
+interface RuntimeMethodHandle {
+    Value : System.IntPtr;
+}
+} // end module
+
+
+/**
+  * Data contract for System.IntPtr
+  */
+declare module System {
+interface IntPtr {
+}
+} // end module
+
+
+/**
+  * Data contract for System.Collections.IDictionary
+  */
+declare module System.Collections {
+interface IDictionary {
+    Item : System.Object;
+    Keys : System.Collections.ICollection;
+    Values : System.Collections.ICollection;
+    IsReadOnly : boolean;
+    IsFixedSize : boolean;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Collections.ICollection
+  */
+declare module System.Collections {
+interface ICollection {
+    Count : number;
+    SyncRoot : System.Object;
+    IsSynchronized : boolean;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Object
+  */
+declare module System {
+interface Object {
+}
+} // end module
+
+
+/**
+  * Data contract for System.Collections.Generic.IList`1[[RestSharp.Parameter, RestSharp, Version=105.1.0.0, Culture=neutral, PublicKeyToken=null]]
   */
 declare module System.Collections.Generic {
-interface KeyValuePair_String_String_ {
-    Key : string;
+interface IList_Parameter_ {
+    Item : RestSharp.Parameter;
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.Parameter
+  */
+declare module RestSharp {
+interface Parameter {
+    Name : string;
+    Value : System.Object;
+    Type : RestSharp.ParameterType;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Collections.Generic.IList`1[[RestSharp.RestResponseCookie, RestSharp, Version=105.1.0.0, Culture=neutral, PublicKeyToken=null]]
+  */
+declare module System.Collections.Generic {
+interface IList_RestResponseCookie_ {
+    Item : RestSharp.RestResponseCookie;
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.RestResponseCookie
+  */
+declare module RestSharp {
+interface RestResponseCookie {
+    Comment : string;
+    CommentUri : System.Uri;
+    Discard : boolean;
+    Domain : string;
+    Expired : boolean;
+    Expires : Date;
+    HttpOnly : boolean;
+    Name : string;
+    Path : string;
+    Port : string;
+    Secure : boolean;
+    TimeStamp : Date;
     Value : string;
+    Version : number;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Uri
+  */
+declare module System {
+interface Uri {
+    AbsolutePath : string;
+    AbsoluteUri : string;
+    LocalPath : string;
+    Authority : string;
+    HostNameType : System.UriHostNameType;
+    IsDefaultPort : boolean;
+    IsFile : boolean;
+    IsLoopback : boolean;
+    PathAndQuery : string;
+    Segments : string[];
+    IsUnc : boolean;
+    Host : string;
+    Port : number;
+    Query : string;
+    Fragment : string;
+    Scheme : string;
+    OriginalString : string;
+    DnsSafeHost : string;
+    IdnHost : string;
+    IsAbsoluteUri : boolean;
+    UserEscaped : boolean;
+    UserInfo : string;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Byte
+  */
+declare module System {
+interface Byte {
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.IRestRequest
+  */
+declare module RestSharp {
+interface IRestRequest {
+    AlwaysMultipartFormData : boolean;
+    JsonSerializer : RestSharp.Serializers.ISerializer;
+    XmlSerializer : RestSharp.Serializers.ISerializer;
+    ResponseWriter : System.Action_Stream_;
+    Parameters : RestSharp.Parameter[];
+    Files : RestSharp.FileParameter[];
+    Method : RestSharp.Method;
+    Resource : string;
+    RequestFormat : RestSharp.DataFormat;
+    RootElement : string;
+    DateFormat : string;
+    XmlNamespace : string;
+    Credentials : System.Net.ICredentials;
+    Timeout : number;
+    ReadWriteTimeout : number;
+    Attempts : number;
+    UseDefaultCredentials : boolean;
+    OnBeforeDeserialization : System.Action_IRestResponse_;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Action`1[[RestSharp.IRestResponse, RestSharp, Version=105.1.0.0, Culture=neutral, PublicKeyToken=null]]
+  */
+declare module System {
+interface Action_IRestResponse_ {
+}
+} // end module
+
+
+/**
+  * Data contract for System.Net.ICredentials
+  */
+declare module System.Net {
+interface ICredentials {
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.FileParameter
+  */
+declare module RestSharp {
+interface FileParameter {
+    ContentLength : number;
+    Writer : System.Action_Stream_;
+    FileName : string;
+    ContentType : string;
+    Name : string;
+}
+} // end module
+
+
+/**
+  * Data contract for System.Action`1[[System.IO.Stream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+  */
+declare module System {
+interface Action_Stream_ {
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.Serializers.ISerializer
+  */
+declare module RestSharp.Serializers {
+interface ISerializer {
+    RootElement : string;
+    Namespace : string;
+    DateFormat : string;
+    ContentType : string;
 }
 } // end module
 
@@ -169,6 +460,149 @@ interface TaskState {
 }
 } // end module
 
+
+
+/**
+  * Data contract for RestSharp.DataFormat
+  */
+declare module RestSharp {
+enum DataFormat {
+    Json = 0,
+    Xml = 1,
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.Method
+  */
+declare module RestSharp {
+enum Method {
+    GET = 0,
+    POST = 1,
+    PUT = 2,
+    DELETE = 3,
+    HEAD = 4,
+    OPTIONS = 5,
+    PATCH = 6,
+    MERGE = 7,
+}
+} // end module
+
+
+/**
+  * Data contract for System.UriHostNameType
+  */
+declare module System {
+enum UriHostNameType {
+    Unknown = 0,
+    Basic = 1,
+    Dns = 2,
+    IPv4 = 3,
+    IPv6 = 4,
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.ParameterType
+  */
+declare module RestSharp {
+enum ParameterType {
+    Cookie = 0,
+    GetOrPost = 1,
+    UrlSegment = 2,
+    HttpHeader = 3,
+    RequestBody = 4,
+    QueryString = 5,
+}
+} // end module
+
+
+/**
+  * Data contract for System.Reflection.CallingConventions
+  */
+declare module System.Reflection {
+enum CallingConventions {
+    Standard = 1,
+    VarArgs = 2,
+    Any = 3,
+    HasThis = 32,
+    ExplicitThis = 64,
+}
+} // end module
+
+
+/**
+  * Data contract for System.Reflection.MethodAttributes
+  */
+declare module System.Reflection {
+enum MethodAttributes {
+    ReuseSlot = 0,
+    PrivateScope = 0,
+    Private = 1,
+    FamANDAssem = 2,
+    Assembly = 3,
+    Family = 4,
+    FamORAssem = 5,
+    Public = 6,
+    MemberAccessMask = 7,
+    UnmanagedExport = 8,
+    Static = 16,
+    Final = 32,
+    Virtual = 64,
+    HideBySig = 128,
+    NewSlot = 256,
+    VtableLayoutMask = 256,
+    CheckAccessOnOverride = 512,
+    Abstract = 1024,
+    SpecialName = 2048,
+    RTSpecialName = 4096,
+    PinvokeImpl = 8192,
+    HasSecurity = 16384,
+    RequireSecObject = 32768,
+    ReservedMask = 53248,
+}
+} // end module
+
+
+/**
+  * Data contract for System.Reflection.MethodImplAttributes
+  */
+declare module System.Reflection {
+enum MethodImplAttributes {
+    Managed = 0,
+    IL = 0,
+    Native = 1,
+    OPTIL = 2,
+    Runtime = 3,
+    CodeTypeMask = 3,
+    Unmanaged = 4,
+    ManagedMask = 4,
+    NoInlining = 8,
+    ForwardRef = 16,
+    Synchronized = 32,
+    NoOptimization = 64,
+    PreserveSig = 128,
+    AggressiveInlining = 256,
+    InternalCall = 4096,
+    MaxMethodImplVal = 65535,
+}
+} // end module
+
+
+/**
+  * Data contract for RestSharp.ResponseStatus
+  */
+declare module RestSharp {
+enum ResponseStatus {
+    None = 0,
+    Completed = 1,
+    Error = 2,
+    TimedOut = 3,
+    Aborted = 4,
+}
+} // end module
 
 
 /**

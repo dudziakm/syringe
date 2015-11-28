@@ -8,13 +8,11 @@ using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.TestCases;
 using Syringe.Tests.StubsMocks;
-using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Tests.Unit.Http
 {
 	public class HttpClientTests
 	{
-		private HttpLogWriterMock _httpLogWriterMock;
 		private RestClientMock _restClientMock;
 
 		[Test]
@@ -61,11 +59,11 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.NotNull(response);
-			Assert.AreEqual(restResponse.Content, response.Content);
+			Assert.NotNull(requestInfo);
+			Assert.AreEqual(restResponse.Content, requestInfo.Response.Content);
 		}
 
 		[Test]
@@ -81,10 +79,10 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.IsNotNull(response);
+			Assert.IsNotNull(requestInfo);
 		}
 
 		[Test]
@@ -175,61 +173,12 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
-			Assert.AreEqual(restResponseStub.Content, response.Content);
-			Assert.AreEqual(restResponseStub.Headers.Count, response.Headers.Count);
-		}
-
-		// TODO: should_convert_headers
-		[Test]
-		public void should_convert_headers()
-		{
-			// Arrange
-
-			// Act
-
-			// Assert
-		}
-
-		[Test]
-		public async Task should_record_last_request()
-		{
-			// Arrange
-			HttpClient httpClient = CreateClient(new RestResponse());
-
-			string contentType = "text/html";
-			var request1Headers = new List<HeaderItem>();
-			var request2Headers = new List<HeaderItem>()
-			{
-				new HeaderItem("user-agent", "Frozen Olaf Browser 4"),
-				new HeaderItem("cookies", "mmm cookies"),
-			};
-
-			await httpClient.ExecuteRequestAsync("get", "http://www.example1.com", contentType, "request 1", request1Headers);
-			await httpClient.ExecuteRequestAsync("put", "http://www.example2.com", contentType, "request 2", request2Headers);
-
-			// Act
-			httpClient.LogLastRequest();
-
-			// Assert
-			Assert.AreEqual("http://www.example2.com", _httpLogWriterMock.RequestDetails.Url);
-			Assert.AreEqual("put", _httpLogWriterMock.RequestDetails.Method);
-			Assert.AreEqual("request 2", _httpLogWriterMock.RequestDetails.Body);
-			Assert.AreEqual(2, _httpLogWriterMock.RequestDetails.Headers.Count());
-		}
-
-		// TODO: should_record_last_response
-		[Test]
-		public void should_record_last_response()
-		{
-			// Arrange
-
-			// Act
-
-			// Assert
+			Assert.AreEqual(restResponseStub.StatusCode, requestInfo.Response.StatusCode);
+			Assert.AreEqual(restResponseStub.Content, requestInfo.Response.Content);
+			Assert.AreEqual(restResponseStub.Headers.Count, requestInfo.Response.Headers.Count);
 		}
 
 		[Test]
@@ -246,18 +195,17 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
+			Assert.That(requestInfo.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
 		}
 
 		private HttpClient CreateClient(IRestResponse restResponse)
 		{
-			_httpLogWriterMock = new HttpLogWriterMock();
 			_restClientMock = new RestClientMock();
 			_restClientMock.RestResponse = restResponse;
-			return new HttpClient(_httpLogWriterMock, _restClientMock);
+			return new HttpClient(_restClientMock);
 		}
 	}
 }

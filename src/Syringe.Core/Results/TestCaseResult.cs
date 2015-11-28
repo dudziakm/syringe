@@ -17,7 +17,7 @@ namespace Syringe.Core.Results
         public List<VerificationItem> VerifyPositiveResults { get; set; }
 		public List<VerificationItem> VerifyNegativeResults { get; set; }
 		public bool ResponseCodeSuccess { get; set; }
-		public HttpResponse HttpResponse { get; set; }
+		public HttpRequestInfo HttpRequestInfo { get; set; }
 		public string ExceptionMessage { get; set; }
 
 		public bool Success

@@ -6,8 +6,6 @@ namespace Syringe.Core.Http
 {
 	public interface IHttpClient
 	{
-		Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers);
-		void LogLastRequest();
-		void LogLastResponse();
+		Task<HttpRequestInfo> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers);
 	}
 }

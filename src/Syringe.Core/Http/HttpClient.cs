@@ -4,27 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using RestSharp;
-using Syringe.Core.Http.Logging;
 using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Http
 {
 	public class HttpClient : IHttpClient
 	{
-		private readonly IHttpLogWriter _httpLogWriter;
 		private readonly IRestClient _restClient;
 		private readonly CookieContainer _cookieContainer;
-		private RequestDetails _lastRequest;
-		private ResponseDetails _lastResponse;
 
-		public HttpClient(IHttpLogWriter httpLogWriter, IRestClient restClient)
+		public HttpClient(IRestClient restClient)
 		{
-			_httpLogWriter = httpLogWriter;
 			_restClient = restClient;
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		public async Task<HttpRequestInfo> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
@@ -33,9 +28,7 @@ namespace Syringe.Core.Http
 			_restClient.BaseUrl = uri;
 			_restClient.CookieContainer = _cookieContainer;
 
-			//
 			// Make the request adding the content-type, body and headers
-			//
 			Method method = GetMethodEnum(httpMethod);
 			var request = new RestRequest(method);
 			if (method == Method.POST)
@@ -54,53 +47,17 @@ namespace Syringe.Core.Http
 				}
 			}
 
-			_lastRequest = new RequestDetails()
-			{
-				Body = postBody,
-				Headers = headers,
-				Method = httpMethod,
-				Url = url
-			};
-
-			//
-			// Get the response back, parsing the headers
-			//
+			// Get the response back
             DateTime startTime = DateTime.UtcNow;
 			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
-			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
-			if (response.Headers != null)
-			{ 
-				keyvaluePairs = response.Headers.Select(x => new KeyValuePair<string, string>(x.Name, Convert.ToString(x.Value)))
-												.ToList();
-			}
-
-			_lastResponse = new ResponseDetails()
+			return new HttpRequestInfo()
 			{
-				BodyResponse = response.Content,
-				Headers = keyvaluePairs,
-				Status = response.StatusCode
+				Request = request,
+				Response = response,
+				ResponseTime = responseTime
 			};
-
-			return new HttpResponse()
-			{
-				StatusCode = response.StatusCode,
-				Content = response.Content,
-				Headers = keyvaluePairs,
-                ResponseTime = responseTime
-			};
-		}
-
-		public void LogLastRequest()
-		{
-			_httpLogWriter.AppendRequest(_lastRequest);			
-		}
-
-		public void LogLastResponse()
-		{
-			_httpLogWriter.AppendResponse(_lastResponse);
-			_httpLogWriter.AppendSeperator();
 		}
 
 		private Method GetMethodEnum(string httpMethod)

@@ -31,7 +31,7 @@ namespace Syringe.Service.Parallel
 			clientGroup.OnTaskCompleted(new CompletedTaskInfo
 			{
 				ActualUrl = result.ActualUrl,
-				HttpResponse = result.HttpResponse,
+				HttpRequestInfo = result.HttpRequestInfo,
 				Success = result.Success,
 				ResultId = result.Id,
 				CaseId = result.TestCase.Id,

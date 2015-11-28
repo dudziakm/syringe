@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
-using Syringe.Core.Http.Logging;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;
@@ -86,9 +85,7 @@ namespace Syringe.Service.Parallel
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 					caseCollection.Filename = xmlFilename;
 					var config = new Config();
-					var logStringBuilder = new StringBuilder();
-					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
-					var httpClient = new HttpClient(httpLogWriter, new RestClient());
+					var httpClient = new HttpClient(new RestClient());
 
 					var runner = new TestSessionRunner(config, httpClient, _repository);
 					item.Runner = runner;
