@@ -77,9 +77,19 @@ namespace Syringe.Service
 				}
 			};
 
-			application.UseCors(corsOptions);
+            application.Map("/signalr", map =>
+            {
+                map.UseCors(CorsOptions.AllowAll);
+                var hubConfiguration = new HubConfiguration
+                {
+                    EnableDetailedErrors = true,
+                    Resolver = _signalRDependencyResolver
+                };
+                map.RunSignalR(hubConfiguration);
+            });
+
+            application.UseCors(corsOptions);
 			application.UseWebApi(config);
-			application.MapSignalR(new HubConfiguration { EnableDetailedErrors = true, Resolver = _signalRDependencyResolver });
 		}
 	}
 }
