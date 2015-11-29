@@ -227,14 +227,16 @@ namespace Syringe.Core.Runner
 				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
 				testResult.ActualUrl = resolvedUrl;
 
-				HttpRequestInfo requestInfo = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
-				testResult.ResponseTime = requestInfo.ResponseTime;
-				testResult.HttpRequestInfo = requestInfo;
+				HttpResponseInfo responseInfo = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
+				RemoveUnUsedRestSharpProperties(responseInfo);
 
-				if (requestInfo.Response.StatusCode == testCase.VerifyResponseCode)
+				testResult.ResponseTime = responseInfo.ResponseTime;
+				testResult.HttpResponseInfo = responseInfo;
+
+				if (responseInfo.Response.StatusCode == testCase.VerifyResponseCode)
 				{
 					testResult.ResponseCodeSuccess = true;
-					string content = requestInfo.Response.Content;
+					string content = responseInfo.Response.Content;
 
 					// Put the parseresponse regex values in the current variable set
 					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content);
@@ -267,6 +269,16 @@ namespace Syringe.Core.Runner
 			}
 
 			return testResult;
+		}
+
+		private void RemoveUnUsedRestSharpProperties(HttpResponseInfo responseInfo)
+		{
+			responseInfo.Response.Request.XmlSerializer = null;
+			responseInfo.Response.Request.JsonSerializer = null;
+			responseInfo.Response.Request.OnBeforeDeserialization = null;
+			responseInfo.Response.Request.ResponseWriter = null;
+			responseInfo.Response.Request.RootElement = "";
+			responseInfo.Response.RawBytes = null;
 		}
 
 		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)

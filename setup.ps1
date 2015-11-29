@@ -10,7 +10,7 @@
 $ErrorActionPreference = "Stop"
 $xmlDir     = "C:\syringe\teamname"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
-$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
+$mongoDataDir = "D:"#$env:ChocolateyInstall +"\lib\mongodata"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
@@ -24,7 +24,7 @@ choco install nuget.commandline -y
 # Install MongoDB, hack $env:sysdrive as the installer relies on it
 $oldSysDrive = $env:systemdrive
 $env:systemdrive = $mongoDataDir
-choco install mongodb -y
+choco install mongodb -y --force
 $env:systemdrive = $oldSysDrive
 
 # Build

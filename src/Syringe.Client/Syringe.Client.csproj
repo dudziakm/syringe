@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CanaryClient.cs" />
     <Compile Include="CasesClient.cs" />
+    <Compile Include="ConcreteTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TasksClient.cs" />
   </ItemGroup>

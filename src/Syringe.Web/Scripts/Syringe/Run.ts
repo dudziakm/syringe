@@ -1,5 +1,5 @@
 ﻿/// <reference path="../typings/jquery/jquery.d.ts" />
-
+/// <reference path="../typings/Hubs.d.ts" />
 module Syringe.Web {
     export class TestCaseRunner {
         private intervalHandle: any;
@@ -82,8 +82,8 @@ module Syringe.Web {
                         $(urlSelector).text(item.ActualUrl);
 
                         // Add HTML into the hidden iframe
-                        if (item.HttpResponse != null && $(iframeTextArea).text() === "") {
-                            $(iframeTextArea).text(item.HttpResponse.Content);
+                        if (item.ResponseInfo != null && $(iframeTextArea).text() === "") {
+                            $(iframeTextArea).text(item.ResponseInfo.Response.Content);
                         }
 
                         $(selector + " a.view-html").click(function () {

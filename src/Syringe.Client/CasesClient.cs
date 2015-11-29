@@ -155,10 +155,17 @@ namespace Syringe.Client
         }
 
 	    private T DeserializeOrThrow<T>(IRestResponse response)
-        {
-            if (response.StatusCode == HttpStatusCode.OK)
+	    {
+		    var settings = new JsonSerializerSettings()
+		    {
+			    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+		    };
+			settings.Converters.Add(new ConcreteTypeConverter<IRestResponse, RestResponse>());
+			settings.Converters.Add(new ConcreteTypeConverter<IRestRequest, RestRequest>());
+
+			if (response.StatusCode == HttpStatusCode.OK)
 			{
-				return JsonConvert.DeserializeObject<T>(response.Content);
+				return JsonConvert.DeserializeObject<T>(response.Content, settings);
 			}
 
             throw new Exception(response.Content);

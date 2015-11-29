@@ -378,7 +378,6 @@
     </None>
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
-    <Content Include="Scripts\typings\TextTransform.exe" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />

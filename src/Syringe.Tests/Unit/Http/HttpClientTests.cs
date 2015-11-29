@@ -59,11 +59,11 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpResponseInfo responseInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.NotNull(requestInfo);
-			Assert.AreEqual(restResponse.Content, requestInfo.Response.Content);
+			Assert.NotNull(responseInfo);
+			Assert.AreEqual(restResponse.Content, responseInfo.Response.Content);
 		}
 
 		[Test]
@@ -79,10 +79,10 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpResponseInfo responseInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.IsNotNull(requestInfo);
+			Assert.IsNotNull(responseInfo);
 		}
 
 		[Test]
@@ -173,12 +173,12 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpResponseInfo responseInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.AreEqual(restResponseStub.StatusCode, requestInfo.Response.StatusCode);
-			Assert.AreEqual(restResponseStub.Content, requestInfo.Response.Content);
-			Assert.AreEqual(restResponseStub.Headers.Count, requestInfo.Response.Headers.Count);
+			Assert.AreEqual(restResponseStub.StatusCode, responseInfo.Response.StatusCode);
+			Assert.AreEqual(restResponseStub.Content, responseInfo.Response.Content);
+			Assert.AreEqual(restResponseStub.Headers.Count, responseInfo.Response.Headers.Count);
 		}
 
 		[Test]
@@ -195,10 +195,10 @@ namespace Syringe.Tests.Unit.Http
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpRequestInfo requestInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
+			HttpResponseInfo responseInfo = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers);
 
 			// Assert
-			Assert.That(requestInfo.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
+			Assert.That(responseInfo.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
 		}
 
 		private HttpClient CreateClient(IRestResponse restResponse)

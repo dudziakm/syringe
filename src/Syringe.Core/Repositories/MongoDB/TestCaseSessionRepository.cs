@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using RestSharp;
+using RestSharp.Serializers;
+using Syringe.Core.Http;
 using Syringe.Core.Results;
 
 namespace Syringe.Core.Repositories.MongoDB
@@ -16,9 +21,17 @@ namespace Syringe.Core.Repositories.MongoDB
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestCaseSession> _collection;
 
+	    static TestCaseSessionRepository()
+	    {
+			BsonClassMap.LookupClassMap(typeof(RestResponse));
+			BsonClassMap.LookupClassMap(typeof(RestRequest));
+			BsonClassMap.LookupClassMap(typeof(JsonSerializer));
+			BsonClassMap.LookupClassMap(typeof(XmlSerializer));
+		}
+
         public TestCaseSessionRepository(Configuration configuration)
         {
-            _configuration = configuration;
+			_configuration = configuration;
             _mongoClient = new MongoClient(_configuration.ConnectionString);
             _database = _mongoClient.GetDatabase(_configuration.DatabaseName);
             _collection = _database.GetCollection<TestCaseSession>(COLLECTION_NAME);

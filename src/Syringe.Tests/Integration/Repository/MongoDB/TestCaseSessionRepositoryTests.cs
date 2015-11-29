@@ -30,8 +30,8 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		private static Fixture CreateFixture()
 		{
 			var fixture = new Fixture();
-			fixture.Register<IRestResponse>(() => new RestResponseStub());
-			fixture.Register<IRestRequest>(() => new RestRequestStub());
+			fixture.Register<IRestResponse>(() => new RestResponse());
+			fixture.Register<IRestRequest>(() => new RestRequest());
 			return fixture;
 		}
 

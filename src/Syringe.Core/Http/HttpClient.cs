@@ -19,7 +19,7 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpRequestInfo> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		public async Task<HttpResponseInfo> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
@@ -52,9 +52,8 @@ namespace Syringe.Core.Http
 			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
-			return new HttpRequestInfo()
+			return new HttpResponseInfo()
 			{
-				Request = request,
 				Response = response,
 				ResponseTime = responseTime
 			};

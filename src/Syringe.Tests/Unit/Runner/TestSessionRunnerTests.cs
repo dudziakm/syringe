@@ -18,7 +18,7 @@ namespace Syringe.Tests.Unit.Runner
 	public class TestSessionRunnerTests
 	{
 		private HttpClientMock _httpClientMock;
-		private HttpRequestInfo _httpRequestInfo;
+		private HttpResponseInfo _httpResponseInfo;
 
 		[SetUp]
 		public void Setup()
@@ -57,7 +57,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 
-			var response = new HttpRequestInfo();
+			var response = new HttpResponseInfo();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(response);
@@ -69,7 +69,7 @@ namespace Syringe.Tests.Unit.Runner
 				TimeSpan.FromSeconds(3),
 				TimeSpan.FromSeconds(10)
 			};
-			httpClient.RequestInfo = response;
+			httpClient.ResponseInfo = response;
 
 			var runner = new TestSessionRunner(config, httpClient, GetRepository());
 
@@ -96,7 +96,7 @@ namespace Syringe.Tests.Unit.Runner
 			var beforeStart = DateTime.UtcNow;
 			var config = new Config();
 
-			var requestInfo = new HttpRequestInfo();
+			var requestInfo = new HttpResponseInfo();
 			requestInfo.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(requestInfo);
@@ -142,8 +142,8 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
-			_httpClientMock.RequestInfo.Response.Content = "some content";
-			_httpClientMock.RequestInfo.Response.StatusCode = HttpStatusCode.OK;
+			_httpClientMock.ResponseInfo.Response.Content = "some content";
+			_httpClientMock.ResponseInfo.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -175,9 +175,9 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
-			_httpClientMock.Responses = new List<HttpRequestInfo>()
+			_httpClientMock.Responses = new List<HttpResponseInfo>()
 			{
-				new HttpRequestInfo()
+				new HttpResponseInfo()
 				{
 					Response = new RestResponseStub()
 					{
@@ -185,7 +185,7 @@ namespace Syringe.Tests.Unit.Runner
 						Content = "1st content SECRET_KEY"
 					}
 				},
-				new HttpRequestInfo()
+				new HttpResponseInfo()
 				{
 					Response = new RestResponseStub()
 					{
@@ -193,7 +193,7 @@ namespace Syringe.Tests.Unit.Runner
 						Content = "2nd content - SECRET_KEY in here to match"
 					}
 				},
-				new HttpRequestInfo()
+				new HttpResponseInfo()
 				{
 					Response = new RestResponseStub()
 					{
@@ -254,7 +254,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
-			_httpClientMock.RequestInfo.Response.StatusCode = HttpStatusCode.OK;
+			_httpClientMock.ResponseInfo.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -270,7 +270,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().Success, Is.True);
-			Assert.That(session.TestCaseResults.Single().HttpRequestInfo, Is.EqualTo(_httpClientMock.RequestInfo));
+			Assert.That(session.TestCaseResults.Single().HttpResponseInfo, Is.EqualTo(_httpClientMock.ResponseInfo));
 		}
 
 		[Test]
@@ -279,7 +279,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
-			_httpClientMock.RequestInfo.Response = new RestResponseStub()
+			_httpClientMock.ResponseInfo.Response = new RestResponseStub()
 			{
 				StatusCode = HttpStatusCode.OK
 			};
@@ -298,7 +298,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Assert
 			Assert.That(session.TestCaseResults.Single().Success, Is.False);
-			Assert.That(session.TestCaseResults.Single().HttpRequestInfo, Is.EqualTo(_httpClientMock.RequestInfo));
+			Assert.That(session.TestCaseResults.Single().HttpResponseInfo, Is.EqualTo(_httpClientMock.ResponseInfo));
 		}
 
 		[Test]
@@ -372,7 +372,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var config = new Config();
 			TestSessionRunner runner = CreateRunner(config);
-			_httpClientMock.RequestInfo.Response = new RestResponseStub()
+			_httpClientMock.ResponseInfo.Response = new RestResponseStub()
 			{
 				StatusCode = HttpStatusCode.OK,
 				Content = "some content"
@@ -580,13 +580,13 @@ namespace Syringe.Tests.Unit.Runner
 					c =>
 						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
 							It.IsAny<IEnumerable<HeaderItem>>()))
-				.Returns(Task.FromResult(new HttpRequestInfo()));
+				.Returns(Task.FromResult(new HttpResponseInfo()));
 
 			// Dispose of the subscription before processing the third request.
 			httpClientMock
 				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
 				.Callback(() => { if (subscription != null) subscription.Dispose(); })
-				.Returns(Task.FromResult(new HttpRequestInfo()));
+				.Returns(Task.FromResult(new HttpResponseInfo()));
 
 			TestSessionRunner runner = new TestSessionRunner(config, httpClientMock.Object, GetRepository());
 
@@ -668,12 +668,11 @@ namespace Syringe.Tests.Unit.Runner
 
 		private TestSessionRunner CreateRunner(Config config)
 		{
-			_httpRequestInfo = new HttpRequestInfo();
-			_httpClientMock = new HttpClientMock(_httpRequestInfo);
-			_httpClientMock.RequestInfo = new HttpRequestInfo()
+			_httpResponseInfo = new HttpResponseInfo();
+			_httpClientMock = new HttpClientMock(_httpResponseInfo);
+			_httpClientMock.ResponseInfo = new HttpResponseInfo()
 			{
 				Response = new RestResponseStub(),
-				Request = new RestRequestStub()
 			};
 
 			return new TestSessionRunner(config, _httpClientMock, GetRepository());

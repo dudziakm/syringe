@@ -1,3 +1,4 @@
+/// <reference path="../typings/Hubs.d.ts" />
 interface TestCaseResult
 {
 	TestCase: Case;
@@ -7,7 +8,7 @@ interface TestCaseResult
 	VerifyPositiveResults: VerificationItem[];
 	VerifyNegativeResults: VerificationItem[];
 	ResponseCodeSuccess: boolean;
-	HttpResponse: HttpResponse;
+	ResponseInfo: Syringe.Core.Http.HttpResponseInfo;
 	ExceptionMessage: string;
 	Success: boolean;
 	VerifyPositivesSuccess: boolean;

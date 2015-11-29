@@ -85,7 +85,7 @@ interface CompletedTaskInfo {
     ActualUrl : string;
     ResultId : System.Guid;
     Success : boolean;
-    HttpRequestInfo : Syringe.Core.Http.HttpRequestInfo;
+    HttpResponseInfo : Syringe.Core.Http.HttpResponseInfo;
     CaseId : System.Guid;
     ExceptionMessage : string;
     Verifications : Syringe.Core.TestCases.VerificationItem[];
@@ -108,11 +108,10 @@ interface VerificationItem {
 
 
 /**
-  * Data contract for Syringe.Core.Http.HttpRequestInfo
+  * Data contract for Syringe.Core.Http.HttpResponseInfo
   */
 declare module Syringe.Core.Http {
-interface HttpRequestInfo {
-    Request : RestSharp.IRestRequest;
+interface HttpResponseInfo {
     Response : RestSharp.IRestResponse;
     ResponseTime : System.TimeSpan;
 }

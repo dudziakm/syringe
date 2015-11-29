@@ -9,26 +9,26 @@ namespace Syringe.Tests.StubsMocks
 	public class HttpClientMock : IHttpClient
 	{
 		private int _responseCounter;
-		public HttpRequestInfo RequestInfo { get; set; }
+		public HttpResponseInfo ResponseInfo { get; set; }
 		public List<TimeSpan> ResponseTimes { get; set; }
 
-		public List<HttpRequestInfo> Responses { get; set; }
+		public List<HttpResponseInfo> Responses { get; set; }
 
-		public HttpClientMock(HttpRequestInfo requestInfo)
+		public HttpClientMock(HttpResponseInfo responseInfo)
 		{
-			RequestInfo = requestInfo;
+			ResponseInfo = responseInfo;
 		}
 
-		Task<HttpRequestInfo> IHttpClient.ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		Task<HttpResponseInfo> IHttpClient.ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			if (Responses == null)
 			{
 				if (ResponseTimes != null)
 				{
-					RequestInfo.ResponseTime = ResponseTimes[_responseCounter++];
+					ResponseInfo.ResponseTime = ResponseTimes[_responseCounter++];
 				}
 
-				return Task.FromResult(RequestInfo);
+				return Task.FromResult(ResponseInfo);
 			}
 
 			return Task.FromResult(Responses[_responseCounter++]);
