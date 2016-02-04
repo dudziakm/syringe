@@ -7,7 +7,8 @@ Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant 
 ## Download the latest version (in beta)
 
 - [Find the latest version number here](https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt)
-- Download the web/service packages: (replace {version})https://yetanotherchris.blob.core.windows.net/syringe/Syringe-{version}.zip
+- Download the web/service packages: (replace {version}): 
+  - https://yetanotherchris.blob.core.windows.net/syringe/Syringe-{version}.zip
 
 ## Getting started
 
