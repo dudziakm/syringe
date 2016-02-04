@@ -4,6 +4,11 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
+## Download the latest version (in beta)
+
+- [Find the version number here](https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt)
+- Download the web/service packages: (replace {version})https://yetanotherchris.blob.core.windows.net/syringe/Syringe-{version}.zip
+
 ## Getting started
 
 * Make sure you have IIS installed. 
