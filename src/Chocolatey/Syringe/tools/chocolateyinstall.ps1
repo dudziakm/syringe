@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'; # stop on all errors
 $packageName = "Syringe"
 $toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
 
-$version = (wget https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt).ToString().Trim()
+$version = "{{VERSION}}"
 $url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
 
