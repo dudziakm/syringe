@@ -4,7 +4,6 @@ using System.Net;
 using NUnit.Framework;
 using Org.XmlUnit.Builder;
 using Org.XmlUnit.Constraints;
-using Syringe.Core;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Writer;
 

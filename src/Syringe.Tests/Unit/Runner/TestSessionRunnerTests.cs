@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Http;
-using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;

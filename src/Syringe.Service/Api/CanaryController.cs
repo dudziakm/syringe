@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web.Http;
-using Syringe.Core;
+﻿using System.Web.Http;
 using Syringe.Core.Canary;
-using Syringe.Core.Configuration;
 using Syringe.Core.Services;
-using Syringe.Core.Xml;
 
 namespace Syringe.Service.Api
 {

@@ -5,7 +5,7 @@
 	<testvar varname="PASSWD1">sponge</testvar>
 	<testvar varname="SUCCESSFULL_TEST_TEXT">Welcome Bob</testvar>
 
-	<case
+  <case
 		id="1"
 		description1="short description 1"
 		description2="long description"
@@ -17,7 +17,8 @@
 		logrequest="yes"
 		logresponse="yes"
 		sleep="3"
-	/>
+    parseresponsetest="/d">
+  </case>
 
 	<case
 		id="300"

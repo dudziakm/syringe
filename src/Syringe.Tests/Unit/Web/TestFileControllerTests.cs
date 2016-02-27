@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Security;

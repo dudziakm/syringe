@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Syringe.Core;
-using Syringe.Core.Logging;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
 

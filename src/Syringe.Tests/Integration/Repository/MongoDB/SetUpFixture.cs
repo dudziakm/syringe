@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using NUnit.Framework;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB

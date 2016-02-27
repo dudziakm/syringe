@@ -1,5 +1,4 @@
 ﻿using Quartz;
-using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Schedule
 {

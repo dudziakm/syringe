@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.TestCases;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
-using Syringe.Tests.Integration.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {
@@ -492,9 +485,6 @@ namespace Syringe.Tests.Unit.Xml
             // Assert
             Case testcase = testCollection.TestCases.ToList()[1];
             Assert.That(testcase.AvailableVariables.Count, Is.EqualTo(5));
-            Assert.That(testcase.AvailableVariables[0].Name, Is.EqualTo("LOGIN_URL"));
-            Assert.That(testcase.AvailableVariables[4].Name, Is.EqualTo("test"));
-            Assert.That(testcase.AvailableVariables[4].Value, Is.EqualTo("/d"));
         }
     }
 }
