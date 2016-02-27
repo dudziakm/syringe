@@ -189,6 +189,7 @@
     <Compile Include="Tasks\TaskDetails.cs" />
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
+    <Compile Include="TestCases\Variables.cs" />
     <Compile Include="TestCases\VerificationItem.cs" />
     <Compile Include="Runner\VerificationsMatcher.cs" />
     <Compile Include="Results\TestCaseResult.cs" />

@@ -48,6 +48,9 @@ namespace Syringe.Web.Models
         public List<VerificationItemModel> Verifications { get; set; }
         [Required]
         public string ParentFilename { get; set; }
+
+        public List<Variables> AvailableVariables { get; set; }
+
         public TestCaseViewModel()
         {
             Headers = new List<HeaderItem>();

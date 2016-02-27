@@ -5,13 +5,15 @@
 <div class="container" id="edit-test">
 	<div class="row">
 
-		<ul class="breadcrumb">
-			<li><a title="View" href="/">Test cases</a></li>
-			<li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.ParentFilename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.ParentFilename</a></li>
-			<li>@(Model.ShortDescription ?? "Add")</li>
-		</ul>
+	    <ul class="breadcrumb">
+	        <li><a title="View" href="/">Test cases</a></li>
+	        <li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.ParentFilename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.ParentFilename</a></li>
+	        <li>@(Model.ShortDescription ?? "Add")</li>
+	    </ul>
 
-		<form action="@(Request.RawUrl)" method="post" class="form-horizontal">
+        @Html.Partial("Partials/_Variables",Model.AvailableVariables)
+
+	    <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 
 			@Html.ValidationSummary(false, "", new {@class = "alert alert-danger"})
 			<div class="panel panel-default">

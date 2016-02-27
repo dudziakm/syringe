@@ -207,6 +207,7 @@
     <Compile Include="Models\ParseResponseItem.cs" />
     <Compile Include="Models\TestFileViewModel.cs" />
     <Compile Include="Models\VariableItem.cs" />
+    <Compile Include="Models\Variables.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.svg" />
@@ -388,6 +389,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Authentication\Login.cshtml" />
+    <Content Include="Views\Shared\Partials\_Variables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Syringe.css">
