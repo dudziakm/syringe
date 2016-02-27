@@ -75,5 +75,4 @@ deploy:
 # Clean old Azure Blob zip files, update their content types, and then push to Myget
 after_deploy:
   - ps: tools\AzureStorageCleanup\AzureStorageCleanup.exe -storagename yetanotherchris -storagekey $env:AZURE_ACCESS_KEY -container syringe -mindaysold 3 -recursive
-  - nuget push .\build\_deploymentOutput\Syringe.Service.%APPVEYOR_BUILD_VERSION%.0.nupkg %MYGET_ACCESS_KEY% -Source https://www.myget.org/F/syringe/api/v2/package
-  - nuget push .\build\_deploymentOutput\Syringe.Web.%APPVEYOR_BUILD_VERSION%.0.nupkg %MYGET_ACCESS_KEY% -Source https://www.myget.org/F/syringe/api/v2/package
+  - ps: .\build\push-chocopackage.ps1 -version $env:APPVEYOR_BUILD_VERSION -apiKey $env:MYGET_ACCESS_KEY
