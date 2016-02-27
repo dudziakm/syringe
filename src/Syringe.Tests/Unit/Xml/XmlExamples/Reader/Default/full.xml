@@ -25,6 +25,9 @@
             <verify type="positive" description="1">verify this string exists</verify>
 			<verify type="negative" description="1">verify this string does not exist</verify>
 		</verifications>
+      <parseresponses>
+        <parseresponse description="test">/d</parseresponse>
+      </parseresponses>
     </case>
 
     <case

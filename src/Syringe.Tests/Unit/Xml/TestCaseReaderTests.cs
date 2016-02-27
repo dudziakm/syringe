@@ -477,5 +477,24 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(testcase.VerifyNegatives[1].Regex, Is.EqualTo("negative 6"));
 			Assert.That(testcase.VerifyNegatives[2].Regex, Is.EqualTo("negative 66"));
 		}
-	}
+
+        [Test]
+        public void Read_should_set_variables_and_parsed_responses()
+        {
+            // Arrange
+            string xml = GetFullExample();
+            var stringReader = new StringReader(xml);
+            var testCaseReader = GetTestCaseReader();
+
+            // Act
+            CaseCollection testCollection = testCaseReader.Read(stringReader);
+
+            // Assert
+            Case testcase = testCollection.TestCases.ToList()[1];
+            Assert.That(testcase.AvailableVariables.Count, Is.EqualTo(5));
+            Assert.That(testcase.AvailableVariables[0].Name, Is.EqualTo("LOGIN_URL"));
+            Assert.That(testcase.AvailableVariables[4].Name, Is.EqualTo("test"));
+            Assert.That(testcase.AvailableVariables[4].Value, Is.EqualTo("/d"));
+        }
+    }
 }
