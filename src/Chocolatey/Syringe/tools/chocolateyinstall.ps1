@@ -1,10 +1,10 @@
-﻿#TODO: version the nuspec file when a new Git tag appears
+#TODO: version the nuspec file when a new Git tag appears
 $ErrorActionPreference = 'Stop'; # stop on all errors
 
 $packageName = "Syringe"
 $toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
 
-$version = "{{VERSION}}"
+$version = ""
 $url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
 

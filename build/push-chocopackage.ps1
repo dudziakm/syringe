@@ -1,6 +1,6 @@
 param([string]$version, [string] $apiKey)
 
-$root = $(Split-Path -parent $MyInvocation.MyCommand.Source)
+$root = $PSScriptRoot;
 $root = $(Split-Path -parent $root)
 
 $nuspecPath = "$root\src\Chocolatey\Syringe\syringe.nuspec"
