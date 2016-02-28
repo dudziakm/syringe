@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.Exceptions;
 using Syringe.Core.TestCases;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
-using Syringe.Tests.Integration.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {
@@ -477,5 +470,21 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(testcase.VerifyNegatives[1].Regex, Is.EqualTo("negative 6"));
 			Assert.That(testcase.VerifyNegatives[2].Regex, Is.EqualTo("negative 66"));
 		}
-	}
+
+        [Test]
+        public void Read_should_set_variables_and_parsed_responses()
+        {
+            // Arrange
+            string xml = GetFullExample();
+            var stringReader = new StringReader(xml);
+            var testCaseReader = GetTestCaseReader();
+
+            // Act
+            CaseCollection testCollection = testCaseReader.Read(stringReader);
+
+            // Assert
+            Case testcase = testCollection.TestCases.ToList()[1];
+            Assert.That(testcase.AvailableVariables.Count, Is.EqualTo(5));
+        }
+    }
 }

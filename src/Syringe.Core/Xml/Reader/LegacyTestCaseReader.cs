@@ -41,14 +41,18 @@ namespace Syringe.Core.Xml.Reader
 			// <testvar>
 			testCollection.Variables = GetTestVars(rootElement);
 
-			// <case> - add each  one and re-order them by their id="" attribute.
-			var testCases = new List<Case>();
-			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "case"))
-			{
-				Case testCase = GetTestCase(element);
-				testCases.Add(testCase);
-			}
-			testCollection.TestCases = testCases.OrderBy(x => x.Id);
+            // <case> - add each  one and re-order them by their id="" attribute.
+            var testCases = new List<Case>();
+            var elements = rootElement.Elements().Where(x => x.Name.LocalName == "case").ToList();
+            for (int i = 0; i < elements.Count; i++)
+            {
+                XElement element = elements[i];
+                Case testCase = GetTestCase(element);
+                testCase.AvailableVariables = testCollection.Variables.Select(x => new Variables { Name = x.Key, Value = x.Value, Type = "Variable" }).ToList();
+                testCase.AvailableVariables.AddRange(testCases.SelectMany(x => x.ParseResponses).Select(x => new Variables { Name = x.Description, Type = "Parse Response", Value = x.Regex }));
+                testCases.Add(testCase);
+            }
+            testCollection.TestCases = testCases.OrderBy(x => x.Id);
 
 			return testCollection;
 		}

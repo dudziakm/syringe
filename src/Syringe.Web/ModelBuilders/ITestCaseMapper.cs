@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Syringe.Core;
 using Syringe.Core.TestCases;
 using Syringe.Web.Models;
 

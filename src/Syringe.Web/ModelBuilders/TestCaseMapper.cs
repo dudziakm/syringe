@@ -5,6 +5,7 @@ using Syringe.Core.TestCases;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.TestCases.HeaderItem;
 using ParseResponseItem = Syringe.Core.TestCases.ParseResponseItem;
+using Variables = Syringe.Web.Models.Variables;
 using VerificationItem = Syringe.Core.TestCases.VerificationItem;
 
 namespace Syringe.Web.ModelBuilders
@@ -44,7 +45,8 @@ namespace Syringe.Web.ModelBuilders
                 Sleep = testCase.Sleep,
                 Url = testCase.Url,
                 Verifications = verifications,
-                ParentFilename = testCase.ParentFilename
+                ParentFilename = testCase.ParentFilename,
+                AvailableVariables = testCase.AvailableVariables.Select(x=> new Variables { Name=x.Name,Type=x.Type,Value=x.Value}).ToList()
             };
 
             return model;

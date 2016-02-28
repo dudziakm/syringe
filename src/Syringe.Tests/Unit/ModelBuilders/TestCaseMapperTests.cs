@@ -8,6 +8,7 @@ using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
 using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
+using Variables = Syringe.Web.Models.Variables;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
@@ -121,7 +122,8 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 ParseResponses = new List<Core.TestCases.ParseResponseItem> { new Core.TestCases.ParseResponseItem() },
                 VerifyNegatives = new List<VerificationItem> { new VerificationItem() },
                 VerifyPositives = new List<VerificationItem> { new VerificationItem() },
-                ParentFilename = "test.xml"
+                ParentFilename = "test.xml",
+                AvailableVariables = new List<Core.TestCases.Variables>() { new Core.TestCases.Variables() { Name = "Name", Value = "value", Type = "Type" } }
             };
 
             // when
@@ -144,6 +146,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
             Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
             Assert.AreEqual(1, testCase.Headers.Count);
+            Assert.AreEqual(1, testCase.AvailableVariables.Count);
         }
 
 
@@ -168,7 +171,8 @@ namespace Syringe.Tests.Unit.ModelBuilders
                     Url = "url",
                     Sleep = 10,
                     PostType = PostType.POST,
-                    VerifyResponseCode = HttpStatusCode.Accepted
+                    VerifyResponseCode = HttpStatusCode.Accepted,
+                    AvailableVariables = new List<Variables>() { new Variables() {Name = "Name",Value="value", Type = "Type"} }
                 };
             }
         }

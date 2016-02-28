@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.TestCases;
 

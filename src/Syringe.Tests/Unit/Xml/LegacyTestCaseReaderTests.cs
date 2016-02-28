@@ -4,11 +4,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core;
 using Syringe.Core.TestCases;
-using Syringe.Core.Xml;
 using Syringe.Core.Xml.Reader;
-using Syringe.Tests.Integration.Xml;
 
 namespace Syringe.Tests.Unit.Xml
 {

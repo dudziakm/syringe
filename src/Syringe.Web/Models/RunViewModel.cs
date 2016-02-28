@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;

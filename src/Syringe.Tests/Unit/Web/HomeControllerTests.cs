@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Canary;
-using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -118,7 +116,7 @@ namespace Syringe.Tests.Unit.Web
             canaryClientService.Setup(x => x.Check()).Returns((CanaryResult)null);
 
             // then
-            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:8086/");
+            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:1981/");
             _canaryClientFactory.Verify(x => x(), Times.Once);
         }
 
@@ -129,7 +127,7 @@ namespace Syringe.Tests.Unit.Web
             canaryClientService.Setup(x => x.Check()).Returns(new CanaryResult { Success = false });
 
             // then
-            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:8086/");
+            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:1981/");
             _canaryClientFactory.Verify(x => x(), Times.Once);
 
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using Syringe.Core.Security;
 

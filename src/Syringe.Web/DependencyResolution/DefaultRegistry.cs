@@ -15,11 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web;
 using Syringe.Client;
 using Syringe.Core.Configuration;
-using Syringe.Core.Repositories;
-using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.ModelBuilders;
