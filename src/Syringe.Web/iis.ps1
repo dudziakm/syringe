@@ -1,11 +1,10 @@
 #=================================================================
 # Add a Syringe app pool and website, removing any existing ones.
 #=================================================================
-param ([string] $websitePath = $PSScriptRoot, [string] $removeOnly = $false)
+param ([string] $websitePath = $PSScriptRoot, [string] $removeOnly = $false, $websiteDomain = "localhost", $websitePort = 80)
 
 $appPoolName = "Syringe"
 $websiteName = "Syringe"
-$websitePort = 1980
 
 Import-Module WebAdministration
 
@@ -53,3 +52,4 @@ Set-ItemProperty "IIS:\AppPools\$appPoolName" processModel.pingingEnabled -value
 #=================================================================
 Write-Host "  Adding website $websiteName (id:$websitePort, port: $websitePort, path: $websitePath)"
 New-Website -Name $websiteName -Id $websitePort -Port $websitePort -PhysicalPath $websitePath -ApplicationPool $appPoolName -Force  | Out-Null
+New-WebBinding -Name $websiteName -IPAddress "*" -Port $websitePort -HostHeader $websiteDomain

@@ -1,10 +1,15 @@
-#TODO: version the nuspec file when a new Git tag appears
-$ErrorActionPreference = 'Stop'; # stop on all errors
+$ErrorActionPreference = 'Stop';
 
 $packageName = "Syringe"
 $toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
+. "$toolsDir\common.ps1"
 
-$version = ""
+if ((Test-IisInstalled) -eq $False)
+{
+    throw "IIS is not installed, please install it before continuing."
+}
+
+$version = "{{VERSION}}"
 $url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
 
@@ -28,6 +33,13 @@ $websiteDir = "$toolsDir\Syringe.Web"
 $serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
 $websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
 
+# Parse command line arguments - this function is required because of the context Chocolatey runs in
+$arguments = @{}
+$arguments["websitePort"] = 80;
+$arguments["websiteDomain"] = "localhost";
+$arguments["websiteDir"] = $websiteDir;
+Parse-Parameters($arguments);
+
 # Unzip the service + website (overwrites existing files when upgrading)
 Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
 Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
@@ -45,12 +57,12 @@ Write-Host "Installing the Syringe service." -ForegroundColor Green
 
 # Run the website installer
 Write-Host "Setting up IIS site." -ForegroundColor Green
-Invoke-Expression "$websiteSetupScript $websiteDir"
+Invoke-Expression "$websiteSetupScript -websitePath $($arguments.websiteDir) -websiteDomain $($arguments.websiteDomain) -websitePort $($arguments.websitePort)"
 
 # Info
 Write-Host ""
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Setup complete." -ForegroundColor Green
-Write-host "- MVC site          : http://localhost:1980/"
+Write-host "- MVC site          : http://$($arguments.websiteDomain):$($arguments.websitePort)/"
 Write-Host "- REST api          : http://localhost:1981/swagger/"
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
