@@ -17,6 +17,12 @@ namespace Syringe.Core.Http
 		private RequestDetails _lastRequest;
 		private ResponseDetails _lastResponse;
 
+		static HttpClient()
+		{
+			// Allow invalid SSL certificates
+			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+		}
+
 		public HttpClient(IHttpLogWriter httpLogWriter, IRestClient restClient)
 		{
 			_httpLogWriter = httpLogWriter;
