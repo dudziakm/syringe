@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -11,6 +12,7 @@ using Owin;
 using Syringe.Web;
 using Owin.Security.Providers.GitHub;
 using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -40,9 +42,10 @@ namespace Syringe.Web
 			app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
 
 			//
-			// Integrations
+			// OAuth2 Integrations
 			//
 			var config = new ApplicationConfig();
+			ThrowIfInvalidOAuthConfig(config);
 
 			// Console: https://console.developers.google.com/home/dashboard
 			// Found under API and credentials.
@@ -68,6 +71,24 @@ namespace Syringe.Web
 				ClientId = config.GithubAuthClientId,
 				ClientSecret = config.GithubAuthClientSecret
 			});
+		}
+
+		private void ThrowIfInvalidOAuthConfig(ApplicationConfig config)
+		{
+			if (string.IsNullOrEmpty(config.GoogleAuthClientId) || string.IsNullOrEmpty(config.GoogleAuthClientSecret))
+			{
+				throw new ConfigurationException("Please enter a valid Google client id/client secret in the web.config");
+			}
+
+			if (string.IsNullOrEmpty(config.MicrosoftAuthClientId) || string.IsNullOrEmpty(config.MicrosoftAuthClientSecret))
+			{
+				throw new ConfigurationException("Please enter a valid Microsoft client id/client secret in the web.config");
+			}
+
+			if (string.IsNullOrEmpty(config.GithubAuthClientId) || string.IsNullOrEmpty(config.GithubAuthClientSecret))
+			{
+				throw new ConfigurationException("Please enter a valid Github client id/client secret in the web.config");
+			}
 		}
 	}
 }
