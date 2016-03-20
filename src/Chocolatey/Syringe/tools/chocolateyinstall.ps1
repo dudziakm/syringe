@@ -65,4 +65,6 @@ Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Write-Host "Setup complete." -ForegroundColor Green
 Write-host "- MVC site          : http://$($arguments.websiteDomain):$($arguments.websitePort)/"
 Write-Host "- REST api          : http://localhost:1981/swagger/"
+Write-Host ""
+Write-Host "Remember to remove the default website in IIS, if you are using port 80."
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
