@@ -4,11 +4,12 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
-## Download the latest version (in beta)
+## Install the latest version, requires Chocolatey
 
-- [Find the latest version number here](https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt)
-- Download the web/service packages: (replace {version}): 
-  - https://yetanotherchris.blob.core.windows.net/syringe/Syringe-{version}.zip
+*Note: this will configure Syringe on port 80. You should remove any site you have on Port 80, or pass in arguments to use a different port if you don't want to use 80.*
+
+  choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2
+  choco install syringe
 
 ## Getting started
 
