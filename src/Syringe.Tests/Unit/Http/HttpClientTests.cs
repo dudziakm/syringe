@@ -194,33 +194,6 @@ namespace Syringe.Tests.Unit.Http
 			// Assert
 		}
 
-		[Test]
-		public async Task should_record_last_request()
-		{
-			// Arrange
-			HttpClient httpClient = CreateClient(new RestResponse());
-
-			string contentType = "text/html";
-			var request1Headers = new List<HeaderItem>();
-			var request2Headers = new List<HeaderItem>()
-			{
-				new HeaderItem("user-agent", "Frozen Olaf Browser 4"),
-				new HeaderItem("cookies", "mmm cookies"),
-			};
-
-			await httpClient.ExecuteRequestAsync("get", "http://www.example1.com", contentType, "request 1", request1Headers);
-			await httpClient.ExecuteRequestAsync("put", "http://www.example2.com", contentType, "request 2", request2Headers);
-
-			// Act
-			httpClient.LogLastRequest();
-
-			// Assert
-			Assert.AreEqual("http://www.example2.com", _httpLogWriterMock.RequestDetails.Url);
-			Assert.AreEqual("put", _httpLogWriterMock.RequestDetails.Method);
-			Assert.AreEqual("request 2", _httpLogWriterMock.RequestDetails.Body);
-			Assert.AreEqual(2, _httpLogWriterMock.RequestDetails.Headers.Count());
-		}
-
 		// TODO: should_record_last_response
 		[Test]
 		public void should_record_last_response()
@@ -257,7 +230,7 @@ namespace Syringe.Tests.Unit.Http
 			_httpLogWriterMock = new HttpLogWriterMock();
 			_restClientMock = new RestClientMock();
 			_restClientMock.RestResponse = restResponse;
-			return new HttpClient(_httpLogWriterMock, _restClientMock);
+			return new HttpClient(_restClientMock);
 		}
 	}
 }

@@ -23,9 +23,8 @@ namespace Syringe.Core.Http
 			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 		}
 
-		public HttpClient(IHttpLogWriter httpLogWriter, IRestClient restClient)
+		public HttpClient(IRestClient restClient)
 		{
-			_httpLogWriter = httpLogWriter;
 			_restClient = restClient;
 			_cookieContainer = new CookieContainer();
 		}
@@ -96,17 +95,6 @@ namespace Syringe.Core.Http
 				Headers = keyvaluePairs,
                 ResponseTime = responseTime
 			};
-		}
-
-		public void LogLastRequest()
-		{
-			_httpLogWriter.AppendRequest(_lastRequest);			
-		}
-
-		public void LogLastResponse()
-		{
-			_httpLogWriter.AppendResponse(_lastResponse);
-			_httpLogWriter.AppendSeperator();
 		}
 
 		private Method GetMethodEnum(string httpMethod)

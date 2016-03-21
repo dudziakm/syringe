@@ -7,8 +7,6 @@ interface Case
 	ErrorMessage: string;
 	PostType: string;
 	VerifyResponseCode: number;
-	LogRequest: boolean;
-	LogResponse: boolean;
 	Headers: HeaderItem[];
 	ParentFilename: string;
 	Sleep: number;

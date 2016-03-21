@@ -25,8 +25,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCaseViewModel.ErrorMessage, build.ErrorMessage);
             Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
             Assert.AreEqual(testCaseViewModel.Id, build.Id);
-            Assert.AreEqual(testCaseViewModel.LogRequest, build.LogRequest);
-            Assert.AreEqual(testCaseViewModel.LogResponse, build.LogResponse);
             Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
             Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
             Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
@@ -110,8 +108,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 ShortDescription = "Short Description",
                 Url = "http://www.google.com",
                 ErrorMessage = "Error",
-                LogRequest = true,
-                LogResponse = true,
                 LongDescription = "Long Description",
                 Method = "Method",
                 PostBody = "PostBody",
@@ -135,8 +131,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCase.ShortDescription, testCaseViewModel.ShortDescription);
             Assert.AreEqual(testCase.Url, testCaseViewModel.Url);
             Assert.AreEqual(testCase.ErrorMessage, testCaseViewModel.ErrorMessage);
-            Assert.AreEqual(testCase.LogRequest, testCaseViewModel.LogRequest);
-            Assert.AreEqual(testCase.LogResponse, testCaseViewModel.LogResponse);
             Assert.AreEqual(testCase.LongDescription, testCaseViewModel.LongDescription);
             Assert.AreEqual(testCase.PostBody, testCaseViewModel.PostBody);
             Assert.AreEqual(PostType.GET, testCaseViewModel.PostType);
@@ -159,8 +153,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
                     ErrorMessage = "error",
                     Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
                     Id = Guid.Empty,
-                    LogRequest = true,
-                    LogResponse = true,
                     LongDescription = "long description",
                     ParentFilename = "Test.xml",
                     ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },

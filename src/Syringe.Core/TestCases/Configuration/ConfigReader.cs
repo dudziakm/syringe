@@ -28,14 +28,6 @@ namespace Syringe.Core.TestCases.Configuration
 			config.Timeout = XmlHelper.ElementAsInt(configElement, "timeout");
 			config.GlobalTimeout = XmlHelper.ElementAsInt(configElement, "globaltimeout");
 
-			var logType = LogType.None;
-			string httpLog = XmlHelper.GetOptionalElementValue(configElement, "globalhttplog");
-			if (!string.IsNullOrEmpty(httpLog))
-			{
-				Enum.TryParse(httpLog, true, out logType);
-			}
-			config.GlobalHttpLog = logType;
-
 			// All elements get stored in the variables, for custom variables.
 			foreach (XElement element in configElement.Elements().Where(x => x.Name.LocalName == "Variables").Descendants())
 			{

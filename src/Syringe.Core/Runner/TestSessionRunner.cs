@@ -73,7 +73,7 @@ namespace Syringe.Core.Runner
 			var config = new Config();
 			var logStringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
-			var httpClient = new HttpClient(httpLogWriter, new RestClient());
+			var httpClient = new HttpClient(new RestClient());
 
 			return new TestSessionRunner(config, httpClient, repository);
 		}
@@ -264,16 +264,6 @@ namespace Syringe.Core.Runner
 					testResult.Message = testCase.ErrorMessage;
 				}
 
-				if (ShouldLogRequest(testResult, testCase))
-				{
-					_httpClient.LogLastRequest();
-				}
-
-				if (ShouldLogResponse(testResult, testCase))
-				{
-					_httpClient.LogLastResponse();
-				}
-
 				// TODO: Inject a delay service for testing purposes (holding up unit tests for orders of seconds is bad).
 				if (testCase.Sleep > 0)
 					Thread.Sleep(testCase.Sleep * 1000);
@@ -285,20 +275,6 @@ namespace Syringe.Core.Runner
 			}
 
 			return testResult;
-		}
-
-		internal bool ShouldLogRequest(TestCaseResult testResult, Case testCase)
-		{
-			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
-				   || _config.GlobalHttpLog == LogType.All
-				   || testCase.LogRequest;
-		}
-
-		internal bool ShouldLogResponse(TestCaseResult testResult, Case testCase)
-		{
-			return (testResult.ResponseCodeSuccess == false && _config.GlobalHttpLog == LogType.OnFail)
-				   || _config.GlobalHttpLog == LogType.All
-				   || testCase.LogResponse;
 		}
 
 		private sealed class TestSessionRunnerSubscriber : IDisposable

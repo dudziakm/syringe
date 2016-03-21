@@ -77,8 +77,6 @@ namespace Syringe.Core.Xml.Writer
             element.Add(new XAttribute("posttype", testCase.PostType ?? ""));
             element.Add(new XAttribute("verifyresponsecode", (int)testCase.VerifyResponseCode));
             element.Add(new XAttribute("errormessage", testCase.ErrorMessage ?? ""));
-            element.Add(new XAttribute("logrequest", testCase.LogRequest));
-            element.Add(new XAttribute("logresponse", testCase.LogResponse));
             element.Add(new XAttribute("sleep", testCase.Sleep));
 
             return element;

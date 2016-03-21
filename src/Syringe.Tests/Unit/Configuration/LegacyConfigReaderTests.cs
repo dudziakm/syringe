@@ -37,7 +37,6 @@ namespace Syringe.Tests.Unit.Configuration
 			Assert.AreEqual("my proxy", config.Proxy);
 			Assert.AreEqual("AOL IE 6", config.Useragent);
 			Assert.AreEqual("http://username:password@127.0.0.1:8080", config.Httpauth);
-			Assert.AreEqual(LogType.OnFail, config.GlobalHttpLog);
 			Assert.AreEqual("My config comment", config.Comment);
 			Assert.AreEqual(44, config.Timeout);
 			Assert.AreEqual(88, config.GlobalTimeout);

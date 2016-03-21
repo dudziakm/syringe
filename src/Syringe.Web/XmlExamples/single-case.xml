@@ -9,8 +9,6 @@
         posttype="text/xml"
         verifyresponsecode="404"
         errormessage="my error message"
-        logrequest="false"
-        logresponse="false"
         sleep="3"
 	    >
 

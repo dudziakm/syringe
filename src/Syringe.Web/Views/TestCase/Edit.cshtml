@@ -57,24 +57,6 @@
 						<div class="col-sm-4">
 							@Html.TextBoxFor(x => x.ErrorMessage, new {@class = "form-control", placeholder = "Enter error message"})
 						</div>
-						@Html.LabelFor(x => x.LogRequest, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							<div class="checkbox checkbox-primary">
-								<label>
-									@Html.CheckBoxFor(x => x.LogRequest)
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						@Html.LabelFor(x => x.LogResponse, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							<div class="checkbox checkbox-primary">
-								<label>
-									@Html.CheckBoxFor(x => x.LogResponse)
-								</label>
-							</div>
-						</div>
 						@Html.LabelFor(x => x.Sleep, new {@class = "col-sm-2 control-label"})
 						<div class="col-sm-4">
 							@Html.TextBoxFor(x => x.Sleep, new {@class = "form-control", placeholder = "Log Response", type = "number"})

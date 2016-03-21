@@ -35,15 +35,5 @@ namespace Syringe.Tests.StubsMocks
 
 			return Task.FromResult(Responses[_responseCounter++]);
 		}
-
-	    public void LogLastRequest()
-		{
-			LogLastRequestCalled = true;
-		}
-
-		public void LogLastResponse()
-		{
-			LogLastResponseCalled = true;
-		}
 	}
 }

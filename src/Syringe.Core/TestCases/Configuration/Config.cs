@@ -9,7 +9,6 @@ namespace Syringe.Core.TestCases.Configuration
 		public string Proxy { get; set; }
 		public string Useragent { get; set; }
 		public string Httpauth { get; set; }
-		public LogType GlobalHttpLog { get; set; }
 		public string Comment { get; set; }
 		public int Timeout { get; set; }
 		public int GlobalTimeout { get; set; }

@@ -88,7 +88,7 @@ namespace Syringe.Service.Parallel
 					var config = new Config();
 					var logStringBuilder = new StringBuilder();
 					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
-					var httpClient = new HttpClient(httpLogWriter, new RestClient());
+					var httpClient = new HttpClient(new RestClient());
 
 					var runner = new TestSessionRunner(config, httpClient, _repository);
 					item.Runner = runner;

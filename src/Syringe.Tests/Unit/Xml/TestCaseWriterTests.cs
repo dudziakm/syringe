@@ -46,8 +46,6 @@ namespace Syringe.Tests.Unit.Xml
 				PostType = "text/xml",
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				ErrorMessage = "my error message",
-				LogRequest = true,
-				LogResponse = true,
 				Sleep = 3,
 			};
 			CaseCollection caseCollection = CreateCaseCollection(testCase);
@@ -165,8 +163,6 @@ namespace Syringe.Tests.Unit.Xml
 					PostType = "text/xml",
 					VerifyResponseCode = HttpStatusCode.Accepted,
 					ErrorMessage = "my error message",
-					LogRequest = true,
-					LogResponse = true,
 					Sleep = 3,
 				};
 

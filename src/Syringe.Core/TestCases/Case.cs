@@ -13,8 +13,6 @@ namespace Syringe.Core.TestCases
 		public string ErrorMessage { get; set; }
 		public string PostType { get; set; }
 		public HttpStatusCode VerifyResponseCode { get; set; }
-		public bool LogRequest { get; set; }
-		public bool LogResponse { get; set; }
 		public List<HeaderItem> Headers { get; set; }
 		public string ParentFilename { get; set; }
 

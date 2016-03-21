@@ -26,12 +26,6 @@ namespace Syringe.Web.Models
         [Display(Name = "Verify Response Code")]
         public HttpStatusCode VerifyResponseCode { get; set; }
 
-        [Display(Name = "Log Request")]
-        public bool LogRequest { get; set; }
-
-        [Display(Name = "Log Response")]
-        public bool LogResponse { get; set; }
-
         public List<HeaderItem> Headers { get; set; }
 
         [Required]

@@ -37,7 +37,6 @@ namespace Syringe.Tests.Unit.Configuration
 			Assert.AreEqual("my proxy", config.Proxy);
 			Assert.AreEqual("AOL IE 6", config.Useragent);
 			Assert.AreEqual("http://username:password@127.0.0.1:8080", config.Httpauth);
-			Assert.AreEqual(LogType.OnFail, config.GlobalHttpLog);
 			Assert.AreEqual("My config comment", config.Comment);
 			Assert.AreEqual(44, config.Timeout);
 			Assert.AreEqual(88, config.GlobalTimeout);
@@ -69,7 +68,6 @@ namespace Syringe.Tests.Unit.Configuration
 						<proxy>my proxy</proxy>
 						<useragent>AOL IE 6</useragent>
 						<httpauth>http://username:password@127.0.0.1:8080</httpauth>
-						<globalhttplog>onfail</globalhttplog>
 						<comment>My config comment</comment>
 						<timeout>44</timeout>
 						<globaltimeout>88</globaltimeout>

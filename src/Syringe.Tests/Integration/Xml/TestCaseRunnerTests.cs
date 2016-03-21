@@ -32,7 +32,7 @@ namespace Syringe.Tests.Integration.Xml
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
-			var httpClient = new HttpClient(httpLogWriter, new RestClient());
+			var httpClient = new HttpClient(new RestClient());
 
 			var config = new Config();
 
@@ -55,7 +55,7 @@ namespace Syringe.Tests.Integration.Xml
 			// Arrange
 			var stringBuilder = new StringBuilder();
 			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
-			var httpClient = new HttpClient(httpLogWriter, new RestClient());
+			var httpClient = new HttpClient(new RestClient());
 
 			var config = new Config();
 
@@ -79,8 +79,7 @@ namespace Syringe.Tests.Integration.Xml
 			var stringWriter = new StringWriter(stringBuilder);
 			
 			var config = new Config();
-			config.GlobalHttpLog = LogType.All;
-			var httpClient = new HttpClient(new HttpLogWriter(stringWriter), new RestClient());
+			var httpClient = new HttpClient(new RestClient());
 
 			string xml = TestHelpers.ReadEmbeddedFile("roadkill-login.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);

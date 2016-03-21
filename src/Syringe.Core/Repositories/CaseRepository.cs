@@ -96,8 +96,6 @@ namespace Syringe.Core.Repositories
                 item.ShortDescription = testCase.ShortDescription;
                 item.ErrorMessage = testCase.ErrorMessage;
                 item.Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
-                item.LogRequest = testCase.LogRequest;
-                item.LogResponse = testCase.LogResponse;
                 item.LongDescription = testCase.LongDescription;
                 item.Method = testCase.Method;
                 item.ParentFilename = testCase.ParentFilename;

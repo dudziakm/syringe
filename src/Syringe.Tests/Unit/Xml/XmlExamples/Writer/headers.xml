@@ -9,8 +9,6 @@
         posttype=""
         verifyresponsecode="0"
         errormessage=""
-        logrequest="false"
-        logresponse="false"
         sleep="0"
 	    >
 
