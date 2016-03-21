@@ -18,5 +18,5 @@ if (test-path $serviceExe)
 if (test-path $websiteSetupScript)
 {
 	Write-Host "Uninstalling IIS site/app pool." -ForegroundColor Green
-	Invoke-Expression "$websiteSetupScript $websiteDir true"
+	Invoke-Expression "$websiteSetupScript -removeOnly true"
 }
