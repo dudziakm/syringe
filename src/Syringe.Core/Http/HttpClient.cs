@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using Syringe.Core.Http.Logging;
@@ -11,11 +12,8 @@ namespace Syringe.Core.Http
 {
 	public class HttpClient : IHttpClient
 	{
-		private readonly IHttpLogWriter _httpLogWriter;
 		private readonly IRestClient _restClient;
 		private readonly CookieContainer _cookieContainer;
-		private RequestDetails _lastRequest;
-		private ResponseDetails _lastResponse;
 
 		static HttpClient()
 		{
@@ -29,7 +27,7 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers)
+		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
@@ -59,14 +57,6 @@ namespace Syringe.Core.Http
 				}
 			}
 
-			_lastRequest = new RequestDetails()
-			{
-				Body = postBody,
-				Headers = headers,
-				Method = httpMethod,
-				Url = url
-			};
-
 			//
 			// Get the response back, parsing the headers
 			//
@@ -81,12 +71,24 @@ namespace Syringe.Core.Http
 												.ToList();
 			}
 
-			_lastResponse = new ResponseDetails()
+			// Logging
+			var requestDetails = new RequestDetails()
+			{
+				Body = postBody,
+				Headers = headers,
+				Method = httpMethod,
+				Url = url
+			};
+
+			var responseDetails = new ResponseDetails()
 			{
 				BodyResponse = response.Content,
 				Headers = keyvaluePairs,
 				Status = response.StatusCode
 			};
+
+			httpLogWriter.AppendRequest(requestDetails);
+			httpLogWriter.AppendResponse(responseDetails);
 
 			return new HttpResponse()
 			{

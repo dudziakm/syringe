@@ -1,29 +1,23 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Web;
 
 namespace Syringe.Core.Http.Logging
 {
-	public class HttpLogWriter : IHttpLogWriter, IDisposable
+	public class HttpLogWriter
 	{
 		private static readonly string REQUEST_LINE_FORMAT = "{0} {1} HTTP/1.1";
 		private static readonly string HEADER_FORMAT = "{0}: {1}";
 		private static readonly string RESPONSE_LINE_FORMAT = "HTTP/1.1 {0} {1}";
+		private readonly StringWriter _writer;
 
-		protected internal readonly TextWriter Writer;
-		protected internal string Seperator { get; set; }
+		public StringBuilder StringBuilder { get; set; }
 
-		public HttpLogWriter(TextWriter writer)
+		public HttpLogWriter()
 		{
-			Writer = writer;
-
-			// Webinject's default seperator
-			Seperator = "************************* LOG SEPARATOR *************************";
-		}
-
-		public virtual void AppendSeperator()
-		{
-			Writer.WriteLine(Seperator);
+			StringBuilder = new StringBuilder();
+			_writer = new StringWriter(StringBuilder);
 		}
 
 		public virtual void AppendRequest(RequestDetails requestDetails)
@@ -38,45 +32,40 @@ namespace Syringe.Core.Http.Logging
 				return;
 
 			Uri uri = new Uri(requestDetails.Url);
-			Writer.WriteLine(REQUEST_LINE_FORMAT, requestDetails.Method.ToUpper(), requestDetails.Url);
-			Writer.WriteLine(HEADER_FORMAT, "Host", uri.Host);
+			_writer.WriteLine(REQUEST_LINE_FORMAT, requestDetails.Method.ToUpper(), requestDetails.Url);
+			_writer.WriteLine(HEADER_FORMAT, "Host", uri.Host);
 
 			if (requestDetails.Headers != null)
 			{
 				foreach (var keyValuePair in requestDetails.Headers)
 				{
-					Writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
+					_writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
 				}
 			}
 
 			if (!string.IsNullOrEmpty(requestDetails.Body))
-				Writer.WriteLine(requestDetails.Body);
+				_writer.WriteLine(requestDetails.Body);
 
-			Writer.WriteLine();
+			_writer.WriteLine();
 		}
 
 		public virtual void AppendResponse(ResponseDetails responseDetails)
 		{
 			int statusCode = (int)responseDetails.Status;
-			Writer.WriteLine(RESPONSE_LINE_FORMAT, statusCode, HttpWorkerRequest.GetStatusDescription(statusCode));
+			_writer.WriteLine(RESPONSE_LINE_FORMAT, statusCode, HttpWorkerRequest.GetStatusDescription(statusCode));
 
 			if (responseDetails.Headers != null)
 			{
 				foreach (var keyValuePair in responseDetails.Headers)
 				{
-					Writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
+					_writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
 				}
 			}
 
-			Writer.WriteLine();
+			_writer.WriteLine();
 
 			if (!string.IsNullOrEmpty(responseDetails.BodyResponse))
-				Writer.WriteLine(responseDetails.BodyResponse);
-		}
-
-		public void Dispose()
-		{
-			Writer.Dispose();
+				_writer.WriteLine(responseDetails.BodyResponse);
 		}
 	}
 }

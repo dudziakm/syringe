@@ -30,10 +30,7 @@ namespace Syringe.Tests.Integration.Xml
 		public async Task should_parse_responses()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
 			var httpClient = new HttpClient(new RestClient());
-
 			var config = new Config();
 
 			string xml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
@@ -53,10 +50,7 @@ namespace Syringe.Tests.Integration.Xml
 		public async Task should_run_case()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var httpLogWriter = new HttpLogWriter(new StringWriter(stringBuilder));
 			var httpClient = new HttpClient(new RestClient());
-
 			var config = new Config();
 
 			string xml = TestHelpers.ReadEmbeddedFile("wikipedia-simple.xml", XmlExamplesFolder);
@@ -73,11 +67,7 @@ namespace Syringe.Tests.Integration.Xml
 		[Test]
 		public async Task should_post()
 		{
-			// Arrange
-			//_streamWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write));
-			var stringBuilder = new StringBuilder();
-			var stringWriter = new StringWriter(stringBuilder);
-			
+			// Arrange		
 			var config = new Config();
 			var httpClient = new HttpClient(new RestClient());
 

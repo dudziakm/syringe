@@ -11,32 +11,18 @@ namespace Syringe.Tests.Unit.Http
 {
 	public class HttpLogWriterTests
 	{
-		private HttpLogWriter GetHttpLogWriter(StringBuilder stringBuilder)
+		private HttpLogWriter GetHttpLogWriter()
 		{
-			var logWriter = new HttpLogWriter(new StringWriter(stringBuilder));
+			var logWriter = new HttpLogWriter();
 			return logWriter;
-		}
-
-		[Test]
-		public void WriteSeperator_should_write_seperator_to_textwriter()
-		{
-			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
-
-			// Act
-			logWriter.AppendSeperator();
-
-			// Assert
-			Assert.AreEqual(logWriter.Seperator + Environment.NewLine, stringBuilder.ToString());
 		}
 
 		[Test]
 		public void WriteRequest_should_ignore_null_method_parameter()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var requestDetails = new RequestDetails()
 			{
 				Method = null,
@@ -46,7 +32,7 @@ namespace Syringe.Tests.Unit.Http
 
 			// Act
 			logWriter.AppendRequest(requestDetails);
-			 
+
 			// Assert
 			Assert.AreEqual("", stringBuilder.ToString());
 		}
@@ -55,8 +41,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteRequest_should_ignore_null_url_parameter()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var requestDetails = new RequestDetails()
 			{
 				Method = "get",
@@ -75,8 +61,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteRequest_should_ignore_invalid_url_parameter()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var requestDetails = new RequestDetails()
 			{
 				Method = null,
@@ -95,8 +81,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteRequest_should_allow_null_for_headers()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var requestDetails = new RequestDetails()
 			{
 				Method = null,
@@ -115,8 +101,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteRequest_should_write_request_line_and_host_and_extra_newline_at_end()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var requestDetails = new RequestDetails()
 			{
 				Method = "post",
@@ -139,8 +125,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteRequest_should_append_headers_after_host()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var headers = new List<HeaderItem>()
 			{
 				new HeaderItem("Cookie", "aaa=bbb;loggedin=true"),
@@ -173,8 +159,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteResponse_should_write_status_code_and_status_description_and_empty_line()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var responseDetails = new ResponseDetails()
 			{
 				Status = HttpStatusCode.NotFound,
@@ -196,8 +182,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteResponse_should_append_headers_and_response_body_and_empty_line()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var headers = new List<KeyValuePair<string, string>>()
 			{
 				new KeyValuePair<string, string>("Server", "Apache"),
@@ -232,8 +218,8 @@ namespace Syringe.Tests.Unit.Http
 		public void WriteResponse_should_ignore_null_headers_and_empty_body()
 		{
 			// Arrange
-			var stringBuilder = new StringBuilder();
-			var logWriter = GetHttpLogWriter(stringBuilder);
+			var logWriter = GetHttpLogWriter();
+			var stringBuilder = logWriter.StringBuilder;
 			var responseDetails = new ResponseDetails()
 			{
 				Status = HttpStatusCode.OK,

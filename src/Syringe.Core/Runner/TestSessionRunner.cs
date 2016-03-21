@@ -64,20 +64,6 @@ namespace Syringe.Core.Runner
 			SessionId = Guid.NewGuid();
 		}
 
-		/// <summary>
-		/// Creates a new <see cref="TestSessionRunner"/> using the defaults.
-		/// </summary>
-		/// <returns></returns>
-		public static TestSessionRunner CreateNew(ITestCaseSessionRepository repository)
-		{
-			var config = new Config();
-			var logStringBuilder = new StringBuilder();
-			var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
-			var httpClient = new HttpClient(new RestClient());
-
-			return new TestSessionRunner(config, httpClient, repository);
-		}
-
 		private void NotifySubscribers(Action<IObserver<TestCaseResult>> observerAction)
 		{
 			IDictionary<Guid, TestSessionRunnerSubscriber> currentSubscribers;
@@ -235,9 +221,11 @@ namespace Syringe.Core.Runner
 				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testCase.Url);
 				testResult.ActualUrl = resolvedUrl;
 
-				HttpResponse response = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers);
+				var httpLogWriter = new HttpLogWriter();
+				HttpResponse response = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers, httpLogWriter);
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
+				testResult.Log = httpLogWriter.StringBuilder.ToString();
 
 				if (response.StatusCode == testCase.VerifyResponseCode)
 				{

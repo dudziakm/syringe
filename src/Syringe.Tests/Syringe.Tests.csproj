@@ -158,7 +158,6 @@
     <Compile Include="Unit\Runner\VerificationsMatcherTests.cs" />
     <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
-    <Compile Include="StubsMocks\HttpLogWriterMock.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />

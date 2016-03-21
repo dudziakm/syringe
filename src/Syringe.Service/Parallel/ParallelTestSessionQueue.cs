@@ -85,9 +85,8 @@ namespace Syringe.Service.Parallel
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 					caseCollection.Filename = xmlFilename;
+
 					var config = new Config();
-					var logStringBuilder = new StringBuilder();
-					var httpLogWriter = new HttpLogWriter(new StringWriter(logStringBuilder));
 					var httpClient = new HttpClient(new RestClient());
 
 					var runner = new TestSessionRunner(config, httpClient, _repository);

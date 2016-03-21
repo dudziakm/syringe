@@ -19,6 +19,7 @@ namespace Syringe.Core.Results
 		public bool ResponseCodeSuccess { get; set; }
 		public HttpResponse HttpResponse { get; set; }
 		public string ExceptionMessage { get; set; }
+		public string Log { get; set; }
 
 		public bool Success
 		{
