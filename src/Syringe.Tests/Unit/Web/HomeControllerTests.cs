@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Canary;
+using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Tests.StubsMocks;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
 
@@ -16,43 +18,34 @@ namespace Syringe.Tests.Unit.Web
     public class HomeControllerTests
     {
         private Mock<ICaseService> _casesClient;
-        private Mock<IUserContext> _userContext;
         private Mock<Func<IRunViewModel>> _runViewModelFactory;
-        private Mock<Func<ICanaryService>> _canaryClientFactory;
-        private HomeController homeController;
-        private Mock<ICanaryService> canaryClientService;
-        private Mock<IRunViewModel> runViewModelMockService;
+        private HomeController _homeController;
+	    private HealthCheckMock _mockHealthCheck;
+
         [SetUp]
         public void Setup()
         {
-            _casesClient = new Mock<ICaseService>();
-            _userContext = new Mock<IUserContext>();
+            var userContext = new Mock<IUserContext>();
+			_mockHealthCheck = new HealthCheckMock();
 
-            _canaryClientFactory = new Mock<Func<ICanaryService>>();
-            canaryClientService = new Mock<ICanaryService>();
-            canaryClientService.Setup(x => x.Check()).Returns(new CanaryResult { Success = true });
-            _canaryClientFactory.Setup(x => x()).Returns(canaryClientService.Object);
-
-
-            _runViewModelFactory = new Mock<Func<IRunViewModel>>();
-            runViewModelMockService = new Mock<IRunViewModel>();
+			var runViewModelMockService = new Mock<IRunViewModel>();
             runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
-            _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
+			_runViewModelFactory = new Mock<Func<IRunViewModel>>();
+			_runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
-            _casesClient.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
-
+			_casesClient = new Mock<ICaseService>();
+			_casesClient.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
             _casesClient.Setup(x => x.GetSummaries()).Returns(new List<SessionInfo>());
             _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<SessionInfo>());
 
-            homeController = new HomeController(_casesClient.Object, _userContext.Object, _runViewModelFactory.Object,
-                _canaryClientFactory.Object);
+            _homeController = new HomeController(_casesClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck);
         }
 
         [Test]
         public void AllResults_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = homeController.AllResults() as ViewResult;
+            var viewResult = _homeController.AllResults() as ViewResult;
 
             // then
             _casesClient.Verify(x => x.GetSummaries(), Times.Once);
@@ -64,7 +57,7 @@ namespace Syringe.Tests.Unit.Web
         public void TodaysResults_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = homeController.TodaysResults() as ViewResult;
+            var viewResult = _homeController.TodaysResults() as ViewResult;
 
             // then
             _casesClient.Verify(x => x.GetSummariesForToday(), Times.Once);
@@ -77,7 +70,7 @@ namespace Syringe.Tests.Unit.Web
         public void ViewResult_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = homeController.ViewResult(It.IsAny<Guid>()) as ViewResult;
+            var viewResult = _homeController.ViewResult(It.IsAny<Guid>()) as ViewResult;
 
             // then
             _casesClient.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
@@ -89,7 +82,7 @@ namespace Syringe.Tests.Unit.Web
         public async void DeleteResult_should_call_delete_methods_and_redirect_to_correct_action()
         {
             // given + when
-            var redirectToRouteResult = await homeController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
+            var redirectToRouteResult = await _homeController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
 
             // then
             _casesClient.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
@@ -101,7 +94,7 @@ namespace Syringe.Tests.Unit.Web
         public void Run_should_call_run_method_and_return_correct_model()
         {
             // given + when
-            var viewResult = homeController.Run(It.IsAny<string>()) as ViewResult;
+            var viewResult = _homeController.Run(It.IsAny<string>()) as ViewResult;
 
             // then
             _runViewModelFactory.Verify(x => x(), Times.Once);
@@ -110,33 +103,20 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void Index_should_throw_InvalidOperationException_if_service_is_null()
+        public void Index_should_throw_HealthCheckException_if_healthcheck_fails()
         {
-            // given + when
-            canaryClientService.Setup(x => x.Check()).Returns((CanaryResult)null);
+			// given
+	        _mockHealthCheck.ThrowsException = true;
 
-            // then
-            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:1981/");
-            _canaryClientFactory.Verify(x => x(), Times.Once);
-        }
-
-        [Test]
-        public void Index_should_throw_InvalidOperationException_if_service_is_not_running()
-        {
-            // given + when
-            canaryClientService.Setup(x => x.Check()).Returns(new CanaryResult { Success = false });
-
-            // then
-            Assert.Throws<InvalidOperationException>(() => homeController.Index(It.IsAny<int>(), It.IsAny<int>()), "Unable to connect to the REST api service.Is the service started ? Check it at http://localhost:1981/");
-            _canaryClientFactory.Verify(x => x(), Times.Once);
-
+			// when + then
+	        Assert.Throws<HealthCheckException>(() => _homeController.Index());
         }
 
         [Test]
         public void Index_should_call_run_method_and_return_correct_model()
         {
             // given + when
-            var viewResult = homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+            var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
             _casesClient.Verify(x => x.ListFilesForTeam(It.IsAny<string>()), Times.Once);

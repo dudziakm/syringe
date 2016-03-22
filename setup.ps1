@@ -8,9 +8,8 @@
 # 3. Copies an example test case XML file to that location
 # ===============================================================================
 $ErrorActionPreference = "Stop"
-$xmlDir     = "C:\syringe\teamname"
+$xmlDir     = "D:\syringe\teamname"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
-$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
@@ -21,7 +20,9 @@ Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
 
-# Install MongoDB, hack $env:sysdrive as the installer relies on it
+# Install MongoDB
+Write-Host "Installing MongoDB" -ForegroundColor Green
+$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
 $oldSysDrive = $env:systemdrive
 $env:systemdrive = $mongoDataDir
 choco install mongodb -y
@@ -32,11 +33,11 @@ Write-Host "Building solution." -ForegroundColor Green
 .\build\build.ps1 "Debug"
 
 # Setup IIS
-Write-Host "Creating IIS app pool and site." -ForegroundColor Green
-.\src\Syringe.Web\bin\iis.ps1 $websiteDir
+Write-Host "Running IIS install script." -ForegroundColor Green
+.\src\Syringe.Web\bin\iis.ps1 -websitePath "$websiteDir" -websitePort 1980
 
 # Create c:\syringe\teamname
-Write-Host "Create $xmlDir and copying example XML file" -ForegroundColor Green
+Write-Host "Creating $xmlDir and copying example XML file" -ForegroundColor Green
 md $xmlDir -ErrorAction Ignore
 
 # Copy a test file there
@@ -47,7 +48,6 @@ Write-Host ""
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Setup complete." -ForegroundColor Green
 Write-host "Now start the REST data service using tools\start-service.ps1" -ForegroundColor Cyan
-Write-host "Don't forget to start MongoDB too (if it's not a service) - tools\start-mongodb.ps1" -ForegroundColor Cyan
 Write-Host ""
 Write-host "- MVC site          : http://localhost:1980/"
 Write-Host "- REST api          : http://localhost:1981/swagger/"

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.Owin.Security;
-using Syringe.Core.Canary;
+using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
-using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -22,23 +18,23 @@ namespace Syringe.Web.Controllers
         private readonly ICaseService _casesClient;
         private readonly IUserContext _userContext;
         private readonly Func<IRunViewModel> _runViewModelFactory;
-        private readonly Func<ICanaryService> _canaryClientFactory;
+		private readonly IHealthCheck _healthCheck;
 
-        public HomeController(
+		public HomeController(
             ICaseService casesClient,
             IUserContext userContext,
             Func<IRunViewModel> runViewModelFactory,
-            Func<ICanaryService> canaryClientFactory)
+			IHealthCheck healthCheck)
         {
             _casesClient = casesClient;
             _userContext = userContext;
             _runViewModelFactory = runViewModelFactory;
-            _canaryClientFactory = canaryClientFactory;
+			_healthCheck = healthCheck;
         }
 
         public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
         {
-            CheckServiceIsRunning();
+            RunHealthChecks();
 
 			ViewBag.Title = "All test case files";
 
@@ -66,14 +62,11 @@ namespace Syringe.Web.Controllers
             return View("Run", runViewModel);
         }
 
-        private void CheckServiceIsRunning()
+        private void RunHealthChecks()
         {
-            var canaryCheck = _canaryClientFactory();
-            CanaryResult result = canaryCheck.Check();
-            if (result == null || result.Success == false)
-            {
-                throw new InvalidOperationException("Unable to connect to the REST api service. Is the service started? Check it at http://localhost:8086/");
-            }
+			_healthCheck.CheckWebConfiguration();
+			_healthCheck.CheckServiceConfiguration();
+			_healthCheck.CheckServiceSwaggerIsRunning();
         }
 
         public ActionResult AllResults()

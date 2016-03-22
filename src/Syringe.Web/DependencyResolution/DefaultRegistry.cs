@@ -44,8 +44,8 @@ namespace Syringe.Web.DependencyResolution
             For<IApplicationConfiguration>().Use<ApplicationConfig>();
             For<IUserContext>().Use<UserContext>();
             For<ICaseService>().Use<CasesClient>();
-            For<ICanaryService>().Use<CanaryClient>();
             For<ITasksService>().Use<TasksClient>();
+	        For<IHealthCheck>().Use<HealthCheck>();
         }
     }
 }
