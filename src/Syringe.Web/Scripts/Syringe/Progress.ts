@@ -41,11 +41,10 @@ module Syringe.Web {
                 $urlSelector.text(taskInfo.ActualUrl);
 
                 // Change background color
-                var resultClass = taskInfo.Success ? "panel-success" : "panel-warning";
+                var resultClass = taskInfo.Success ? "panel-success" : "panel-danger";
 
                 // Exceptions
                 if (taskInfo.ExceptionMessage !== null) {
-                    resultClass = "panel-danger";
                     $(".case-result-exception", $selector).removeClass("hidden");
                     $(".case-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
                     $("table tr.result-row", $selector).addClass("warning");

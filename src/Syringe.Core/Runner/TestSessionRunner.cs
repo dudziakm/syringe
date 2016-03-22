@@ -226,6 +226,7 @@ namespace Syringe.Core.Runner
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
 				testResult.Log = httpLogWriter.StringBuilder.ToString();
+				testResult.Content = response.Content;
 
 				if (response.StatusCode == testCase.VerifyResponseCode)
 				{

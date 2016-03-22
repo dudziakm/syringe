@@ -1,4 +1,7 @@
-﻿@model TestCaseSession
+﻿@using System.Text.RegularExpressions
+@using System.Web.UI.WebControls
+@using StructureMap.Diagnostics
+@model TestCaseSession
 @{
     ViewBag.Title = "Run";
 }
@@ -44,49 +47,67 @@
                                 <div class="panel-heading" role="tab" id="heading@(result.Id)">
                                     <h3 class="panel-title">
                                         <a role="button" data-toggle="collapse" href="#collapse@(result.Id)" aria-expanded="false" aria-controls="collapse@(result.Id)">
-                                            @result.TestCase.ShortDescription - @result.ResponseTime.MinutesAndSecondsFormat()
+                                            @result.TestCase.ShortDescription
                                         </a>
                                     </h3>
                                 </div>
                                 <div id="collapse@(result.Id)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Id)">
-                                    <div class="panel-body">
-                                        <p>@result.ActualUrl</p>
-                                        <p>Response Code Success: @result.ResponseCodeSuccess</p>
-                                        @if (!string.IsNullOrEmpty(result.Message))
-                                        {
-                                            <p>
-                                                Error Message: @result.Message
-                                            </p>
-                                        }
+	                                <div class="panel-body">
+		                                <ul>
+			                                <li><a href="@result.ActualUrl" target="_new">@result.ActualUrl</a></li>
+			                                <li>Took @result.ResponseTime.MinutesAndSecondsFormat()</li>
+			                                <li>Response Code Success: @result.ResponseCodeSuccess</li>
+		                                </ul>
 
-                                        @if (result.ResponseCodeSuccess)
-                                        {
-                                            result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
+		                                <p>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testCaseSessionId = Model.Id, resultId = result.Id})">View Log</a>
+			                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testCaseSessionId = Model.Id, resultId = result.Id})">View HTML</a>
+		                                </p>
 
-                                            <table class="table table-bordered table-striped">
-                                                <tr>
-                                                    <td>Verify Type</td>
-                                                    <td>Description</td>
-                                                    <td>Regex</td>
-                                                </tr>
+		                                @if (!string.IsNullOrEmpty(result.Message))
+		                                {
+			                                <p>
+												<strong>Error Message:</strong><br/>
+												@result.Message
+			                                </p>
+		                                }
 
-                                                @foreach (var item in result.VerifyNegativeResults)
-                                                {
-                                                    <tr class="@(item.Success ? "success" : "danger")">
-                                                        <td>
-                                                            @item.VerifyType.ToString()
-                                                        </td>
-                                                        <td>
-                                                            @item.Description
-                                                        </td>
-                                                        <td>
-                                                            @item.Regex
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </table>
-                                        }
-                                    </div>
+										@if (!string.IsNullOrEmpty(result.ExceptionMessage))
+										{
+											<p>
+												<strong>Exception in the test:</strong><br/>
+												@result.ExceptionMessage
+											</p>
+										}
+
+		                                @if (result.ResponseCodeSuccess)
+		                                {
+			                                result.VerifyNegativeResults.AddRange(result.VerifyPositiveResults);
+
+			                                <table class="table table-bordered table-striped">
+				                                <tr>
+					                                <td>Verify Type</td>
+					                                <td>Description</td>
+					                                <td>Regex</td>
+				                                </tr>
+
+				                                @foreach (var item in result.VerifyNegativeResults)
+				                                {
+					                                <tr class="@(item.Success ? "success" : "danger")">
+						                                <td>
+							                                @item.VerifyType.ToString()
+						                                </td>
+						                                <td>
+							                                @item.Description
+						                                </td>
+						                                <td>
+							                                @item.Regex
+						                                </td>
+					                                </tr>
+				                                }
+			                                </table>
+		                                }
+	                                </div>
                                 </div>
                             </div>
                         }

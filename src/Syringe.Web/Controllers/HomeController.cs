@@ -84,7 +84,7 @@ namespace Syringe.Web.Controllers
             return View("ViewResult", _casesClient.GetById(id));
         }
 
-        [HttpPost]
+		[HttpPost]
         public async Task<ActionResult> DeleteResult(Guid id)
         {
             TestCaseSession session = _casesClient.GetById(id);
@@ -92,5 +92,31 @@ namespace Syringe.Web.Controllers
 
             return RedirectToAction("AllResults");
         }
+
+		public ActionResult ViewHtml(Guid testCaseSessionId, Guid resultId)
+		{
+			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
+			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			if (result != null)
+			{
+				string html = result.Content;
+				string baseUrl = ResultsController.GetBaseUrl(result.ActualUrl);
+				html = ResultsController.AddUrlBase(baseUrl, html);
+
+				return Content(html);
+			}
+
+			return Content("TestCaseResult Id not found");
+		}
+
+		public ActionResult ViewLog(Guid testCaseSessionId, Guid resultId)
+		{
+			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
+			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			if (result != null)
+				return Content(result.Log, "text/plain");
+
+			return Content("TestCaseResult Id not found");
+		}
 	}
 }

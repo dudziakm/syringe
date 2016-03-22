@@ -39,27 +39,6 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        private static string GetBaseUrl(string url)
-        {
-            Uri result;
-            if (Uri.TryCreate(url, UriKind.Absolute, out result))
-            {
-                return string.Format(CultureInfo.InvariantCulture, "{0}://{1}/", result.Scheme, result.Host);
-            }
-
-            return url;
-        }
-
-        private string AddUrlBase(string baseUrl, string content)
-        {
-            // add base tag to href
-            var htmlUpdated = content.Replace("href=\"/", "href=\"" + baseUrl);
-            // add base tag to src 
-            htmlUpdated = htmlUpdated.Replace("src=\"/", "src=\"" + baseUrl);
-
-            return htmlUpdated;
-        }
-
         private TestCaseResult FindTestCaseResult(int taskId, Guid caseId)
         {
             TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
@@ -85,5 +64,27 @@ namespace Syringe.Web.Controllers
 
             return View(viewModel);
         }
-    }
+
+		// TODO: put these in their own place, some kind of HTML cleaner class.
+		public static string GetBaseUrl(string url)
+		{
+			Uri result;
+			if (Uri.TryCreate(url, UriKind.Absolute, out result))
+			{
+				return string.Format(CultureInfo.InvariantCulture, "{0}://{1}/", result.Scheme, result.Host);
+			}
+
+			return url;
+		}
+
+		public static string AddUrlBase(string baseUrl, string content)
+		{
+			// add base tag to href
+			var htmlUpdated = content.Replace("href=\"/", "href=\"" + baseUrl);
+			// add base tag to src 
+			htmlUpdated = htmlUpdated.Replace("src=\"/", "src=\"" + baseUrl);
+
+			return htmlUpdated;
+		}
+	}
 }

@@ -47,7 +47,6 @@ module Syringe.Web {
                         html += '			</div>';
                         html += '			<div class="case-result-errors">';
                         html += '				<div class="hidden case-result-exception"><h2 class="label label-danger">Error</h4><textarea></textarea></div>';
-                        html += '				<div class="hidden case-result-html"><textarea style="display:none"></textarea></span>';
                         html += '			</div>';
                         html += "		</div>";
                         html += "	</div>";
@@ -103,12 +102,11 @@ module Syringe.Web {
                             cssClass = "panel-success";
                         }
                         else if (item.Success === false) {
-                            cssClass = "panel-warning";
+                            cssClass = "panel-danger";
                         }
 
                         // Exceptions
                         if (item.ExceptionMessage !== null) {
-                            cssClass = "panel-danger";
                             $(selector + " .case-result-exception").removeClass("hidden");
                             $(selector + " .case-result-exception textarea").text(item.ExceptionMessage);
                         }
