@@ -36,7 +36,6 @@ namespace Syringe.Web.Models
         public string ShortDescription { get; set; }
 
         [Display(Name = "Long Description")]
-        [Required]
         public string LongDescription { get; set; }
         public List<ParseResponseItem> ParseResponses { get; set; }
         public List<VerificationItemModel> Verifications { get; set; }
