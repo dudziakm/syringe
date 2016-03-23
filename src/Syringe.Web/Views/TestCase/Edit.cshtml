@@ -93,17 +93,20 @@
 				</div>
 			</div>
 
-			<div class="panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Verifications</h3>
-					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVerification"></button>
-				</div>
-				<div class="panel-body">
-					@Html.EditorFor(x => x.Verifications)
-				</div>
-			</div>
-			<input type="submit" class="btn btn-primary"/>
-			<a href="@Url.Action("View", new {filename = Model.ParentFilename})" class="btn btn-primary">Cancel</a>
+		    <div class="panel panel-default">
+			    <div class="panel-heading clearfix">
+				    <h3 class="panel-title pull-left">Verifications</h3>
+				    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVerification"></button>
+			    </div>
+			    <div class="panel-body">
+				    @Html.EditorFor(x => x.Verifications)
+			    </div>
+		    </div>
+
+		    <div class="pull-right">
+				<a href="@Url.Action("View", new {filename = Model.ParentFilename})" class="btn btn-primary">Cancel</a>
+				<input type="submit" value="Save" class="btn btn-primary" />    
+		    </div>
 		</form>
 	</div>
 </div>

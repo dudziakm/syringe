@@ -103,6 +103,7 @@ interface VerificationItem {
     TransformedRegex : string;
     Success : boolean;
     VerifyType : Syringe.Core.TestCases.VerifyType;
+    Log : string;
 }
 } // end module
 

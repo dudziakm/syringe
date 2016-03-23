@@ -43,11 +43,15 @@
                         <td>
                             @using (Html.BeginForm("Delete", "TestCase"))
                             {
-                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})"><i class="mdi-image-edit"></i></a>
+	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, testCaseId = testCase.Id, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
+									<i class="material-icons">mode_edit</i>
+	                            </a>
 
                                 <input type="hidden" name="filename" value="@Model.Filename" />
-                                    <input type="hidden" name="testCaseId" value="@testCase.Id" />
-                                    <button class="btn btn-sm btn-danger" type="submit"><i class="mdi-action-delete"></i></button>
+                                <input type="hidden" name="testCaseId" value="@testCase.Id" />
+	                            <button class="btn btn-sm btn-danger" type="submit">
+									<i class="material-icons">delete</i>
+	                            </button>
                             }
                         </td>
                     </tr>
