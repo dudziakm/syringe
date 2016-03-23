@@ -1,44 +1,14 @@
 ﻿@model List<Syringe.Web.Models.Variables>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading">
-                    <h3 class="panel-title">
-                        <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
-                            Variables and Parsed Responses
-                        </a>
-                    </h3>
-                </div>
-                <div id="collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
-                    <div class="panel-body">
+<div class="alert alert-info">
+    <strong>Available Parsed Responses and Variables</strong>
 
-                        <table class="table table-bordered table-striped">
-                            <tr>
-                                <td>Name</td>
-                                <td>Value / Regex</td>
-                                <td>Type</td>
-                            </tr>
-
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        {@item.Name}
-                                    </td>
-                                    <td>
-                                        @item.Value
-                                    </td>
-                                    <td>
-                                        @item.Type
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    {@item.Name} - @item.Value
+                </li>
+            }
+    </ul>
 </div>
