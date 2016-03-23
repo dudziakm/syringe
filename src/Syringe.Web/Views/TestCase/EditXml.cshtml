@@ -9,6 +9,7 @@
 		right: 0;
 		bottom: 0;
 		left: 0;
+		display: none;
 	}
 </style>
 
@@ -35,4 +36,5 @@
 <script>
 	var editor = ace.edit("editor");
 	editor.getSession().setMode("ace/mode/xml");
+	document.getElementById("editor").style.display = "block";
 </script>
