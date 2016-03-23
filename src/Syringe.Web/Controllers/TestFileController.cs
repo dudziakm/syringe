@@ -83,5 +83,5 @@ namespace Syringe.Web.Controllers
         {
             return PartialView("EditorTemplates/VariableItem", new VariableItem());
         }
-    }
+	}
 }
