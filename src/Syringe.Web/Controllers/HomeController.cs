@@ -99,12 +99,22 @@ namespace Syringe.Web.Controllers
 			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 			{
-				string html = result.Content;
+				string html = result.HttpContent;
 				string baseUrl = ResultsController.GetBaseUrl(result.ActualUrl);
 				html = ResultsController.AddUrlBase(baseUrl, html);
 
 				return Content(html);
 			}
+
+			return Content("TestCaseResult Id not found");
+		}
+
+		public ActionResult ViewHttpLog(Guid testCaseSessionId, Guid resultId)
+		{
+			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
+			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			if (result != null)
+				return Content(result.HttpLog, "text/plain");
 
 			return Content("TestCaseResult Id not found");
 		}

@@ -134,6 +134,7 @@
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="FileOperations\FileHandler.cs" />
     <Compile Include="FileOperations\IFileHandler.cs" />
+    <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />
     <Compile Include="Repositories\MongoDB\TeamRepository.cs" />

@@ -225,8 +225,8 @@ namespace Syringe.Core.Runner
 				HttpResponse response = await _httpClient.ExecuteRequestAsync(testCase.Method, resolvedUrl, testCase.PostType, testCase.PostBody, testCase.Headers, httpLogWriter);
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
-				testResult.Log = httpLogWriter.StringBuilder.ToString();
-				testResult.Content = response.Content;
+				testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
+				testResult.HttpContent = response.Content;
 
 				if (response.StatusCode == testCase.VerifyResponseCode)
 				{
@@ -234,18 +234,58 @@ namespace Syringe.Core.Runner
 					string content = response.ToString();
 
 					// Put the parseresponse regex values in the current variable set
-					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content);
+					var logger = new SimpleLogger();
+					logger.WriteLine("");
+					logger.WriteLine("Parsing variables");
+					logger.WriteLine("--------------------------");
+					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content, logger);
 					variables.AddOrUpdateVariables(parsedVariables);
+					if (parsedVariables.Count == 0)
+					{
+						logger.WriteLine("(No variables to parse)");
+					}
 
 					// Verify positives
 					testResult.VerifyPositiveResults = verificationMatcher.MatchPositive(testCase.VerifyPositives, content);
+					logger.WriteLine("");
+					logger.WriteLine("Positive verifications");
+					logger.WriteLine("--------------------------");
+					if (testResult.VerifyPositiveResults.Count > 0)
+					{
+						foreach (VerificationItem item in testResult.VerifyPositiveResults)
+						{
+							logger.Write(item.Log);
+						}
+					}
+					else
+					{
+						logger.WriteLine("(No verify positives found)");
+					}
 
 					// Verify Negatives
 					testResult.VerifyNegativeResults = verificationMatcher.MatchNegative(testCase.VerifyNegatives, content);
+					logger.WriteLine("");
+					logger.WriteLine("Negative verifications");
+					logger.WriteLine("--------------------------");
+					if (testResult.VerifyNegativeResults.Count > 0)
+					{
+						foreach (VerificationItem item in testResult.VerifyNegativeResults)
+						{
+							logger.Write(item.Log);
+						}
+					}
+					else
+					{
+						logger.WriteLine("(No verify negatives found)");
+					}
+
+					// Store the log
+					testResult.Log = logger.GetLog();
 				}
 				else
 				{
 					testResult.ResponseCodeSuccess = false;
+					testResult.Log = "No verifications run - the response code did not match the expected response code.";
 				}
 
 				if (testResult.Success == false)
@@ -259,6 +299,7 @@ namespace Syringe.Core.Runner
 			}
 			catch (Exception ex)
 			{
+				testResult.Log = "An exception occured: " + ex;
 				testResult.ResponseCodeSuccess = false;
 				testResult.ExceptionMessage = ex.Message;
 			}

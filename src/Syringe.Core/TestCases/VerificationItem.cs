@@ -7,6 +7,7 @@ namespace Syringe.Core.TestCases
 		public string TransformedRegex { get; set; }
 		public bool Success { get; set; }
 		public VerifyType VerifyType { get; set; }
+		public string Log { get; set; }
 
 		public VerificationItem() : this("","", VerifyType.Positive)
 		{
