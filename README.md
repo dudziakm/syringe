@@ -8,6 +8,8 @@ Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant 
 
 *Note: this will configure Syringe on port 80. You should remove any site you have on Port 80, or pass in arguments to use a different port if you don't want to use 80.*
 
+    # Work around for a bug with the Chocolatey mongodb package
+    $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
     choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
     choco install syringe
 
