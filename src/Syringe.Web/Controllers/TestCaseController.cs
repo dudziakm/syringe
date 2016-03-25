@@ -122,7 +122,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult EditXml(string fileName)
 		{
-			var model = new TestCaseViewModel { ParentFilename = fileName, Id = Guid.NewGuid() };
+			var model = new TestFileViewModel { Filename = fileName, TestCaseXml = _casesClient.GetXmlTestCaseCollection(fileName,_userContext.TeamName)};
 			return View("EditXml", model);
 		}
 	}
