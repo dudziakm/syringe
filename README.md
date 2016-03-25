@@ -4,11 +4,11 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
-## Quickstart
-
-* Make sure you have IIS installed. 
+## Installation
 
 ### Pre-requisites
+
+Make sure you have IIS enabled. 
 
 ##### Chocolatey
 
@@ -22,17 +22,24 @@ Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant 
     $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
     choco install mongodb
 
-##### Install Syringe via myget
+##### Install Syringe via Chocolatey at myget 
 
 *Note: this will configure Syringe on port 80. You should remove any site you have on Port 80, or pass in arguments to use a different port if you don't want to use 80.*
 
     choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
     choco install syringe
 
-##### Configure OAuth and start the service
+##### Configure OAuth and 
+
+Syringe uses OAuth2 for its security. Currently it only supports Github, Google and Microsoft OAuth2 providers.
 
 * [Register an Syringe OAuth2 app in Github](https://github.com/settings/developers). The callback url should be http://localhost:1980
 * Edit the configuration.json file in the service directory to use the OAuth2 client id/secret.
+
+##### Start the service
+
+The Syringe REST API runs as Windows service, which can also be run as a command line app. This API is used to run all tests and is the data repository, it runs its own embedded HTTP server.
+
 * Run `.\start-service.ps1` 
 * Browse to http://localhost:1980 and login.
 
@@ -44,4 +51,4 @@ Once you've cloned the repository, run `setup.ps`, this will:
 * Create an IIS site
 * Create C:\syringe folder with an example file.
 
-Follow the "Configure OAuth" steps above
+Follow the "Configure OAuth" and "Start the service" steps above
