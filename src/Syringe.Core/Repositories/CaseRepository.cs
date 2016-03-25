@@ -186,6 +186,12 @@ namespace Syringe.Core.Repositories
             }
         }
 
+        public string GetXmlTestCaseCollection(string filename, string teamName)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(teamName, filename);
+            return _fileHandler.ReadAllText(fullPath);
+        }
+
         public IEnumerable<string> ListCasesForTeam(string teamName)
         {
             string fullPath = _fileHandler.GetTeamDirectoryFullPath(teamName);

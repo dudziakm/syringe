@@ -41,6 +41,12 @@ namespace Syringe.Service.Api
         {
             return _caseRepository.GetTestCaseCollection(filename, teamName);
         }
+        [Route("api/cases/GetXmlTestCaseCollection")]
+        [HttpGet]
+        public string GetXmlTestCaseCollection(string filename, string teamName)
+        {
+            return _caseRepository.GetXmlTestCaseCollection(filename, teamName);
+        }
 
         [Route("api/cases/EditTestCase")]
         [HttpPost]

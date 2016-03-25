@@ -11,6 +11,7 @@ namespace Syringe.Core.Services
 		IEnumerable<string> ListFilesForTeam(string teamName);
 		Case GetTestCase(string filename, string teamName, Guid caseId);
 		CaseCollection GetTestCaseCollection(string filename, string teamName);
+	    string GetXmlTestCaseCollection(string filename, string teamName);
         bool EditTestCase(Case testCase, string teamName);
 	    bool CreateTestCase(Case testCase, string teamName);
         bool DeleteTestCase(Guid testCaseId, string fileName, string teamName);

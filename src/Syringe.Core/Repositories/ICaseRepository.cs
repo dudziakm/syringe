@@ -14,5 +14,6 @@ namespace Syringe.Core.Repositories
         bool DeleteTestCase(Guid testCaseId, string fileName, string teamName);
         bool CreateTestFile(CaseCollection caseCollection, string teamName);
         bool UpdateTestFile(CaseCollection caseCollection, string teamName);
+        string GetXmlTestCaseCollection(string filename, string teamName);
     }
 }
