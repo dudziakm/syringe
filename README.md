@@ -12,6 +12,9 @@ Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant 
     $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
     choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
     choco install syringe
+    # Work around for bug in the mongodb Chocolately package
+    $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
+    choco install mongodb
 
 ## Getting started
 
