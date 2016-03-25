@@ -161,7 +161,6 @@
     <Compile Include="Configuration\ApplicationConfig.cs" />
     <Compile Include="TestCases\Configuration\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
-    <Compile Include="Security\Salt.cs" />
     <Compile Include="Schedule\ScheduledJob.cs" />
     <Compile Include="Security\Team.cs" />
     <Compile Include="Repositories\IScheduledJobRepository.cs" />
