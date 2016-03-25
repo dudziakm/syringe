@@ -205,3 +205,4 @@ _deploymentOutput/
 coverage.xml
 TestResult.xml
 TextTransform.exe
+src/Syringe.Web/Scripts/typings/Hubs.d.ts

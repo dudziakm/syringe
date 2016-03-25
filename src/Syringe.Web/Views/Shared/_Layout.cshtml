@@ -2,12 +2,14 @@
 @{
     var userContext = UserContext.GetFromFormsAuth(this.Context);
 }
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title - Syringe</title>
     <link href="~/Css/Syringe.css?v=@typeof(Startup).Assembly.GetName().Version" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <!-- Navigation -->
