@@ -41,15 +41,17 @@ namespace Syringe.Service.DependencyResolution
                 {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-                });
+				});
 
             For<IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>().Singleton();
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
 
-            For<SyringeApplication>().Use<SyringeApplication>().Singleton();
+            For<SyringeService>().Use<SyringeService>().Singleton();
 
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
-            For<IApplicationConfiguration>().Use<ApplicationConfig>();
+
+			For<IConfigurationStore>().Use(new JsonConfigurationStore()).Singleton();
+			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load());
 
             For<ITestCaseSessionRepository>().Use<TestCaseSessionRepository>().Singleton();
             For<ITestSessionQueue>().Use<ParallelTestSessionQueue>().Singleton();

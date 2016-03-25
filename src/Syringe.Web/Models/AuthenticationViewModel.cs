@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Syringe.Core.Configuration;
-using Syringe.Core.TestCases;
+﻿using Syringe.Core.Configuration;
 
 namespace Syringe.Web.Models
 {
     public class AuthenticationViewModel
     {
-        public ApplicationConfig Configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
         public string ReturnUrl { get; set; }
     }
 }

@@ -39,13 +39,14 @@ namespace Syringe.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-            For<IRunViewModel>().Use<RunViewModel>();
+	        string serviceUrl = new MvcConfiguration().ServiceUrl;
+
+			For<IRunViewModel>().Use<RunViewModel>();
             For<ITestCaseMapper>().Use<TestCaseMapper>();
-            For<IApplicationConfiguration>().Use<ApplicationConfig>();
             For<IUserContext>().Use<UserContext>();
-            For<ICaseService>().Use<CasesClient>();
-            For<ITasksService>().Use<TasksClient>();
-	        For<IHealthCheck>().Use<HealthCheck>();
+            For<ICaseService>().Use(() => new CasesClient(serviceUrl));
+            For<ITasksService>().Use(() => new TasksClient(serviceUrl));
+	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
         }
     }
 }

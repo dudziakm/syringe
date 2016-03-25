@@ -27,14 +27,14 @@ namespace Syringe.Service.Parallel
 	{
 		private int _lastTaskId;
 		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
-		private readonly IApplicationConfiguration _appConfig;
+		private readonly IConfiguration _configuration;
 		private readonly ITestCaseSessionRepository _repository;
 	    private readonly ITaskPublisher _taskPublisher;
 
-	    public ParallelTestSessionQueue(ITestCaseSessionRepository repository, ITaskPublisher taskPublisher)
+	    public ParallelTestSessionQueue(ITestCaseSessionRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
 		{
 			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
-			_appConfig = new ApplicationConfig();
+			_configuration = configuration;
 
 			_repository = repository;
 	        _taskPublisher = taskPublisher;
@@ -71,13 +71,12 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				// TODO: this run could be for a user run only, not the entire team (read the XML from their folder?)
 				string username = item.Username;
 				string teamName = item.TeamName;
 
 				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
 				string xmlFilename = item.Request.Filename;
-				string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, xmlFilename);
+				string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))

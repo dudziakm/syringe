@@ -64,7 +64,6 @@ namespace Syringe.Web.Controllers
 
         private void RunHealthChecks()
         {
-			_healthCheck.CheckWebConfiguration();
 			_healthCheck.CheckServiceConfiguration();
 			_healthCheck.CheckServiceSwaggerIsRunning();
         }

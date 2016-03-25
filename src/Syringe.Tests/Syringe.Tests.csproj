@@ -127,9 +127,7 @@
   <ItemGroup>
     <Compile Include="Integration\Repository\MongoDB\ScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
-    <Compile Include="Integration\Repository\MongoDB\TeamRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\MongoDB\UserRepositoryTests.cs" />
     <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />

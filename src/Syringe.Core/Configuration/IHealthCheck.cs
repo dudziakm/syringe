@@ -2,7 +2,6 @@
 {
 	public interface IHealthCheck
 	{
-		void CheckWebConfiguration();
 		void CheckServiceConfiguration();
 		void CheckServiceSwaggerIsRunning();
 	}

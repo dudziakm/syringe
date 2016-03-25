@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Owin;
 using Syringe.Web;
 using Owin.Security.Providers.GitHub;
+using Syringe.Client;
 using Syringe.Core.Configuration;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -41,37 +42,39 @@ namespace Syringe.Web
 			//
 			// OAuth2 Integrations
 			//
-			var config = new ApplicationConfig();
+			var mvcConfiguration = new MvcConfiguration();
+			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
+			IConfiguration config = configClient.GetConfiguration();
 
-		    if (!string.IsNullOrEmpty(config.GoogleAuthClientId) && !string.IsNullOrEmpty(config.GoogleAuthClientSecret))
+			if (!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientSecret))
 		    {
 		        // Console: https://console.developers.google.com/home/dashboard
 		        // Found under API and credentials.
 		        app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
 		        {
-		            ClientId = config.GoogleAuthClientId,
-		            ClientSecret = config.GoogleAuthClientSecret
+		            ClientId = config.OAuthConfiguration.GoogleAuthClientId,
+		            ClientSecret = config.OAuthConfiguration.GoogleAuthClientSecret
 		        });
 		    }
-		    if (!string.IsNullOrEmpty(config.MicrosoftAuthClientId) && !string.IsNullOrEmpty(config.MicrosoftAuthClientSecret))
+		    if (!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientSecret))
 		    {
 		        // Console: https://account.live.com/developers/applications/
 		        // Make sure he 'redirecturl' is set to 'http://localhost:1980/Authentication/Noop' (or the domain being used), to match the CallbackPath
 		        app.UseMicrosoftAccountAuthentication(new MicrosoftAccountAuthenticationOptions()
 		        {
-		            ClientId = config.MicrosoftAuthClientId,
-		            ClientSecret = config.MicrosoftAuthClientSecret,
+		            ClientId = config.OAuthConfiguration.MicrosoftAuthClientId,
+		            ClientSecret = config.OAuthConfiguration.MicrosoftAuthClientSecret,
 		            CallbackPath = new PathString("/Authentication/Noop")
 		        });
 		    }
-		    if (!string.IsNullOrEmpty(config.GithubAuthClientId) && !string.IsNullOrEmpty(config.GithubAuthClientSecret))
+		    if (!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientSecret))
 		    {
 		        // Console:  https://github.com/settings/developers
 		        // Set the callback url in the Github console to the same as the homepage url.
 		        app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
 		        {
-		            ClientId = config.GithubAuthClientId,
-		            ClientSecret = config.GithubAuthClientSecret
+		            ClientId = config.OAuthConfiguration.GithubAuthClientId,
+		            ClientSecret = config.OAuthConfiguration.GithubAuthClientSecret
 		        });
 		    }
 		}

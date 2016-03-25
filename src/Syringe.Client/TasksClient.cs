@@ -10,21 +10,16 @@ namespace Syringe.Client
 {
 	public class TasksClient : ITasksService
 	{
-		// Don't use the Restsharp JSON deserializer, it fails
-		private readonly string _baseUrl;
+		private readonly string _serviceUrl;
 
-		public TasksClient()
-			: this(new ApplicationConfig())
+		public TasksClient(string serviceUrl)
 		{
+			_serviceUrl = serviceUrl;
 		}
 
-		public TasksClient(IApplicationConfiguration appConfig)
-		{
-			_baseUrl = appConfig.ServiceUrl;
-		}
 		public int Start(TaskRequest item)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("start");
 			request.AddJsonBody(item);
 			request.Method = Method.POST;
@@ -50,10 +45,11 @@ namespace Syringe.Client
 
 		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("GetRunningTaskDetails");
 			request.AddParameter("taskId", taskId);
 
+			// Don't use the Restsharp JSON deserializer, it fails
 			IRestResponse response = client.Execute(request);
 			TaskDetails details = JsonConvert.DeserializeObject<TaskDetails>(response.Content);
 

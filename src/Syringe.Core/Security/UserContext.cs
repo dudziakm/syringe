@@ -8,9 +8,7 @@ namespace Syringe.Core.Security
 	public class UserContext : IUserContext
 	{
 		public string Id { get; set; }
-
 		public string FullName { get; set; }
-
 		public string TeamName => "teamname";
 
 		public static UserContext GetFromFormsAuth(HttpContextBase httpContext)

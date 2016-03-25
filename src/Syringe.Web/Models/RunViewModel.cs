@@ -13,11 +13,13 @@ namespace Syringe.Web.Models
         private readonly ICaseService _caseService;
         private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
 
-        public RunViewModel(ITasksService tasksService, ICaseService caseService, IApplicationConfiguration applicationConfiguration)
+        public RunViewModel(ITasksService tasksService, ICaseService caseService)
         {
             _tasksService = tasksService;
             _caseService = caseService;
-            SignalRUrl = applicationConfiguration.SignalRUrl;
+
+	        var mvcConfiguration = new MvcConfiguration();
+			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
         public void Run(IUserContext userContext, string fileName)

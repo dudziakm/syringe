@@ -19,15 +19,16 @@ namespace Syringe.Service
 
 			TopshelfExitCode exitCode = HostFactory.Run(host =>
 			{
-				host.Service<SyringeApplication>(service =>
+				host.Service<SyringeService>(service =>
 				{
-					service.ConstructUsing(() => container.GetInstance<SyringeApplication>());
+					service.ConstructUsing(() => container.GetInstance<SyringeService>());
 					service.WhenStarted(x => x.Start());
 					service.WhenStopped(x => x.Stop());
 				});
 
-				host.SetDescription("This super amazing host and runner of tests");
-				host.SetDisplayName("Syringe.Service");
+				host.SetServiceName("Syringe");
+				host.SetDisplayName("Syringe");
+				host.SetDescription("Syringe RESTful API service");
 				host.RunAsNetworkService();
 			});
 			return (int) exitCode;

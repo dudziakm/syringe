@@ -8,16 +8,16 @@ namespace Syringe.Core.FileOperations
 {
     public class FileHandler : IFileHandler
     {
-        private readonly IApplicationConfiguration _appConfig;
+        private readonly IConfiguration _configuration;
 
-        public FileHandler(IApplicationConfiguration appConfig)
+        public FileHandler(IConfiguration configuration)
         {
-            _appConfig = appConfig;
+            _configuration = configuration;
         }
 
         public string GetFileFullPath(string teamName, string fileName)
         {
-            string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
+            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName, fileName);
             if (!File.Exists(fullPath))
                 throw new FileNotFoundException("The test case path cannot be found", fileName);
 
@@ -26,7 +26,7 @@ namespace Syringe.Core.FileOperations
 
         public string CreateFileFullPath(string teamName, string fileName)
         {
-            return Path.Combine(_appConfig.TestCasesBaseDirectory, teamName, fileName);
+            return Path.Combine(_configuration.TestCasesBaseDirectory, teamName, fileName);
         }
 
         public bool FileExists(string filePath)
@@ -36,7 +36,7 @@ namespace Syringe.Core.FileOperations
 
         public string GetTeamDirectoryFullPath(string teamName)
         {
-            string fullPath = Path.Combine(_appConfig.TestCasesBaseDirectory, teamName);
+            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName);
             if (!Directory.Exists(fullPath))
                 throw new DirectoryNotFoundException("The team full path cannot be found");
 

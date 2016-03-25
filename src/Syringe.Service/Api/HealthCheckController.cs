@@ -7,9 +7,9 @@ namespace Syringe.Service.Api
 {
 	public class HealthCheckController : ApiController
 	{
-		private readonly IApplicationConfiguration _configuration;
+		private readonly IConfiguration _configuration;
 
-		public HealthCheckController(IApplicationConfiguration configuration)
+		public HealthCheckController(IConfiguration configuration)
 		{
 			_configuration = configuration;
 		}

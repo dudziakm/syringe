@@ -128,8 +128,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="Configuration\IConfigurationStore.cs" />
+    <Compile Include="Configuration\JsonConfiguration.cs" />
+    <Compile Include="Configuration\GitConfiguration.cs" />
     <Compile Include="Configuration\HealthCheck.cs" />
     <Compile Include="Configuration\IHealthCheck.cs" />
+    <Compile Include="Configuration\JsonConfigurationStore.cs" />
+    <Compile Include="Configuration\OAuthConfiguration.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="FileOperations\FileHandler.cs" />
@@ -137,9 +143,7 @@
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />
-    <Compile Include="Repositories\MongoDB\TeamRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestCaseSessionRepository.cs" />
-    <Compile Include="Repositories\MongoDB\UserRepository.cs" />
     <Compile Include="Repositories\MongoDB\Configuration.cs" />
     <Compile Include="Results\SessionInfo.cs" />
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
@@ -154,18 +158,16 @@
     <Compile Include="Security\Teamcity\Providers\ITeamcityMembershipProvider.cs" />
     <Compile Include="Security\Teamcity\Providers\TeamcityMembershipProvider.cs" />
     <Compile Include="Security\Teamcity\Providers\TeamcityUserRequest.cs" />
+    <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="TestCases\Configuration\ConfigReader.cs" />
     <Compile Include="TestCases\Configuration\IConfigReader.cs" />
-    <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="TestCases\Configuration\LogType.cs" />
-    <Compile Include="Configuration\ApplicationConfig.cs" />
     <Compile Include="TestCases\Configuration\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
     <Compile Include="Schedule\ScheduledJob.cs" />
     <Compile Include="Security\Team.cs" />
     <Compile Include="Repositories\IScheduledJobRepository.cs" />
     <Compile Include="Repositories\ITeamRepository.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Security\User.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ICaseService.cs" />

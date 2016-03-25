@@ -105,18 +105,20 @@ namespace Syringe.Web.DependencyResolution {
             return (CurrentNestedContainer ?? Container).GetAllInstances(serviceType).Cast<object>();
         }
 
-        protected override object DoGetInstance(Type serviceType, string key) {
-            IContainer container = (CurrentNestedContainer ?? Container);
+	    protected override object DoGetInstance(Type serviceType, string key)
+	    {
+		    IContainer container = (CurrentNestedContainer ?? Container);
 
-            if (string.IsNullOrEmpty(key)) {
-                return serviceType.IsAbstract || serviceType.IsInterface
-                    ? container.TryGetInstance(serviceType)
-                    : container.GetInstance(serviceType);
-            }
+		    if (string.IsNullOrEmpty(key))
+		    {
+			    return serviceType.IsAbstract || serviceType.IsInterface
+				    ? container.TryGetInstance(serviceType)
+				    : container.GetInstance(serviceType);
+		    }
 
-            return container.GetInstance(serviceType, key);
-        }
+		    return container.GetInstance(serviceType, key);
+	    }
 
-        #endregion
+	    #endregion
     }
 }

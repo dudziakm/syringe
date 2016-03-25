@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Security.OAuth2;
@@ -15,17 +16,26 @@ namespace Syringe.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-
         public ActionResult Login(string returnUrl)
         {
-            var applicationConfig = new AuthenticationViewModel();
-            applicationConfig.Configuration = new ApplicationConfig();
-            applicationConfig.ReturnUrl = returnUrl;
+            var model = new AuthenticationViewModel();
 
-            return View(applicationConfig);
+			IConfiguration config = GetConfig();
+	        model.Configuration = config;
+			model.ReturnUrl = returnUrl;
+
+            return View(model);
 		}
 
-		[HttpPost]
+	    private static IConfiguration GetConfig()
+	    {
+		    var mvcConfiguration = new MvcConfiguration();
+		    var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
+		    IConfiguration config = configClient.GetConfiguration();
+		    return config;
+	    }
+
+	    [HttpPost]
 		public ActionResult Login(string provider, string returnUrl)
 		{
 			// Request a redirect to the external login provider

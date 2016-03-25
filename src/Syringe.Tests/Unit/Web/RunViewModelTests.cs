@@ -7,6 +7,7 @@ using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
+using Syringe.Web;
 using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web
@@ -14,15 +15,11 @@ namespace Syringe.Tests.Unit.Web
 	[TestFixture]
 	public class RunViewModelTests
 	{
-		private static RunViewModel GivenARunViewModel(
-			ITasksService tasksService = null,
-			ICaseService caseService = null,
-            IApplicationConfiguration applicationConfiguration = null)
+		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ICaseService caseService = null)
 		{
 			return new RunViewModel(
 				tasksService ?? Mock.Of<ITasksService>(),
-				caseService ?? Mock.Of<ICaseService>(),
-                applicationConfiguration ?? Mock.Of<IApplicationConfiguration>());
+				caseService ?? Mock.Of<ICaseService>());
 		}
 
 		[TestFixture]

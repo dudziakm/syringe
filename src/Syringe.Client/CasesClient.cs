@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
-using Syringe.Core.Configuration;
 using Syringe.Core.Results;
 using Syringe.Core.Services;
 using Syringe.Core.TestCases;
@@ -13,16 +12,16 @@ namespace Syringe.Client
 {
 	public class CasesClient : ICaseService
 	{
-		private readonly string _baseUrl;
+		private readonly string _serviceUrl;
 
-		public CasesClient(IApplicationConfiguration appConfig)
+		public CasesClient(string serviceUrl)
 		{
-			_baseUrl = appConfig.ServiceUrl;
+			_serviceUrl = serviceUrl;
 		}
 
 		public IEnumerable<string> ListFilesForTeam(string teamName)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("ListForTeam");
 			request.AddParameter("teamName", teamName);
 
@@ -32,7 +31,7 @@ namespace Syringe.Client
 
 		public Case GetTestCase(string filename, string teamName, Guid caseId)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("GetTestCase");
 			request.AddParameter("filename", filename);
 			request.AddParameter("caseId", caseId);
@@ -44,7 +43,7 @@ namespace Syringe.Client
 
 		public CaseCollection GetTestCaseCollection(string filename, string teamName)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("GetTestCaseCollection");
 			request.AddParameter("filename", filename);
 			request.AddParameter("teamName", teamName);
@@ -56,7 +55,7 @@ namespace Syringe.Client
 
 	    public string GetXmlTestCaseCollection(string filename, string teamName)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetXmlTestCaseCollection");
             request.AddParameter("filename", filename);
             request.AddParameter("teamName", teamName);
@@ -68,7 +67,7 @@ namespace Syringe.Client
 
 	    public bool EditTestCase(Case testCase, string teamName)
 		{
-			var client = new RestClient(_baseUrl);
+			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("EditTestCase");
 			request.Method = Method.POST;
 			request.AddJsonBody(testCase);
@@ -80,7 +79,7 @@ namespace Syringe.Client
 
         public bool CreateTestCase(Case testCase, string teamName)
         {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("CreateTestCase");
             request.Method = Method.POST;
             request.AddJsonBody(testCase);
@@ -92,7 +91,7 @@ namespace Syringe.Client
 
 	    public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("DeleteTestCase");
             request.Method = Method.POST;
             request.AddQueryParameter("fileName", fileName);
@@ -105,7 +104,7 @@ namespace Syringe.Client
 
 	    public bool CreateTestFile(CaseCollection caseCollection, string teamName)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("CreateTestFile");
             request.Method = Method.POST;
             request.AddJsonBody(caseCollection);
@@ -118,7 +117,7 @@ namespace Syringe.Client
 
 	    public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("UpdateTestFile");
             request.Method = Method.POST;
             request.AddJsonBody(caseCollection);
@@ -130,7 +129,7 @@ namespace Syringe.Client
 
 	    public IEnumerable<SessionInfo> GetSummariesForToday()
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetSummariesForToday");
             request.Method = Method.GET;
             IRestResponse response = client.Execute(request);
@@ -139,7 +138,7 @@ namespace Syringe.Client
 
 	    public IEnumerable<SessionInfo> GetSummaries()
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetSummaries");
             request.Method = Method.GET;
             IRestResponse response = client.Execute(request);
@@ -148,7 +147,7 @@ namespace Syringe.Client
 
 	    public TestCaseSession GetById(Guid caseId)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetById");
             request.Method = Method.GET;
             request.AddQueryParameter("caseId", caseId.ToString());
@@ -158,7 +157,7 @@ namespace Syringe.Client
 
 	    public Task DeleteAsync(Guid sessionId)
 	    {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("DeleteAsync");
             request.Method = Method.POST;
             request.AddQueryParameter("sessionId", sessionId.ToString());
