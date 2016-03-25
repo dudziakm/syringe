@@ -33,7 +33,7 @@ Make sure you have IIS enabled.
 
 Syringe uses OAuth2 for its security. Currently it only supports Github, Google and Microsoft OAuth2 providers.
 
-* [Register an Syringe OAuth2 app in Github](https://github.com/settings/developers). The callback url should be http://localhost:1980
+* [Register an Syringe OAuth2 app in Github](https://github.com/settings/developers). The callback url should be `http://localhost:1980`
 * Edit the configuration.json file in the service directory to use the OAuth2 client id/secret.
 
 ##### Start the service
