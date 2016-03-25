@@ -195,5 +195,17 @@ namespace Syringe.Tests.Unit.Repositories
             _testCaseWriter.Verify(x => x.Write(It.IsAny<CaseCollection>()), Times.Once);
             _testCaseReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
         }
+
+        [Test]
+        public void GetTestCaseCollection_should_return_correct_xml()
+        {
+            // given + when
+            var xmlTestCaseCollection = _caseRepository.GetXmlTestCaseCollection("filePath.xml", It.IsAny<string>());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("<xml></xml>", xmlTestCaseCollection);
+        }
     }
 }

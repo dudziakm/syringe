@@ -97,6 +97,18 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void EditXml_should_return_correct_view_and_model()
+        {
+            // given + when
+            var viewResult = testCaseController.EditXml(It.IsAny<string>()) as ViewResult;
+
+            // then 
+            ICaseServiceMock.Verify(x => x.GetXmlTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("EditXml", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
+        }
+
+        [Test]
         public void Delete_should_return_correct_redirection_to_view()
         {
             // given + when

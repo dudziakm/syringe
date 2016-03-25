@@ -195,10 +195,7 @@ namespace Syringe.Core.Repositories
         public IEnumerable<string> ListCasesForTeam(string teamName)
         {
             string fullPath = _fileHandler.GetTeamDirectoryFullPath(teamName);
-
-            var fileNames = _fileHandler.GetFileNames(fullPath);
-
-            return fileNames;
+            return _fileHandler.GetFileNames(fullPath);
         }
     }
 }
