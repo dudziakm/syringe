@@ -208,6 +208,7 @@
     <Compile Include="Models\TestFileViewModel.cs" />
     <Compile Include="Models\VariableItem.cs" />
     <Compile Include="Models\Variables.cs" />
+    <Compile Include="Models\AuthenticationViewModel.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.svg" />

@@ -6,16 +6,23 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Security.OAuth2;
+using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-		public ActionResult Login(string returnUrl)
-		{
-			return View();
+
+        public ActionResult Login(string returnUrl)
+        {
+            var applicationConfig = new AuthenticationViewModel();
+            applicationConfig.Configuration = new ApplicationConfig();
+            applicationConfig.ReturnUrl = returnUrl;
+
+            return View(applicationConfig);
 		}
 
 		[HttpPost]

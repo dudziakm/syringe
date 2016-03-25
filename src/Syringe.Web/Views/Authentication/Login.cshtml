@@ -1,20 +1,30 @@
-﻿@model string
-
+﻿@model AuthenticationViewModel
 <div class="container">
-	<div class="row">
-		<h1>Login</h1>
-		@using (Html.BeginForm())
-		{
-			<input type="hidden" value="@Model"/>
-			<button type="submit" name="provider" value="Microsoft" class="btn-microsoft" style="height: 34px;">
-				<span class="fa fa-windows"></span> Sign in with Microsoft
-			</button>
-			<button type="submit" name="provider" value="Google" class="btn-google" style="height: 34px;">
-				<span class="fa fa-google"></span> Sign in with Google
-			</button>
-			<button type="submit" name="provider" value="GitHub" class="btn-github" style="height: 34px;">
-				<span class="fa fa-github"></span> Sign in with Github
-			</button>
-		}
-	</div>
+    <div class="row">
+        <h1>Login</h1>
+        @using (Html.BeginForm())
+        {
+            <input type="hidden" value="@Model.ReturnUrl" />
+
+            if (!string.IsNullOrEmpty(Model.Configuration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.MicrosoftAuthClientSecret))
+            {
+                <button type="submit" name="provider" value="Microsoft" class="btn-microsoft" style="height: 34px;">
+                    <span class="fa fa-windows"></span> Sign in with Microsoft
+                </button>
+            }
+            if (!string.IsNullOrEmpty(Model.Configuration.GoogleAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.GoogleAuthClientSecret))
+            {
+                <button type="submit" name="provider" value="Google" class="btn-google" style="height: 34px;">
+                    <span class="fa fa-google"></span> Sign in with Google
+                </button>
+            }
+
+            if (!string.IsNullOrEmpty(Model.Configuration.GithubAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.GithubAuthClientSecret))
+            {
+                <button type="submit" name="provider" value="GitHub" class="btn-github" style="height: 34px;">
+                    <span class="fa fa-github"></span> Sign in with Github
+                </button>
+            }
+        }
+    </div>
 </div>
