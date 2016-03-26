@@ -16,33 +16,33 @@ namespace Syringe.Tests.Unit.Web
     [TestFixture]
     public class ResultsControllerTests
     {
-        private Mock<ITasksService> tasksServiceMock;
-        private Mock<IUrlHelper> urlHelperMock;
-        private ResultsController resultsController;
-        private Guid Id;
+        private Mock<ITasksService> _tasksServiceMock;
+        private Mock<IUrlHelper> _urlHelperMock;
+        private ResultsController _resultsController;
+        private Guid _id;
 
         [SetUp]
         public void Setup()
         {
-            tasksServiceMock = new Mock<ITasksService>();
-            urlHelperMock = new Mock<IUrlHelper>();
+            _tasksServiceMock = new Mock<ITasksService>();
+            _urlHelperMock = new Mock<IUrlHelper>();
 
-            Id = Guid.NewGuid();
+            _id = Guid.NewGuid();
 
-            tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult> { new TestCaseResult { ActualUrl = "syringe.com", Id = Id } } }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult> { new TestCaseResult { ActualUrl = "syringe.com", Id = _id } } }));
 
 
-            resultsController = new ResultsController(tasksServiceMock.Object, urlHelperMock.Object);
+            _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object);
         }
 
         [Test]
         public void Html_should_return_404_not_found_if_case_doesnt_exist()
         {
             // given
-            tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
             
             // when
-            var actionResult = resultsController.Html(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
+            var actionResult = _resultsController.Html(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);
@@ -53,21 +53,21 @@ namespace Syringe.Tests.Unit.Web
         public void Html_should_return_correct_model()
         {
             // given + when
-            var actionResult = resultsController.Html(It.IsAny<int>(), Id) as ViewResult;
+            var actionResult = _resultsController.Html(It.IsAny<int>(), _id) as ViewResult;
 
             // then
             Assert.IsInstanceOf<ResultsViewModel>(actionResult.Model);
-            tasksServiceMock.Verify(x=>x.GetRunningTaskDetails(It.IsAny<int>()),Times.Once);
+            _tasksServiceMock.Verify(x=>x.GetRunningTaskDetails(It.IsAny<int>()),Times.Once);
         }
 
         [Test]
         public void Raw_should_return_404_not_found_if_case_doesnt_exist()
         {
             // given
-            tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
 
             // when
-            var actionResult = resultsController.Raw(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
+            var actionResult = _resultsController.Raw(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);
@@ -78,11 +78,11 @@ namespace Syringe.Tests.Unit.Web
         public void Raw_should_return_correct_model()
         {
             // given + when
-            var actionResult = resultsController.Raw(It.IsAny<int>(), Id) as ViewResult;
+            var actionResult = _resultsController.Raw(It.IsAny<int>(), _id) as ViewResult;
 
             // then
             Assert.IsInstanceOf<ResultsViewModel>(actionResult.Model);
-            tasksServiceMock.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
+            _tasksServiceMock.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
         }
     }
 }
