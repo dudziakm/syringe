@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Helpers;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -28,6 +29,8 @@ namespace Syringe.Tests.Unit.Web
             var userContext = new Mock<IUserContext>();
 			_mockHealthCheck = new HealthCheckMock();
 
+            var urlHelper = new Mock<IUrlHelper>();
+
 			var runViewModelMockService = new Mock<IRunViewModel>();
             runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
 			_runViewModelFactory = new Mock<Func<IRunViewModel>>();
@@ -38,7 +41,7 @@ namespace Syringe.Tests.Unit.Web
             _casesClient.Setup(x => x.GetSummaries()).Returns(new List<SessionInfo>());
             _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<SessionInfo>());
 
-            _homeController = new HomeController(_casesClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck);
+            _homeController = new HomeController(_casesClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object);
         }
 
         [Test]

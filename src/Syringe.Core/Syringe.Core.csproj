@@ -140,6 +140,8 @@
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="FileOperations\FileHandler.cs" />
     <Compile Include="FileOperations\IFileHandler.cs" />
+    <Compile Include="Helpers\IUrlHelper.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />

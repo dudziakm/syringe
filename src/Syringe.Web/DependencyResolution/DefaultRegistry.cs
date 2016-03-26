@@ -17,6 +17,7 @@
 
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Core.Helpers;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Web.ModelBuilders;
@@ -44,6 +45,7 @@ namespace Syringe.Web.DependencyResolution
 			For<IRunViewModel>().Use<RunViewModel>();
             For<ITestCaseMapper>().Use<TestCaseMapper>();
             For<IUserContext>().Use<UserContext>();
+            For<IUrlHelper>().Use<UrlHelper>();
             For<ICaseService>().Use(() => new CasesClient(serviceUrl));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
 	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));

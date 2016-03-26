@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
+using Syringe.Core.Helpers;
 using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -19,17 +20,20 @@ namespace Syringe.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly Func<IRunViewModel> _runViewModelFactory;
 		private readonly IHealthCheck _healthCheck;
+	    private readonly IUrlHelper _urlHelper;
 
-		public HomeController(
+	    public HomeController(
             ICaseService casesClient,
             IUserContext userContext,
             Func<IRunViewModel> runViewModelFactory,
-			IHealthCheck healthCheck)
+			IHealthCheck healthCheck, 
+            IUrlHelper urlHelper)
         {
             _casesClient = casesClient;
             _userContext = userContext;
             _runViewModelFactory = runViewModelFactory;
 			_healthCheck = healthCheck;
+	        _urlHelper = urlHelper;
         }
 
         public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
@@ -99,8 +103,8 @@ namespace Syringe.Web.Controllers
 			if (result != null)
 			{
 				string html = result.HttpContent;
-				string baseUrl = ResultsController.GetBaseUrl(result.ActualUrl);
-				html = ResultsController.AddUrlBase(baseUrl, html);
+				string baseUrl = _urlHelper.GetBaseUrl(result.ActualUrl);
+				html = _urlHelper.AddUrlBase(baseUrl, html);
 
 				return Content(html);
 			}

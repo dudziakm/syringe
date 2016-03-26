@@ -132,6 +132,7 @@
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\FileOperations\FIleHandlerTests.cs" />
+    <Compile Include="Unit\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestCaseMapperTests.cs" />
     <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
