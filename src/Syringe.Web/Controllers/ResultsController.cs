@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -47,7 +46,7 @@ namespace Syringe.Web.Controllers
         {
             TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
 
-            TestCaseResult taskCase = (from d in taskDetails.Results where d.TestCase.Id == caseId select d).FirstOrDefault();
+            TestCaseResult taskCase = taskDetails.Results.FirstOrDefault(x=>x.Id == caseId);
             return taskCase;
         }
 
@@ -69,26 +68,5 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-		// TODO: put these in their own place, some kind of HTML cleaner class.
-		public static string GetBaseUrl(string url)
-		{
-			Uri result;
-			if (Uri.TryCreate(url, UriKind.Absolute, out result))
-			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}://{1}/", result.Scheme, result.Host);
-			}
-
-			return url;
-		}
-
-		public static string AddUrlBase(string baseUrl, string content)
-		{
-			// add base tag to href
-			var htmlUpdated = content.Replace("href=\"/", "href=\"" + baseUrl);
-			// add base tag to src 
-			htmlUpdated = htmlUpdated.Replace("src=\"/", "src=\"" + baseUrl);
-
-			return htmlUpdated;
-		}
 	}
 }
