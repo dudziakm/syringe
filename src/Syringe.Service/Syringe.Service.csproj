@@ -165,9 +165,11 @@
     <Compile Include="Api\Hubs\TaskGroupProvider.cs" />
     <Compile Include="Api\Hubs\TaskMonitorHub.cs" />
     <Compile Include="Api\Hubs\TaskState.cs" />
+    <Compile Include="Api\IEnvironmentsService.cs" />
     <Compile Include="Api\TasksController.cs" />
     <Compile Include="Api\CasesController.cs" />
     <Compile Include="Api\HealthCheckController.cs" />
+    <Compile Include="Api\EnvironmentsController.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
@@ -189,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="environments.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

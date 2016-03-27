@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Syringe.Core.FileOperations;
+using Syringe.Core.IO;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;

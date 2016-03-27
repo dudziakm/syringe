@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.FileOperations;
+using Syringe.Core.IO;
 using Syringe.Core.Repositories;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;

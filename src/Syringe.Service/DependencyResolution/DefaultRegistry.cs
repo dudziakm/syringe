@@ -21,7 +21,8 @@ using Microsoft.AspNet.SignalR.Infrastructure;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;
-using Syringe.Core.FileOperations;
+using Syringe.Core.Environment;
+using Syringe.Core.IO;
 using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Xml.Reader;
@@ -64,6 +65,7 @@ namespace Syringe.Service.DependencyResolution
             For<ITestCaseWriter>().Use<TestCaseWriter>();
             For<IFileHandler>().Use<FileHandler>();
             For<ICaseRepository>().Use<CaseRepository>();
+	        For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
                 .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);

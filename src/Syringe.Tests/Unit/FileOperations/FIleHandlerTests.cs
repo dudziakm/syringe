@@ -4,7 +4,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
-using Syringe.Core.FileOperations;
+using Syringe.Core.IO;
 
 namespace Syringe.Tests.Unit.FileOperations
 {

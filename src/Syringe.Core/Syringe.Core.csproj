@@ -136,10 +136,13 @@
     <Compile Include="Configuration\IHealthCheck.cs" />
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
+    <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Environment\IEnvironmentProvider.cs" />
+    <Compile Include="Environment\JsonEnvironmentProvider.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
-    <Compile Include="FileOperations\FileHandler.cs" />
-    <Compile Include="FileOperations\IFileHandler.cs" />
+    <Compile Include="IO\FileHandler.cs" />
+    <Compile Include="IO\IFileHandler.cs" />
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Security\Teamcity\Providers\TeamcityMembershipProvider.cs" />
     <Compile Include="Security\Teamcity\Providers\TeamcityUserRequest.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
+    <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="TestCases\Configuration\ConfigReader.cs" />
     <Compile Include="TestCases\Configuration\IConfigReader.cs" />
     <Compile Include="TestCases\Configuration\LogType.cs" />
