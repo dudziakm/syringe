@@ -41,7 +41,7 @@ namespace Syringe.Web.ModelBuilders
 				ShortDescription = testCase.ShortDescription,
 				Url = testCase.Url,
 				Verifications = verifications,
-				ParentFilename = testCase.ParentFilename,
+				Filename = testCase.ParentFilename,
 				AvailableVariables = testCase.AvailableVariables.Select(x => new VariableModel { Name = x.Name, Type = x.Type, Value = x.Value }).ToList()
 			};
 
@@ -69,7 +69,7 @@ namespace Syringe.Web.ModelBuilders
 
 			return cases.Select(x => new TestCaseViewModel()
 			{
-				 Position = x.Position,
+				Position = x.Position,
 				ShortDescription = x.ShortDescription,
 				Url = x.Url
 			});
@@ -88,7 +88,7 @@ namespace Syringe.Web.ModelBuilders
 				ErrorMessage = testCase.ErrorMessage,
 				Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
 				LongDescription = testCase.LongDescription,
-				ParentFilename = testCase.ParentFilename,
+				ParentFilename = testCase.Filename,
 				ParseResponses = testCase.ParseResponses.Select(x => new ParseResponseItem(x.Description, x.Regex)).ToList(),
 				PostBody = testCase.PostBody,
 				VerifyPositives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Positive).Select(x => new VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),

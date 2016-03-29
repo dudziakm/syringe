@@ -25,6 +25,6 @@ namespace Syringe.Service.Parallel
 
 		public string Errors { get; set; }
 
-        public int  Position { get; set; }
+        public int?  Position { get; set; }
 	}
 }

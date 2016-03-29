@@ -81,7 +81,7 @@ namespace Syringe.Service.Parallel
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 
-				    if (item.Position != -1)
+				    if (item.Position.HasValue)
 				    {
 				        caseCollection.TestCases = caseCollection.TestCases.Where(x => x.Position == item.Position);
 				    }

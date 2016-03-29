@@ -39,7 +39,7 @@ namespace Syringe.Web.Models
                 Filename = fileName,
                 Username = userContext.FullName,
                 TeamName = userContext.TeamName,
-                 Position = index,
+                Position = index,
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);

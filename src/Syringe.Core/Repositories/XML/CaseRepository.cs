@@ -30,7 +30,7 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 CaseCollection collection = _testCaseReader.Read(stringReader);
-                Case testCase = collection.TestCases.FirstOrDefault(x => x.Position == index);
+                Case testCase = collection.TestCases.ToList()[index];
 
                 if (testCase == null)
                 {
@@ -58,14 +58,6 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 collection = _testCaseReader.Read(stringReader);
-
-                Case item = collection.TestCases.FirstOrDefault(x => x.Position == testCase.Position);
-
-                if (item != null)
-                {
-                    throw new Exception("case already exists");
-                }
-
                 collection.TestCases = collection.TestCases.Concat(new[] { testCase });
             }
 
@@ -90,7 +82,7 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.FirstOrDefault(x => x.Position == testCase.Position);
+                Case item = collection.TestCases.ToList()[testCase.Position];
 
                 item.Position = testCase.Position;
                 item.ShortDescription = testCase.ShortDescription;
@@ -125,14 +117,11 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case testCaseToDelete = collection.TestCases.FirstOrDefault(x => x.Position == index);
+                var tests = collection.TestCases.ToList();
 
-                if (testCaseToDelete == null)
-                {
-                    throw new NullReferenceException(string.Concat("could not find test case:", index));
-                }
+                tests.RemoveAt(index);
 
-                collection.TestCases = collection.TestCases.Where(x => x.Position != index);
+                collection.TestCases = tests;
             }
 
             string contents = _testCaseWriter.Write(collection);

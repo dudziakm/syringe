@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
             Assert.AreEqual(testCaseViewModel.Position, build.Position);
             Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
-            Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
+            Assert.AreEqual(testCaseViewModel.Filename, build.ParentFilename);
             Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
             Assert.AreEqual(testCaseViewModel.PostBody, build.PostBody);
             Assert.AreEqual(1, build.VerifyNegatives.Count);
@@ -132,7 +132,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCase.PostBody, testCaseViewModel.PostBody);
             Assert.AreEqual(PostType.GET, testCaseViewModel.PostType);
             Assert.AreEqual(testCase.VerifyResponseCode, testCaseViewModel.VerifyResponseCode);
-            Assert.AreEqual(testCase.ParentFilename, testCaseViewModel.ParentFilename);
+            Assert.AreEqual(testCase.ParentFilename, testCaseViewModel.Filename);
 
             Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
             Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
@@ -151,7 +151,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
                     Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
                      Position = 0,
                     LongDescription = "long description",
-                    ParentFilename = "Test.xml",
+                    Filename = "Test.xml",
                     ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
                     PostBody = "Post Body",
                     Verifications = new List<VerificationItemModel>() { new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative },

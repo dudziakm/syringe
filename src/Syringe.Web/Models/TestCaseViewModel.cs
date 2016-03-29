@@ -40,7 +40,7 @@ namespace Syringe.Web.Models
         public List<VerificationItemModel> Verifications { get; set; }
 
         [Required]
-        public string ParentFilename { get; set; }
+        public string Filename { get; set; }
 
         public List<VariableModel> AvailableVariables { get; set; }
 

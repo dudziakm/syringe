@@ -6,7 +6,7 @@ namespace Syringe.Core.TestCases
 {
 	public class Case
 	{
-		public int  Position { get; set; }
+		public int Position { get; set; }
 		public string ShortDescription { get; set; }
 		public string LongDescription { get; set; }
 		public string Method { get; set; }

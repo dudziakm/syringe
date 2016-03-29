@@ -44,7 +44,7 @@
                         <td>
                             @using (Html.BeginForm("Delete", "TestCase"))
                             {
-	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, index = testCase.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
+	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TestCase", new {filename = Model.Filename, position = testCase.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
 									<i class="material-icons">mode_edit</i>
 	                            </a>
 
@@ -56,7 +56,7 @@
                             }
                             @using (Html.BeginForm("RunTest", "Home"))
                             {
-                                <input type="hidden" name="testCaseId" value="@testCase.Position"/>
+                                <input type="hidden" name="position" value="@testCase.Position"/>
                                 <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@Model.Filename">
                                     <i class="material-icons">play_arrow</i>
                                 </button>
