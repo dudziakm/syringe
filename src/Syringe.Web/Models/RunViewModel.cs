@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -21,6 +22,28 @@ namespace Syringe.Web.Models
 	        var mvcConfiguration = new MvcConfiguration();
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
+
+        public void RunTest(IUserContext userContext, string fileName, Guid testCaseId)
+        {
+            FileName = fileName;
+
+            var testCase = _caseService.GetTestCase(fileName, userContext.TeamName, testCaseId);
+
+            var verifications = new List<VerificationItem>();
+            verifications.AddRange(testCase.VerifyNegatives);
+            verifications.AddRange(testCase.VerifyPositives);
+            _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Id, testCase.ShortDescription, verifications));
+
+            var taskRequest = new TaskRequest
+            {
+                Filename = fileName,
+                Username = userContext.FullName,
+                TeamName = userContext.TeamName,
+            };
+
+            CurrentTaskId = _tasksService.Start(taskRequest);
+        }
+
 
         public void Run(IUserContext userContext, string fileName)
         {

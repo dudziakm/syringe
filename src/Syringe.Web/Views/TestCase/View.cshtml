@@ -54,6 +54,13 @@
 									<i class="material-icons">delete</i>
 	                            </button>
                             }
+                            @using (Html.BeginForm("RunTest", "Home"))
+                            {
+                                <input type="hidden" name="testCaseId" value="@testCase.Id"/>
+                                <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@Model.Filename">
+                                    <i class="material-icons">play_arrow</i>
+                                </button>
+                            }
                         </td>
                     </tr>
                 }
