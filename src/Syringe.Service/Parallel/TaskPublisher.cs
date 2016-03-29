@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNet.SignalR.Hubs;
-using Syringe.Core.Results;
+using Syringe.Core.Tests.Results;
 using Syringe.Service.Api.Hubs;
 
 namespace Syringe.Service.Parallel
@@ -16,17 +16,17 @@ namespace Syringe.Service.Parallel
 			_hubConnectionContext = hubConnectionContext;
 		}
 
-		public void Start(int taskId, IObservable<TestCaseResult> resultSource)
+		public void Start(int taskId, IObservable<TestResult> resultSource)
 		{
 			var taskGroup = _taskGroupProvider.GetGroupForTask(taskId);
 			resultSource.Subscribe(result => OnTaskCompleted(taskGroup, result));
 		}
 
-		private void OnTaskCompleted(string taskGroup, TestCaseResult result)
+		private void OnTaskCompleted(string taskGroup, TestResult result)
 		{
 			var clientGroup = _hubConnectionContext.Group(taskGroup);
-		    var verifications = result.VerifyNegativeResults;
-            verifications.AddRange(result.VerifyPositiveResults);
+		    var verifications = result.NegativeAssertionResults;
+            verifications.AddRange(result.PositiveAssertionResults);
 
 			clientGroup.OnTaskCompleted(new CompletedTaskInfo
 			{
@@ -34,7 +34,7 @@ namespace Syringe.Service.Parallel
 				HttpResponse = result.HttpResponse,
 				Success = result.Success,
 				ResultId = result.Id,
-				CaseId = result.TestCase.Id,
+				CaseId = result.TestTest.Id,
 				ExceptionMessage = result.ExceptionMessage,
                 Verifications = verifications
             });

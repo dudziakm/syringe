@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
-using Syringe.Core.Results;
 using Syringe.Core.Services;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Client
 {
@@ -29,34 +29,34 @@ namespace Syringe.Client
 			return DeserializeOrThrow<IEnumerable<string>>(response);
 		}
 
-		public Case GetTestCase(string filename, string teamName, Guid caseId)
+		public Test GetTestCase(string filename, string teamName, Guid caseId)
 		{
 			var client = new RestClient(_serviceUrl);
-			IRestRequest request = CreateRequest("GetTestCase");
+			IRestRequest request = CreateRequest("GetTest");
 			request.AddParameter("filename", filename);
 			request.AddParameter("caseId", caseId);
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
-			return DeserializeOrThrow<Case>(response);
+			return DeserializeOrThrow<Test>(response);
 		}
 
-		public CaseCollection GetTestCaseCollection(string filename, string teamName)
+		public TestFile GetTestCaseCollection(string filename, string teamName)
 		{
 			var client = new RestClient(_serviceUrl);
-			IRestRequest request = CreateRequest("GetTestCaseCollection");
+			IRestRequest request = CreateRequest("GetTestFile");
 			request.AddParameter("filename", filename);
 			request.AddParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
 
-			return DeserializeOrThrow<CaseCollection>(response);
+			return DeserializeOrThrow<TestFile>(response);
 		}
 
 	    public string GetXmlTestCaseCollection(string filename, string teamName)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("GetXmlTestCaseCollection");
+            IRestRequest request = CreateRequest("GetXml");
             request.AddParameter("filename", filename);
             request.AddParameter("teamName", teamName);
 
@@ -65,24 +65,24 @@ namespace Syringe.Client
             return DeserializeOrThrow<string>(response);
         }
 
-	    public bool EditTestCase(Case testCase, string teamName)
+	    public bool EditTestCase(Test testTest, string teamName)
 		{
 			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("EditTestCase");
 			request.Method = Method.POST;
-			request.AddJsonBody(testCase);
+			request.AddJsonBody(testTest);
 			request.AddQueryParameter("teamName", teamName);
 
 			IRestResponse response = client.Execute(request);
 			return DeserializeOrThrow<bool>(response);
 		}
 
-        public bool CreateTestCase(Case testCase, string teamName)
+        public bool CreateTestCase(Test testTest, string teamName)
         {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("CreateTestCase");
+            IRestRequest request = CreateRequest("CreateTest");
             request.Method = Method.POST;
-            request.AddJsonBody(testCase);
+            request.AddJsonBody(testTest);
             request.AddQueryParameter("teamName", teamName);
 
             IRestResponse response = client.Execute(request);
@@ -92,7 +92,7 @@ namespace Syringe.Client
 	    public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("DeleteTestCase");
+            IRestRequest request = CreateRequest("DeleteTest");
             request.Method = Method.POST;
             request.AddQueryParameter("fileName", fileName);
             request.AddQueryParameter("teamName", teamName);
@@ -102,57 +102,57 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public bool CreateTestFile(CaseCollection caseCollection, string teamName)
+	    public bool CreateTestFile(TestFile testFile, string teamName)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("CreateTestFile");
             request.Method = Method.POST;
-            request.AddJsonBody(caseCollection);
-            request.AddQueryParameter("fileName", caseCollection.Filename);
+            request.AddJsonBody(testFile);
+            request.AddQueryParameter("fileName", testFile.Filename);
             request.AddQueryParameter("teamName", teamName);
 
             IRestResponse response = client.Execute(request);
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public bool UpdateTestFile(CaseCollection caseCollection, string teamName)
+	    public bool UpdateTestFile(TestFile testFile, string teamName)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("UpdateTestFile");
             request.Method = Method.POST;
-            request.AddJsonBody(caseCollection);
+            request.AddJsonBody(testFile);
             request.AddQueryParameter("teamName", teamName);
 
             IRestResponse response = client.Execute(request);
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public IEnumerable<SessionInfo> GetSummariesForToday()
+	    public IEnumerable<TestFileResultSummary> GetSummariesForToday()
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetSummariesForToday");
             request.Method = Method.GET;
             IRestResponse response = client.Execute(request);
-            return DeserializeOrThrow<IEnumerable<SessionInfo>>(response);
+            return DeserializeOrThrow<IEnumerable<TestFileResultSummary>>(response);
         }
 
-	    public IEnumerable<SessionInfo> GetSummaries()
+	    public IEnumerable<TestFileResultSummary> GetSummaries()
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetSummaries");
             request.Method = Method.GET;
             IRestResponse response = client.Execute(request);
-            return DeserializeOrThrow<IEnumerable<SessionInfo>>(response);
+            return DeserializeOrThrow<IEnumerable<TestFileResultSummary>>(response);
         }
 
-	    public TestCaseSession GetById(Guid caseId)
+	    public TestFileResult GetById(Guid caseId)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("GetById");
             request.Method = Method.GET;
             request.AddQueryParameter("caseId", caseId.ToString());
             IRestResponse response = client.Execute(request);
-            return DeserializeOrThrow<TestCaseSession>(response);
+            return DeserializeOrThrow<TestFileResult>(response);
         }
 
 	    public Task DeleteAsync(Guid sessionId)

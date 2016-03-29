@@ -3,7 +3,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
@@ -11,7 +11,7 @@ namespace Syringe.Web.Models
     {
         private readonly ITasksService _tasksService;
         private readonly ICaseService _caseService;
-        private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
+        private readonly List<RunningTestFileViewModel> _runningTestCases = new List<RunningTestFileViewModel>();
 
         public RunViewModel(ITasksService tasksService, ICaseService caseService)
         {
@@ -26,14 +26,14 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            CaseCollection caseCollection = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
+            TestFile testFile = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
 
-            foreach (var testCase in caseCollection.TestCases)
+            foreach (var testCase in testFile.Tests)
             {
-                var verifications = new List<VerificationItem>();
+                var verifications = new List<Assertion>();
                 verifications.AddRange(testCase.VerifyNegatives);
                 verifications.AddRange(testCase.VerifyPositives);
-                _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Id, testCase.ShortDescription, verifications));
+                _runningTestCases.Add(new RunningTestFileViewModel(testCase.Id, testCase.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest
@@ -46,7 +46,7 @@ namespace Syringe.Web.Models
             CurrentTaskId = _tasksService.Start(taskRequest);
         }
 
-        public IEnumerable<RunningTestCaseViewModel> TestCases
+        public IEnumerable<RunningTestFileViewModel> TestCases
         {
             get { return _runningTestCases; }
         }

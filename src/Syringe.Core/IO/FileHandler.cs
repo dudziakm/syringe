@@ -15,18 +15,18 @@ namespace Syringe.Core.IO
             _configuration = configuration;
         }
 
-        public string GetFileFullPath(string teamName, string fileName)
+        public string GetFileFullPath(string branchName, string fileName)
         {
-            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName, fileName);
+            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, branchName, fileName);
             if (!File.Exists(fullPath))
                 throw new FileNotFoundException("The test case path cannot be found", fileName);
 
             return fullPath;
         }
 
-        public string CreateFileFullPath(string teamName, string fileName)
+        public string CreateFileFullPath(string branchName, string fileName)
         {
-            return Path.Combine(_configuration.TestCasesBaseDirectory, teamName, fileName);
+            return Path.Combine(_configuration.TestCasesBaseDirectory, branchName, fileName);
         }
 
         public bool FileExists(string filePath)
@@ -34,9 +34,9 @@ namespace Syringe.Core.IO
             return File.Exists(filePath);
         }
 
-        public string GetTeamDirectoryFullPath(string teamName)
+        public string GetBranchDirectoryFullPath(string branchName)
         {
-            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName);
+            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, branchName);
             if (!Directory.Exists(fullPath))
                 throw new DirectoryNotFoundException("The team full path cannot be found");
 

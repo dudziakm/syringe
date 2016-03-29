@@ -7,8 +7,8 @@ using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Repositories;
-using Syringe.Core.Results;
 using Syringe.Core.Runner;
+using Syringe.Core.Tests.Results;
 using Syringe.Core.Xml.Reader;
 using Syringe.Tests.StubsMocks;
 using YamlDotNet.Serialization;
@@ -32,12 +32,12 @@ namespace Syringe.Tests.Integration.Xml
 
 			string xml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
-			var reader = new TestCaseReader();
+			var reader = new TestFileReader();
 			var caseCollection = reader.Read(stringReader);
-			var runner = new TestSessionRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository());
 
 			// Act
-			TestCaseSession result = await runner.RunAsync(caseCollection);
+			TestFileResult result = await runner.RunAsync(caseCollection);
 
 			// Assert
 			DumpAsYaml(result);
@@ -51,20 +51,20 @@ namespace Syringe.Tests.Integration.Xml
 
 			string xml = TestHelpers.ReadEmbeddedFile("roadkill-login.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
-			var reader = new TestCaseReader();
+			var reader = new TestFileReader();
 
-			var runner = new TestSessionRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository());
 			var caseCollection = reader.Read(stringReader);
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			DumpAsXml(session);
 			DumpAsYaml(session);
 		}
 
-		private static void DumpAsYaml(TestCaseSession session)
+		private static void DumpAsYaml(TestFileResult session)
 		{
 			// Messing around with YAML, that's the only reason for this (and it also looks nicer than XML)
 			var stringBuilder = new StringBuilder();
@@ -72,10 +72,10 @@ namespace Syringe.Tests.Integration.Xml
 			serializer.Serialize(new IndentedTextWriter(new StringWriter(stringBuilder)), session);
 		}
 
-		private static void DumpAsXml(TestCaseSession session)
+		private static void DumpAsXml(TestFileResult session)
 		{
 			var stringBuilder = new StringBuilder();
-			var serializer = new XmlSerializer(typeof (TestCaseSession));
+			var serializer = new XmlSerializer(typeof (TestFileResult));
 			serializer.Serialize(new StringWriter(stringBuilder), session);
 		}
 	}

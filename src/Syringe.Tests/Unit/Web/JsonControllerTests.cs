@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Services;
 using Syringe.Core.Security;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
 
 namespace Syringe.Tests.Unit.Web
@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Web
 
             _tasksClient.Setup(x => x.Start(It.IsAny<TaskRequest>())).Returns(10);
             _tasksClient.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns(new TaskDetails());
-            _casesClient.Setup(x => x.GetTestCaseCollection(It.IsAny<string>(),It.IsAny<string>())).Returns(new CaseCollection());
+            _casesClient.Setup(x => x.GetTestCaseCollection(It.IsAny<string>(),It.IsAny<string>())).Returns(new TestFile());
             jsonController = new JsonController(_tasksClient.Object, _casesClient.Object, _userContext.Object);
         }
 
@@ -48,7 +48,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _tasksClient.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"TeamName\":null,\"Status\":null,\"CurrentIndex\":0,\"TotalCases\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
+            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"TeamName\":null,\"Status\":null,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
         }
 
         [Test]

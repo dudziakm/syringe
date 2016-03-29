@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testcases repeat="0">
-	<case
+<tests repeat="0">
+	<test
 		id="00000000-0000-0000-0000-000000000000"
 		shortdescription=""
 		longdescription=""
@@ -17,7 +17,7 @@
 			<![CDATA[username=corey&password=welcome&myhtml=<body></body>]]>
 		</postbody>
 
-		<parseresponses />
-		<verifications />
-	</case>
-</testcases>
+		<capturedvariables />
+		<assertions />
+	</test>
+</tests>

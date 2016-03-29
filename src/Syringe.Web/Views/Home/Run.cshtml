@@ -31,7 +31,7 @@
 
                 <div id="running-items">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        @foreach (var testCase in Model.TestCases)
+                        @foreach (var testCase in Model.testTests)
                         {
                             <div class="panel" id="case-@testCase.Id">
                                 <div class="panel-heading" role="tab" id="heading@(testCase.Id)">
@@ -67,7 +67,7 @@
                                             {
                                                 <tr class="result-row">
                                                     <td>
-                                                        @item.VerifyType.ToString()
+                                                        @item.AssertionType.ToString()
                                                     </td>
                                                     <td>
                                                         @item.Description

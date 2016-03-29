@@ -6,7 +6,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Web;
 using Syringe.Web.Models;
 
@@ -32,7 +32,7 @@ namespace Syringe.Tests.Unit.Web
 				var caseService =
 					Mock.Of<ICaseService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<CaseCollection>());
+							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var viewModel = GivenARunViewModel(caseService: caseService);
 
@@ -49,13 +49,13 @@ namespace Syringe.Tests.Unit.Web
 			    Guid testCase1 = Guid.NewGuid();
 			    Guid testCase2 = Guid.NewGuid();
 				var cases =
-					Mock.Of<CaseCollection>(
+					Mock.Of<TestFile>(
 						c =>
-							c.TestCases ==
+							c.Tests ==
 							new[]
 							{
-								new Case {Id = testCase1, ShortDescription = "Desc1"},
-								new Case {Id = testCase2, ShortDescription = "Desc2"}
+								new Test {Id = testCase1, ShortDescription = "Desc1"},
+								new Test {Id = testCase2, ShortDescription = "Desc2"}
 							});
 
 				var caseService =
@@ -85,7 +85,7 @@ namespace Syringe.Tests.Unit.Web
 				var caseService =
 					Mock.Of<ICaseService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<CaseCollection>());
+							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var tasksService = new Mock<ITasksService>();
 
@@ -109,7 +109,7 @@ namespace Syringe.Tests.Unit.Web
 				var caseService =
 					Mock.Of<ICaseService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<CaseCollection>());
+							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var tasksService = Mock.Of<ITasksService>(s => s.Start(It.IsAny<TaskRequest>()) == taskId);
 

@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 
@@ -15,16 +15,16 @@ namespace Syringe.Web.Controllers
 	{
 		private readonly ICaseService _casesClient;
 		private readonly IUserContext _userContext;
-		private readonly ITestCaseMapper _testCaseMapper;
+		private readonly ITestFileMapper _testFileMapper;
 
 		public TestCaseController(
 			ICaseService casesClient,
 			IUserContext userContext,
-			ITestCaseMapper testCaseMapper)
+			ITestFileMapper testFileMapper)
 		{
 			_casesClient = casesClient;
 			_userContext = userContext;
-			_testCaseMapper = testCaseMapper;
+			_testFileMapper = testFileMapper;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -35,13 +35,13 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
 		{
-			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
-			var pagedTestCases = testCases.TestCases.GetPaged(noOfResults, pageNumber);
+			TestFile testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+			var pagedTestCases = testCases.Tests.GetPaged(noOfResults, pageNumber);
 
 			TestFileViewModel caseList = new TestFileViewModel
 			{
-				PageNumbers = testCases.TestCases.GetPageNumbersToShow(noOfResults),
-				TestCases = _testCaseMapper.BuildTestCases(pagedTestCases),
+				PageNumbers = testCases.Tests.GetPageNumbersToShow(noOfResults),
+				TestCases = _testFileMapper.BuildTestCases(pagedTestCases),
 				Filename = filename,
 				PageNumber = pageNumber,
 				NoOfResults = noOfResults
@@ -52,19 +52,19 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Edit(string filename, Guid testCaseId)
 		{
-			Case testCase = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
-			TestCaseViewModel model = _testCaseMapper.BuildViewModel(testCase);
+			Test testTest = _casesClient.GetTestCase(filename, _userContext.TeamName, testCaseId);
+			TestViewModel model = _testFileMapper.BuildViewModel(testTest);
 
 			return View("Edit", model);
 		}
 
 		[HttpPost]
-		public ActionResult Edit(TestCaseViewModel model)
+		public ActionResult Edit(TestViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				Case testCase = _testCaseMapper.BuildCoreModel(model);
-				_casesClient.EditTestCase(testCase, _userContext.TeamName);
+				Test testTest = _testFileMapper.BuildCoreModel(model);
+				_casesClient.EditTestCase(testTest, _userContext.TeamName);
 				return RedirectToAction("View", new { filename = model.ParentFilename });
 			}
 
@@ -73,17 +73,17 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Add(string filename)
 		{
-			var model = new TestCaseViewModel { ParentFilename = filename, Id = Guid.NewGuid() };
+			var model = new TestViewModel { ParentFilename = filename, Id = Guid.NewGuid() };
 			return View("Edit", model);
 		}
 
 		[HttpPost]
-		public ActionResult Add(TestCaseViewModel model)
+		public ActionResult Add(TestViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				Case testCase = _testCaseMapper.BuildCoreModel(model);
-				_casesClient.CreateTestCase(testCase, _userContext.TeamName);
+				Test testTest = _testFileMapper.BuildCoreModel(model);
+				_casesClient.CreateTestCase(testTest, _userContext.TeamName);
 				return RedirectToAction("View", new { filename = model.ParentFilename });
 			}
 
@@ -100,12 +100,12 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult AddVerification()
 		{
-			return PartialView("EditorTemplates/VerificationItemModel", new VerificationItemModel());
+			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
 		}
 
 		public ActionResult AddParseResponseItem()
 		{
-			return PartialView("EditorTemplates/ParseResponseItem", new Models.ParseResponseItem());
+			return PartialView("EditorTemplates/ParseResponseItem", new Models.CapturedVariableItem());
 		}
 
 		public ActionResult AddHeaderItem()

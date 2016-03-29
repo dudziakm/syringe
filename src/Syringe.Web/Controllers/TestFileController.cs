@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -31,7 +31,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var caseCollection = new CaseCollection
+                var caseCollection = new TestFile
                 {
                     Filename = model.Filename,
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
@@ -47,13 +47,13 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            CaseCollection testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
+            TestFile testTestFile = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
 
             TestFileViewModel model = new TestFileViewModel
             {
                 Filename = fileName,
                 Variables =
-                    testCaseCollection.Variables.Select(x => new TestFileVariableModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
+                    testTestFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
             };
 
             return View("Update", model);
@@ -64,7 +64,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var caseCollection = new CaseCollection
+                var caseCollection = new TestFile
                 {
                     Filename = model.Filename,
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
@@ -80,7 +80,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult AddVariableItem()
         {
-            return PartialView("EditorTemplates/TestFileVariableModel", new TestFileVariableModel());
+            return PartialView("EditorTemplates/VariableViewModel", new VariableViewModel());
         }
 	}
 }

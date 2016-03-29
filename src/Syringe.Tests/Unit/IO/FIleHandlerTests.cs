@@ -112,7 +112,7 @@ namespace Syringe.Tests.Unit.IO
             var teamName = "teamdoesnotexist";
 
             // when + then
-            Assert.Throws<DirectoryNotFoundException>(() => fileHandler.GetTeamDirectoryFullPath(teamName));
+            Assert.Throws<DirectoryNotFoundException>(() => fileHandler.GetBranchDirectoryFullPath(teamName));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace Syringe.Tests.Unit.IO
             var fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var directoryFullPath = fileHandler.GetTeamDirectoryFullPath(_teamName);
+            var directoryFullPath = fileHandler.GetBranchDirectoryFullPath(_teamName);
 
             // then
             Assert.AreEqual(_testTeamDirectory, directoryFullPath);

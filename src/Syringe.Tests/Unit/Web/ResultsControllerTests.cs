@@ -5,9 +5,9 @@ using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Helpers;
-using Syringe.Core.Results;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
+using Syringe.Core.Tests.Results;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
 
@@ -27,7 +27,7 @@ namespace Syringe.Tests.Unit.Web
             _tasksServiceMock = new Mock<ITasksService>();
             _urlHelperMock = new Mock<IUrlHelper>();
             _id = Guid.NewGuid();
-            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult> { new TestCaseResult { ActualUrl = "syringe.com", Id = _id } } }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Id = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object);
         }
 
@@ -35,7 +35,7 @@ namespace Syringe.Tests.Unit.Web
         public void Html_should_return_404_not_found_if_case_doesnt_exist()
         {
             // given
-            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
             
             // when
             var actionResult = _resultsController.Html(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
@@ -60,7 +60,7 @@ namespace Syringe.Tests.Unit.Web
         public void Raw_should_return_404_not_found_if_case_doesnt_exist()
         {
             // given
-            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestCaseResult>() }));
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
 
             // when
             var actionResult = _resultsController.Raw(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;

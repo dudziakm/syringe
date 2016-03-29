@@ -62,10 +62,10 @@ namespace Syringe.Service.DependencyResolution
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
 
-            For<ITestCaseReader>().Use<TestCaseReader>();
-            For<ITestCaseWriter>().Use<TestCaseWriter>();
+            For<ITestFileReader>().Use<TestFileReader>();
+            For<ITestFileWriter>().Use<TestFileWriter>();
             For<IFileHandler>().Use<FileHandler>();
-            For<ICaseRepository>().Use<CaseRepository>();
+            For<ITestRepository>().Use<TestRepository>();
 	        For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()

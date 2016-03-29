@@ -6,9 +6,9 @@ using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Helpers;
-using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Results;
 using Syringe.Tests.StubsMocks;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
@@ -37,9 +37,9 @@ namespace Syringe.Tests.Unit.Web
 			_runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
 			_casesClient = new Mock<ICaseService>();
-			_casesClient.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestCaseSession());
-            _casesClient.Setup(x => x.GetSummaries()).Returns(new List<SessionInfo>());
-            _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<SessionInfo>());
+			_casesClient.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(new TestFileResult());
+            _casesClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
+            _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
 
             _homeController = new HomeController(_casesClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object);
         }
@@ -53,7 +53,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _casesClient.Verify(x => x.GetSummaries(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<SessionInfo>>(viewResult.Model);
+            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _casesClient.Verify(x => x.GetSummariesForToday(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<SessionInfo>>(viewResult.Model);
+            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }
 
 
@@ -78,7 +78,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _casesClient.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("ViewResult", viewResult.ViewName);
-            Assert.IsInstanceOf<TestCaseSession>(viewResult.Model);
+            Assert.IsInstanceOf<TestFileResult>(viewResult.Model);
         }
 
         [Test]

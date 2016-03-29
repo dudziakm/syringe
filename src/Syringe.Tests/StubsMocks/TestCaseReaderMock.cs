@@ -1,16 +1,16 @@
 ﻿using System.IO;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Tests.StubsMocks
 {
-	public class TestCaseReaderMock : ITestCaseReader
+	public class TestFileReaderMock : ITestFileReader
 	{
-		public CaseCollection CaseCollection { get; set; }
+		public TestFile TestFile { get; set; }
 
-		public CaseCollection Read(TextReader textReader)
+		public TestFile Read(TextReader textReader)
 		{
-			return CaseCollection;
+			return TestFile;
 		}
 	}
 }

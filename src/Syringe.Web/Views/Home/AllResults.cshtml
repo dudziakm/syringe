@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SessionInfo>
+﻿@using Syringe.Core.Tests.Results
+@model IEnumerable<Syringe.Core.Tests.Results.TestFileResultSummary>
 @{
     ViewBag.Title = "Viewing Results";
 }
@@ -16,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (SessionInfo session in Model)
+                    @foreach (TestFileResultSummary session in Model)
                     {
                         <tr>
                             <td>@session.DateRun</td>

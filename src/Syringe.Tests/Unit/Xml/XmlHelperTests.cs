@@ -226,13 +226,13 @@ namespace Syringe.Tests.Unit.Xml
 		private string GetXmlWithAttributes()
 		{
 			return @"<?xml version=""1.0"" encoding=""utf-8""?>
-		            <testcases repeat=""1333"">
-							<case
+		            <tests repeat=""1333"">
+							<test
 								id=""2""
 								verifypositive=""verify this string exists""
 								verifynextpositive=""{TIMESTAMP}""
 							/>
-					</testcases>";
+					</tests>";
 		}
     }
 }

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Syringe.Core.Helpers;
-using Syringe.Core.Results;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
+using Syringe.Core.Tests.Results;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -42,12 +42,12 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        private TestCaseResult FindTestCaseResult(int taskId, Guid caseId)
+        private TestResult FindTestCaseResult(int taskId, Guid caseId)
         {
             TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
 
-            TestCaseResult taskCase = taskDetails.Results.FirstOrDefault(x=>x.Id == caseId);
-            return taskCase;
+            TestResult task = taskDetails.Results.FirstOrDefault(x=>x.Id == caseId);
+            return task;
         }
 
         public ActionResult Raw(int taskId, Guid caseId)

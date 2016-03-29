@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Repositories;
-using Syringe.Core.Results;
 using Syringe.Core.Services;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Service.Api
 {
     public class CasesController : ApiController, ICaseService
     {
-        private readonly ICaseRepository _caseRepository;
+        private readonly ITestRepository _testRepository;
         private readonly ITestCaseSessionRepository _testCaseSessionRepository;
 
-        public CasesController(ICaseRepository caseRepository, ITestCaseSessionRepository testCaseSessionRepository)
+        public CasesController(ITestRepository testRepository, ITestCaseSessionRepository testCaseSessionRepository)
         {
-            _caseRepository = caseRepository;
+            _testRepository = testRepository;
             _testCaseSessionRepository = testCaseSessionRepository;
         }
 
@@ -24,81 +24,81 @@ namespace Syringe.Service.Api
         [HttpGet]
         public IEnumerable<string> ListFilesForTeam(string teamName)
         {
-            return _caseRepository.ListCasesForTeam(teamName);
+            return _testRepository.ListFilesForBranch(teamName);
         }
 
-        [Route("api/cases/GetTestCase")]
+        [Route("api/cases/GetTest")]
         [HttpGet]
-        public Case GetTestCase(string filename, string teamName, Guid caseId)
+        public Test GetTestCase(string filename, string teamName, Guid caseId)
         {
-            return _caseRepository.GetTestCase(filename, teamName, caseId);
+            return _testRepository.GetTest(filename, teamName, caseId);
         }
 
-        [Route("api/cases/GetTestCaseCollection")]
+        [Route("api/cases/GetTestFile")]
         [HttpGet]
-        public CaseCollection GetTestCaseCollection(string filename, string teamName)
+        public TestFile GetTestCaseCollection(string filename, string teamName)
         {
-            return _caseRepository.GetTestCaseCollection(filename, teamName);
+            return _testRepository.GetTestFile(filename, teamName);
         }
-        [Route("api/cases/GetXmlTestCaseCollection")]
+        [Route("api/cases/GetXml")]
         [HttpGet]
         public string GetXmlTestCaseCollection(string filename, string teamName)
         {
-            return _caseRepository.GetXmlTestCaseCollection(filename, teamName);
+            return _testRepository.GetXml(filename, teamName);
         }
 
         [Route("api/cases/EditTestCase")]
         [HttpPost]
-        public bool EditTestCase([FromBody]Case testCase, [FromUri]string teamName)
+        public bool EditTestCase([FromBody]Test testTest, [FromUri]string teamName)
         {
-            return _caseRepository.SaveTestCase(testCase, teamName);
+            return _testRepository.SaveTest(testTest, teamName);
         }
 
-        [Route("api/cases/CreateTestCase")]
+        [Route("api/cases/CreateTest")]
         [HttpPost]
-        public bool CreateTestCase([FromBody]Case testCase, [FromUri]string teamName)
+        public bool CreateTestCase([FromBody]Test testTest, [FromUri]string teamName)
         {
-            return _caseRepository.CreateTestCase(testCase, teamName);
+            return _testRepository.CreateTest(testTest, teamName);
         }
 
-        [Route("api/cases/DeleteTestCase")]
+        [Route("api/cases/DeleteTest")]
         [HttpPost]
         public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
         {
-            return _caseRepository.DeleteTestCase(testCaseId, fileName, teamName);
+            return _testRepository.DeleteTest(testCaseId, fileName, teamName);
         }
 
         [Route("api/cases/CreateTestFile")]
         [HttpPost]
-        public bool CreateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
+        public bool CreateTestFile([FromBody]TestFile testFile, [FromUri]string teamName)
         {
-            return _caseRepository.CreateTestFile(caseCollection, teamName);
+            return _testRepository.CreateTestFile(testFile, teamName);
         }
 
         [Route("api/cases/UpdateTestFile")]
         [HttpPost]
-        public bool UpdateTestFile([FromBody]CaseCollection caseCollection, [FromUri]string teamName)
+        public bool UpdateTestFile([FromBody]TestFile testFile, [FromUri]string teamName)
         {
-            return _caseRepository.UpdateTestFile(caseCollection, teamName);
+            return _testRepository.UpdateTestFile(testFile, teamName);
         }
 
         [Route("api/cases/GetSummariesForToday")]
         [HttpGet]
-        public IEnumerable<SessionInfo> GetSummariesForToday()
+        public IEnumerable<TestFileResultSummary> GetSummariesForToday()
         {
             return _testCaseSessionRepository.GetSummariesForToday();
         }
 
         [Route("api/cases/GetSummaries")]
         [HttpGet]
-        public IEnumerable<SessionInfo> GetSummaries()
+        public IEnumerable<TestFileResultSummary> GetSummaries()
         {
             return _testCaseSessionRepository.GetSummaries();
         }
 
         [Route("api/cases/GetById")]
         [HttpGet]
-        public TestCaseSession GetById(Guid caseId)
+        public TestFileResult GetById(Guid caseId)
         {
             return _testCaseSessionRepository.GetById(caseId);
         }

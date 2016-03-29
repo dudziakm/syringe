@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Web.Controllers
 {
@@ -44,7 +44,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetCases(string filename)
 		{
-			CaseCollection testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+			TestFile testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
 			return Content(JsonConvert.SerializeObject(testCases), "application/json");
 		}
 	}

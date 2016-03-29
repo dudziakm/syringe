@@ -9,16 +9,16 @@ using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Repositories;
-using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Service.Parallel
 {
 	/// <summary>
-	/// A TPL based queue for running XML cases using the default <see cref="TestSessionRunner"/>
+	/// A TPL based queue for running XML cases using the default <see cref="TestFileRunner"/>
 	/// </summary>
 	internal class ParallelTestSessionQueue : ITestSessionQueue, ITaskObserver
 	{
@@ -78,15 +78,15 @@ namespace Syringe.Service.Parallel
 
 				using (var stringReader = new StringReader(xml))
 				{
-					var testCaseReader = new TestCaseReader();
-					CaseCollection caseCollection = testCaseReader.Read(stringReader);
-					caseCollection.Filename = xmlFilename;
+					var testCaseReader = new TestFileReader();
+					TestFile testFile = testCaseReader.Read(stringReader);
+					testFile.Filename = xmlFilename;
 
 					var httpClient = new HttpClient(new RestClient());
 
-					var runner = new TestSessionRunner(httpClient, _repository);
+					var runner = new TestFileRunner(httpClient, _repository);
 					item.Runner = runner;
-					await runner.RunAsync(caseCollection);
+					await runner.RunAsync(testFile);
 				}
 			}
 			catch (Exception e)
@@ -103,7 +103,7 @@ namespace Syringe.Service.Parallel
 		{
 			return _currentTasks.Values.Select(task =>
 			{
-				TestSessionRunner runner = task.Runner;
+				TestFileRunner runner = task.Runner;
 
 				return new TaskDetails()
 				{
@@ -111,8 +111,8 @@ namespace Syringe.Service.Parallel
 					Username = task.Username,
 					TeamName = task.TeamName,
 					Status = task.CurrentTask.Status.ToString(),
-					CurrentIndex = (runner != null) ? task.Runner.CasesRun : 0,
-					TotalCases = (runner != null) ? task.Runner.TotalCases : 0,
+					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
+					TotalCases = (runner != null) ? task.Runner.TotalTests : 0,
 				};
 			});
 		}
@@ -130,16 +130,16 @@ namespace Syringe.Service.Parallel
 				return null;
 			}
 
-			TestSessionRunner runner = task.Runner;
+			TestFileRunner runner = task.Runner;
 			return new TaskDetails()
 			{
 				TaskId = task.Id,
 				Username = task.Username,
 				TeamName = task.TeamName,
 				Status = task.CurrentTask.Status.ToString(),
-				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestCaseResult>(),
-				CurrentIndex = (runner != null) ? runner.CasesRun : 0,
-				TotalCases = (runner != null) ? runner.TotalCases : 0,
+				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
+				CurrentIndex = (runner != null) ? runner.TestsRun : 0,
+				TotalCases = (runner != null) ? runner.TotalTests : 0,
 				Errors = task.Errors
 			};
 		}
@@ -186,11 +186,11 @@ namespace Syringe.Service.Parallel
 				return null;
 			}
 
-			TestSessionRunner runner = task.Runner;
+			TestFileRunner runner = task.Runner;
 
 			_taskPublisher.Start(taskId, runner);
 
-			return new TaskMonitoringInfo(runner.TotalCases);
+			return new TaskMonitoringInfo(runner.TotalTests);
 		}
 	}
 }

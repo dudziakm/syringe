@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Helpers;
-using Syringe.Core.Results;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Results;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -90,7 +90,7 @@ namespace Syringe.Web.Controllers
 		[HttpPost]
         public async Task<ActionResult> DeleteResult(Guid id)
         {
-            TestCaseSession session = _casesClient.GetById(id);
+            TestFileResult session = _casesClient.GetById(id);
             await _casesClient.DeleteAsync(session.Id);
 
             return RedirectToAction("AllResults");
@@ -98,8 +98,8 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ViewHtml(Guid testCaseSessionId, Guid resultId)
 		{
-			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
-			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 			{
 				string html = result.HttpContent;
@@ -114,8 +114,8 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ViewHttpLog(Guid testCaseSessionId, Guid resultId)
 		{
-			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
-			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 				return Content(result.HttpLog, "text/plain");
 
@@ -124,8 +124,8 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ViewLog(Guid testCaseSessionId, Guid resultId)
 		{
-			TestCaseSession session = _casesClient.GetById(testCaseSessionId);
-			TestCaseResult result = session.TestCaseResults.FirstOrDefault(x => x.Id == resultId);
+			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 				return Content(result.Log, "text/plain");
 

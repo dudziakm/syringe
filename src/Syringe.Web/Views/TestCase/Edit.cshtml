@@ -1,4 +1,4 @@
-﻿@model TestCaseViewModel
+﻿@model TestViewModel
 @{
 	ViewBag.Title = "Editing " + Model.ParentFilename;
 }
@@ -6,7 +6,7 @@
 	<div class="row">
 
 	    <ul class="breadcrumb">
-	        <li><a title="View" href="/">Test cases</a></li>
+	        <li><a title="View" href="/">Test tests</a></li>
 	        <li><a title="View" href="@Url.Action("View", "TestCase", new {filename = Model.ParentFilename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.ParentFilename</a></li>
 	        <li>@(Model.ShortDescription ?? "Add")</li>
 	    </ul>
@@ -85,7 +85,7 @@
 					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addParsedItem"></button>
 				</div>
 				<div class="panel-body">
-					@Html.EditorFor(x => x.ParseResponses)
+					@Html.EditorFor(x => x.CapturedVariables)
 				</div>
 			</div>
 

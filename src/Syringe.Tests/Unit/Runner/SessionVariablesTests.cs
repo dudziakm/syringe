@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Syringe.Core.Runner;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Tests.Unit.Runner
 {
@@ -11,7 +11,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void AddOrUpdateVariable_should_set_variable()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 
 			// Act
 			sessionVariables.AddOrUpdateVariable("nano", "leaf");
@@ -24,7 +24,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void AddOrUpdateVariable_should_update_variable_when_already_set()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 
 			// Act
 			sessionVariables.AddOrUpdateVariable("nano", "leaf");
@@ -38,7 +38,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void AddOrUpdateVariables_should_set_variable()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -57,7 +57,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void AddOrUpdateVariables_should_update_variable_when_already_set()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -80,7 +80,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 			sessionVariables.AddOrUpdateVariable("nano", "leaf");
 			sessionVariables.AddOrUpdateVariable("two", "ten");
 
@@ -98,7 +98,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
 		{
 			// Arrange
-			var sessionVariables = new SessionVariables();
+			var sessionVariables = new CapturedVariableProvider();
 			sessionVariables.AddOrUpdateVariable("nano", "$var leaf");
 			sessionVariables.AddOrUpdateVariable("two", "(.*?) [a-z] ^perlmagic");
 
