@@ -30,7 +30,7 @@ namespace Syringe.Web.ModelBuilders
 
 			var model = new TestCaseViewModel
 			{
-				 Position = testCase. Position,
+				 Position = testCase.Position,
 				ErrorMessage = testCase.ErrorMessage,
 				Headers = headerList,
 				LongDescription = testCase.LongDescription,
@@ -69,7 +69,7 @@ namespace Syringe.Web.ModelBuilders
 
 			return cases.Select(x => new TestCaseViewModel()
 			{
-				 Position = x. Position,
+				 Position = x.Position,
 				ShortDescription = x.ShortDescription,
 				Url = x.Url
 			});
@@ -84,7 +84,7 @@ namespace Syringe.Web.ModelBuilders
 
 			return new Case
 			{
-				 Position = testCase. Position,
+				 Position = testCase.Position,
 				ErrorMessage = testCase.ErrorMessage,
 				Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
 				LongDescription = testCase.LongDescription,

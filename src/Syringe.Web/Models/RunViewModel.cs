@@ -32,7 +32,7 @@ namespace Syringe.Web.Models
             var verifications = new List<VerificationItem>();
             verifications.AddRange(testCase.VerifyNegatives);
             verifications.AddRange(testCase.VerifyPositives);
-            _runningTestCases.Add(new RunningTestCaseViewModel(testCase. Position, testCase.ShortDescription, verifications));
+            _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Position, testCase.ShortDescription, verifications));
 
             var taskRequest = new TaskRequest
             {
@@ -57,7 +57,7 @@ namespace Syringe.Web.Models
                 var verifications = new List<VerificationItem>();
                 verifications.AddRange(testCase.VerifyNegatives);
                 verifications.AddRange(testCase.VerifyPositives);
-                _runningTestCases.Add(new RunningTestCaseViewModel(testCase. Position, testCase.ShortDescription, verifications));
+                _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Position, testCase.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest

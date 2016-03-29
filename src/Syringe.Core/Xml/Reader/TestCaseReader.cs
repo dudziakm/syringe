@@ -37,7 +37,7 @@ namespace Syringe.Core.Xml.Reader
             {
                 XElement element = elements[i];
                 Case testCase = GetTestCase(element);
-                testCase. Position = i;
+                testCase.Position = i;
                 testCase.AvailableVariables = testCollection.Variables.Select(x => new AutomaticVariable { Name = x.Name, Value = x.Value, Type = "Variable" }).ToList();
                 testCase.AvailableVariables.AddRange(testCases.SelectMany(x => x.ParseResponses).Select(x => new AutomaticVariable { Name = x.Description, Type = "Parse Response", Value = x.Regex }));
                 testCases.Add(testCase);
@@ -83,7 +83,7 @@ namespace Syringe.Core.Xml.Reader
             // Required Properties
             testCase.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(testCase.Url))
-                throw new TestCaseException("The url parameter is missing for test case {0}", testCase. Position);
+                throw new TestCaseException("The url parameter is missing for test case {0}", testCase.Position);
 
             // Optionals
             testCase.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");

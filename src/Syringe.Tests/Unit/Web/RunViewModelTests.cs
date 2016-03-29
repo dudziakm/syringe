@@ -68,7 +68,7 @@ namespace Syringe.Tests.Unit.Web
 				viewModel.Run(Mock.Of<IUserContext>(c => c.TeamName == teamName), fileName);
 
 				Assert.That(viewModel.TestCases, Is.Not.Null);
-				Assert.That(viewModel.TestCases.Select(c => new { Id = c. Position, c.Description }), Is.EquivalentTo(new[]
+				Assert.That(viewModel.TestCases.Select(c => new { Id = c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
 					new { Id = testCase1, Description = "Desc1" },
 					new { Id = testCase2, Description = "Desc2" }

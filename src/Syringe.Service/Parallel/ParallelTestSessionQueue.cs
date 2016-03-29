@@ -51,7 +51,7 @@ namespace Syringe.Service.Parallel
 			taskInfo.StartTime = DateTime.UtcNow;
 			taskInfo.Username = item.Username;
 			taskInfo.TeamName = item.TeamName;
-			taskInfo. Position = item. Position;
+			taskInfo.Position = item.Position;
 
 		    Task childTask = StartSessionAsync(taskInfo);
 
@@ -81,9 +81,9 @@ namespace Syringe.Service.Parallel
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 
-				    if (item. Position != -1)
+				    if (item.Position != -1)
 				    {
-				        caseCollection.TestCases = caseCollection.TestCases.Where(x => x. Position == item. Position);
+				        caseCollection.TestCases = caseCollection.TestCases.Where(x => x.Position == item.Position);
 				    }
                     
 

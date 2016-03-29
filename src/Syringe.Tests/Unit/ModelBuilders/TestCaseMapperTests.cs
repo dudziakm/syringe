@@ -23,7 +23,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             Assert.AreEqual(testCaseViewModel.ErrorMessage, build.ErrorMessage);
             Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
-            Assert.AreEqual(testCaseViewModel. Position, build. Position);
+            Assert.AreEqual(testCaseViewModel.Position, build.Position);
             Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
             Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
             Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
@@ -84,12 +84,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(2, testCaseViewModels.Count());
 
             var firstCase = testCaseViewModels.First();
-            Assert.AreEqual(testCaseId, firstCase. Position);
+            Assert.AreEqual(testCaseId, firstCase.Position);
             Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
 
             var lastCase = testCaseViewModels.Last();
-            Assert.AreEqual(testCaseId2, lastCase. Position);
+            Assert.AreEqual(testCaseId2, lastCase.Position);
             Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
             Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
         }
@@ -124,7 +124,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             // then
             Assert.NotNull(testCaseViewModel);
-            Assert.AreEqual(testCase. Position, testCaseViewModel. Position);
+            Assert.AreEqual(testCase.Position, testCaseViewModel.Position);
             Assert.AreEqual(testCase.ShortDescription, testCaseViewModel.ShortDescription);
             Assert.AreEqual(testCase.Url, testCaseViewModel.Url);
             Assert.AreEqual(testCase.ErrorMessage, testCaseViewModel.ErrorMessage);

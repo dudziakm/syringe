@@ -30,7 +30,7 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 CaseCollection collection = _testCaseReader.Read(stringReader);
-                Case testCase = collection.TestCases.FirstOrDefault(x => x. Position == index);
+                Case testCase = collection.TestCases.FirstOrDefault(x => x.Position == index);
 
                 if (testCase == null)
                 {
@@ -59,7 +59,7 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.FirstOrDefault(x => x. Position == testCase. Position);
+                Case item = collection.TestCases.FirstOrDefault(x => x.Position == testCase.Position);
 
                 if (item != null)
                 {
@@ -90,9 +90,9 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.FirstOrDefault(x => x. Position == testCase. Position);
+                Case item = collection.TestCases.FirstOrDefault(x => x.Position == testCase.Position);
 
-                item. Position = testCase. Position;
+                item.Position = testCase.Position;
                 item.ShortDescription = testCase.ShortDescription;
                 item.ErrorMessage = testCase.ErrorMessage;
                 item.Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
@@ -125,14 +125,14 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case testCaseToDelete = collection.TestCases.FirstOrDefault(x => x. Position == index);
+                Case testCaseToDelete = collection.TestCases.FirstOrDefault(x => x.Position == index);
 
                 if (testCaseToDelete == null)
                 {
                     throw new NullReferenceException(string.Concat("could not find test case:", index));
                 }
 
-                collection.TestCases = collection.TestCases.Where(x => x. Position != index);
+                collection.TestCases = collection.TestCases.Where(x => x.Position != index);
             }
 
             string contents = _testCaseWriter.Write(collection);
