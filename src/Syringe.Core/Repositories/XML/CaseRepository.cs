@@ -30,7 +30,7 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 CaseCollection collection = _testCaseReader.Read(stringReader);
-                Case testCase = collection.TestCases.ToList()[index];
+                Case testCase = collection.TestCases.ElementAtOrDefault(index);
 
                 if (testCase == null)
                 {
@@ -82,7 +82,7 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.ToList()[testCase.Position];
+                Case item = collection.TestCases.ElementAt(testCase.Position);
 
                 item.Position = testCase.Position;
                 item.ShortDescription = testCase.ShortDescription;
