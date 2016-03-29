@@ -51,6 +51,7 @@ namespace Syringe.Service.Parallel
 			taskInfo.StartTime = DateTime.UtcNow;
 			taskInfo.Username = item.Username;
 			taskInfo.TeamName = item.TeamName;
+			taskInfo.TestId = item.TestId;
 
 		    Task childTask = StartSessionAsync(taskInfo);
 
@@ -80,6 +81,13 @@ namespace Syringe.Service.Parallel
 				{
 					var testCaseReader = new TestCaseReader();
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
+
+				    if (item.TestId != Guid.Empty)
+				    {
+				        caseCollection.TestCases = caseCollection.TestCases.Where(x => x.Id == item.TestId);
+				    }
+                    
+
 					caseCollection.Filename = xmlFilename;
 
 					var httpClient = new HttpClient(new RestClient());

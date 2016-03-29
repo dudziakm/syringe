@@ -1,9 +1,12 @@
-﻿namespace Syringe.Core.Tasks
+﻿using System;
+
+namespace Syringe.Core.Tasks
 {
 	public class TaskRequest
     {
 	    public string Filename { get; set; }
 	    public string Username { get; set; }
 		public string TeamName { get; set; }
+		public Guid TestId { get; set; }
     }
 }

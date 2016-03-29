@@ -39,6 +39,7 @@ namespace Syringe.Web.Models
                 Filename = fileName,
                 Username = userContext.FullName,
                 TeamName = userContext.TeamName,
+                TestId = testCaseId,
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);
