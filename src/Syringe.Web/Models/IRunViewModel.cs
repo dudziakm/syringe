@@ -7,7 +7,7 @@ namespace Syringe.Web.Models
 	public interface IRunViewModel
 	{
 		void Run(IUserContext userContext, string fileName);
-	    void RunTest(IUserContext userContext, string fileName, Guid testCaseId);
+	    void RunTest(IUserContext userContext, string fileName, int index);
 
         IEnumerable<RunningTestCaseViewModel> TestCases { get; }
 		int CurrentTaskId { get; }

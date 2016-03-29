@@ -44,14 +44,14 @@ namespace Syringe.Tests.Unit.Repositories
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection());
 
             // then
-            Assert.Throws<NullReferenceException>(() => _caseRepository.GetTestCase(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()));
+            Assert.Throws<NullReferenceException>(() => _caseRepository.GetTestCase(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
         }
 
         [Test]
         public void GetTestCase_should_set_parent_filename_when_testcase_is_found()
         {
             // given + when
-            var testCase = _caseRepository.GetTestCase("parentFileName", It.IsAny<string>(), It.IsAny<Guid>());
+            var testCase = _caseRepository.GetTestCase("parentFileName", It.IsAny<string>(), It.IsAny<int>());
 
             // then
             Assert.AreEqual("parentFileName", testCase.ParentFilename);
@@ -123,7 +123,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void DeleteTestCase_should_return_true_when_testCase_exists()
         {
             // given + when
-            var testCase = _caseRepository.DeleteTestCase(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>());
+            var testCase = _caseRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -139,7 +139,7 @@ namespace Syringe.Tests.Unit.Repositories
         {
             // given + when + then
             _testCaseReader.Setup(x=>x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection { TestCases = new List<Case>() });
-            Assert.Throws<NullReferenceException>(()=>_caseRepository.DeleteTestCase(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()));
+            Assert.Throws<NullReferenceException>(()=>_caseRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
         }
 
         [Test]

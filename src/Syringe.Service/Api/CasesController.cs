@@ -29,9 +29,9 @@ namespace Syringe.Service.Api
 
         [Route("api/cases/GetTestCase")]
         [HttpGet]
-        public Case GetTestCase(string filename, string teamName, Guid caseId)
+        public Case GetTestCase(string filename, string teamName, int index)
         {
-            return _caseRepository.GetTestCase(filename, teamName, caseId);
+            return _caseRepository.GetTestCase(filename, teamName, index);
         }
 
         [Route("api/cases/GetTestCaseCollection")]
@@ -63,9 +63,9 @@ namespace Syringe.Service.Api
 
         [Route("api/cases/DeleteTestCase")]
         [HttpPost]
-        public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
+        public bool DeleteTestCase(int index, string fileName, string teamName)
         {
-            return _caseRepository.DeleteTestCase(testCaseId, fileName, teamName);
+            return _caseRepository.DeleteTestCase(index, fileName, teamName);
         }
 
         [Route("api/cases/CreateTestFile")]

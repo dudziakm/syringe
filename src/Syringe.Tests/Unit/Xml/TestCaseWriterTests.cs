@@ -56,7 +56,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			var testCase = new Case()
 			{
-				Id = Guid.Empty,
+				 Position = 0,
 				ShortDescription = "short description",
 				LongDescription = "long description",
 				Url = "http://myserver",
@@ -81,7 +81,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("headers.xml", XmlExamplesFolder);
 
-			var testCase = new Case() { Id = Guid.Empty };
+			var testCase = new Case() {  Position = 0 };
 			testCase.AddHeader("key1", "value1");
 			testCase.AddHeader("key2", "some <marvellous> HTML &&&&.");
 
@@ -101,7 +101,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			var testCase = new Case() {Id = Guid.Empty};
+			var testCase = new Case() { Position = 0};
 			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
 			CaseCollection caseCollection = CreateCaseCollection(testCase);
 			TestCaseWriter xmlWriter = CreateTestCaseWriter();
@@ -119,7 +119,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
 
-			var testCase = new Case() { Id = Guid.Empty };
+			var testCase = new Case() {  Position = 0};
 			testCase.ParseResponses.Add(new ParseResponseItem("1", "here is (.*?) regex"));
 			testCase.ParseResponses.Add(new ParseResponseItem("2", "plain text"));
 			testCase.ParseResponses.Add(new ParseResponseItem("3", "This is encoded <test> &."));
@@ -140,7 +140,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("verifications.xml", XmlExamplesFolder);
 
-			var testCase = new Case() { Id = Guid.Empty };
+			var testCase = new Case() {  Position = 0 };
 			testCase.VerifyPositives.Add(new VerificationItem("p90-1", "regex1", VerifyType.Positive));
 			testCase.VerifyPositives.Add(new VerificationItem("p90-2", "regex2", VerifyType.Positive));
 			testCase.VerifyPositives.Add(new VerificationItem("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", VerifyType.Positive));
@@ -172,7 +172,7 @@ namespace Syringe.Tests.Unit.Xml
 			{
 				var testCase = new Case()
 				{
-					Id = Guid.Empty,
+					 Position = i,
 					ShortDescription = "short description" +i,
 					LongDescription = "long description",
 					Url = "http://myserver",

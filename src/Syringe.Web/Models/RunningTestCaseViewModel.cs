@@ -6,14 +6,14 @@ namespace Syringe.Web.Models
 {
     public class RunningTestCaseViewModel
     {
-        public RunningTestCaseViewModel(Guid id, string description, List<VerificationItem> verificationItems )
+        public RunningTestCaseViewModel(int index, string description, List<VerificationItem> verificationItems)
         {
-            Id = id;
+             Position = index;
             Description = description;
             VerificationItems = verificationItems;
         }
 
-        public Guid Id { get; private set; }
+        public int  Position { get; private set; }
         public string Description { get; private set; }
         public List<VerificationItem> VerificationItems {get; set; } 
     }

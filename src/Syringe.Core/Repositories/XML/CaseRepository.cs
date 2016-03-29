@@ -22,7 +22,7 @@ namespace Syringe.Core.Repositories.XML
             _fileHandler = fileHandler;
         }
 
-        public Case GetTestCase(string filename, string teamName, Guid caseId)
+        public Case GetTestCase(string filename, string teamName, int index)
         {
             string fullPath = _fileHandler.GetFileFullPath(teamName, filename);
             string xml = _fileHandler.ReadAllText(fullPath);
@@ -30,11 +30,11 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 CaseCollection collection = _testCaseReader.Read(stringReader);
-                Case testCase = collection.TestCases.FirstOrDefault(x => x.Id == caseId);
+                Case testCase = collection.TestCases.FirstOrDefault(x => x. Position == index);
 
                 if (testCase == null)
                 {
-                    throw new NullReferenceException("Could not find specified Test Case:" + caseId);
+                    throw new NullReferenceException("Could not find specified Test Case:" + index);
                 }
 
                 testCase.ParentFilename = filename;
@@ -59,7 +59,7 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
+                Case item = collection.TestCases.FirstOrDefault(x => x. Position == testCase. Position);
 
                 if (item != null)
                 {
@@ -90,9 +90,9 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case item = collection.TestCases.FirstOrDefault(x => x.Id == testCase.Id);
+                Case item = collection.TestCases.FirstOrDefault(x => x. Position == testCase. Position);
 
-                item.Id = testCase.Id;
+                item. Position = testCase. Position;
                 item.ShortDescription = testCase.ShortDescription;
                 item.ErrorMessage = testCase.ErrorMessage;
                 item.Headers = testCase.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
@@ -114,7 +114,7 @@ namespace Syringe.Core.Repositories.XML
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool DeleteTestCase(Guid testCaseId, string fileName, string teamName)
+        public bool DeleteTestCase(int index, string fileName, string teamName)
         {
             string fullPath = _fileHandler.GetFileFullPath(teamName, fileName);
             string xml = _fileHandler.ReadAllText(fullPath);
@@ -125,14 +125,14 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testCaseReader.Read(stringReader);
 
-                Case testCaseToDelete = collection.TestCases.FirstOrDefault(x => x.Id == testCaseId);
+                Case testCaseToDelete = collection.TestCases.FirstOrDefault(x => x. Position == index);
 
                 if (testCaseToDelete == null)
                 {
-                    throw new NullReferenceException(string.Concat("could not find test case:", testCaseId));
+                    throw new NullReferenceException(string.Concat("could not find test case:", index));
                 }
 
-                collection.TestCases = collection.TestCases.Where(x => x.Id != testCaseId);
+                collection.TestCases = collection.TestCases.Where(x => x. Position != index);
             }
 
             string contents = _testCaseWriter.Write(collection);

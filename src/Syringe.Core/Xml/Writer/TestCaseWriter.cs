@@ -71,7 +71,6 @@ namespace Syringe.Core.Xml.Writer
         {
             XElement element = new XElement("case");
 
-            element.Add(new XAttribute("id", testCase.Id));
             element.Add(new XAttribute("shortdescription", testCase.ShortDescription ?? ""));
             element.Add(new XAttribute("longdescription", testCase.LongDescription ?? ""));
             element.Add(new XAttribute("url", testCase.Url ?? ""));

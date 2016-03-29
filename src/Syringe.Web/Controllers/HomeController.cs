@@ -36,7 +36,7 @@ namespace Syringe.Web.Controllers
 	        _urlHelper = urlHelper;
         }
 
-        public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
+        public ActionResult  Position(int pageNumber = 1, int noOfResults = 10)
         {
             RunHealthChecks();
 
@@ -53,7 +53,7 @@ namespace Syringe.Web.Controllers
                 Files = files.GetPaged(noOfResults, pageNumber)
             };
 
-            return View("Index", model);
+            return View(" Position", model);
         }
 
         [HttpPost]
@@ -68,12 +68,12 @@ namespace Syringe.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult RunTest(string filename, Guid testCaseId)
+        public ActionResult RunTest(string filename, int index)
         {
             UserContext context = UserContext.GetFromFormsAuth(HttpContext);
 
             var runViewModel = _runViewModelFactory();
-            runViewModel.RunTest(context, filename,testCaseId);
+            runViewModel.RunTest(context, filename, index);
             return View("Run", runViewModel);
         }
 
