@@ -9,7 +9,7 @@
 
 body {
     background-color: rgb(239,239,239);
-   // font-family: 'Montserrat', sans-serif;
+    // font-family: 'Montserrat', sans-serif;
 }
 
 h1, h2, h3, h4, h5, div, p {
@@ -17,18 +17,26 @@ h1, h2, h3, h4, h5, div, p {
 }
 
 // All test case files
-#test-cases
-{
-	td.filename{
-		width: 85%;
-	}
+#test-cases {
+    td {
+        .filename {
+            width: 85%;
+        }
+    }
 }
 
 // Single test file
 #view-file {
-	td.description{
-		width: 85%;
-	}
+    td {
+
+        &.description {
+            width: 75%;
+        }
+
+        form {
+            display: inline;
+        }
+    }
 }
 
 // Test case edit page
