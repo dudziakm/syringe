@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='sass' />
+﻿/// <binding AfterBuild='default' />
 'use strict';
 var gulp = require('gulp');
 var sass = require('gulp-sass');
@@ -6,7 +6,7 @@ var cleanCss = require('gulp-clean-css');
 var del = require('del');
 var vinylPaths = require('vinyl-paths');
 
-gulp.task('sass', function () {
+gulp.task('default', function () {
 	return gulp.src('./css/Syringe.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(vinylPaths(del))
