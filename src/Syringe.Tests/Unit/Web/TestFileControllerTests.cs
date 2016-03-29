@@ -51,7 +51,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _caseServiceMock.Verify(x => x.CreateTestFile(It.IsAny<CaseCollection>(), It.IsAny<string>()), Times.Once);
-            Assert.AreEqual(" Position", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
             Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
         }
 
@@ -106,7 +106,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _caseServiceMock.Verify(x => x.UpdateTestFile(It.IsAny<CaseCollection>(), It.IsAny<string>()), Times.Once);
-            Assert.AreEqual(" Position", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
             Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
         }
 

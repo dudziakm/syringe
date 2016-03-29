@@ -36,7 +36,7 @@ namespace Syringe.Web.Controllers
 	        _urlHelper = urlHelper;
         }
 
-        public ActionResult  Position(int pageNumber = 1, int noOfResults = 10)
+        public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
         {
             RunHealthChecks();
 
@@ -53,7 +53,7 @@ namespace Syringe.Web.Controllers
                 Files = files.GetPaged(noOfResults, pageNumber)
             };
 
-            return View(" Position", model);
+            return View("Index", model);
         }
 
         [HttpPost]

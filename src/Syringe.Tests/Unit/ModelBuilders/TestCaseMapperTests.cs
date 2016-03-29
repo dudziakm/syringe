@@ -65,14 +65,14 @@ namespace Syringe.Tests.Unit.ModelBuilders
         {
             // given
             var testCaseMapper = new TestCaseMapper();
-            var testCaseId = 1;
-            var testCaseId2 = 2;
+            var position = 1;
+            var position2 = 2;
             var caseCollection = new CaseCollection
             {
                 TestCases = new List<Case>
                 {
-                    new Case { Position = testCaseId, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
-                    new Case { Position = testCaseId2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
+                    new Case { Position = position, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
+                    new Case { Position = position2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
                 }
             };
 
@@ -84,12 +84,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(2, testCaseViewModels.Count());
 
             var firstCase = testCaseViewModels.First();
-            Assert.AreEqual(testCaseId, firstCase.Position);
+            Assert.AreEqual(position, firstCase.Position);
             Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
 
             var lastCase = testCaseViewModels.Last();
-            Assert.AreEqual(testCaseId2, lastCase.Position);
+            Assert.AreEqual(position2, lastCase.Position);
             Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
             Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
         }

@@ -112,18 +112,18 @@ namespace Syringe.Tests.Unit.Web
 	        _mockHealthCheck.ThrowsException = true;
 
 			// when + then
-	        Assert.Throws<HealthCheckException>(() => _homeController.Position());
+	        Assert.Throws<HealthCheckException>(() => _homeController.Index());
         }
 
         [Test]
         public void Index_should_call_run_method_and_return_correct_model()
         {
             // given + when
-            var viewResult = _homeController.Position(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+            var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
             _casesClient.Verify(x => x.ListFilesForTeam(It.IsAny<string>()), Times.Once);
-            Assert.AreEqual(" Position", viewResult.ViewName);
+            Assert.AreEqual("Index", viewResult.ViewName);
             Assert.IsInstanceOf<IndexViewModel>(viewResult.Model);
         }
     }

@@ -39,7 +39,7 @@ namespace Syringe.Web.Controllers
 
                 bool createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
                 if (createdTestFile)
-                    return RedirectToAction(" Position", "Home");
+                    return RedirectToAction("Index", "Home");
             }
 
             return View("Add", model);
@@ -72,7 +72,7 @@ namespace Syringe.Web.Controllers
 
                 bool updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
                 if (updateTestFile)
-                    return RedirectToAction(" Position", "Home");
+                    return RedirectToAction("Index", "Home");
             }
 
             return View("Update", model);

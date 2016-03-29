@@ -38,7 +38,7 @@ namespace Syringe.Tests.Unit.Repositories
         }
 
         [Test]
-        public void GetTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
+        public void GetTestCase_should_throw_null_reference_exception_when_position_is_invalid()
         {
             // given + when
             _testCaseReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new CaseCollection());
@@ -60,7 +60,7 @@ namespace Syringe.Tests.Unit.Repositories
         }
 
         [Test]
-        public void SaveTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
+        public void SaveTestCase_should_throw_null_reference_exception_when_position_is_invalid()
         {
             // given + when + then
             Assert.Throws<ArgumentNullException>(() => _caseRepository.SaveTestCase(null, It.IsAny<string>()));
