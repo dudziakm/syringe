@@ -29,9 +29,6 @@ namespace Syringe.Web.Models
 
         public List<HeaderItem> Headers { get; set; }
 
-        [Required]
-        public int Sleep { get; set; }
-
         [Display(Name = "Short Description")]
         [Required]
         public string ShortDescription { get; set; }

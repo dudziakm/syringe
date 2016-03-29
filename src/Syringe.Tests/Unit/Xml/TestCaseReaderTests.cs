@@ -281,40 +281,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_sleep_attribute()
-		{
-			// Arrange
-			string xml = GetSingleCaseExample();
-			var stringReader = new StringReader(xml);
-			var testCaseReader = GetTestCaseReader();
-
-			// Act
-			CaseCollection testCollection = testCaseReader.Read(stringReader);
-
-			// Assert
-			Case testcase = testCollection.TestCases.First();
-			Assert.That(testcase.Sleep, Is.EqualTo(3));
-		}
-
-		[Test]
-		public void Read_should_set_default_sleep_to_zero_when_attribute_is_missing()
-		{
-			// Arrange
-			string xml = GetSingleCaseExample();
-			xml = xml.Replace("sleep=\"3\"", "");
-
-			var stringReader = new StringReader(xml);
-			var testCaseReader = GetTestCaseReader();
-
-			// Act
-			CaseCollection testCollection = testCaseReader.Read(stringReader);
-
-			// Assert
-			Case testcase = testCollection.TestCases.First();
-			Assert.That(testcase.Sleep, Is.EqualTo(0));
-		}
-
-		[Test]
 		public void Read_should_parse_addheader_attribute()
 		{
 			// Arrange

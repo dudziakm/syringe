@@ -39,7 +39,6 @@ namespace Syringe.Web.ModelBuilders
 				PostType = testCase.PostType == PostType.GET.ToString() ? PostType.GET : PostType.POST,
 				VerifyResponseCode = testCase.VerifyResponseCode,
 				ShortDescription = testCase.ShortDescription,
-				Sleep = testCase.Sleep,
 				Url = testCase.Url,
 				Verifications = verifications,
 				ParentFilename = testCase.ParentFilename,
@@ -96,7 +95,6 @@ namespace Syringe.Web.ModelBuilders
 				VerifyNegatives = testCase.Verifications.Where(x => x.VerifyType == VerifyType.Negative).Select(x => new VerificationItem(x.Description, x.Regex, x.VerifyType)).ToList(),
 				ShortDescription = testCase.ShortDescription,
 				Url = testCase.Url,
-				Sleep = testCase.Sleep,
 				PostType = testCase.PostType.ToString(),
 				VerifyResponseCode = testCase.VerifyResponseCode,
 			};

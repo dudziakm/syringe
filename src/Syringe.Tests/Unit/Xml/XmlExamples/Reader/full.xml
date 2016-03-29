@@ -15,7 +15,6 @@
 		url="http://myserver/test/login.jsp"
 		logrequest="true"
 		logresponse="true"
-		sleep="3"
 	>
         <postbody>
             <![CDATA[username=corey&password=welcome]]>

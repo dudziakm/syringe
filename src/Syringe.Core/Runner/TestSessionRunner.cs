@@ -285,10 +285,6 @@ namespace Syringe.Core.Runner
 				{
 					testResult.Message = testCase.ErrorMessage;
 				}
-
-				// TODO: Inject a delay service for testing purposes (holding up unit tests for orders of seconds is bad).
-				if (testCase.Sleep > 0)
-					Thread.Sleep(testCase.Sleep * 1000);
 			}
 			catch (Exception ex)
 			{

@@ -303,27 +303,6 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_sleep_thread_in_seconds_when_case_has_sleep_set()
-		{
-			// Arrange
-			int seconds = 2;
-			var now = DateTime.UtcNow;
-			TestSessionRunner runner = CreateRunner();
-
-			var caseCollection = CreateCaseCollection(new[]
-			{
-				new Case() { Url = "foo1", Sleep = seconds }
-			});
-
-			// Act
-			await runner.RunAsync(caseCollection);
-			var timeAfterRun = DateTime.UtcNow;
-
-			// Assert
-			Assert.That(timeAfterRun, Is.GreaterThanOrEqualTo(now.AddSeconds(seconds)));
-		}
-
-		[Test]
 		public async Task Run_should_verify_positive_and_negative_items_when_httpcode_passes()
 		{
 			// Arrange
