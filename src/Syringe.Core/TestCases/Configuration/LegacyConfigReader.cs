@@ -31,7 +31,7 @@ namespace Syringe.Core.TestCases.Configuration
 			// All elements get stored in the variables, for custom variables.
 			foreach (XElement element in rootElement.Elements())
 			{
-				config.Variables.Add(new Variable(element.Name.LocalName, element.Value)); 
+				config.Variables.Add(new Variable(element.Name.LocalName, element.Value, "")); 
 			}
 
 			return config;

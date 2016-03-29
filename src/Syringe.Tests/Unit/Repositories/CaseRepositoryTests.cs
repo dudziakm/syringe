@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.IO;
 using Syringe.Core.Repositories;
+using Syringe.Core.Repositories.XML;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;

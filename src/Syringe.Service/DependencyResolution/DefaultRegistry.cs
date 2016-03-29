@@ -25,6 +25,7 @@ using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.MongoDB;
+using Syringe.Core.Repositories.XML;
 using Syringe.Core.Xml.Reader;
 using Syringe.Core.Xml.Writer;
 using Syringe.Service.Api.Hubs;

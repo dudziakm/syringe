@@ -12,7 +12,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 	{
 		private ScheduledJobRepository CreateScheduledJobRepository()
 		{
-			return new ScheduledJobRepository(new Configuration() { DatabaseName = "Syringe-Tests" });
+			return new ScheduledJobRepository(new MongoDBConfiguration() { DatabaseName = "Syringe-Tests" });
 		}
 
 		[SetUp]

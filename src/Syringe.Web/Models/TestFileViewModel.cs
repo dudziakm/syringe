@@ -12,6 +12,6 @@ namespace Syringe.Web.Models
         [Required]
         public string Filename { get; set; }
         public double PageNumbers { get; set; }
-        public List<VariableItem> Variables { get; set; } 
+        public List<TestFileVariableModel> Variables { get; set; } 
     }
 }

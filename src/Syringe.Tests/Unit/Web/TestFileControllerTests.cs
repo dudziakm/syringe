@@ -148,7 +148,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             Assert.AreEqual("EditorTemplates/VariableItem", viewResult.ViewName);
-            Assert.IsInstanceOf<VariableItem>(viewResult.Model);
+            Assert.IsInstanceOf<TestFileVariableModel>(viewResult.Model);
         }
     }
 }

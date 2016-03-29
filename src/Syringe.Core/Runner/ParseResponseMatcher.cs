@@ -48,7 +48,7 @@ namespace Syringe.Core.Runner
 					simpleLogger.WriteLine(" - Invalid regex: {0}", e.Message);
 				}
 
-				variables.Add(new Variable("parsedresponse" + regexItem.Description, capturedValue));
+				variables.Add(new Variable("parsedresponse" + regexItem.Description, capturedValue, ""));
 			}
 
 			return variables;

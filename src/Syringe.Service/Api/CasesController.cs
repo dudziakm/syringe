@@ -9,7 +9,6 @@ using Syringe.Core.TestCases;
 
 namespace Syringe.Service.Api
 {
-    // TODO: Tests
     public class CasesController : ApiController, ICaseService
     {
         private readonly ICaseRepository _caseRepository;

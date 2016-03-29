@@ -49,7 +49,7 @@ namespace Syringe.Core.Xml.Reader
         private List<Variable> GetTestVars(XElement rootElement)
         {
             // <variables>
-            //      <variable name="login"></variable>
+            //      <variable name="login" environment="DevTeam1"></variable>
             // </variables>
 
             var variables = new List<Variable>();
@@ -57,12 +57,17 @@ namespace Syringe.Core.Xml.Reader
 
             foreach (XElement element in variableElement.Elements().Where(x => x.Name.LocalName == "variable"))
             {
-                XAttribute varnameAttribute = element.Attributes("name").FirstOrDefault();
-                if (varnameAttribute != null)
+                XAttribute nameAttribute = element.Attributes("name").FirstOrDefault();
+                if (nameAttribute != null)
                 {
-					if (!variables.Any(x => x.Name.Equals(varnameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
+					XAttribute environmentAttribute = element.Attributes("environment").FirstOrDefault();
+	                string environment = "";
+	                if (environmentAttribute != null)
+		                environment = environmentAttribute.Value;
+
+					if (!variables.Any(x => x.Name.Equals(nameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
 					{
-						variables.Add(new Variable(varnameAttribute.Value, element.Value));
+						variables.Add(new Variable(nameAttribute.Value, element.Value, environment));
 					}
 				}
             }

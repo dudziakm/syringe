@@ -16,7 +16,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 	{
 		private TestCaseSessionRepository CreateTestCaseSessionRepository()
 		{
-			return new TestCaseSessionRepository(new Configuration() { DatabaseName = "Syringe-Tests"});	
+			return new TestCaseSessionRepository(new MongoDBConfiguration() { DatabaseName = "Syringe-Tests"});	
 		}
 
 		[SetUp]

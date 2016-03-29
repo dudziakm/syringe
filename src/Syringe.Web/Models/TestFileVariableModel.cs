@@ -2,11 +2,14 @@
 
 namespace Syringe.Web.Models
 {
-    public class VariableItem
+    public class TestFileVariableModel
     {
         [Required]
-        public string Key { get; set; }
+        public string Name { get; set; }
+
         [Required]
         public string Value { get; set; }
+
+	    public string Environment { get; set; }
     }
 }

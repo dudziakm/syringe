@@ -8,10 +8,11 @@
 
 		public Variable() { }
 
-		public Variable(string name, string value)
+		public Variable(string name, string value, string environment)
 		{
 			Name = name;
 			Value = value;
+			Environment = new Environment.Environment() { Name = environment };
 		}
 	}
 }

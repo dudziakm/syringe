@@ -10,16 +10,16 @@ namespace Syringe.Core.Repositories.MongoDB
     public class TestCaseSessionRepository : ITestCaseSessionRepository
     {
         private static readonly string COLLECTION_NAME = "TestCaseSessions";
-        private readonly Configuration _configuration;
+        private readonly MongoDBConfiguration _mongoDbConfiguration;
         private readonly MongoClient _mongoClient;
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestCaseSession> _collection;
 
-        public TestCaseSessionRepository(Configuration configuration)
+        public TestCaseSessionRepository(MongoDBConfiguration mongoDbConfiguration)
         {
-            _configuration = configuration;
-            _mongoClient = new MongoClient(_configuration.ConnectionString);
-            _database = _mongoClient.GetDatabase(_configuration.DatabaseName);
+            _mongoDbConfiguration = mongoDbConfiguration;
+            _mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
+            _database = _mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
             _collection = _database.GetCollection<TestCaseSession>(COLLECTION_NAME);
         }
 

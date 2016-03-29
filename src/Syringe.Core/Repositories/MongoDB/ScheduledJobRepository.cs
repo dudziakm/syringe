@@ -10,16 +10,16 @@ namespace Syringe.Core.Repositories.MongoDB
 	public class ScheduledJobRepository : IScheduledJobRepository
 	{
 		private static readonly string COLLECTION_NAME = "ScheduledJobs";
-		private readonly Configuration _configuration;
+		private readonly MongoDBConfiguration _mongoDbConfiguration;
 		private readonly MongoClient _mongoClient;
 		private readonly IMongoDatabase _database;
 		private readonly IMongoCollection<ScheduledJob> _collection;
 
-		public ScheduledJobRepository(Configuration configuration)
+		public ScheduledJobRepository(MongoDBConfiguration mongoDbConfiguration)
 		{
-			_configuration = configuration;
-			_mongoClient = new MongoClient(_configuration.ConnectionString);
-			_database = _mongoClient.GetDatabase(_configuration.DatabaseName);
+			_mongoDbConfiguration = mongoDbConfiguration;
+			_mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
+			_database = _mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
 			_collection = _database.GetCollection<ScheduledJob>(COLLECTION_NAME);
 		}
 

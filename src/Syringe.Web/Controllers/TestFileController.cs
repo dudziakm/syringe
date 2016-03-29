@@ -22,8 +22,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Add()
         {
-            TestFileViewModel model = new TestFileViewModel();
-
+            var model = new TestFileViewModel();
             return View("Add", model);
         }
 
@@ -35,10 +34,10 @@ namespace Syringe.Web.Controllers
                 var caseCollection = new CaseCollection
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Key, x.Value)).ToList() : new List<Variable>()
+                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
                 };
 
-                var createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
+                bool createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
                 if (createdTestFile)
                     return RedirectToAction("Index", "Home");
             }
@@ -48,13 +47,13 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            var testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
+            CaseCollection testCaseCollection = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
 
             TestFileViewModel model = new TestFileViewModel
             {
                 Filename = fileName,
                 Variables =
-                    testCaseCollection.Variables.Select(x => new VariableItem { Key = x.Name, Value = x.Value }).ToList()
+                    testCaseCollection.Variables.Select(x => new TestFileVariableModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
             };
 
             return View("Update", model);
@@ -68,10 +67,10 @@ namespace Syringe.Web.Controllers
                 var caseCollection = new CaseCollection
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Key, x.Value)).ToList() : new List<Variable>()
+                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
 				};
 
-                var updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
+                bool updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
                 if (updateTestFile)
                     return RedirectToAction("Index", "Home");
             }
@@ -81,7 +80,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult AddVariableItem()
         {
-            return PartialView("EditorTemplates/VariableItem", new VariableItem());
+            return PartialView("EditorTemplates/TestFileVariableModel", new TestFileVariableModel());
         }
 	}
 }

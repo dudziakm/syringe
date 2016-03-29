@@ -28,7 +28,7 @@ namespace Syringe.Tests.Unit.Runner
 		{
 			// Arrange
 			var config = new Config();
-			config.Variables.Add(new Variable("eggs", "ham"));
+			config.Variables.Add(new Variable("eggs", "ham", ""));
 			var sessionVariables = new SessionVariables();
 
 			// Act
@@ -74,8 +74,8 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf"),
-				new Variable("light", "bulb")
+				new Variable("nano", "leaf", "env1"),
+				new Variable("light", "bulb", "env2")
 			});
 
 
@@ -93,15 +93,14 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf"),
-				new Variable("light", "bulb"),
+				new Variable("nano", "leaf", "env1"),
+				new Variable("light", "bulb", "env2"),
 			});
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf2"),
-				new Variable("light", "bulb2")
+				new Variable("nano", "leaf2", "env1"),
+				new Variable("light", "bulb2", "env2")
 			});
-
 
 			// Assert
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));

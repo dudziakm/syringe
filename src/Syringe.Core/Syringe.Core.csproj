@@ -149,7 +149,7 @@
     <Compile Include="Repositories\ITestCaseSessionRepository.cs" />
     <Compile Include="Repositories\MongoDB\ScheduledJobRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestCaseSessionRepository.cs" />
-    <Compile Include="Repositories\MongoDB\Configuration.cs" />
+    <Compile Include="Repositories\MongoDB\MongoDBConfiguration.cs" />
     <Compile Include="Results\SessionInfo.cs" />
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Security\Teamcity\Group.cs" />
@@ -192,7 +192,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="Repositories\CaseRepository.cs" />
+    <Compile Include="Repositories\XML\CaseRepository.cs" />
     <Compile Include="Repositories\ICaseRepository.cs" />
     <Compile Include="Tasks\TaskDetails.cs" />
     <Compile Include="Security\IUserContext.cs" />

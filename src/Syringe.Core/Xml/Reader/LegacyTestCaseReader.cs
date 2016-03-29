@@ -114,7 +114,7 @@ namespace Syringe.Core.Xml.Reader
 				{
 					if (!variables.Any(x => x.Name.Equals(varnameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
 					{
-						variables.Add(new Variable(varnameAttribute.Value, element.Value));
+						variables.Add(new Variable(varnameAttribute.Value, element.Value, ""));
 					}
 				}
 			}
