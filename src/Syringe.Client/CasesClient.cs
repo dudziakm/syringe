@@ -89,14 +89,14 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public bool DeleteTestCase(int index, string fileName, string teamName)
+	    public bool DeleteTestCase(int position, string fileName, string teamName)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("DeleteTestCase");
             request.Method = Method.POST;
             request.AddQueryParameter("fileName", fileName);
             request.AddQueryParameter("teamName", teamName);
-            request.AddQueryParameter("testCaseId", index.ToString());
+            request.AddQueryParameter("position", position.ToString());
 
             IRestResponse response = client.Execute(request);
             return DeserializeOrThrow<bool>(response);

@@ -63,9 +63,9 @@ namespace Syringe.Service.Api
 
         [Route("api/cases/DeleteTestCase")]
         [HttpPost]
-        public bool DeleteTestCase(int index, string fileName, string teamName)
+        public bool DeleteTestCase(int position, string fileName, string teamName)
         {
-            return _caseRepository.DeleteTestCase(index, fileName, teamName);
+            return _caseRepository.DeleteTestCase(position, fileName, teamName);
         }
 
         [Route("api/cases/CreateTestFile")]

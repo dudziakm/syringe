@@ -14,7 +14,7 @@ namespace Syringe.Core.Services
 	    string GetXmlTestCaseCollection(string filename, string teamName);
         bool EditTestCase(Case testCase, string teamName);
 	    bool CreateTestCase(Case testCase, string teamName);
-        bool DeleteTestCase(int index, string fileName, string teamName);
+        bool DeleteTestCase(int position, string fileName, string teamName);
 	    bool CreateTestFile(CaseCollection caseCollection, string teamName);
 	    bool UpdateTestFile(CaseCollection caseCollection, string teamName);
 	    IEnumerable<SessionInfo> GetSummariesForToday();
