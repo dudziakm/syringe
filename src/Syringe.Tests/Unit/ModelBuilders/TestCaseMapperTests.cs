@@ -32,7 +32,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(1, build.VerifyPositives.Count);
             Assert.AreEqual(testCaseViewModel.ShortDescription, build.ShortDescription);
             Assert.AreEqual(testCaseViewModel.Url, build.Url);
-            Assert.AreEqual(testCaseViewModel.Sleep, build.Sleep);
             Assert.AreEqual(testCaseViewModel.PostType.ToString(), build.PostType);
             Assert.AreEqual(testCaseViewModel.VerifyResponseCode, build.VerifyResponseCode);
         }
@@ -112,7 +111,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 PostBody = "PostBody",
                 PostType = PostType.GET.ToString(),
                 VerifyResponseCode = HttpStatusCode.Accepted,
-                Sleep = 10,
                 Headers = new List<Core.TestCases.HeaderItem> { new Core.TestCases.HeaderItem() },
                 ParseResponses = new List<Core.TestCases.ParseResponseItem> { new Core.TestCases.ParseResponseItem() },
                 VerifyNegatives = new List<VerificationItem> { new VerificationItem() },
@@ -160,7 +158,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
                                new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Positive } },
                     ShortDescription = "short d3escription",
                     Url = "url",
-                    Sleep = 10,
                     PostType = PostType.POST,
                     VerifyResponseCode = HttpStatusCode.Accepted,
                     AvailableVariables = new List<VariableModel>() { new VariableModel() {Name = "Name",Value="value", Type = "Type"} }

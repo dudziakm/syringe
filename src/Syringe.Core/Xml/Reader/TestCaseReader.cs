@@ -91,7 +91,6 @@ namespace Syringe.Core.Xml.Reader
             testCase.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
             testCase.PostType = XmlHelper.GetOptionalAttribute(element, "posttype", "application/x-www-form-urlencoded");
             testCase.VerifyResponseCode = GetVerifyResponseCode(element);
-            testCase.Sleep = XmlHelper.AttributeAsInt(element, "sleep");
             testCase.Headers = GetHeader(element);
 
             // Numbered attributes

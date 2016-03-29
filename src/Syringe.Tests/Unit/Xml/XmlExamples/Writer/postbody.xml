@@ -9,7 +9,6 @@
 		posttype=""
 		verifyresponsecode="0"
 		errormessage=""
-		sleep="0"
 	>
 
 		<headers/>

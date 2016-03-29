@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Security
 {

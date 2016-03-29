@@ -147,7 +147,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testCaseController.AddVariableItem() as PartialViewResult;
 
             // then
-            Assert.AreEqual("EditorTemplates/VariableItem", viewResult.ViewName);
+            Assert.AreEqual("EditorTemplates/TestFileVariableModel", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileVariableModel>(viewResult.Model);
         }
     }

@@ -9,7 +9,6 @@
         posttype="text/xml"
         verifyresponsecode="202"
         errormessage="my error message"
-        sleep="3"
 	    >
 
 		<headers/>

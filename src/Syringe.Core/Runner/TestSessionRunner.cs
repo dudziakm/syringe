@@ -12,14 +12,12 @@ using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
 {
 	public class TestSessionRunner : IObservable<TestCaseResult>
 	{
-		private readonly Config _config;
 		private readonly IHttpClient _httpClient;
 		private bool _isStopPending;
 		private List<TestCaseResult> _currentResults;
@@ -45,18 +43,14 @@ namespace Syringe.Core.Runner
 		public int TotalCases { get; set; }
 		public int RepeatCount { get; set; }
 
-		public TestSessionRunner(Config config, IHttpClient httpClient, ITestCaseSessionRepository repository)
+		public TestSessionRunner(IHttpClient httpClient, ITestCaseSessionRepository repository)
 		{
-			if (config == null)
-				throw new ArgumentNullException("config");
-
 			if (httpClient == null)
 				throw new ArgumentNullException("httpClient");
 
 			if (repository == null)
 				throw new ArgumentNullException("repository");
 
-			_config = config;
 			_httpClient = httpClient;
 			_currentResults = new List<TestCaseResult>();
 			Repository = repository;
@@ -124,7 +118,6 @@ namespace Syringe.Core.Runner
 
 			// Add all config variables and ones in this <testcase>
 			var variables = new SessionVariables();
-			variables.AddGlobalVariables(_config);
 			variables.AddOrUpdateVariables(testCollection.Variables);
 
 			var verificationsMatcher = new VerificationsMatcher(variables);
@@ -292,10 +285,6 @@ namespace Syringe.Core.Runner
 				{
 					testResult.Message = testCase.ErrorMessage;
 				}
-
-				// TODO: Inject a delay service for testing purposes (holding up unit tests for orders of seconds is bad).
-				if (testCase.Sleep > 0)
-					Thread.Sleep(testCase.Sleep * 1000);
 			}
 			catch (Exception ex)
 			{

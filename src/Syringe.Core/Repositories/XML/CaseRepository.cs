@@ -105,7 +105,6 @@ namespace Syringe.Core.Repositories.XML
                 item.VerifyNegatives = testCase.VerifyNegatives;
                 item.ShortDescription = testCase.ShortDescription;
                 item.Url = testCase.Url;
-                item.Sleep = testCase.Sleep;
                 item.PostType = testCase.PostType;
                 item.VerifyResponseCode = testCase.VerifyResponseCode;
             }

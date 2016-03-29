@@ -11,7 +11,6 @@ using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
@@ -36,8 +35,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_repeat_testcases_from_repeat_property()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -56,8 +54,6 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
 		{
 			// Arrange
-			var config = new Config();
-
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
@@ -72,7 +68,7 @@ namespace Syringe.Tests.Unit.Runner
 			};
 			httpClient.Response = response;
 
-			var runner = new TestSessionRunner(config, httpClient, GetRepository());
+			var runner = new TestSessionRunner(httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -95,13 +91,12 @@ namespace Syringe.Tests.Unit.Runner
 		{
 			// Arrange
 			var beforeStart = DateTime.UtcNow;
-			var config = new Config();
 
 			var response = new HttpResponse();
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(response);
-			var runner = new TestSessionRunner(config, httpClient, GetRepository());
+			var runner = new TestSessionRunner(httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -118,31 +113,10 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_replace_variables_in_url()
-		{
-			// Arrange
-			var config = new Config();
-			config.BaseUrl = "http://www.yahoo.com";
-			TestSessionRunner runner = CreateRunner(config);
-
-			var caseCollection = CreateCaseCollection(new[]
-			{
-				new Case() { Url = "{baseurl}/foo/test.html" },
-			});
-
-			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
-
-			// Assert
-			Assert.That(session.TestCaseResults.Single().ActualUrl, Is.EqualTo("http://www.yahoo.com/foo/test.html"));
-		}
-
-		[Test]
 		public async Task Run_should_set_parsed_variables()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			_httpClientMock.Response.Content = "some content";
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
@@ -174,8 +148,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_parseresponsevariables_across_testcases()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			_httpClientMock.Responses = new List<HttpResponse>()
 			{
 				new HttpResponse()
@@ -244,8 +217,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_testresult_success_and_response_when_httpcode_passes()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
@@ -269,8 +241,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
@@ -294,8 +265,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_message_from_case_errormessage_when_httpcode_fails()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -314,10 +284,9 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_save_testcasesession_to_repository()
 		{
 			// Arrange
-			var config = new Config();
 			var repository = new TestCaseSessionRepositoryMock();
 
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			runner.Repository = repository;
 
 			var caseCollection = CreateCaseCollection(new[]
@@ -334,33 +303,10 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_sleep_thread_in_seconds_when_case_has_sleep_set()
-		{
-			// Arrange
-			int seconds = 2;
-			var now = DateTime.UtcNow;
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
-
-			var caseCollection = CreateCaseCollection(new[]
-			{
-				new Case() { Url = "foo1", Sleep = seconds }
-			});
-
-			// Act
-			await runner.RunAsync(caseCollection);
-			var timeAfterRun = DateTime.UtcNow;
-
-			// Assert
-			Assert.That(timeAfterRun, Is.GreaterThanOrEqualTo(now.AddSeconds(seconds)));
-		}
-
-		[Test]
 		public async Task Run_should_verify_positive_and_negative_items_when_httpcode_passes()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 			_httpClientMock.Response.Content = "some content";
 
@@ -400,8 +346,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var observedResults = new List<TestCaseResult>();
 
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -423,8 +368,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_notify_observers_of_new_results()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -448,7 +392,6 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_not_notify_disposed_observers_of_new_results()
 		{
 			// Arrange
-			var config = new Config();
 			var httpClientMock = new Mock<IHttpClient>();
 
 			IDisposable subscription = null;
@@ -466,7 +409,7 @@ namespace Syringe.Tests.Unit.Runner
 				.Callback(() => { if (subscription != null) subscription.Dispose(); })
 				.Returns(Task.FromResult(new HttpResponse()));
 
-			TestSessionRunner runner = new TestSessionRunner(config, httpClientMock.Object, GetRepository());
+			TestSessionRunner runner = new TestSessionRunner(httpClientMock.Object, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -490,8 +433,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
 		{
 			// Arrange
-			var config = new Config();
-			TestSessionRunner runner = CreateRunner(config);
+			TestSessionRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -524,7 +466,7 @@ namespace Syringe.Tests.Unit.Runner
 				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
-			TestSessionRunner runner = new TestSessionRunner(new Config(), httpClientMock.Object, GetRepository());
+			TestSessionRunner runner = new TestSessionRunner(httpClientMock.Object, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
@@ -544,12 +486,12 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(capturedResult.Success, Is.False, "Should not have succeeded.");
 		}
 
-		private TestSessionRunner CreateRunner(Config config)
+		private TestSessionRunner CreateRunner()
 		{
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);
 
-			return new TestSessionRunner(config, _httpClientMock, GetRepository());
+			return new TestSessionRunner(_httpClientMock, GetRepository());
 		}
 
 		private CaseCollection CreateCaseCollection(Case[] cases)

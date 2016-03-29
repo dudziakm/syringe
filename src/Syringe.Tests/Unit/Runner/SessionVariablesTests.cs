@@ -2,42 +2,11 @@
 using NUnit.Framework;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Tests.Unit.Runner
 {
 	public class SessionVariablesTests
 	{
-		[Test]
-		public void AddGlobalVariables_should_add_baseurl_as_variable()
-		{
-			// Arrange
-			var config = new Config();
-			config.BaseUrl = "mybaseurl";
-			var sessionVariables = new SessionVariables();
-
-			// Act
-			sessionVariables.AddGlobalVariables(config);
-
-			// Assert
-			Assert.That(sessionVariables.GetVariableValue("baseurl"), Is.EqualTo("mybaseurl"));
-		}
-
-		[Test]
-		public void AddGlobalVariables_should_add_variables_from_config()
-		{
-			// Arrange
-			var config = new Config();
-			config.Variables.Add(new Variable("eggs", "ham", ""));
-			var sessionVariables = new SessionVariables();
-
-			// Act
-			sessionVariables.AddGlobalVariables(config);
-
-			// Assert
-			Assert.That(sessionVariables.GetVariableValue("eggs"), Is.EqualTo("ham"));
-		}
-
 		[Test]
 		public void AddOrUpdateVariable_should_set_variable()
 		{
