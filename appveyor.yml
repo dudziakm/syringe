@@ -21,13 +21,13 @@ branches:
 services:
   - mongodb
 
-# Add NodeJS/Grunt for the SASS compilation
+# Add NodeJS/Gulp for the SASS compilation
 install:
   - gem install sass
   - cd .\src\Syringe.Web\
-  - npm install -g grunt-cli
+  - npm install --global gulp-cli
   - npm install 
-  - grunt
+  - gulp
   - cd ..\..\
 
 # Update the assembly version numbers with the Appveyor version
