@@ -9,6 +9,7 @@ namespace Syringe.Web.Models
     {
         [Required]
         public Guid Id { get; set; }
+
         [Required]
         public string Url { get; set; }
 
@@ -37,18 +38,21 @@ namespace Syringe.Web.Models
 
         [Display(Name = "Long Description")]
         public string LongDescription { get; set; }
+
         public List<ParseResponseItem> ParseResponses { get; set; }
         public List<VerificationItemModel> Verifications { get; set; }
+
         [Required]
         public string ParentFilename { get; set; }
 
-        public List<Variables> AvailableVariables { get; set; }
+        public List<VariableModel> AvailableVariables { get; set; }
 
         public TestCaseViewModel()
         {
             Headers = new List<HeaderItem>();
             ParseResponses = new List<ParseResponseItem>();
             Verifications = new List<VerificationItemModel>();
-        }
+			AvailableVariables = new List<VariableModel>();
+		}
     }
 }

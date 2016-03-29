@@ -238,7 +238,7 @@ namespace Syringe.Core.Runner
 					logger.WriteLine("");
 					logger.WriteLine("Parsing variables");
 					logger.WriteLine("--------------------------");
-					Dictionary<string, string> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content, logger);
+					List<Variable> parsedVariables = ParseResponseMatcher.MatchParseResponses(testCase.ParseResponses, content, logger);
 					variables.AddOrUpdateVariables(parsedVariables);
 					if (parsedVariables.Count == 0)
 					{

@@ -54,10 +54,10 @@ namespace Syringe.Tests.Unit.Configuration
 		    Config config = configReader.Read(stringReader);
 
 		    // Assert
-			Assert.AreEqual("http://www.google.com", config.Variables.ByName("baseurl"));
-			Assert.AreEqual("http://www.bing.com", config.Variables.ByName("baseurl1"));
-			Assert.AreEqual("http://www.yahoo.com", config.Variables.ByName("baseurl88"));
-			Assert.AreEqual("http://www.dogpile.com", config.Variables.ByName("myvariable"));
+			Assert.AreEqual("http://www.google.com", config.Variables.ValueByName("baseurl"));
+			Assert.AreEqual("http://www.bing.com", config.Variables.ValueByName("baseurl1"));
+			Assert.AreEqual("http://www.yahoo.com", config.Variables.ValueByName("baseurl88"));
+			Assert.AreEqual("http://www.dogpile.com", config.Variables.ValueByName("myvariable"));
 	    }
 
 	    private string GetConfigXml()

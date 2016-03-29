@@ -11,9 +11,9 @@ namespace Syringe.Core.Runner
 		/// <summary>
 		/// Finds text in the content, returning them as variables, e.g. {parsedresponse1} = value
 		/// </summary>
-		public static Dictionary<string, string> MatchParseResponses(List<ParseResponseItem> parseResponses, string content, SimpleLogger simpleLogger)
+		public static List<Variable> MatchParseResponses(List<ParseResponseItem> parseResponses, string content, SimpleLogger simpleLogger)
 		{
-			var variables = new Dictionary<string, string>();
+			var variables = new List<Variable>();
 
 			foreach (ParseResponseItem regexItem in parseResponses)
 			{
@@ -48,7 +48,7 @@ namespace Syringe.Core.Runner
 					simpleLogger.WriteLine(" - Invalid regex: {0}", e.Message);
 				}
 
-				variables.Add("parsedresponse" + regexItem.Description, capturedValue);
+				variables.Add(new Variable("parsedresponse" + regexItem.Description, capturedValue));
 			}
 
 			return variables;

@@ -7,13 +7,11 @@ namespace Syringe.Core.TestCases
 		public int Repeat { get; set; }
 		public IEnumerable<Case> TestCases { get; set; }
 		public string Filename { get; set; }
-
-		// Custom variables, e.g. <testvar varname="LOGIN_URL">http://myserver/login.php</testvar>
-		public Dictionary<string, string> Variables { get; set; }
+		public List<Variable> Variables { get; set; }
 
 		public CaseCollection()
 		{
-			Variables = new Dictionary<string, string>();
+			Variables = new List<Variable>();
 			TestCases = new List<Case>();
 		}
 	}

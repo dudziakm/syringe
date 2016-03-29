@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Extensions;
 using Syringe.Core.TestCases;
 using Syringe.Core.Xml.Reader;
 
@@ -10,20 +11,14 @@ namespace Syringe.Tests.Unit.Xml
 {
 	public class TestCaseReaderTests
 	{
-		public virtual string XmlExamplesFolder
-		{
-			get { return "Syringe.Tests.Unit.Xml.XmlExamples.Reader.Default."; }
-		}
-
-		public virtual string FalseString
-		{
-			get { return "false"; }
-		}
+		public virtual string XmlExamplesFolder => "Syringe.Tests.Unit.Xml.XmlExamples.Reader.Default.";
+		public virtual string FalseString => "false";
 
 		protected virtual ITestCaseReader GetTestCaseReader()
         {
 			return new TestCaseReader();
         }
+
         protected string GetSingleCaseExample()
 		{
 			return TestHelpers.ReadEmbeddedFile("single-case.xml", XmlExamplesFolder); 
@@ -74,12 +69,11 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Assert.That(testCollection.Variables.Count, Is.EqualTo(4));
-			Assert.That(testCollection.Variables["LOGIN_URL"], Is.EqualTo("http://myserver/login.php"));
-			Assert.That(testCollection.Variables["LOGIN1"], Is.EqualTo("bob"));
-			Assert.That(testCollection.Variables["PASSWD1"], Is.EqualTo("sponge"));
-			Assert.That(testCollection.Variables["SUCCESSFULL_TEST_TEXT"], Is.EqualTo("Welcome Bob"));
+			Assert.That(testCollection.Variables.ValueByName("LOGIN_URL"), Is.EqualTo("http://myserver/login.php"));
+			Assert.That(testCollection.Variables.ValueByName("LOGIN1"), Is.EqualTo("bob"));
+			Assert.That(testCollection.Variables.ValueByName("PASSWD1"), Is.EqualTo("sponge"));
+			Assert.That(testCollection.Variables.ValueByName("SUCCESSFULL_TEST_TEXT"), Is.EqualTo("Welcome Bob"));
 		}
-
 
 		[Test]
 		public void Read_should_parse_description_attributes()

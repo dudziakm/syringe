@@ -35,7 +35,7 @@ namespace Syringe.Web.Controllers
                 var caseCollection = new CaseCollection
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.ToDictionary(x => x.Key, x => x.Value) : new Dictionary<string, string>()
+                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Key, x.Value)).ToList() : new List<Variable>()
                 };
 
                 var createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
@@ -54,7 +54,7 @@ namespace Syringe.Web.Controllers
             {
                 Filename = fileName,
                 Variables =
-                    testCaseCollection.Variables.Select(x => new VariableItem { Key = x.Key, Value = x.Value }).ToList()
+                    testCaseCollection.Variables.Select(x => new VariableItem { Key = x.Name, Value = x.Value }).ToList()
             };
 
             return View("Update", model);
@@ -68,8 +68,8 @@ namespace Syringe.Web.Controllers
                 var caseCollection = new CaseCollection
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.ToDictionary(x => x.Key, x => x.Value) : new Dictionary<string, string>()
-                };
+                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Key, x.Value)).ToList() : new List<Variable>()
+				};
 
                 var updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
                 if (updateTestFile)

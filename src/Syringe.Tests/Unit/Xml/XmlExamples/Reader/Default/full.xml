@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testcases repeat="10">
     <variables>
-        <variable name="LOGIN_URL">http://myserver/login.php</variable>
-        <variable name="LOGIN1">bob</variable>
-        <variable name="PASSWD1">sponge</variable>
-        <variable name="SUCCESSFULL_TEST_TEXT">Welcome Bob</variable>
+        <variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
+        <variable name="LOGIN1" environment="DevTeam2">bob</variable>
+        <variable name="PASSWD1" environment="DevTeam1">sponge</variable>
+        <variable name="SUCCESSFULL_TEST_TEXT" environment="DevTeam2">Welcome Bob</variable>
     </variables>
 
     <case

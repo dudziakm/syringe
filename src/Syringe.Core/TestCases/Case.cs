@@ -27,7 +27,7 @@ namespace Syringe.Core.TestCases
 		public List<ParseResponseItem> ParseResponses { get; set; }
 		public List<VerificationItem> VerifyPositives { get; set; }
 		public List<VerificationItem> VerifyNegatives { get; set; }
-		public List<Variables> AvailableVariables { get; set; }
+		public List<AutomaticVariable> AvailableVariables { get; set; }
 
 		public Case()
 		{
@@ -35,7 +35,7 @@ namespace Syringe.Core.TestCases
 			ParseResponses = new List<ParseResponseItem>();
 			VerifyPositives = new List<VerificationItem>();
 			VerifyNegatives = new List<VerificationItem>();
-            AvailableVariables = new List<Variables>();
+            AvailableVariables = new List<AutomaticVariable>();
 		}
 
 		public void AddHeader(string key, string value)

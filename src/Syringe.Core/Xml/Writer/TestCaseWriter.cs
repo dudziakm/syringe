@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using MongoDB.Bson;
 using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Xml.Writer
@@ -32,7 +33,7 @@ namespace Syringe.Core.Xml.Writer
                         foreach (var variable in caseCollection.Variables)
                         {
                             XElement variableElement = new XElement("variable");
-                            variableElement.Add(new XAttribute("name", variable.Key));
+                            variableElement.Add(new XAttribute("name", variable.Name));
                             variableElement.Value = variable.Value;
 
                             variableElements.Add(variableElement);

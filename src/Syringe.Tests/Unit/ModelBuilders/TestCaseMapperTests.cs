@@ -8,7 +8,6 @@ using Syringe.Web.ModelBuilders;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
 using ParseResponseItem = Syringe.Web.Models.ParseResponseItem;
-using Variables = Syringe.Web.Models.Variables;
 
 namespace Syringe.Tests.Unit.ModelBuilders
 {
@@ -119,11 +118,11 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 VerifyNegatives = new List<VerificationItem> { new VerificationItem() },
                 VerifyPositives = new List<VerificationItem> { new VerificationItem() },
                 ParentFilename = "test.xml",
-                AvailableVariables = new List<Core.TestCases.Variables>() { new Core.TestCases.Variables() { Name = "Name", Value = "value", Type = "Type" } }
+                AvailableVariables = new List<Core.TestCases.AutomaticVariable>() { new Core.TestCases.AutomaticVariable() { Name = "Name", Value = "value", Type = "Type" } }
             };
 
             // when
-            var testCaseViewModel = testCaseMapper.BuildViewModel(testCase);
+            TestCaseViewModel testCaseViewModel = testCaseMapper.BuildViewModel(testCase);
 
             // then
             Assert.NotNull(testCaseViewModel);
@@ -164,7 +163,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
                     Sleep = 10,
                     PostType = PostType.POST,
                     VerifyResponseCode = HttpStatusCode.Accepted,
-                    AvailableVariables = new List<Variables>() { new Variables() {Name = "Name",Value="value", Type = "Type"} }
+                    AvailableVariables = new List<VariableModel>() { new VariableModel() {Name = "Name",Value="value", Type = "Type"} }
                 };
             }
         }

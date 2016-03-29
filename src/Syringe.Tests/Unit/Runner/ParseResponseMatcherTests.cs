@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Syringe.Core.Extensions;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner;
 using Syringe.Core.TestCases;
@@ -26,12 +27,12 @@ namespace Syringe.Tests.Unit.Runner
 			string content = "<html class='bootstrap'><p>Tap tap tap 123</p></html>";
 
 			// Act
-			Dictionary<string, string> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables["parsedresponse1"], Is.EqualTo("123"));
-			Assert.That(variables["parsedresponsefoo"], Is.EqualTo("<html class='bootstrap'>"));
+			Assert.That(variables.ValueByName("parsedresponse1"), Is.EqualTo("123"));
+			Assert.That(variables.ValueByName("parsedresponsefoo"), Is.EqualTo("<html class='bootstrap'>"));
 		}
 
 		[Test]
@@ -47,12 +48,12 @@ namespace Syringe.Tests.Unit.Runner
 			string content = "<html>123 abc</html>";
 
 			// Act
-			Dictionary<string, string> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables["parsedresponse1"], Is.EqualTo(""));
-			Assert.That(variables["parsedresponse2"], Is.EqualTo(""));
+			Assert.That(variables.ValueByName("parsedresponse1"), Is.EqualTo(""));
+			Assert.That(variables.ValueByName("parsedresponse2"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -68,12 +69,12 @@ namespace Syringe.Tests.Unit.Runner
 			string content = "<html>123 abc</html>";
 
 			// Act
-			Dictionary<string, string> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables["parsedresponse1"], Is.EqualTo("123"));
-			Assert.That(variables["parsedresponse2"], Is.EqualTo(""));
+			Assert.That(variables.ValueByName("parsedresponse1"), Is.EqualTo("123"));
+			Assert.That(variables.ValueByName("parsedresponse2"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -87,10 +88,10 @@ namespace Syringe.Tests.Unit.Runner
 			string content = "<html>The number 3 and the number 4 combined make 7</html>";
 
 			// Act
-			Dictionary<string, string> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = ParseResponseMatcher.MatchParseResponses(parseResponses, content, new SimpleLogger());
 
 			// Assert
-			Assert.That(variables["parsedresponse1"], Is.EqualTo("347"));
+			Assert.That(variables.ValueByName("parsedresponse1"), Is.EqualTo("347"));
 		}
 	}
 }

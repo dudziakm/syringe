@@ -1,63 +1,69 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
+using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Runner
 {
 	internal class SessionVariables
 	{
-		private readonly Dictionary<string, string> _currentVariables;
+		private readonly List<Variable> _currentVariables;
 
 		public SessionVariables()
 		{
-			_currentVariables = new Dictionary<string, string>();
+			_currentVariables = new List<Variable>();
 		}
 
 		public void AddGlobalVariables(Config config)
 		{
 			if (!string.IsNullOrEmpty(config.BaseUrl))
-				_currentVariables.Add("baseurl", config.BaseUrl);
+				_currentVariables.Add(new Variable("baseurl", config.BaseUrl));
 
 			foreach (Variable variable in config.Variables)
 			{
-				_currentVariables.Add(variable.Name, variable.Value);
+				_currentVariables.Add(new Variable(variable.Name, variable.Value));
 			}
 		}
 
-		public void AddOrUpdateVariables(Dictionary<string, string> variables)
+		public void AddOrUpdateVariables(List<Variable> variables)
 		{
-			foreach (KeyValuePair<string, string> keyValuePair in variables)
+			foreach (Variable variable in variables)
 			{
-				AddOrUpdateVariable(keyValuePair.Key, keyValuePair.Value);
+				AddOrUpdateVariable(variable.Name, variable.Value);
 			}
 		}
 
 		public void AddOrUpdateVariable(string name, string value)
 		{
-			if (_currentVariables.ContainsKey(name))
+			var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			if (variable != null)
 			{
-				_currentVariables[name] = value;
+				variable.Value = value;
 			}
 			else
 			{
-				_currentVariables.Add(name, value);
+				_currentVariables.Add(new Variable(name, value));
 			}
 		}
 
-		public string GetVariableValue(string key)
+		public string GetVariableValue(string name)
 		{
-			if (_currentVariables.ContainsKey(key))
-				return _currentVariables[key];
+			var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+			if (variable != null)
+				return variable.Value;
 
 			return "";
 		}
 
 		public string ReplacePlainTextVariablesIn(string text)
 		{
-			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			foreach (Variable variable in _currentVariables)
 			{
-				text = text.Replace("{" + keyValuePair.Key + "}", keyValuePair.Value);
+				text = text.Replace("{" + variable.Name + "}", variable.Value);
 			}
 
 			return text;
@@ -65,9 +71,9 @@ namespace Syringe.Core.Runner
 
 		public string ReplaceVariablesIn(string text)
 		{
-			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			foreach (Variable variable in _currentVariables)
 			{
-				text = text.Replace("{" + keyValuePair.Key + "}", Regex.Escape(keyValuePair.Value));
+				text = text.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
 			}
 
 			return text;
@@ -77,9 +83,9 @@ namespace Syringe.Core.Runner
 		{
 			Log.Information("In my bag of magic variables I have:");
 
-			foreach (KeyValuePair<string, string> keyValuePair in _currentVariables)
+			foreach (Variable variable in _currentVariables)
 			{
-				Log.Information(" - {{{0}}} : {1}", keyValuePair.Key, keyValuePair.Value);
+				Log.Information(" - {{{0}}} : {1}", variable.Name, variable.Value);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Syringe.Core.Runner;
+using Syringe.Core.TestCases;
 using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Tests.Unit.Runner
@@ -71,10 +72,10 @@ namespace Syringe.Tests.Unit.Runner
 			var sessionVariables = new SessionVariables();
 
 			// Act
-			sessionVariables.AddOrUpdateVariables(new Dictionary<string, string>()
+			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				{"nano", "leaf"}, 
-				{"light", "bulb"}
+				new Variable("nano", "leaf"),
+				new Variable("light", "bulb")
 			});
 
 
@@ -90,15 +91,15 @@ namespace Syringe.Tests.Unit.Runner
 			var sessionVariables = new SessionVariables();
 
 			// Act
-			sessionVariables.AddOrUpdateVariables(new Dictionary<string, string>()
+			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				{"nano", "leaf"}, 
-				{"light", "bulb"},
+				new Variable("nano", "leaf"),
+				new Variable("light", "bulb"),
 			});
-			sessionVariables.AddOrUpdateVariables(new Dictionary<string, string>()
+			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				{"nano", "leaf2"}, 
-				{"light", "bulb2"}
+				new Variable("nano", "leaf2"),
+				new Variable("light", "bulb2")
 			});
 
 

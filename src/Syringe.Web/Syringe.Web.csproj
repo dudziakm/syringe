@@ -208,7 +208,7 @@
     <Compile Include="Models\ParseResponseItem.cs" />
     <Compile Include="Models\TestFileViewModel.cs" />
     <Compile Include="Models\VariableItem.cs" />
-    <Compile Include="Models\Variables.cs" />
+    <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />
     <Compile Include="Models\VerificationItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

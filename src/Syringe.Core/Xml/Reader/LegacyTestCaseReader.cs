@@ -48,8 +48,8 @@ namespace Syringe.Core.Xml.Reader
             {
                 XElement element = elements[i];
                 Case testCase = GetTestCase(element);
-                testCase.AvailableVariables = testCollection.Variables.Select(x => new Variables { Name = x.Key, Value = x.Value, Type = "Variable" }).ToList();
-                testCase.AvailableVariables.AddRange(testCases.SelectMany(x => x.ParseResponses).Select(x => new Variables { Name = x.Description, Type = "Parse Response", Value = x.Regex }));
+                testCase.AvailableVariables = testCollection.Variables.Select(x => new AutomaticVariable { Name = x.Name, Value = x.Value, Type = "Variable" }).ToList();
+                testCase.AvailableVariables.AddRange(testCases.SelectMany(x => x.ParseResponses).Select(x => new AutomaticVariable { Name = x.Description, Type = "Parse Response", Value = x.Regex }));
                 testCases.Add(testCase);
             }
             testCollection.TestCases = testCases.OrderBy(x => x.Id);
@@ -99,22 +99,22 @@ namespace Syringe.Core.Xml.Reader
 			return testCase;
 		}
 
-		private Dictionary<string, string> GetTestVars(XElement rootElement)
+		private List<Variable> GetTestVars(XElement rootElement)
 		{
             // <variables>
             //  <variable name="login"></variable>
             // </variables>
 
-			var variables = new Dictionary<string, string>();
+			var variables = new List<Variable>();
 
 			foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))
 			{
 				XAttribute varnameAttribute = element.Attributes("varname").FirstOrDefault();
 				if (varnameAttribute != null)
 				{
-					if (!variables.ContainsKey(varnameAttribute.Value))
+					if (!variables.Any(x => x.Name.Equals(varnameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
 					{
-						variables.Add(varnameAttribute.Value, element.Value);
+						variables.Add(new Variable(varnameAttribute.Value, element.Value));
 					}
 				}
 			}
