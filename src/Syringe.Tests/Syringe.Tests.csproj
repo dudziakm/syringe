@@ -177,6 +177,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\variables.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="app.config" />
     <Content Include="Integration\Environments\environments.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -14,6 +14,24 @@ namespace Syringe.Tests.Unit.Xml
 		public static string XmlExamplesFolder = "Syringe.Tests.Unit.Xml.XmlExamples.Writer.";
 
 		[Test]
+		public void write_should_add_variables()
+		{
+			// Arrange
+			string expectedXml = TestHelpers.ReadEmbeddedFile("variables.xml", XmlExamplesFolder);
+
+			CaseCollection caseCollection = CreateCaseCollection();
+			caseCollection.Variables.Add(new Variable("name1", "value1", "env1"));
+			caseCollection.Variables.Add(new Variable("name2", "value2", "env2"));
+			TestCaseWriter xmlWriter = CreateTestCaseWriter();
+
+			// Act
+			string actualXml = xmlWriter.Write(caseCollection);
+
+			// Assert
+			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
+		}
+
+		[Test]
 		public void write_should_add_repeat_attribute()
 		{
 			// Arrange

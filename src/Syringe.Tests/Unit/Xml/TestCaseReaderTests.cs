@@ -69,10 +69,23 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Assert.That(testCollection.Variables.Count, Is.EqualTo(4));
-			Assert.That(testCollection.Variables.ValueByName("LOGIN_URL"), Is.EqualTo("http://myserver/login.php"));
-			Assert.That(testCollection.Variables.ValueByName("LOGIN1"), Is.EqualTo("bob"));
-			Assert.That(testCollection.Variables.ValueByName("PASSWD1"), Is.EqualTo("sponge"));
-			Assert.That(testCollection.Variables.ValueByName("SUCCESSFULL_TEST_TEXT"), Is.EqualTo("Welcome Bob"));
+
+			var loginUrlVariable = testCollection.Variables.ByName("LOGIN_URL");
+			var loginVariable = testCollection.Variables.ByName("LOGIN1");
+			var passwdVariable = testCollection.Variables.ByName("PASSWD1");
+			var testTextVariable = testCollection.Variables.ByName("SUCCESSFULL_TEST_TEXT");
+
+			Assert.That(loginUrlVariable.Value, Is.EqualTo("http://myserver/login.php"));
+			Assert.That(loginUrlVariable.Environment.Name, Is.EqualTo("DevTeam1"));
+
+			Assert.That(loginVariable.Value, Is.EqualTo("bob"));
+			Assert.That(loginVariable.Environment.Name, Is.EqualTo("DevTeam2"));
+
+			Assert.That(passwdVariable.Value, Is.EqualTo("sponge"));
+			Assert.That(passwdVariable.Environment.Name, Is.EqualTo("DevTeam1"));
+
+			Assert.That(testTextVariable.Value, Is.EqualTo("Welcome Bob"));
+			Assert.That(testTextVariable.Environment.Name, Is.EqualTo("DevTeam2"));
 		}
 
 		[Test]

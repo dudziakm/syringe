@@ -2,7 +2,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using MongoDB.Bson;
 using Syringe.Core.TestCases;
 
 namespace Syringe.Core.Xml.Writer
@@ -22,7 +21,6 @@ namespace Syringe.Core.Xml.Writer
 
                 using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
                 {
-
                     XElement testCasesElement = new XElement("testcases");
                     testCasesElement.Add(new XAttribute("repeat", caseCollection.Repeat.ToString()));
 
@@ -36,7 +34,10 @@ namespace Syringe.Core.Xml.Writer
                             variableElement.Add(new XAttribute("name", variable.Name));
                             variableElement.Value = variable.Value;
 
-                            variableElements.Add(variableElement);
+							variableElement.Add(new XAttribute("environment", variable.Environment.Name));
+							variableElement.Value = variable.Value;
+
+							variableElements.Add(variableElement);
                         }
 
                         testCasesElement.Add(variableElements);

@@ -7,9 +7,14 @@ namespace Syringe.Core.Extensions
 {
 	public static class VariableExtensions
 	{
+		public static Variable ByName(this List<Variable> list, string name)
+		{
+			return list.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+		}
+
 		public static string ValueByName(this List<Variable> list, string name)
 		{
-			Variable item = list.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			Variable item = list.ByName(name);
 			if (item != null)
 			{
 				return item.Value;
