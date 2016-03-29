@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Runner
 {
@@ -15,17 +14,6 @@ namespace Syringe.Core.Runner
 		public SessionVariables()
 		{
 			_currentVariables = new List<Variable>();
-		}
-
-		public void AddGlobalVariables(Config config)
-		{
-			if (!string.IsNullOrEmpty(config.BaseUrl))
-				_currentVariables.Add(new Variable("baseurl", config.BaseUrl, ""));
-
-			foreach (Variable variable in config.Variables)
-			{
-				_currentVariables.Add(new Variable(variable.Name, variable.Value, ""));
-			}
 		}
 
 		public void AddOrUpdateVariables(List<Variable> variables)

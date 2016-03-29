@@ -11,7 +11,7 @@ namespace Syringe.Tests.Unit.Xml
 {
 	public class TestCaseReaderTests
 	{
-		public virtual string XmlExamplesFolder => "Syringe.Tests.Unit.Xml.XmlExamples.Reader.Default.";
+		public virtual string XmlExamplesFolder => "Syringe.Tests.Unit.Xml.XmlExamples.Reader.";
 		public virtual string FalseString => "false";
 
 		protected virtual ITestCaseReader GetTestCaseReader()

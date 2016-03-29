@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 
 namespace Syringe.Core.Extensions
 {

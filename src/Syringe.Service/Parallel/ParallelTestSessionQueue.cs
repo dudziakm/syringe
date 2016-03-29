@@ -3,19 +3,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
-using Syringe.Core.Http.Logging;
 using Syringe.Core.Repositories;
 using Syringe.Core.Results;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.TestCases;
-using Syringe.Core.TestCases.Configuration;
 using Syringe.Core.Xml.Reader;
 
 namespace Syringe.Service.Parallel
@@ -85,10 +82,9 @@ namespace Syringe.Service.Parallel
 					CaseCollection caseCollection = testCaseReader.Read(stringReader);
 					caseCollection.Filename = xmlFilename;
 
-					var config = new Config();
 					var httpClient = new HttpClient(new RestClient());
 
-					var runner = new TestSessionRunner(config, httpClient, _repository);
+					var runner = new TestSessionRunner(httpClient, _repository);
 					item.Runner = runner;
 					await runner.RunAsync(caseCollection);
 				}

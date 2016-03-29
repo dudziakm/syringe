@@ -162,11 +162,8 @@
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\Configuration\ConfigReaderTests.cs" />
-    <Compile Include="Unit\Xml\LegacyTestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
-    <Compile Include="Unit\Configuration\LegacyConfigReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Yaml\QuickYamlTests.cs" />
   </ItemGroup>
@@ -190,20 +187,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\full.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\invalid-xml.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\single-case.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Legacy\ordered-attributes.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\parseresponses.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -220,8 +203,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Default\full.xml" />
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\Default\single-case.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\full.xml" />
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\single-case.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Yaml\TestCaseExamples\full.yaml">
