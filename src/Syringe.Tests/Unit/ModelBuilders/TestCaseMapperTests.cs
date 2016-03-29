@@ -23,9 +23,9 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             Assert.AreEqual(testCaseViewModel.ErrorMessage, build.ErrorMessage);
             Assert.AreEqual(testCaseViewModel.Headers.Count, build.Headers.Count);
-            Assert.AreEqual(testCaseViewModel.Id, build.Id);
+            Assert.AreEqual(testCaseViewModel.Position, build.Position);
             Assert.AreEqual(testCaseViewModel.LongDescription, build.LongDescription);
-            Assert.AreEqual(testCaseViewModel.ParentFilename, build.ParentFilename);
+            Assert.AreEqual(testCaseViewModel.Filename, build.ParentFilename);
             Assert.AreEqual(testCaseViewModel.ParseResponses.Count, build.ParseResponses.Count);
             Assert.AreEqual(testCaseViewModel.PostBody, build.PostBody);
             Assert.AreEqual(1, build.VerifyNegatives.Count);
@@ -65,14 +65,14 @@ namespace Syringe.Tests.Unit.ModelBuilders
         {
             // given
             var testCaseMapper = new TestCaseMapper();
-            var testCaseId = Guid.NewGuid();
-            var testCaseId2 = Guid.NewGuid();
+            var position = 1;
+            var position2 = 2;
             var caseCollection = new CaseCollection
             {
                 TestCases = new List<Case>
                 {
-                    new Case {Id = testCaseId, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
-                    new Case {Id = testCaseId2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
+                    new Case { Position = position, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
+                    new Case { Position = position2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
                 }
             };
 
@@ -84,12 +84,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(2, testCaseViewModels.Count());
 
             var firstCase = testCaseViewModels.First();
-            Assert.AreEqual(testCaseId, firstCase.Id);
+            Assert.AreEqual(position, firstCase.Position);
             Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
 
             var lastCase = testCaseViewModels.Last();
-            Assert.AreEqual(testCaseId2, lastCase.Id);
+            Assert.AreEqual(position2, lastCase.Position);
             Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
             Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
         }
@@ -102,7 +102,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             var testCase = new Case
             {
-                Id = Guid.NewGuid(),
+                 Position = 1,
                 ShortDescription = "Short Description",
                 Url = "http://www.google.com",
                 ErrorMessage = "Error",
@@ -124,7 +124,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
             // then
             Assert.NotNull(testCaseViewModel);
-            Assert.AreEqual(testCase.Id, testCaseViewModel.Id);
+            Assert.AreEqual(testCase.Position, testCaseViewModel.Position);
             Assert.AreEqual(testCase.ShortDescription, testCaseViewModel.ShortDescription);
             Assert.AreEqual(testCase.Url, testCaseViewModel.Url);
             Assert.AreEqual(testCase.ErrorMessage, testCaseViewModel.ErrorMessage);
@@ -132,7 +132,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
             Assert.AreEqual(testCase.PostBody, testCaseViewModel.PostBody);
             Assert.AreEqual(PostType.GET, testCaseViewModel.PostType);
             Assert.AreEqual(testCase.VerifyResponseCode, testCaseViewModel.VerifyResponseCode);
-            Assert.AreEqual(testCase.ParentFilename, testCaseViewModel.ParentFilename);
+            Assert.AreEqual(testCase.ParentFilename, testCaseViewModel.Filename);
 
             Assert.AreEqual(1, testCaseViewModel.ParseResponses.Count);
             Assert.AreEqual(2, testCaseViewModel.Verifications.Count);
@@ -149,9 +149,9 @@ namespace Syringe.Tests.Unit.ModelBuilders
                 {
                     ErrorMessage = "error",
                     Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
-                    Id = Guid.Empty,
+                     Position = 0,
                     LongDescription = "long description",
-                    ParentFilename = "Test.xml",
+                    Filename = "Test.xml",
                     ParseResponses = new List<ParseResponseItem>() { new ParseResponseItem { Description = "Description", Regex = "Regex" } },
                     PostBody = "Post Body",
                     Verifications = new List<VerificationItemModel>() { new VerificationItemModel { Description = "Description", Regex = "Regex", VerifyType = VerifyType.Negative },

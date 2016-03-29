@@ -68,12 +68,12 @@ namespace Syringe.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult RunTest(string filename, Guid testCaseId)
+        public ActionResult RunTest(string filename, int position)
         {
             UserContext context = UserContext.GetFromFormsAuth(HttpContext);
 
             var runViewModel = _runViewModelFactory();
-            runViewModel.RunTest(context, filename,testCaseId);
+            runViewModel.RunTest(context, filename, position);
             return View("Run", runViewModel);
         }
 

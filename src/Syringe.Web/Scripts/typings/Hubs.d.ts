@@ -129,7 +129,7 @@ interface CompletedTaskInfo {
 
     HttpResponse : Syringe.Core.Http.HttpResponse;
 
-    CaseId : System.Guid;
+    Position : number;
 
     ExceptionMessage : string;
 
