@@ -237,7 +237,7 @@
     <Content Include="Css\bootstrap-social\assets\js\jquery.js" />
     <Content Include="Css\font-awesome-4.4.0\css\font-awesome.min.css" />
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
-    <Content Include="gruntfile.js" />
+    <Content Include="gulpfile.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-beautify.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
