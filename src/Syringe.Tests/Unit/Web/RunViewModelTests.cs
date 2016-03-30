@@ -128,7 +128,7 @@ namespace Syringe.Tests.Unit.Web
 				viewModel.Run(Mock.Of<IUserContext>(), "My test file");
 
 				// then
-				Assert.That(viewModel.CurrentTaskPosition, Is.EqualTo(taskId));
+				Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));
 			}
 		}
 	}

@@ -42,7 +42,7 @@ namespace Syringe.Web.Models
                 Position = index,
             };
 
-            CurrentTaskPosition = _tasksService.Start(taskRequest);
+            CurrentTaskId = _tasksService.Start(taskRequest);
         }
 
 
@@ -67,7 +67,7 @@ namespace Syringe.Web.Models
                 BranchName = userContext.DefaultBranchName,
             };
 
-            CurrentTaskPosition = _tasksService.Start(taskRequest);
+            CurrentTaskId = _tasksService.Start(taskRequest);
         }
 
         public IEnumerable<RunningTestViewModel> Tests
@@ -75,7 +75,7 @@ namespace Syringe.Web.Models
             get { return _runningTests; }
         }
 
-        public int CurrentTaskPosition { get; private set; }
+        public int CurrentTaskId { get; private set; }
         public string FileName { get; private set; }
         public string SignalRUrl { get; private set; }
     }
