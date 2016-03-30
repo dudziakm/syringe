@@ -12,7 +12,7 @@
 	    </ul>
 
        
-        @Html.Partial("Partials/_Variables", Model.AvailableVariables)
+        @*@Html.Partial("Partials/_Variables", Model.AvailableVariables)*@
 	    <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 
 			@Html.ValidationSummary(false, "", new {@class = "alert alert-danger"})
