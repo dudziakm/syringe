@@ -120,24 +120,17 @@
     <Reference Include="xmlunit-core">
       <HintPath>..\..\packages\xmlunit-core.2.0.0-alpha-01\lib\net35\xmlunit-core.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet">
-      <HintPath>..\..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />
-    <Compile Include="Integration\Repository\MongoDB\ScheduledJobRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
-    <Compile Include="Integration\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\ModelBuilders\TestFileMapperTests.cs" />
     <Compile Include="Unit\Repositories\TestRepositoryTests.cs" />
-    <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
-    <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\JsonControllerTests.cs" />
@@ -153,7 +146,7 @@
     <Compile Include="StubsMocks\RestClientMock.cs" />
     <Compile Include="Unit\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Results\TestCaseResultTests.cs" />
-    <Compile Include="Unit\Runner\ParseResponseMatcherTests.cs" />
+    <Compile Include="Unit\Runner\CapturedVariableProviderTests.cs" />
     <Compile Include="Unit\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Runner\TestCaseResultsBuilder.cs" />
     <Compile Include="Unit\Runner\TestCaseSessionTests.cs" />
@@ -189,21 +182,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\parseresponses.xml">
+    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\capturedvariables.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\roadkill-login.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\wikipedia-parsedresults.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\wikipedia-simple.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\full.xml" />
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\single-case.xml">
@@ -251,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Configuration\" />
+    <Folder Include="Unit\Security\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

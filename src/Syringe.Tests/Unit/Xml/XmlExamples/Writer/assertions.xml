@@ -13,7 +13,7 @@
 
 		<headers/>
 		<postbody/>
-		<parseresponses />
+		<capturedvariables />
 
 		<assertions>
 			<assertion type="positive" description="p90-1">regex1</assertion>

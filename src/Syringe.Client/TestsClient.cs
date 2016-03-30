@@ -77,12 +77,12 @@ namespace Syringe.Client
 			return DeserializeOrThrow<bool>(response);
 		}
 
-        public bool CreateTest(Test testTest, string branchName)
+        public bool CreateTest(Test test, string branchName)
         {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("CreateTest");
             request.Method = Method.POST;
-            request.AddJsonBody(testTest);
+            request.AddJsonBody(test);
             request.AddQueryParameter("branchName", branchName);
 
             IRestResponse response = client.Execute(request);

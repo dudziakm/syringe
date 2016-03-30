@@ -109,7 +109,7 @@ namespace Syringe.Service.Parallel
 				{
 					TaskId = task.Id,
 					Username = task.Username,
-					TeamName = task.TeamName,
+					BranchName = task.TeamName,
 					Status = task.CurrentTask.Status.ToString(),
 					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
 					TotalCases = (runner != null) ? task.Runner.TotalTests : 0,
@@ -135,7 +135,7 @@ namespace Syringe.Service.Parallel
 			{
 				TaskId = task.Id,
 				Username = task.Username,
-				TeamName = task.TeamName,
+				BranchName = task.TeamName,
 				Status = task.CurrentTask.Status.ToString(),
 				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
 				CurrentIndex = (runner != null) ? runner.TestsRun : 0,

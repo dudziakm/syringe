@@ -104,7 +104,7 @@ namespace Syringe.Web.Controllers
 			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
 		}
 
-		public ActionResult AddParseResponseItem()
+		public ActionResult AddCapturedVariableItem()
 		{
 			return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
 		}

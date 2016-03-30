@@ -113,7 +113,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_set_parsed_variables()
+		public async Task Run_should_set_capturedvariables()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
@@ -132,7 +132,7 @@ namespace Syringe.Tests.Unit.Runner
 					},
 					VerifyPositives = new List<Assertion>()
 					{
-						new Assertion("positive-1", "{parsedresponse1}", AssertionType.Positive)
+						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive)
 					},
 				}
 			});
@@ -145,7 +145,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_set_parseresponsevariables_across_testcases()
+		public async Task Run_should_set_capturedvariables_across_tests()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
@@ -189,8 +189,8 @@ namespace Syringe.Tests.Unit.Runner
 					},
 					VerifyPositives = new List<Assertion>()
 					{
-						// Test the parsedresponse variable from the 1st case
-						new Assertion("positive-for-case-2", "{parsedresponse1}", AssertionType.Positive)
+						// Test the capturedvariable variable from the 1st case
+						new Assertion("positive-for-case-2", "{capturedvariable1}", AssertionType.Positive)
 					},
 				},
 				new Test()
@@ -199,8 +199,8 @@ namespace Syringe.Tests.Unit.Runner
 					VerifyResponseCode = HttpStatusCode.OK,
 					VerifyPositives = new List<Assertion>()
 					{
-						// Test the parseresponse variable from the 1st case
-						new Assertion("positive-for-case-3", "{parsedresponse2}", AssertionType.Positive)
+						// Test the capturedvariable variable from the 1st case
+						new Assertion("positive-for-case-3", "{capturedvariable2}", AssertionType.Positive)
 					},
 				}
 			});

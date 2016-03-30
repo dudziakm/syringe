@@ -89,7 +89,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _casesClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
-            _casesClient.Verify(x => x.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+            _casesClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
         }
 

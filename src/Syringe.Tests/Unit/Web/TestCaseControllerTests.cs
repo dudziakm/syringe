@@ -176,10 +176,10 @@ namespace Syringe.Tests.Unit.Web
         public void AddParseResponseItem_should_return_correct_view()
         {
             // given + when
-            var viewResult = _testController.AddParseResponseItem() as PartialViewResult;
+            var viewResult = _testController.AddCapturedVariableItem() as PartialViewResult;
 
             // then
-            Assert.AreEqual("EditorTemplates/ParseResponseItem", viewResult.ViewName);
+            Assert.AreEqual("EditorTemplates/CapturedVariableItem", viewResult.ViewName);
             Assert.IsInstanceOf<Syringe.Web.Models.CapturedVariableItem>(viewResult.Model);
         }
 
