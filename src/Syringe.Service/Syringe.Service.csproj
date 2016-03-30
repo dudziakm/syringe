@@ -172,14 +172,14 @@
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
     <Compile Include="ITaskObserver.cs" />
-    <Compile Include="ITestSessionQueue.cs" />
+    <Compile Include="ITestFileQueue.cs" />
     <Compile Include="Api\Hubs\ITaskGroupProvider.cs" />
     <Compile Include="Parallel\ITaskPublisher.cs" />
-    <Compile Include="Parallel\ParallelTestSessionQueue.cs" />
+    <Compile Include="Parallel\ParallelTestFileQueue.cs" />
     <Compile Include="Api\TeamController.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
     <Compile Include="Parallel\TaskPublisher.cs" />
-    <Compile Include="Parallel\SessionRunnerTaskInfo.cs" />
+    <Compile Include="Parallel\TestFileRunnerTaskInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyringeService.cs" />

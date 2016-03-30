@@ -56,8 +56,8 @@ namespace Syringe.Service.DependencyResolution
 			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load());
 
             For<ITestFileResultRepository>().Use<TestFileResultRepository>().Singleton();
-            For<ITestSessionQueue>().Use<ParallelTestSessionQueue>().Singleton();
-            Forward<ITestSessionQueue, ITaskObserver>();
+            For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
+            Forward<ITestFileQueue, ITaskObserver>();
 
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();

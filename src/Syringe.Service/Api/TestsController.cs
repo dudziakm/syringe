@@ -47,7 +47,7 @@ namespace Syringe.Service.Api
             return _testRepository.GetXml(filename, branchName);
         }
 
-        [Route("api/tests/EditTestCase")]
+        [Route("api/tests/EditTest")]
         [HttpPost]
         public bool EditTest([FromBody]Test test, [FromUri]string branchName)
         {

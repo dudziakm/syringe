@@ -2,11 +2,11 @@ namespace Syringe.Service.Parallel
 {
     public class TaskMonitoringInfo
     {
-        public TaskMonitoringInfo(int totalCases)
+        public TaskMonitoringInfo(int totalTests)
         {
-            TotalCases = totalCases;
+            TotalTests = totalTests;
         }
 
-        public int TotalCases { get; private set; }
+        public int TotalTests { get; private set; }
     }
 }

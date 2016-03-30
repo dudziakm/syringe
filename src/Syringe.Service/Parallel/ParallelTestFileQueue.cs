@@ -18,19 +18,19 @@ using Syringe.Core.Xml.Reader;
 namespace Syringe.Service.Parallel
 {
 	/// <summary>
-	/// A TPL based queue for running XML cases using the default <see cref="TestFileRunner"/>
+	/// A TPL based queue for running test files using the default <see cref="TestFileRunner"/>
 	/// </summary>
-	internal class ParallelTestSessionQueue : ITestSessionQueue, ITaskObserver
+	internal class ParallelTestFileQueue : ITestFileQueue, ITaskObserver
 	{
 		private int _lastTaskId;
-		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
+		private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
 		private readonly IConfiguration _configuration;
 		private readonly ITestFileResultRepository _repository;
 	    private readonly ITaskPublisher _taskPublisher;
 
-	    public ParallelTestSessionQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
+	    public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
 		{
-			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
+			_currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
 			_configuration = configuration;
 
 			_repository = repository;
@@ -38,7 +38,7 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
-		/// Adds a request to run a test case XML file the queue of tasks to run.
+		/// Adds a request to run a test file to the queue of tasks to run.
 		/// </summary>
 		public int Add(TaskRequest item)
 		{
@@ -46,11 +46,11 @@ namespace Syringe.Service.Parallel
 
 			var cancelTokenSource = new CancellationTokenSource();
 
-			var taskInfo = new SessionRunnerTaskInfo(taskId);
+			var taskInfo = new TestFileRunnerTaskInfo(taskId);
 			taskInfo.Request = item;
 			taskInfo.StartTime = DateTime.UtcNow;
 			taskInfo.Username = item.Username;
-			taskInfo.TeamName = item.TeamName;
+			taskInfo.BranchName = item.TeamName;
 
 		    Task childTask = StartSessionAsync(taskInfo);
 
@@ -62,24 +62,23 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
-		/// Starts the test case XML file run.
+		/// Starts the test file run.
 		/// </summary>
-		internal async Task StartSessionAsync(SessionRunnerTaskInfo item)
+		internal async Task StartSessionAsync(TestFileRunnerTaskInfo item)
 		{
 			try
 			{
-				string username = item.Username;
-				string teamName = item.TeamName;
+				string branchName = item.BranchName;
 
-				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
+				// Read in the XML file from the branch folder, e.g. "c:\syringe\master\test1.xml"
 				string xmlFilename = item.Request.Filename;
-				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, teamName, xmlFilename);
+				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))
 				{
-					var testCaseReader = new TestFileReader();
-					TestFile testFile = testCaseReader.Read(stringReader);
+					var testFileReader = new TestFileReader();
+					TestFile testFile = testFileReader.Read(stringReader);
 					testFile.Filename = xmlFilename;
 
 					var httpClient = new HttpClient(new RestClient());
@@ -96,7 +95,7 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
-		/// Shows minimal information about all test case XML file requests in the queue, and their status,
+		/// Shows minimal information about all test XML file requests in the queue, and their status,
 		/// and who started the run.
 		/// </summary>
 		public IEnumerable<TaskDetails> GetRunningTasks()
@@ -109,7 +108,7 @@ namespace Syringe.Service.Parallel
 				{
 					TaskId = task.Id,
 					Username = task.Username,
-					BranchName = task.TeamName,
+					BranchName = task.BranchName,
 					Status = task.CurrentTask.Status.ToString(),
 					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
 					TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
@@ -118,12 +117,12 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
-		/// Shows the full information about a *single* test case run - it doesn't have to be running, it could be complete.
-		/// This includes the results of every case in the collection of cases for the XML file run.
+		/// Shows the full information about a *single* test run - it doesn't have to be running, it could be complete.
+		/// This includes the results of every test in the test file.
 		/// </summary>
 		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
-			SessionRunnerTaskInfo task;
+			TestFileRunnerTaskInfo task;
 			_currentTasks.TryGetValue(taskId, out task);
 			if (task == null)
 			{
@@ -135,7 +134,7 @@ namespace Syringe.Service.Parallel
 			{
 				TaskId = task.Id,
 				Username = task.Username,
-				BranchName = task.TeamName,
+				BranchName = task.BranchName,
 				Status = task.CurrentTask.Status.ToString(),
 				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
 				CurrentIndex = (runner != null) ? runner.TestsRun : 0,
@@ -145,11 +144,11 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
-		/// Stops a case XML request task in the queue, returning a message of whether the stop succeeded or not.
+		/// Stops a test XML request task in the queue, returning a message of whether the stop succeeded or not.
 		/// </summary>
 		public string Stop(int taskId)
 		{
-			SessionRunnerTaskInfo task;
+			TestFileRunnerTaskInfo task;
 			_currentTasks.TryRemove(taskId, out task);
 			if (task == null)
 			{
@@ -169,7 +168,7 @@ namespace Syringe.Service.Parallel
 		public List<string> StopAll()
 		{
 			List<string> results = new List<string>();
-			foreach (SessionRunnerTaskInfo task in _currentTasks.Values)
+			foreach (TestFileRunnerTaskInfo task in _currentTasks.Values)
 			{
 				results.Add(Stop(task.Id));
 			}
@@ -179,7 +178,7 @@ namespace Syringe.Service.Parallel
 
 		public TaskMonitoringInfo StartMonitoringTask(int taskId)
 		{
-			SessionRunnerTaskInfo task;
+			TestFileRunnerTaskInfo task;
 			_currentTasks.TryGetValue(taskId, out task);
 			if (task == null)
 			{

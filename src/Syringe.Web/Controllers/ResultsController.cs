@@ -28,7 +28,7 @@ namespace Syringe.Web.Controllers
 
             if (taskCase == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified case.");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
 	        var baseUrl = _urlHelper.GetBaseUrl(taskCase.ActualUrl);
@@ -56,7 +56,7 @@ namespace Syringe.Web.Controllers
 
             if (taskCase == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified case.");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
             var viewModel = new ResultsViewModel

@@ -86,7 +86,7 @@ interface CompletedTaskInfo {
     ResultId : System.Guid;
     Success : boolean;
     HttpResponse : Syringe.Core.Http.HttpResponse;
-    CaseId : System.Guid;
+    TestId : System.Guid;
     ExceptionMessage : string;
     Verifications : Syringe.Core.Tests.Assertion[];
 }
@@ -166,7 +166,7 @@ interface Guid {
   */
 declare module Syringe.Service.Api.Hubs {
 interface TaskState {
-    TotalCases : number;
+    TotalTests : number;
 }
 } // end module
 

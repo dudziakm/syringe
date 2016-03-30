@@ -25,7 +25,7 @@ module Syringe.Web {
             this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
                 ++this.completedCases;
 
-                console.log(`Completed task ${taskInfo.CaseId} (${this.completedCases} of ${this.totalCases}).`);
+                console.log(`Completed task ${taskInfo.TestId} (${this.completedCases} of ${this.totalCases}).`);
 
                 if (this.totalCases > 0) {
                     var percentage = (this.completedCases / this.totalCases) * 100;
@@ -33,7 +33,7 @@ module Syringe.Web {
                     $(".progress-bar .sr-only").text(`${percentage}% Complete`);
                 }
 
-                var selector = `#case-${taskInfo.CaseId}`;
+                var selector = `#case-${taskInfo.TestId}`;
                 var $selector = $(selector);
 
                 // Url
@@ -73,8 +73,8 @@ module Syringe.Web {
                     this.completedCases = 0;
                     this.proxy.server.startMonitoringTask(taskId)
                         .done(taskState => {
-                            this.totalCases = taskState.TotalCases;
-                            console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalCases} tests.`);
+                            this.totalCases = taskState.TotalTests;
+                            console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalTests} tests.`);
                         });
                 });
         }
