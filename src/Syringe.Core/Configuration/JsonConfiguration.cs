@@ -22,7 +22,7 @@ namespace Syringe.Core.Configuration
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
-			TestFilesBaseDirectory = @"C:\Syringe\";
+			TestFilesBaseDirectory = @"D:\Syringe\";
 			OAuthConfiguration = new OAuthConfiguration();
 			GitConfiguration = new GitConfiguration();
 		}
