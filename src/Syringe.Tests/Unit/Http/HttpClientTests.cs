@@ -7,7 +7,7 @@ using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 using Syringe.Tests.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 

@@ -134,8 +134,8 @@
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Helpers\UrlHelperTests.cs" />
-    <Compile Include="Unit\ModelBuilders\TestCaseMapperTests.cs" />
-    <Compile Include="Unit\Repositories\CaseRepositoryTests.cs" />
+    <Compile Include="Unit\ModelBuilders\TestFileMapperTests.cs" />
+    <Compile Include="Unit\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityMembershipProviderTests.cs" />
     <Compile Include="Unit\Security\Teamcity\Providers\TeamcityUserRequestTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="Unit\Web\RunViewModelTests.cs" />
     <Compile Include="Unit\Web\TestCaseControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileControllerTests.cs" />
-    <Compile Include="Unit\Xml\TestCaseWriterTests.cs" />
+    <Compile Include="Unit\Xml\TestFileWriterTests.cs" />
     <Compile Include="Integration\Xml\TestCaseRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Http\HttpResponseTests.cs" />
@@ -162,7 +162,7 @@
     <Compile Include="Unit\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\Xml\TestCaseReaderTests.cs" />
+    <Compile Include="Unit\Xml\TestFileReaderTests.cs" />
     <Compile Include="Unit\Xml\XmlHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -231,7 +231,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\parseresponses.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\capturedvariables.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -239,7 +239,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\verifications.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\assertions.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

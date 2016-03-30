@@ -43,10 +43,10 @@ namespace Syringe.Web.DependencyResolution
 	        string serviceUrl = new MvcConfiguration().ServiceUrl;
 
 			For<IRunViewModel>().Use<RunViewModel>();
-            For<ITestCaseMapper>().Use<TestCaseMapper>();
+            For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();
             For<IUrlHelper>().Use<UrlHelper>();
-            For<ICaseService>().Use(() => new CasesClient(serviceUrl));
+            For<ITestService>().Use(() => new TestsClient(serviceUrl));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
 	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
         }

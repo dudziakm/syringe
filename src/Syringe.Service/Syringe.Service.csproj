@@ -167,7 +167,7 @@
     <Compile Include="Api\Hubs\TaskState.cs" />
     <Compile Include="Api\IEnvironmentsService.cs" />
     <Compile Include="Api\TasksController.cs" />
-    <Compile Include="Api\CasesController.cs" />
+    <Compile Include="Api\TestsController.cs" />
     <Compile Include="Api\HealthCheckController.cs" />
     <Compile Include="Api\EnvironmentsController.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />

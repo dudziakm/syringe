@@ -30,7 +30,7 @@ namespace Syringe.Service.Schedule
 
 			IJobDetail job = JobBuilder.Create<QuartzJob>()
 					.WithIdentity(jobName, team.Name)
-					.UsingJobData("TeamName", team.Name)
+					.UsingJobData("DefaultBranchName", team.Name)
 					.UsingJobData("TeamId", team.Id.ToString())
 					.UsingJobData("TestCaseFilename", testCaseFilename)
 					.Build();

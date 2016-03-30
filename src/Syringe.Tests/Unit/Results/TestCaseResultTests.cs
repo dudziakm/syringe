@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Syringe.Core.Results;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Unit.Results
 {
@@ -15,10 +15,10 @@ namespace Syringe.Tests.Unit.Results
 		public void Success_should_return_result_based_on_success_codes(bool expectedResult, bool responseCodeSuccess, bool positiveSuccess, bool negativeSuccess)
 		{
 			// Arrange
-			var testCaseResults = new TestCaseResult();
+			var testCaseResults = new TestResult();
 			testCaseResults.ResponseCodeSuccess = responseCodeSuccess;
-			testCaseResults.VerifyPositiveResults.Add(new VerificationItem("desc", "regex", VerifyType.Positive) { Success = positiveSuccess });
-			testCaseResults.VerifyNegativeResults.Add(new VerificationItem("desc", "regex", VerifyType.Negative) { Success = negativeSuccess });
+			testCaseResults.PositiveAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = positiveSuccess });
+			testCaseResults.NegativeAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = negativeSuccess });
 
 			// Act
 			bool actualResult = testCaseResults.Success;
@@ -31,11 +31,11 @@ namespace Syringe.Tests.Unit.Results
 		public void VerifyPositivesSuccess_should_return_false_when_all_positive_results_are_false()
 		{
 			// Arrange
-			var testCaseResults = new TestCaseResult();
-			testCaseResults.VerifyPositiveResults.Add(new VerificationItem("desc", "regex", VerifyType.Positive) { Success = false });
+			var testCaseResults = new TestResult();
+			testCaseResults.PositiveAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = false });
 
 			// Act
-			bool actualResult = testCaseResults.VerifyPositivesSuccess;
+			bool actualResult = testCaseResults.IsPositiveAssertionsSuccess;
 
 			// Assert
 			Assert.That(actualResult, Is.False);
@@ -45,11 +45,11 @@ namespace Syringe.Tests.Unit.Results
 		public void VerifyNegativeSuccess_should_return_false_when_all_positive_results_are_false()
 		{
 			// Arrange
-			var testCaseResults = new TestCaseResult();
-			testCaseResults.VerifyNegativeResults.Add(new VerificationItem("desc", "regex", VerifyType.Negative) { Success = false });
+			var testCaseResults = new TestResult();
+			testCaseResults.NegativeAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = false });
 
 			// Act
-			bool actualResult = testCaseResults.VerifyNegativeSuccess;
+			bool actualResult = testCaseResults.IsNegativeAssertionsSuccess;
 
 			// Assert
 			Assert.That(actualResult, Is.False);
@@ -59,11 +59,11 @@ namespace Syringe.Tests.Unit.Results
 		public void VerifyPositivesSuccess_and_VerifyNegativeSuccess_should_return_true_when_positiveresults_is_null()
 		{
 			// Arrange
-			var testCaseResults = new TestCaseResult();
+			var testCaseResults = new TestResult();
 
 			// Act + Assert
-			Assert.That(testCaseResults.VerifyPositivesSuccess, Is.True);
-			Assert.That(testCaseResults.VerifyNegativeSuccess, Is.True);
+			Assert.That(testCaseResults.IsPositiveAssertionsSuccess, Is.True);
+			Assert.That(testCaseResults.IsNegativeAssertionsSuccess, Is.True);
 		}
 	}
 }

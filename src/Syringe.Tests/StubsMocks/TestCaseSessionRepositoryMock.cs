@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Syringe.Core.Repositories;
-using Syringe.Core.Results;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.StubsMocks
 {
 	internal class TestCaseSessionRepositoryMock : ITestCaseSessionRepository
 	{
-		public TestCaseSession SavedSession { get; set; }
+		public TestFileResult SavedSession { get; set; }
 
 		public Task DeleteAsync(Guid session)
 		{
 			return Task.FromResult<object>(null);
 		}
 
-		public TestCaseSession GetById(Guid id)
+		public TestFileResult GetById(Guid id)
 		{
-			return new TestCaseSession();
+			return new TestFileResult();
 		}
 
 		public void Wipe()
@@ -25,17 +25,17 @@ namespace Syringe.Tests.StubsMocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<SessionInfo> GetSummaries()
+		public IEnumerable<TestFileResultSummary> GetSummaries()
 		{
-			return new List<SessionInfo>();
+			return new List<TestFileResultSummary>();
 		}
 
-		public IEnumerable<SessionInfo> GetSummariesForToday()
+		public IEnumerable<TestFileResultSummary> GetSummariesForToday()
 		{
-			return new List<SessionInfo>();
+			return new List<TestFileResultSummary>();
 		}
 
-		public Task AddAsync(TestCaseSession session)
+		public Task AddAsync(TestFileResult session)
 		{
 			SavedSession = session;
 		    return Task.FromResult<object>(null);

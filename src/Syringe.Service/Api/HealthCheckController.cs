@@ -21,11 +21,11 @@ namespace Syringe.Service.Api
 			if (string.IsNullOrEmpty(_configuration.WebsiteUrl))
 				return "The service app.config WebsiteUrl key is empty - please enter the website url including port number in appSettings, e.g. http://localhost:1980";
 
-			if (string.IsNullOrEmpty(_configuration.TestCasesBaseDirectory))
-				return "The service app.config TestCasesBaseDirectory key is empty - please enter the folder the test case XML files are stored in appSettings, e.g. D:\\syringe";
+			if (string.IsNullOrEmpty(_configuration.TestFilesBaseDirectory))
+				return "The service app.config TestFilesBaseDirectory key is empty - please enter the folder the test case XML files are stored in appSettings, e.g. D:\\syringe";
 
-			if (!Directory.Exists(_configuration.TestCasesBaseDirectory))
-				return string.Format("The service app.config TestCasesBaseDirectory folder '{0}' does not exist", _configuration.TestCasesBaseDirectory);
+			if (!Directory.Exists(_configuration.TestFilesBaseDirectory))
+				return string.Format("The service app.config TestFilesBaseDirectory folder '{0}' does not exist", _configuration.TestFilesBaseDirectory);
 
 			return "Everything is OK";
 		}

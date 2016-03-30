@@ -8,9 +8,9 @@ using NUnit.Framework;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Repositories;
-using Syringe.Core.Results;
 using Syringe.Core.Runner;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
@@ -35,19 +35,19 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_repeat_testcases_from_repeat_property()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
+				new Test() { Url = "foo1" },
 			});
 			caseCollection.Repeat = 10;
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Count(), Is.EqualTo(10));
+			Assert.That(session.TestResults.Count(), Is.EqualTo(10));
 		}
 
 		[Test]
@@ -68,18 +68,18 @@ namespace Syringe.Tests.Unit.Runner
 			};
 			httpClient.Response = response;
 
-			var runner = new TestSessionRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" },
-				new Case() { Url = "foo4" },
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" },
+				new Test() { Url = "foo4" },
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
@@ -96,15 +96,15 @@ namespace Syringe.Tests.Unit.Runner
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(response);
-			var runner = new TestSessionRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
+				new Test() { Url = "foo1" },
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
 			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
@@ -116,39 +116,39 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_set_parsed_variables()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.Content = "some content";
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case()
+				new Test()
 				{
 					Url = "case1",
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParseResponseItem>()
+					CapturedVariables = new List<CapturedVariable>()
 					{
-						new ParseResponseItem("1", "some content")
+						new CapturedVariable("1", "some content")
 					},
-					VerifyPositives = new List<VerificationItem>()
+					VerifyPositives = new List<Assertion>()
 					{
-						new VerificationItem("positive-1", "{parsedresponse1}", VerifyType.Positive)
+						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive)
 					},
 				}
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Single().VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(session.TestResults.Single().PositiveAssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
 		public async Task Run_should_set_parseresponsevariables_across_testcases()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Responses = new List<HttpResponse>()
 			{
 				new HttpResponse()
@@ -170,59 +170,59 @@ namespace Syringe.Tests.Unit.Runner
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case()
+				new Test()
 				{
 					Url = "case1",
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParseResponseItem>()
+					CapturedVariables = new List<CapturedVariable>()
 					{
-						new ParseResponseItem("1", @"(SECRET_KEY)")
+						new CapturedVariable("1", @"(SECRET_KEY)")
 					},
 				},
-				new Case()
+				new Test()
 				{
 					Url = "case2",
 					VerifyResponseCode = HttpStatusCode.OK,
-					ParseResponses = new List<ParseResponseItem>()
+					CapturedVariables = new List<CapturedVariable>()
 					{
-						new ParseResponseItem("2", @"(SECRET_KEY)")
+						new CapturedVariable("2", @"(SECRET_KEY)")
 					},
-					VerifyPositives = new List<VerificationItem>()
+					VerifyPositives = new List<Assertion>()
 					{
 						// Test the parsedresponse variable from the 1st case
-						new VerificationItem("positive-for-case-2", "{parsedresponse1}", VerifyType.Positive)
+						new Assertion("positive-for-case-2", "{capturedvariable1}", AssertionType.Positive)
 					},
 				},
-				new Case()
+				new Test()
 				{
 					Url = "case3",
 					VerifyResponseCode = HttpStatusCode.OK,
-					VerifyPositives = new List<VerificationItem>()
+					VerifyPositives = new List<Assertion>()
 					{
 						// Test the parseresponse variable from the 1st case
-						new VerificationItem("positive-for-case-3", "{parsedresponse2}", VerifyType.Positive)
+						new Assertion("positive-for-case-3", "{capturedvariable2}", AssertionType.Positive)
 					},
 				}
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.ElementAt(1).VerifyPositiveResults[0].Success, Is.True);
-			Assert.That(session.TestCaseResults.ElementAt(2).VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(1).PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(2).PositiveAssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
 		public async Task Run_should_set_testresult_success_and_response_when_httpcode_passes()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case()
+				new Test()
 				{
 					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.OK
@@ -230,23 +230,23 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Single().Success, Is.True);
-			Assert.That(session.TestCaseResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
+			Assert.That(session.TestResults.Single().Success, Is.True);
+			Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
 		}
 
 		[Test]
 		public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case()
+				new Test()
 				{
 					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.Ambiguous
@@ -254,29 +254,29 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Single().Success, Is.False);
-			Assert.That(session.TestCaseResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
+			Assert.That(session.TestResults.Single().Success, Is.False);
+			Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
 		}
 
 		[Test]
 		public async Task Run_should_set_message_from_case_errormessage_when_httpcode_fails()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
+				new Test() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			Assert.That(session.TestCaseResults.Single().Message, Is.EqualTo("It broke"));
+			Assert.That(session.TestResults.Single().Message, Is.EqualTo("It broke"));
 		}
 
 
@@ -286,12 +286,12 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			var repository = new TestCaseSessionRepositoryMock();
 
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			runner.Repository = repository;
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1"},
+				new Test() { Url = "foo1"},
 			});
 
 			// Act
@@ -299,60 +299,60 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Assert
 			Assert.That(repository.SavedSession, Is.Not.Null);
-			Assert.That(repository.SavedSession.TestCaseResults.Count(), Is.EqualTo(1));
+			Assert.That(repository.SavedSession.TestResults.Count(), Is.EqualTo(1));
 		}
 
 		[Test]
 		public async Task Run_should_verify_positive_and_negative_items_when_httpcode_passes()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 			_httpClientMock.Response.Content = "some content";
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case()
+				new Test()
 				{
 					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.OK,
-					VerifyPositives = new List<VerificationItem>()
+					VerifyPositives = new List<Assertion>()
 					{
-						new VerificationItem("positive-1", "some content", VerifyType.Positive)
+						new Assertion("positive-1", "some content", AssertionType.Positive)
 					},
-					VerifyNegatives = new List<VerificationItem>()
+					VerifyNegatives = new List<Assertion>()
 					{
-						new VerificationItem("negative-1", "no text like this", VerifyType.Negative)
+						new Assertion("negative-1", "no text like this", AssertionType.Negative)
 					}
 				},
 			});
 
 			// Act
-			TestCaseSession session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(caseCollection);
 
 			// Assert
-			var result = session.TestCaseResults.Single();
+			var result = session.TestResults.Single();
 			Assert.That(result.Success, Is.True);
-			Assert.That(result.VerifyPositiveResults.Count, Is.EqualTo(1));
-			Assert.That(result.VerifyPositiveResults[0].Success, Is.True);
+			Assert.That(result.PositiveAssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.PositiveAssertionResults[0].Success, Is.True);
 
-			Assert.That(result.VerifyNegativeResults.Count, Is.EqualTo(1));
-			Assert.That(result.VerifyNegativeResults[0].Success, Is.True);
+			Assert.That(result.NegativeAssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.NegativeAssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
 		public async Task Run_should_notify_observers_of_existing_results()
 		{
 			// Arrange
-			var observedResults = new List<TestCaseResult>();
+			var observedResults = new List<TestResult>();
 
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" }
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" }
 			});
 
 			await runner.RunAsync(caseCollection);
@@ -368,16 +368,16 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_notify_observers_of_new_results()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" }
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" }
 			});
 
-			var observedResults = new List<TestCaseResult>();
+			var observedResults = new List<TestResult>();
 
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
@@ -409,16 +409,16 @@ namespace Syringe.Tests.Unit.Runner
 				.Callback(() => { if (subscription != null) subscription.Dispose(); })
 				.Returns(Task.FromResult(new HttpResponse()));
 
-			TestSessionRunner runner = new TestSessionRunner(httpClientMock.Object, GetRepository());
+			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" }
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" }
 			});
 
-			var observedResults = new List<TestCaseResult>();
+			var observedResults = new List<TestResult>();
 
 			// Act
 			subscription = runner.Subscribe(r => { observedResults.Add(r); });
@@ -433,13 +433,13 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
 		{
 			// Arrange
-			TestSessionRunner runner = CreateRunner();
+			TestFileRunner runner = CreateRunner();
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" }
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" }
 			});
 
 			var completed = false;
@@ -466,16 +466,16 @@ namespace Syringe.Tests.Unit.Runner
 				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
-			TestSessionRunner runner = new TestSessionRunner(httpClientMock.Object, GetRepository());
+			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
 
 			var caseCollection = CreateCaseCollection(new[]
 			{
-				new Case() { Url = "foo1" },
-				new Case() { Url = "foo2" },
-				new Case() { Url = "foo3" }
+				new Test() { Url = "foo1" },
+				new Test() { Url = "foo2" },
+				new Test() { Url = "foo3" }
 			});
 
-			TestCaseResult capturedResult = null;
+			TestResult capturedResult = null;
 			runner.Subscribe(r => capturedResult = r);
 
 			// Act
@@ -486,21 +486,21 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(capturedResult.Success, Is.False, "Should not have succeeded.");
 		}
 
-		private TestSessionRunner CreateRunner()
+		private TestFileRunner CreateRunner()
 		{
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);
 
-			return new TestSessionRunner(_httpClientMock, GetRepository());
+			return new TestFileRunner(_httpClientMock, GetRepository());
 		}
 
-		private CaseCollection CreateCaseCollection(Case[] cases)
+		private TestFile CreateCaseCollection(Test[] tests)
 		{
-			var testCases = new List<Case>();
-			testCases.AddRange(cases);
+			var testCases = new List<Test>();
+			testCases.AddRange(tests);
 
-			var collection = new CaseCollection();
-			collection.TestCases = testCases;
+			var collection = new TestFile();
+			collection.Tests = testCases;
 
 			return collection;
 		}

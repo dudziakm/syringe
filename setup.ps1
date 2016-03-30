@@ -8,7 +8,7 @@
 # 3. Copies an example test case XML file to that location
 # ===============================================================================
 $ErrorActionPreference = "Stop"
-$xmlDir     = "D:\syringe\teamname"
+$xmlDir     = "D:\syringe\master"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow

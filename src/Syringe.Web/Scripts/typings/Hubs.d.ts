@@ -133,7 +133,7 @@ interface CompletedTaskInfo {
 
     ExceptionMessage : string;
 
-    Verifications : Syringe.Core.TestCases.VerificationItem[];
+    Verifications : Syringe.Core.Tests.Assertion[];
 
 }
 } // end module
@@ -141,10 +141,10 @@ interface CompletedTaskInfo {
 
 
 /**
-  * Data contract for Syringe.Core.TestCases.VerificationItem
+  * Data contract for Syringe.Core.Tests.Assertion
   */
-declare module Syringe.Core.TestCases {
-interface VerificationItem {
+declare module Syringe.Core.Tests {
+interface Assertion {
 
     Description : string;
 
@@ -154,7 +154,7 @@ interface VerificationItem {
 
     Success : boolean;
 
-    VerifyType : Syringe.Core.TestCases.VerifyType;
+    AssertionType : Syringe.Core.Tests.AssertionType;
 
     Log : string;
 
@@ -362,10 +362,10 @@ enum HttpStatusCode {
 
 
 /**
-  * Data contract for Syringe.Core.TestCases.VerifyType
+  * Data contract for Syringe.Core.Tests.AssertionType
   */
-declare module Syringe.Core.TestCases {
-enum VerifyType {
+declare module Syringe.Core.Tests {
+enum AssertionType {
 
     Negative = 0,
 

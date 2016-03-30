@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
-    public class RunningTestCaseViewModel
+    public class RunningTestViewModel
     {
-        public RunningTestCaseViewModel(int index, string description, List<VerificationItem> verificationItems)
+        public RunningTestViewModel(int index, string description, List<Assertion> assertions )
         {
-             Position = index;
+            Position = index;
             Description = description;
-            VerificationItems = verificationItems;
+            Assertions = assertions;
         }
 
         public int  Position { get; private set; }
         public string Description { get; private set; }
-        public List<VerificationItem> VerificationItems {get; set; } 
+        public List<Assertion> Assertions {get; set; } 
     }
 }

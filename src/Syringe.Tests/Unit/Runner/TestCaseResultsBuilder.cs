@@ -1,66 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syringe.Core.Results;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Unit.Runner
 {
 	internal class TestCaseResultsBuilder
 	{
-		private readonly List<TestCaseResult> _testCases;
-		private TestCaseResult _currentTestCaseResult;
+		private readonly List<TestResult> _testCases;
+		private TestResult _currentTestResult;
 
 		public TestCaseResultsBuilder()
 		{
-			_testCases = new List<TestCaseResult>();
+			_testCases = new List<TestResult>();
 		}
 
 		public TestCaseResultsBuilder New()
 		{
-			_currentTestCaseResult = new TestCaseResult();
+			_currentTestResult = new TestResult();
 			return this;
 		}
 
 		public TestCaseResultsBuilder WithSuccess()
 		{
-			_currentTestCaseResult.ResponseCodeSuccess = true;
+			_currentTestResult.ResponseCodeSuccess = true;
 			return this;
 		}
 
 		public TestCaseResultsBuilder WithFail()
 		{
-			_currentTestCaseResult.ResponseCodeSuccess = false;
+			_currentTestResult.ResponseCodeSuccess = false;
 			return this;
 		}
 
 		public TestCaseResultsBuilder AddPositiveVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyPositiveResults.Add(new VerificationItem("item " + DateTime.Now, "regex",
-				VerifyType.Positive) {Success = success});
+			_currentTestResult.PositiveAssertionResults.Add(new Assertion("item " + DateTime.Now, "regex",
+				AssertionType.Positive) {Success = success});
 			return this;
 		}
 
 		public TestCaseResultsBuilder AddNegativeVerify(bool success = true)
 		{
-			_currentTestCaseResult.VerifyNegativeResults.Add(new VerificationItem("item " + DateTime.Now, "regex",
-				VerifyType.Negative) {Success = success});
+			_currentTestResult.NegativeAssertionResults.Add(new Assertion("item " + DateTime.Now, "regex",
+				AssertionType.Negative) {Success = success});
 			return this;
 		}
 
 		public TestCaseResultsBuilder Add()
 		{
-			_testCases.Add(_currentTestCaseResult);
+			_testCases.Add(_currentTestResult);
 			return this;
 		}
 
-		public List<TestCaseResult> GetCollection()
+		public List<TestResult> GetCollection()
 		{
 			return _testCases;
 		}
 
 		public TestCaseResultsBuilder WithMessage(string message)
 		{
-			_currentTestCaseResult.Message = message;
+			_currentTestResult.Message = message;
 			return this;
 		}
 	}

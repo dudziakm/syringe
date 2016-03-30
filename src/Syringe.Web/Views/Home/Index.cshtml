@@ -6,11 +6,11 @@
     <div class="row">
         <div class="col-xs-12">
             <ul class="breadcrumb">
-                <li>Test cases</li>
+                <li>Test tests</li>
             </ul>
         </div>
     </div>
-    <h2>Test cases</h2>
+    <h2>Test tests</h2>
     <div class="row">
         <nav class="col-xs-9">
             @Html.Partial("Partials/_TestFilePager")
@@ -39,7 +39,7 @@
                             <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@filename">
                                 <i class="material-icons">play_arrow</i>
                             </button>
-                            <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "TestCase", new {filename = filename})">
+                            <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "Test", new {filename = filename})">
 								<i class="material-icons">description</i>
                             </a>
                         </td>
