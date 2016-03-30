@@ -11,7 +11,7 @@
 			@Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
 
 			<ul class="breadcrumb">
-				<li><a title="View" href="/">Test tests</a></li>
+				<li><a title="View" href="/">Test Files</a></li>
 				<li><a title="View" href="@Url.Action("View", "test", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
 				<li>Variables</li>
 			</ul>
