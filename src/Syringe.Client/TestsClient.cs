@@ -148,7 +148,7 @@ namespace Syringe.Client
 	    public TestFileResult GetResultById(Guid id)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("GetResultById");
+            IRestRequest request = CreateRequest("GetById");
             request.Method = Method.GET;
             request.AddQueryParameter("id", id.ToString());
             IRestResponse response = client.Execute(request);
