@@ -33,7 +33,7 @@ namespace Syringe.Service.Parallel
 				ActualUrl = result.ActualUrl,
 				HttpResponse = result.HttpResponse,
 				Success = result.Success,
-				ResultId = result.Id,
+				ResultId = result.Position,
 				Position = result.TestTest.Position,
 				ExceptionMessage = result.ExceptionMessage,
                 Verifications = verifications

@@ -1,15 +1,15 @@
 ﻿{
 	"ServiceUrl": "http://*:1981",
 	"WebsiteUrl": "http://localhost:1980",
-	"TestFilesBaseDirectory": "D:\\Syringe\\",
-	"OAuthConfiguration": {
-		"GithubAuthClientId": "",
-		"GithubAuthClientSecret": "",
-		"GoogleAuthClientId": "",
-		"GoogleAuthClientSecret": "",
-		"MicrosoftAuthClientId": "",
-		"MicrosoftAuthClientSecret": ""
-	},
+	"TestCasesBaseDirectory": "C:\\Syringe\\",
+  "OAuthConfiguration": {
+    "GithubAuthClientId": "75c14b09a37f1159354a",
+    "GithubAuthClientSecret": "06e1e86494862cf0f1cd9d051063674d1f310eee",
+    "GoogleAuthClientId": "",
+    "GoogleAuthClientSecret": "",
+    "MicrosoftAuthClientId": "",
+    "MicrosoftAuthClientSecret": ""
+  },
 	"GitConfiguration": {
 		"RepositoryUrl": ""
 	}

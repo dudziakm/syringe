@@ -26,7 +26,7 @@ namespace Syringe.Web.Controllers
 			{
 				Filename = filename,
 				Username = _userContext.FullName,
-				TeamName = _userContext.DefaultBranchName,
+				BranchName = _userContext.DefaultBranchName,
 			};
 
 			int taskId = _tasksClient.Start(taskRequest);

@@ -38,7 +38,7 @@ namespace Syringe.Core.Xml.Reader
                 XElement element = elements[i];
                 Test test = GetTest(element, i);
                 test.AvailableVariables = testFile.Variables.Select(x => new Variable { Name = x.Name, Value = x.Value }).ToList();
-                test.AvailableVariables.AddRange(testCases.SelectMany(x => x.CapturedVariables).Select(x => new Variable { Name = x.Name, Value = x.Regex }));
+                test.AvailableVariables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new Variable { Name = x.Name, Value = x.Regex }));
                 tests.Add(test);
             }
             testFile.Tests = tests;
@@ -83,7 +83,7 @@ namespace Syringe.Core.Xml.Reader
             test.Position = position;
             test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
-                throw new TestCaseException("The url parameter is missing for test case {0}", test.Position);
+                throw new TestException("The url parameter is missing for test case {0}", test.Position);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
@@ -167,7 +167,7 @@ namespace Syringe.Core.Xml.Reader
             var items = new List<Assertion>();
             var parentElement = testElement.Elements().Where(x => x.Name.LocalName == "assertions");
 
-            foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assert"))
+            foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assertion"))
             {
                 XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
                 string description = "";

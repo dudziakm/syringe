@@ -105,7 +105,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult AddCapturedVariableItem()
 		{
-			return PartialView("EditorTemplates/VariableViewModel", new CapturedVariableItem());
+			return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
 		}
 
 		public ActionResult AddHeaderItem()

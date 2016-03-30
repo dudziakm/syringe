@@ -7,7 +7,7 @@ namespace Syringe.Core.Tests.Results
 {
 	public class TestResult
 	{
-		public Guid Id { get; set; }
+		public int Position { get; set; }
 		public Guid SessionId { get; set; }
 	    public Test TestTest { get; set; }
 		public string ActualUrl { get; set; }
@@ -54,7 +54,6 @@ namespace Syringe.Core.Tests.Results
 		{
 			PositiveAssertionResults = new List<Assertion>();
 			NegativeAssertionResults = new List<Assertion>();
-			Id = Guid.NewGuid();
 		}
 	}
 }

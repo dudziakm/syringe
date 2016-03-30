@@ -19,15 +19,15 @@ namespace Syringe.Tests.Unit.Web
         private Mock<ITasksService> _tasksServiceMock;
         private Mock<IUrlHelper> _urlHelperMock;
         private ResultsController _resultsController;
-        private Guid _id;
+        private int _id;
 
         [SetUp]
         public void Setup()
         {
             _tasksServiceMock = new Mock<ITasksService>();
             _urlHelperMock = new Mock<IUrlHelper>();
-            _id = Guid.NewGuid();
-            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Id = _id } } }));
+            _id = 1;
+            _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Position = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object);
         }
 
@@ -38,7 +38,7 @@ namespace Syringe.Tests.Unit.Web
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
             
             // when
-            var actionResult = _resultsController.Html(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
+            var actionResult = _resultsController.Html(It.IsAny<int>(), It.IsAny<int>()) as HttpStatusCodeResult;
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);
@@ -63,7 +63,7 @@ namespace Syringe.Tests.Unit.Web
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
 
             // when
-            var actionResult = _resultsController.Raw(It.IsAny<int>(), It.IsAny<Guid>()) as HttpStatusCodeResult;
+            var actionResult = _resultsController.Raw(It.IsAny<int>(), It.IsAny<int>()) as HttpStatusCodeResult;
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);

@@ -104,7 +104,7 @@ namespace Syringe.Tests.Unit.Xml
 			var testCase = new Test() { Position = 0};
 			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
 			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);

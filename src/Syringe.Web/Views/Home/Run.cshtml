@@ -11,7 +11,7 @@
 
         $(document).ready(function () {
             var progress = new Syringe.Web.Progress("@Model.SignalRUrl");
-            progress.monitor(@Model.CurrentTaskId);
+            progress.monitor(@Model.CurrentTaskPosition);
         });
     </script>
 }
@@ -32,21 +32,21 @@
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @foreach (RunningTestViewModel test in Model.Tests)
                         {
-                            <div class="panel" id="case-@test.Id">
-                                <div class="panel-heading" role="tab" id="heading@(test.Id)">
+                            <div class="panel" id="case-@test.Position">
+                                <div class="panel-heading" role="tab" id="heading@(test.Position)">
                                     <h3 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse@(test.Id)" aria-expanded="false" aria-controls="collapse@(test.Id)">
+                                        <a role="button" data-toggle="collapse" href="#collapse@(test.Position)" aria-expanded="false" aria-controls="collapse@(test.Position)">
                                             @test.Description
                                         </a>
                                     </h3>
                                 </div>
-                                <div id="collapse@(test.Id)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Id)">
+                                <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
                                     <div class="panel-body">
                                         <div>
                                             <div class="pull-left case-result-url"></div>
                                             <div class="pull-right">
-                                                <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, caseId = test.Id})">View HTML</a>
-                                                <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, caseId = test.Id})">View raw</a>
+                                                <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskPosition, position = test.Position})">View HTML</a>
+                                                <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskPosition, position = test.Position})">View raw</a>
                                             </div>
                                         </div>
                                         <div class="case-result-errors">

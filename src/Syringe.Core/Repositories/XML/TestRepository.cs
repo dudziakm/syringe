@@ -117,14 +117,14 @@ namespace Syringe.Core.Repositories.XML
             {
                 testFile = _testFileReader.Read(stringReader);
 
-                Test testToDelete = collection.Tests.ElementAtOrDefault(position);
+                Test testToDelete = testFile.Tests.ElementAtOrDefault(position);
 
                 if (testToDelete == null)
                 {
                     throw new NullReferenceException(string.Concat("could not find test case:", position));
                 }
 
-                testFile.Tests = collection.Tests.Where(x => x != testTestToDelete);
+                testFile.Tests = testFile.Tests.Where(x => x != testToDelete);
             }
 
             string contents = _testFileWriter.Write(testFile);

@@ -13,7 +13,7 @@ namespace Syringe.Service.Api.Hubs
 	public class CompletedTaskInfo
 	{
 		public string ActualUrl { get; set; }
-		public Guid ResultId { get; set; }
+		public int ResultId { get; set; }
 		public bool Success { get; set; }
 		public HttpResponse HttpResponse { get; set; }
 		public int  Position { get; set; }

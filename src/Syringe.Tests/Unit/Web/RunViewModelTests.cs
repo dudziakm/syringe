@@ -51,16 +51,16 @@ namespace Syringe.Tests.Unit.Web
 				// given
 				const string fileName = "Some file";
 				const string branchName = "master";
-			    int id1 = 1;
-			    int id2 = 2;
+			    int test1 = 1;
+			    int test2 = 2;
 				var testFile =
 					Mock.Of<TestFile>(
 						c =>
 							c.Tests ==
 							new[]
 							{
-								new Test { Position = testCase1, ShortDescription = "Desc1"},
-								new Test { Position = testCase2, ShortDescription = "Desc2"}
+								new Test { Position = test1, ShortDescription = "Desc1"},
+								new Test { Position = test2, ShortDescription = "Desc2"}
 							});
 
 				var testService =
@@ -77,8 +77,8 @@ namespace Syringe.Tests.Unit.Web
 				Assert.That(viewModel.Tests, Is.Not.Null);
 				Assert.That(viewModel.Tests.Select(c => new { c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
-					new { Position = id1, Description = "Desc1" },
-					new { Position = id2, Description = "Desc2" }
+					new { Position = test1, Description = "Desc1" },
+					new { Position = test2, Description = "Desc2" }
 				}));
 			}
 
@@ -107,7 +107,7 @@ namespace Syringe.Tests.Unit.Web
 					s =>
 						s.Start(
 							It.Is<TaskRequest>(
-								r => r.TeamName == branchName && r.Filename == fileName && r.Username == userName)),
+								r => r.BranchName == branchName && r.Filename == fileName && r.Username == userName)),
 					"Should have requested for the correct task to start.");
 			}
 
@@ -128,7 +128,7 @@ namespace Syringe.Tests.Unit.Web
 				viewModel.Run(Mock.Of<IUserContext>(), "My test file");
 
 				// then
-				Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));
+				Assert.That(viewModel.CurrentTaskPosition, Is.EqualTo(taskId));
 			}
 		}
 	}
