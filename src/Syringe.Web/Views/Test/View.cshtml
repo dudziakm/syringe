@@ -35,21 +35,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (TestViewModel testCase in Model.Tests)
+                @foreach (TestViewModel test in Model.Tests)
                 {
                     <tr>
                         <td class="description">
-                            <p>@testCase.ShortDescription</p> <h6>@testCase.Url</h6>
+                            <p>@test.ShortDescription</p> <h6>@test.Url</h6>
                         </td>
                         <td>
                             @using (Html.BeginForm("Delete", "Test"))
                             {
-	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = testCase.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
+	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
 									<i class="material-icons">mode_edit</i>
 	                            </a>
 
                                 <input type="hidden" name="filename" value="@Model.Filename" />
-                                <input type="hidden" name="position" value="@testCase.Position" />
+                                <input type="hidden" name="position" value="@test.Position" />
 	                            <button class="btn btn-sm btn-danger" type="submit">
 									<i class="material-icons">delete</i>
 	                            </button>
