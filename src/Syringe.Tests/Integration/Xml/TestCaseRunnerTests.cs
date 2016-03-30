@@ -1,8 +1,5 @@
-﻿using System.CodeDom.Compiler;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Http;
@@ -11,7 +8,6 @@ using Syringe.Core.Runner;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Xml.Reader;
 using Syringe.Tests.StubsMocks;
-using YamlDotNet.Serialization;
 
 namespace Syringe.Tests.Integration.Xml
 {
