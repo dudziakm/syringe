@@ -187,7 +187,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\full.xml" />
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\single-case.xml">
+    <EmbeddedResource Include="Unit\Xml\XmlExamples\Reader\single-test.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace Syringe.Tests.Unit.Xml
 			TestFile testFile = CreateTestFile();
 			testFile.Variables.Add(new Variable("name1", "value1", "env1"));
 			testFile.Variables.Add(new Variable("name2", "value2", "env2"));
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -39,7 +39,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			TestFile testFile = CreateTestFile();
 			testFile.Repeat = 10;
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -49,12 +49,12 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void write_should_add_all_case_attributes()
+		public void write_should_add_all_test_attributes()
 		{
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("all-attributes.xml", XmlExamplesFolder);
 
-			var testCase = new Test()
+			var test = new Test()
 			{
 				Id = Guid.Empty,
 				ShortDescription = "short description",
@@ -65,14 +65,14 @@ namespace Syringe.Tests.Unit.Xml
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				ErrorMessage = "my error message",
 			};
-			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFile testFile = CreateTestFile(test);
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
 
 			// Assert
-			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));			
+			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
 		}
 
 		[Test]
@@ -81,12 +81,12 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("headers.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
-			testCase.AddHeader("key1", "value1");
-			testCase.AddHeader("key2", "some <marvellous> HTML &&&&.");
+			var test = new Test() { Id = Guid.Empty };
+			test.AddHeader("key1", "value1");
+			test.AddHeader("key2", "some <marvellous> HTML &&&&.");
 
-			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFile testFile = CreateTestFile(test);
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -101,10 +101,10 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			var testCase = new Test() {Id = Guid.Empty};
-			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
-			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			var test = new Test() { Id = Guid.Empty };
+			test.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
+			TestFile testFile = CreateTestFile(test);
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -119,13 +119,13 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
-			testCase.CapturedVariables.Add(new CapturedVariable("1", "here is (.*?) regex"));
-			testCase.CapturedVariables.Add(new CapturedVariable("2", "plain text"));
-			testCase.CapturedVariables.Add(new CapturedVariable("3", "This is encoded <test> &."));
+			var test = new Test() { Id = Guid.Empty };
+			test.CapturedVariables.Add(new CapturedVariable("1", "here is (.*?) regex"));
+			test.CapturedVariables.Add(new CapturedVariable("2", "plain text"));
+			test.CapturedVariables.Add(new CapturedVariable("3", "This is encoded <test> &."));
 
-			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFile testFile = CreateTestFile(test);
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -140,17 +140,17 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("assertions.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
-			testCase.VerifyPositives.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
-			testCase.VerifyPositives.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
-			testCase.VerifyPositives.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
+			var test = new Test() { Id = Guid.Empty };
+			test.VerifyPositives.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
+			test.VerifyPositives.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
+			test.VerifyPositives.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
 
-			testCase.VerifyNegatives.Add(new Assertion("negev1", "regex1", AssertionType.Negative));
-			testCase.VerifyNegatives.Add(new Assertion("negev2", "regex2", AssertionType.Negative));
-			testCase.VerifyNegatives.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative));
+			test.VerifyNegatives.Add(new Assertion("negev1", "regex1", AssertionType.Negative));
+			test.VerifyNegatives.Add(new Assertion("negev2", "regex2", AssertionType.Negative));
+			test.VerifyNegatives.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative));
 
-			TestFile testFile = CreateTestFile(testCase);
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFile testFile = CreateTestFile(test);
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(testFile);
@@ -166,14 +166,14 @@ namespace Syringe.Tests.Unit.Xml
 			string expectedXml = TestHelpers.ReadEmbeddedFile("large-file.xml", XmlExamplesFolder);
 
 			var caseCollection = new TestFile();
-			var list = new List<Test>();		
+			var list = new List<Test>();
 
 			for (int i = 0; i < 100; i++)
 			{
 				var testCase = new Test()
 				{
 					Id = Guid.Empty,
-					ShortDescription = "short description" +i,
+					ShortDescription = "short description" + i,
 					LongDescription = "long description",
 					Url = "http://myserver",
 					Method = "post",
@@ -186,7 +186,7 @@ namespace Syringe.Tests.Unit.Xml
 			}
 
 			caseCollection.Tests = list;
-			TestFileWriter xmlWriter = CreateTestCaseWriter();
+			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
 			string actualXml = xmlWriter.Write(caseCollection);
@@ -195,7 +195,7 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
 		}
 
-		private TestFileWriter CreateTestCaseWriter()
+		private TestFileWriter CreateTestFileWriter()
 		{
 			return new TestFileWriter();
 		}

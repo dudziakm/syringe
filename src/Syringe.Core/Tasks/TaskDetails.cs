@@ -12,7 +12,7 @@ namespace Syringe.Core.Tasks
 
 		public string Status { get; set; }
 		public int CurrentIndex { get; set; }
-		public int TotalCases { get; set; }
+		public int TotalTests { get; set; }
 
 		public List<TestResult> Results { get; set; }
 		public string Errors { get; set; }

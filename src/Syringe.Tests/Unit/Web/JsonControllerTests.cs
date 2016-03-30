@@ -55,7 +55,7 @@ namespace Syringe.Tests.Unit.Web
         public void GetCases_should_return_correct_json()
         {
             // given + when
-            var actionResult = jsonController.GetCases(It.IsAny<string>()) as ContentResult;
+            var actionResult = jsonController.GetTests(It.IsAny<string>()) as ContentResult;
 
             // then
             _casesClient.Verify(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>()), Times.Once);

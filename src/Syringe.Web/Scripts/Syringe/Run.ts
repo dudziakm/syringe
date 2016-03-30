@@ -31,7 +31,7 @@ module Syringe.Web {
         }
 
         private loadCases(filename: string) {
-            $.get("/json/GetCases", { "filename": filename })
+            $.get("/json/GetTests", { "filename": filename })
                 .done(function (data) {
                     $.each(data.TestCases, function (index, item) {
                         var html = "";

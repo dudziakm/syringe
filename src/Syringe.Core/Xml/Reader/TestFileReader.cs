@@ -19,7 +19,7 @@ namespace Syringe.Core.Xml.Reader
             // Check for <testcases>
             XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "tests");
             if (rootElement == null)
-                throw new TestCaseException("<tests> node is missing from the config file.");
+                throw new TestException("<tests> node is missing from the config file.");
 
             // Repeats
             int repeatValue = 0;
@@ -81,7 +81,7 @@ namespace Syringe.Core.Xml.Reader
             test.Id = XmlHelper.AttributeAsGuid(element, "id");
             test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
-                throw new TestCaseException("The url parameter is missing for test case {0}", test.Id);
+                throw new TestException("The url parameter is missing for test case {0}", test.Id);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");

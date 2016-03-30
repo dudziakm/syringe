@@ -42,10 +42,10 @@ namespace Syringe.Web.Controllers
 			return Content(JsonConvert.SerializeObject(details), "application/json");
 		}
 
-		public ActionResult GetCases(string filename)
+		public ActionResult GetTests(string filename)
 		{
-			TestFile testCases = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
-			return Content(JsonConvert.SerializeObject(testCases), "application/json");
+			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+			return Content(JsonConvert.SerializeObject(testFile), "application/json");
 		}
 	}
 }
