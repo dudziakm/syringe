@@ -179,7 +179,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.AddCapturedVariableItem() as PartialViewResult;
 
             // then
-            Assert.AreEqual("EditorTemplates/VariableViewModel", viewResult.ViewName);
+            Assert.AreEqual("EditorTemplates/CapturedVariableItem", viewResult.ViewName);
             Assert.IsInstanceOf<Syringe.Web.Models.CapturedVariableItem>(viewResult.Model);
         }
 

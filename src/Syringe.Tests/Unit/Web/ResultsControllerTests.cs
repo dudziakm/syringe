@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Web
         {
             _tasksServiceMock = new Mock<ITasksService>();
             _urlHelperMock = new Mock<IUrlHelper>();
-            _id = 1;
+            _id = 0;
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Position = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object);
         }
