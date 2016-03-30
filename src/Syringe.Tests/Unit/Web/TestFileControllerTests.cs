@@ -13,17 +13,17 @@ namespace Syringe.Tests.Unit.Web
     public class TestFileControllerTests
     {
         private TestFileController _testCaseController;
-        private Mock<ICaseService> _caseServiceMock;
+        private Mock<ITestService> _caseServiceMock;
         private Mock<IUserContext> _userContextMock;
 
         [SetUp]
         public void Setup()
         {
-            _caseServiceMock = new Mock<ICaseService>();
+            _caseServiceMock = new Mock<ITestService>();
             _userContextMock = new Mock<IUserContext>();
 
-            _userContextMock.Setup(x => x.TeamName).Returns("Team");
-            _caseServiceMock.Setup(x => x.GetTestCaseCollection(It.IsAny<string>(), _userContextMock.Object.TeamName)).Returns(new TestFile());
+            _userContextMock.Setup(x => x.DefaultBranchName).Returns("master");
+            _caseServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), _userContextMock.Object.DefaultBranchName)).Returns(new TestFile());
             _caseServiceMock.Setup(x => x.UpdateTestFile(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
             _caseServiceMock.Setup(x => x.CreateTestFile(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
 
@@ -93,7 +93,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testCaseController.Update(It.IsAny<string>()) as ViewResult;
 
             // then
-            _caseServiceMock.Verify(x => x.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _caseServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("Update", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }

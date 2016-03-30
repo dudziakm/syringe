@@ -12,7 +12,7 @@ namespace Syringe.Core.Configuration
 		public string WebsiteUrl { get; set; }
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string TestCasesBaseDirectory { get; set; }
+		public string TestFilesBaseDirectory { get; set; }
 
 		public OAuthConfiguration OAuthConfiguration { get; set; }
 		public GitConfiguration GitConfiguration { get; set; }
@@ -21,7 +21,7 @@ namespace Syringe.Core.Configuration
 		{
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
-			TestCasesBaseDirectory = @"D:\Syringe\";
+			TestFilesBaseDirectory = @"D:\Syringe\";
 			OAuthConfiguration = new OAuthConfiguration();
 			GitConfiguration = new GitConfiguration();
 		}

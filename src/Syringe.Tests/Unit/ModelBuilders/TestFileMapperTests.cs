@@ -132,7 +132,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.ParentFilename, testViewModel.ParentFilename);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
-			Assert.AreEqual(2, testViewModel.Verifications.Count);
+			Assert.AreEqual(2, testViewModel.Assertions.Count);
 			Assert.AreEqual(1, test.Headers.Count);
 		}
 
@@ -149,7 +149,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					ParentFilename = "Test.xml",
 					CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Description = "Description", Regex = "Regex" } },
 					PostBody = "Post Body",
-					Verifications = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
+					Assertions = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
 							   new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Positive } },
 					ShortDescription = "short d3escription",
 					Url = "url",

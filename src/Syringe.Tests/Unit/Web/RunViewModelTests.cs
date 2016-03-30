@@ -15,11 +15,11 @@ namespace Syringe.Tests.Unit.Web
 	[TestFixture]
 	public class RunViewModelTests
 	{
-		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ICaseService caseService = null)
+		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
 		{
 			return new RunViewModel(
 				tasksService ?? Mock.Of<ITasksService>(),
-				caseService ?? Mock.Of<ICaseService>());
+				testService ?? Mock.Of<ITestService>());
 		}
 
 		[TestFixture]
@@ -30,11 +30,11 @@ namespace Syringe.Tests.Unit.Web
 			{
 				const string fileName = "Some file";
 				var caseService =
-					Mock.Of<ICaseService>(
+					Mock.Of<ITestService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
+							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
-				var viewModel = GivenARunViewModel(caseService: caseService);
+				var viewModel = GivenARunViewModel(testService: caseService);
 
 				viewModel.Run(Mock.Of<IUserContext>(), fileName);
 
@@ -59,16 +59,16 @@ namespace Syringe.Tests.Unit.Web
 							});
 
 				var caseService =
-					Mock.Of<ICaseService>(
+					Mock.Of<ITestService>(
 						s =>
-							s.GetTestCaseCollection(fileName, teamName) == cases);
+							s.GetTestFile(fileName, teamName) == cases);
 
-				var viewModel = GivenARunViewModel(caseService: caseService);
+				var viewModel = GivenARunViewModel(testService: caseService);
 
-				viewModel.Run(Mock.Of<IUserContext>(c => c.TeamName == teamName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(c => c.DefaultBranchName == teamName), fileName);
 
-				Assert.That(viewModel.TestCases, Is.Not.Null);
-				Assert.That(viewModel.TestCases.Select(c => new { c.Id, c.Description }), Is.EquivalentTo(new[]
+				Assert.That(viewModel.Tests, Is.Not.Null);
+				Assert.That(viewModel.Tests.Select(c => new { c.Id, c.Description }), Is.EquivalentTo(new[]
 				{
 					new { Id = testCase1, Description = "Desc1" },
 					new { Id = testCase2, Description = "Desc2" }
@@ -83,15 +83,15 @@ namespace Syringe.Tests.Unit.Web
 				const string teamName = "My team";
 
 				var caseService =
-					Mock.Of<ICaseService>(
+					Mock.Of<ITestService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
+							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var tasksService = new Mock<ITasksService>();
 
-				var viewModel = GivenARunViewModel(caseService: caseService, tasksService: tasksService.Object);
+				var viewModel = GivenARunViewModel(testService: caseService, tasksService: tasksService.Object);
 
-				viewModel.Run(Mock.Of<IUserContext>(c => c.TeamName == teamName && c.FullName == userName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(c => c.DefaultBranchName == teamName && c.FullName == userName), fileName);
 
 				tasksService.Verify(
 					s =>
@@ -107,13 +107,13 @@ namespace Syringe.Tests.Unit.Web
 				const int taskId = 121;
 
 				var caseService =
-					Mock.Of<ICaseService>(
+					Mock.Of<ITestService>(
 						s =>
-							s.GetTestCaseCollection(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
+							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var tasksService = Mock.Of<ITasksService>(s => s.Start(It.IsAny<TaskRequest>()) == taskId);
 
-				var viewModel = GivenARunViewModel(caseService: caseService, tasksService: tasksService);
+				var viewModel = GivenARunViewModel(testService: caseService, tasksService: tasksService);
 
 				viewModel.Run(Mock.Of<IUserContext>(), "My test file");
 

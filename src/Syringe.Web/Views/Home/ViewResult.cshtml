@@ -1,8 +1,5 @@
-﻿@using System.Text.RegularExpressions
-@using System.Web.UI.WebControls
-@using StructureMap.Diagnostics
-@using Syringe.Core.Tests.Results
-@model Syringe.Core.Tests.Results.TestFileResult
+﻿@using Syringe.Core.Tests.Results
+@model TestFileResult
 @{
     ViewBag.Title = "Run";
 }
@@ -16,7 +13,7 @@
                 </button>
             </form>
             <h1>
-                Results for @Model.TestCaseFilename
+                Results for @Model.Filename
             </h1>
             <h4>
                 @Model.StartTime.ToString("ddd dd MMM yyyy HH:mm")
@@ -28,10 +25,10 @@
                         All Tests
                     </a>
                     <a href="#" class="btn btn-success" id="tests-passed-count">
-                        @Model.TotalCasesPassed tests passed
+                        @Model.TotalTestsPassed tests passed
                     </a>
                     <a href="#" class="btn btn-danger" id="tests-failed-count">
-                        @Model.TotalCasesFailed tests failed
+                        @Model.TotalTestsFailed tests failed
                     </a>
                     <a href="#" class="btn btn-info">
                         Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
@@ -42,7 +39,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        @foreach (TestResult result in Model.TestCaseResults)
+                        @foreach (TestResult result in Model.TestResults)
                         {
                             <div class="panel @(result.Success ? "test-passed panel-success" : "test-failed panel-danger")">
                                 <div class="panel-heading" role="tab" id="heading@(result.Id)">

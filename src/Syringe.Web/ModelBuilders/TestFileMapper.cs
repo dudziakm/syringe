@@ -38,7 +38,7 @@ namespace Syringe.Web.ModelBuilders
 				VerifyResponseCode = test.VerifyResponseCode,
 				ShortDescription = test.ShortDescription,
 				Url = test.Url,
-				Verifications = verifications,
+				Assertions = verifications,
 				ParentFilename = test.ParentFilename,
 			};
 
@@ -88,8 +88,8 @@ namespace Syringe.Web.ModelBuilders
 				ParentFilename = testModel.ParentFilename,
 				CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Description, x.Regex)).ToList(),
 				PostBody = testModel.PostBody,
-				VerifyPositives = testModel.Verifications.Where(x => x.AssertionType == AssertionType.Positive).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
-				VerifyNegatives = testModel.Verifications.Where(x => x.AssertionType == AssertionType.Negative).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
+				VerifyPositives = testModel.Assertions.Where(x => x.AssertionType == AssertionType.Positive).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
+				VerifyNegatives = testModel.Assertions.Where(x => x.AssertionType == AssertionType.Negative).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
 				ShortDescription = testModel.ShortDescription,
 				Url = testModel.Url,
 				PostType = testModel.PostType.ToString(),

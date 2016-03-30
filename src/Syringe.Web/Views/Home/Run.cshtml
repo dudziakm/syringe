@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model IRunViewModel
+﻿@model IRunViewModel
 @{
     ViewBag.Title = "Run";
 }
@@ -31,23 +30,23 @@
 
                 <div id="running-items">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        @foreach (var testCase in Model.testTests)
+                        @foreach (RunningTestViewModel test in Model.Tests)
                         {
-                            <div class="panel" id="case-@testCase.Id">
-                                <div class="panel-heading" role="tab" id="heading@(testCase.Id)">
+                            <div class="panel" id="case-@test.Id">
+                                <div class="panel-heading" role="tab" id="heading@(test.Id)">
                                     <h3 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse@(testCase.Id)" aria-expanded="false" aria-controls="collapse@(testCase.Id)">
-                                            @testCase.Description
+                                        <a role="button" data-toggle="collapse" href="#collapse@(test.Id)" aria-expanded="false" aria-controls="collapse@(test.Id)">
+                                            @test.Description
                                         </a>
                                     </h3>
                                 </div>
-                                <div id="collapse@(testCase.Id)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(testCase.Id)">
+                                <div id="collapse@(test.Id)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Id)">
                                     <div class="panel-body">
                                         <div>
                                             <div class="pull-left case-result-url"></div>
                                             <div class="pull-right">
-                                                <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, caseId = testCase.Id})">View HTML</a>
-                                                <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, caseId = testCase.Id})">View raw</a>
+                                                <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, caseId = test.Id})">View HTML</a>
+                                                <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, caseId = test.Id})">View raw</a>
                                             </div>
                                         </div>
                                         <div class="case-result-errors">
@@ -63,7 +62,7 @@
                                                 <td>Regex</td>
                                             </tr>
 
-                                            @foreach (var item in testCase.VerificationItems)
+                                            @foreach (var item in test.Assertions			)
                                             {
                                                 <tr class="result-row">
                                                     <td>

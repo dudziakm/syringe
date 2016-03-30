@@ -4,9 +4,9 @@ using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
-    public class RunningTestFileViewModel
+    public class RunningTestViewModel
     {
-        public RunningTestFileViewModel(Guid id, string description, List<Assertion> assertions )
+        public RunningTestViewModel(Guid id, string description, List<Assertion> assertions )
         {
             Id = id;
             Description = description;

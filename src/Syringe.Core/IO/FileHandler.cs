@@ -17,16 +17,16 @@ namespace Syringe.Core.IO
 
         public string GetFileFullPath(string branchName, string fileName)
         {
-            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, branchName, fileName);
+            string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
             if (!File.Exists(fullPath))
-                throw new FileNotFoundException("The test case path cannot be found", fileName);
+                throw new FileNotFoundException("The test file path cannot be found", fileName);
 
             return fullPath;
         }
 
         public string CreateFileFullPath(string branchName, string fileName)
         {
-            return Path.Combine(_configuration.TestCasesBaseDirectory, branchName, fileName);
+            return Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
         }
 
         public bool FileExists(string filePath)
@@ -36,9 +36,9 @@ namespace Syringe.Core.IO
 
         public string GetBranchDirectoryFullPath(string branchName)
         {
-            string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, branchName);
+            string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName);
             if (!Directory.Exists(fullPath))
-                throw new DirectoryNotFoundException("The team full path cannot be found");
+                throw new DirectoryNotFoundException(string.Format("The path '{0}' for branch {0} cannot be found", fullPath, branchName));
 
             return fullPath;
         }
@@ -77,7 +77,7 @@ namespace Syringe.Core.IO
         {
             if (string.IsNullOrEmpty(filename))
             {
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
             }
 
             if (!filename.EndsWith(".xml"))

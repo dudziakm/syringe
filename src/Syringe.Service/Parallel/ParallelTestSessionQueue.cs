@@ -73,7 +73,7 @@ namespace Syringe.Service.Parallel
 
 				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
 				string xmlFilename = item.Request.Filename;
-				string fullPath = Path.Combine(_configuration.TestCasesBaseDirectory, teamName, xmlFilename);
+				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, teamName, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))

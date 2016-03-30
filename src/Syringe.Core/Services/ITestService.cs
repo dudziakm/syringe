@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
+
+namespace Syringe.Core.Services
+{
+	public interface ITestService
+	{
+		IEnumerable<string> ListFilesForTeam(string branchName);
+		Test GetTest(string filename, string branchName, Guid testId);
+		TestFile GetTestFile(string filename, string branchName);
+	    string GetXml(string filename, string branchName);
+        bool EditTest(Test test, string branchName);
+	    bool CreateTest(Test testTest, string branchName);
+        bool DeleteTest(Guid testId, string fileName, string branchName);
+	    bool CreateTestFile(TestFile testFile, string branchName);
+	    bool UpdateTestFile(TestFile testFile, string branchName);
+	    IEnumerable<TestFileResultSummary> GetSummariesForToday();
+	    IEnumerable<TestFileResultSummary> GetSummaries();
+        TestFileResult GetResultById(Guid id);
+        Task DeleteAsync(Guid sessionId);
+	}
+}

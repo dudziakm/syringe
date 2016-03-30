@@ -11,12 +11,12 @@ namespace Syringe.Web.Controllers
 	[Authorize]
 	public class TestFileController : Controller
     {
-        private readonly ICaseService _casesClient;
+        private readonly ITestService _testsClient;
         private readonly IUserContext _userContext;
 
-        public TestFileController(ICaseService casesClient, IUserContext userContext)
+        public TestFileController(ITestService testsClient, IUserContext userContext)
         {
-            _casesClient = casesClient;
+            _testsClient = testsClient;
             _userContext = userContext;
         }
 
@@ -37,7 +37,7 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
                 };
 
-                bool createdTestFile = _casesClient.CreateTestFile(caseCollection, _userContext.TeamName);
+                bool createdTestFile = _testsClient.CreateTestFile(caseCollection, _userContext.DefaultBranchName);
                 if (createdTestFile)
                     return RedirectToAction("Index", "Home");
             }
@@ -47,7 +47,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            TestFile testTestFile = _casesClient.GetTestCaseCollection(fileName, _userContext.TeamName);
+            TestFile testTestFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
 
             TestFileViewModel model = new TestFileViewModel
             {
@@ -70,7 +70,7 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
 				};
 
-                bool updateTestFile = _casesClient.UpdateTestFile(caseCollection, _userContext.TeamName);
+                bool updateTestFile = _testsClient.UpdateTestFile(caseCollection, _userContext.DefaultBranchName);
                 if (updateTestFile)
                     return RedirectToAction("Index", "Home");
             }

@@ -10,13 +10,13 @@ namespace Syringe.Web.Controllers
 	public class JsonController : Controller
 	{
 		private readonly ITasksService _tasksClient;
-		private readonly ICaseService _casesClient;
+		private readonly ITestService _testsClient;
 		private readonly IUserContext _userContext;
 
-		public JsonController(ITasksService tasksService, ICaseService casesClient, IUserContext userContext)
+		public JsonController(ITasksService tasksService, ITestService testsClient, IUserContext userContext)
 		{
 			_tasksClient = tasksService;
-			_casesClient = casesClient;
+			_testsClient = testsClient;
 			_userContext = userContext;
 		}
 
@@ -26,7 +26,7 @@ namespace Syringe.Web.Controllers
 			{
 				Filename = filename,
 				Username = _userContext.FullName,
-				TeamName = _userContext.TeamName,
+				TeamName = _userContext.DefaultBranchName,
 			};
 
 			int taskId = _tasksClient.Start(taskRequest);
@@ -44,7 +44,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetCases(string filename)
 		{
-			TestFile testCases = _casesClient.GetTestCaseCollection(filename, _userContext.TeamName);
+			TestFile testCases = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
 			return Content(JsonConvert.SerializeObject(testCases), "application/json");
 		}
 	}

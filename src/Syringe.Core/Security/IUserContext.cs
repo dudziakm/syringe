@@ -3,7 +3,7 @@
 	public interface IUserContext
 	{
 		string Id { get; set; }
-		string TeamName { get; }
 		string FullName { get; }
+		string DefaultBranchName { get; }
 	}
 }

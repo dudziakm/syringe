@@ -39,7 +39,7 @@ namespace Syringe.Tests.Unit.IO
         public void Setup()
         {
             _configurationMock = new Mock<IConfiguration>();
-            _configurationMock.Setup(x => x.TestCasesBaseDirectory).Returns(TestContext.CurrentContext.TestDirectory);
+            _configurationMock.Setup(x => x.TestFilesBaseDirectory).Returns(TestContext.CurrentContext.TestDirectory);
         }
 
         [Test]

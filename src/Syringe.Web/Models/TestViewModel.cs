@@ -10,6 +10,13 @@ namespace Syringe.Web.Models
         [Required]
         public Guid Id { get; set; }
 
+        [Display(Name = "Short Description")]
+        [Required]
+        public string ShortDescription { get; set; }
+
+        [Display(Name = "Long Description")]
+        public string LongDescription { get; set; }
+
         [Required]
         public string Url { get; set; }
 
@@ -28,16 +35,8 @@ namespace Syringe.Web.Models
         public HttpStatusCode VerifyResponseCode { get; set; }
 
         public List<HeaderItem> Headers { get; set; }
-
-        [Display(Name = "Short Description")]
-        [Required]
-        public string ShortDescription { get; set; }
-
-        [Display(Name = "Long Description")]
-        public string LongDescription { get; set; }
-
         public List<CapturedVariableItem> CapturedVariables { get; set; }
-        public List<AssertionViewModel> Verifications { get; set; }
+        public List<AssertionViewModel> Assertions { get; set; }
 
         [Required]
         public string ParentFilename { get; set; }
@@ -46,7 +45,7 @@ namespace Syringe.Web.Models
         {
             Headers = new List<HeaderItem>();
             CapturedVariables = new List<CapturedVariableItem>();
-            Verifications = new List<AssertionViewModel>();
+            Assertions = new List<AssertionViewModel>();
 		}
     }
 }

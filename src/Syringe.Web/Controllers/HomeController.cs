@@ -16,20 +16,20 @@ namespace Syringe.Web.Controllers
 	[Authorize]
     public class HomeController : Controller
     {
-        private readonly ICaseService _casesClient;
+        private readonly ITestService _testsClient;
         private readonly IUserContext _userContext;
         private readonly Func<IRunViewModel> _runViewModelFactory;
 		private readonly IHealthCheck _healthCheck;
 	    private readonly IUrlHelper _urlHelper;
 
 	    public HomeController(
-            ICaseService casesClient,
+            ITestService testsClient,
             IUserContext userContext,
             Func<IRunViewModel> runViewModelFactory,
 			IHealthCheck healthCheck, 
             IUrlHelper urlHelper)
         {
-            _casesClient = casesClient;
+            _testsClient = testsClient;
             _userContext = userContext;
             _runViewModelFactory = runViewModelFactory;
 			_healthCheck = healthCheck;
@@ -40,10 +40,9 @@ namespace Syringe.Web.Controllers
         {
             RunHealthChecks();
 
-			ViewBag.Title = "All test case files";
+			ViewBag.Title = "All test files";
 
-			// TODO: team name from the user context?
-			IList<string> files = _casesClient.ListFilesForTeam(_userContext.TeamName).ToList();
+			IList<string> files = _testsClient.ListFilesForTeam(_userContext.DefaultBranchName).ToList();
 
             var model = new IndexViewModel
             {
@@ -74,31 +73,31 @@ namespace Syringe.Web.Controllers
 
         public ActionResult AllResults()
         {
-            return View("AllResults", _casesClient.GetSummaries());
+            return View("AllResults", _testsClient.GetSummaries());
         }
 
         public ActionResult TodaysResults()
         {
-            return View("AllResults", _casesClient.GetSummariesForToday());
+            return View("AllResults", _testsClient.GetSummariesForToday());
         }
 
         public ActionResult ViewResult(Guid id)
         {
-            return View("ViewResult", _casesClient.GetById(id));
+            return View("ViewResult", _testsClient.GetResultById(id));
         }
 
 		[HttpPost]
         public async Task<ActionResult> DeleteResult(Guid id)
         {
-            TestFileResult session = _casesClient.GetById(id);
-            await _casesClient.DeleteAsync(session.Id);
+            TestFileResult session = _testsClient.GetResultById(id);
+            await _testsClient.DeleteAsync(session.Id);
 
             return RedirectToAction("AllResults");
         }
 
 		public ActionResult ViewHtml(Guid testCaseSessionId, Guid resultId)
 		{
-			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
 			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 			{
@@ -109,27 +108,27 @@ namespace Syringe.Web.Controllers
 				return Content(html);
 			}
 
-			return Content("TestCaseResult Id not found");
+			return Content("Result Id not found");
 		}
 
 		public ActionResult ViewHttpLog(Guid testCaseSessionId, Guid resultId)
 		{
-			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
 			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 				return Content(result.HttpLog, "text/plain");
 
-			return Content("TestCaseResult Id not found");
+			return Content("Result Id not found");
 		}
 
 		public ActionResult ViewLog(Guid testCaseSessionId, Guid resultId)
 		{
-			TestFileResult session = _casesClient.GetById(testCaseSessionId);
+			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
 			TestResult result = session.TestResults.FirstOrDefault(x => x.Id == resultId);
 			if (result != null)
 				return Content(result.Log, "text/plain");
 
-			return Content("TestCaseResult Id not found");
+			return Content("Result Id not found");
 		}
 	}
 }

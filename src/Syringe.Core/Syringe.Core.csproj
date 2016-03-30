@@ -173,7 +173,7 @@
     <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Security\User.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
-    <Compile Include="Services\ICaseService.cs" />
+    <Compile Include="Services\ITestService.cs" />
     <Compile Include="Services\ITasksService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Exceptions\XmlException.cs" />

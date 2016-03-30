@@ -10,13 +10,13 @@ namespace Syringe.Web.Models
     public class RunViewModel : IRunViewModel
     {
         private readonly ITasksService _tasksService;
-        private readonly ICaseService _caseService;
-        private readonly List<RunningTestFileViewModel> _runningTestCases = new List<RunningTestFileViewModel>();
+        private readonly ITestService _testService;
+        private readonly List<RunningTestViewModel> _runningTests = new List<RunningTestViewModel>();
 
-        public RunViewModel(ITasksService tasksService, ICaseService caseService)
+        public RunViewModel(ITasksService tasksService, ITestService testService)
         {
             _tasksService = tasksService;
-            _caseService = caseService;
+            _testService = testService;
 
 	        var mvcConfiguration = new MvcConfiguration();
 			SignalRUrl = mvcConfiguration.SignalRUrl;
@@ -26,29 +26,29 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            TestFile testFile = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
+            TestFile testFile = _testService.GetTestFile(fileName, userContext.DefaultBranchName);
 
             foreach (var testCase in testFile.Tests)
             {
                 var verifications = new List<Assertion>();
                 verifications.AddRange(testCase.VerifyNegatives);
                 verifications.AddRange(testCase.VerifyPositives);
-                _runningTestCases.Add(new RunningTestFileViewModel(testCase.Id, testCase.ShortDescription, verifications));
+                _runningTests.Add(new RunningTestViewModel(testCase.Id, testCase.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,
                 Username = userContext.FullName,
-                TeamName = userContext.TeamName,
+                TeamName = userContext.DefaultBranchName,
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);
         }
 
-        public IEnumerable<RunningTestFileViewModel> TestCases
+        public IEnumerable<RunningTestViewModel> Tests
         {
-            get { return _runningTestCases; }
+            get { return _runningTests; }
         }
 
         public int CurrentTaskId { get; private set; }
