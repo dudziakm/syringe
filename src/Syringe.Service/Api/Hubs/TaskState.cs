@@ -2,6 +2,6 @@
 {
     public class TaskState
     {
-        public int TotalCases { get; set; }
+        public int TotalTests { get; set; }
     }
 }

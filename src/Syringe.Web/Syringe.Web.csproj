@@ -473,7 +473,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
     <Content Include="Views\Test\EditorTemplates\HeaderItem.cshtml" />
-    <Content Include="Views\Test\EditorTemplates\VariableViewModel.cshtml" />
+    <Content Include="Views\Test\EditorTemplates\CapturedVariableItem.cshtml" />
     <Content Include="Views\Test\EditorTemplates\AssertionViewModel.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\View.cshtml" />

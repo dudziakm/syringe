@@ -7,7 +7,7 @@ using Syringe.Core.Tests;
 
 namespace Syringe.Tests.Unit.Runner
 {
-	public class ParseResponseMatcherTests
+	public class CapturedVariableProviderTests
 	{
 		[SetUp]
 		public void Setup()

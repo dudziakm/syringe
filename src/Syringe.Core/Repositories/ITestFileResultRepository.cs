@@ -5,10 +5,10 @@ using Syringe.Core.Tests.Results;
 
 namespace Syringe.Core.Repositories
 {
-	public interface ITestCaseSessionRepository
+	public interface ITestFileResultRepository
 	{
-		Task AddAsync(TestFileResult session);
-		Task DeleteAsync(Guid sessionId);
+		Task AddAsync(TestFileResult testFileResult);
+		Task DeleteAsync(Guid testFileResultId);
 		TestFileResult GetById(Guid id);
 		void Wipe();
 		IEnumerable<TestFileResultSummary> GetSummaries();

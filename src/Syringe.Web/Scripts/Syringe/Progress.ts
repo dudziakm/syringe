@@ -73,8 +73,8 @@ module Syringe.Web {
                     this.completedCases = 0;
                     this.proxy.server.startMonitoringTask(taskId)
                         .done(taskState => {
-                            this.totalCases = taskState.TotalCases;
-                            console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalCases} tests.`);
+                            this.totalCases = taskState.TotalTests;
+                            console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalTests} tests.`);
                         });
                 });
         }

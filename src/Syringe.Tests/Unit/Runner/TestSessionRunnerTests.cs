@@ -15,7 +15,7 @@ using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Runner
 {
-	public class TestSessionRunnerTests
+	public class TestFileRunnerTests
 	{
 		private HttpClientMock _httpClientMock;
 		private HttpResponse _httpResponse;
@@ -26,25 +26,25 @@ namespace Syringe.Tests.Unit.Runner
 			TestHelpers.EnableLogging();
 		}
 
-		private ITestCaseSessionRepository GetRepository()
+		private ITestFileResultRepository GetRepository()
 		{
-			return new TestCaseSessionRepositoryMock();
+			return new TestFileResultRepositoryMock();
 		}
 
 		[Test]
-		public async Task Run_should_repeat_testcases_from_repeat_property()
+		public async Task Run_should_repeat_tests_from_repeat_property()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 			});
-			caseCollection.Repeat = 10;
+			testFile.Repeat = 10;
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.Count(), Is.EqualTo(10));
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			var runner = new TestFileRunner(httpClient, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
@@ -79,7 +79,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
@@ -98,13 +98,13 @@ namespace Syringe.Tests.Unit.Runner
 			HttpClientMock httpClient = new HttpClientMock(response);
 			var runner = new TestFileRunner(httpClient, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
@@ -113,18 +113,18 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_set_parsed_variables()
+		public async Task Run_should_set_capturedvariables()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.Content = "some content";
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test()
 				{
-					Url = "case1",
+					Url = "test1",
 					VerifyResponseCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
@@ -138,14 +138,14 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.Single().PositiveAssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
-		public async Task Run_should_set_parseresponsevariables_across_testcases()
+		public async Task Run_should_set_capturedvariables_across_tests()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
@@ -168,11 +168,11 @@ namespace Syringe.Tests.Unit.Runner
 				}
 			};
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test()
 				{
-					Url = "case1",
+					Url = "test1",
 					VerifyResponseCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
@@ -181,7 +181,7 @@ namespace Syringe.Tests.Unit.Runner
 				},
 				new Test()
 				{
-					Url = "case2",
+					Url = "test2",
 					VerifyResponseCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
@@ -189,24 +189,24 @@ namespace Syringe.Tests.Unit.Runner
 					},
 					VerifyPositives = new List<Assertion>()
 					{
-						// Test the parsedresponse variable from the 1st case
-						new Assertion("positive-for-case-2", "{capturedvariable1}", AssertionType.Positive)
+						// Test the capturedvariable variable from the 1st test
+						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive)
 					},
 				},
 				new Test()
 				{
-					Url = "case3",
+					Url = "test3",
 					VerifyResponseCode = HttpStatusCode.OK,
 					VerifyPositives = new List<Assertion>()
 					{
-						// Test the parseresponse variable from the 1st case
-						new Assertion("positive-for-case-3", "{capturedvariable2}", AssertionType.Positive)
+						// Test the capturedvariable variable from the 1st test
+						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive)
 					},
 				}
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.ElementAt(1).PositiveAssertionResults[0].Success, Is.True);
@@ -220,7 +220,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test()
 				{
@@ -230,7 +230,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.Single().Success, Is.True);
@@ -244,7 +244,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileRunner runner = CreateRunner();
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test()
 				{
@@ -254,7 +254,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.Single().Success, Is.False);
@@ -262,18 +262,18 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_set_message_from_case_errormessage_when_httpcode_fails()
+		public async Task Run_should_set_message_from_test_errormessage_when_httpcode_fails()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(session.TestResults.Single().Message, Is.EqualTo("It broke"));
@@ -281,21 +281,21 @@ namespace Syringe.Tests.Unit.Runner
 
 
 		[Test]
-		public async Task Run_should_save_testcasesession_to_repository()
+		public async Task Run_should_save_testresults_to_repository()
 		{
 			// Arrange
-			var repository = new TestCaseSessionRepositoryMock();
+			var repository = new TestFileResultRepositoryMock();
 
 			TestFileRunner runner = CreateRunner();
 			runner.Repository = repository;
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1"},
 			});
 
 			// Act
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(repository.SavedSession, Is.Not.Null);
@@ -310,7 +310,7 @@ namespace Syringe.Tests.Unit.Runner
 			_httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 			_httpClientMock.Response.Content = "some content";
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test()
 				{
@@ -328,7 +328,7 @@ namespace Syringe.Tests.Unit.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(caseCollection);
+			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
 			var result = session.TestResults.Single();
@@ -348,14 +348,14 @@ namespace Syringe.Tests.Unit.Runner
 
 			TestFileRunner runner = CreateRunner();
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
 				new Test() { Url = "foo3" }
 			});
 
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
@@ -370,7 +370,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Arrange
 			TestFileRunner runner = CreateRunner();
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
@@ -382,7 +382,7 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
 
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
@@ -411,7 +411,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
@@ -423,19 +423,19 @@ namespace Syringe.Tests.Unit.Runner
 			// Act
 			subscription = runner.Subscribe(r => { observedResults.Add(r); });
 
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
 		}
 
 		[Test]
-		public async Task Run_should_notify_subscribers_of_completion_when_test_case_session_ends()
+		public async Task Run_should_notify_subscribers_of_completion_when_test_file_ends()
 		{
 			// Arrange
 			TestFileRunner runner = CreateRunner();
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
@@ -449,7 +449,7 @@ namespace Syringe.Tests.Unit.Runner
 			Assume.That(completed, Is.False);
 
 			// Act
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(completed, Is.True, "Should have notified of completion.");
@@ -468,7 +468,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
 
-			var caseCollection = CreateCaseCollection(new[]
+			var testFile = CreateTestFile(new[]
 			{
 				new Test() { Url = "foo1" },
 				new Test() { Url = "foo2" },
@@ -479,7 +479,7 @@ namespace Syringe.Tests.Unit.Runner
 			runner.Subscribe(r => capturedResult = r);
 
 			// Act
-			await runner.RunAsync(caseCollection);
+			await runner.RunAsync(testFile);
 
 			// Assert
 			Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
@@ -494,15 +494,15 @@ namespace Syringe.Tests.Unit.Runner
 			return new TestFileRunner(_httpClientMock, GetRepository());
 		}
 
-		private TestFile CreateCaseCollection(Test[] tests)
+		private TestFile CreateTestFile(Test[] tests)
 		{
-			var testCases = new List<Test>();
-			testCases.AddRange(tests);
+			var list = new List<Test>();
+			list.AddRange(tests);
 
-			var collection = new TestFile();
-			collection.Tests = testCases;
+			var testFile = new TestFile();
+			testFile.Tests = list;
 
-			return collection;
+			return testFile;
 		}
 	}
 }

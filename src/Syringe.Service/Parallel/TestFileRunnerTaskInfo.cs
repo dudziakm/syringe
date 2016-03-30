@@ -6,16 +6,16 @@ using Syringe.Core.Tasks;
 
 namespace Syringe.Service.Parallel
 {
-	internal class SessionRunnerTaskInfo
+	internal class TestFileRunnerTaskInfo
 	{
-		public SessionRunnerTaskInfo(int id)
+		public TestFileRunnerTaskInfo(int id)
 		{
 			Id = id;
 		}
 
 		public int Id { get; private set; }
 		public string Username { get; set; }
-		public string TeamName { get; set; }
+		public string BranchName { get; set; }
 		public DateTime StartTime { get; set; }
 		public TaskRequest Request { get; set; }
 		public TestFileRunner Runner { get; set; }

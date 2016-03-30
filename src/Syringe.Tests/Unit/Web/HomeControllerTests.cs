@@ -18,7 +18,7 @@ namespace Syringe.Tests.Unit.Web
     [TestFixture]
     public class HomeControllerTests
     {
-        private Mock<ITestService> _casesClient;
+        private Mock<ITestService> _testsClient;
         private Mock<Func<IRunViewModel>> _runViewModelFactory;
         private HomeController _homeController;
 	    private HealthCheckMock _mockHealthCheck;
@@ -36,12 +36,12 @@ namespace Syringe.Tests.Unit.Web
 			_runViewModelFactory = new Mock<Func<IRunViewModel>>();
 			_runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
-			_casesClient = new Mock<ITestService>();
-			_casesClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
-            _casesClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
-            _casesClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
+			_testsClient = new Mock<ITestService>();
+			_testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
+            _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
+            _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
 
-            _homeController = new HomeController(_casesClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object);
+            _homeController = new HomeController(_testsClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _homeController.AllResults() as ViewResult;
 
             // then
-            _casesClient.Verify(x => x.GetSummaries(), Times.Once);
+            _testsClient.Verify(x => x.GetSummaries(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }
@@ -63,7 +63,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _homeController.TodaysResults() as ViewResult;
 
             // then
-            _casesClient.Verify(x => x.GetSummariesForToday(), Times.Once);
+            _testsClient.Verify(x => x.GetSummariesForToday(), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }
@@ -76,7 +76,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _homeController.ViewResult(It.IsAny<Guid>()) as ViewResult;
 
             // then
-            _casesClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
+            _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("ViewResult", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileResult>(viewResult.Model);
         }
@@ -88,8 +88,8 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = await _homeController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
 
             // then
-            _casesClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
-            _casesClient.Verify(x => x.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+            _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
+            _testsClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
         }
 
@@ -122,7 +122,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            _casesClient.Verify(x => x.ListFilesForTeam(It.IsAny<string>()), Times.Once);
+            _testsClient.Verify(x => x.ListFilesForTeam(It.IsAny<string>()), Times.Once);
             Assert.AreEqual("Index", viewResult.ViewName);
             Assert.IsInstanceOf<IndexViewModel>(viewResult.Model);
         }

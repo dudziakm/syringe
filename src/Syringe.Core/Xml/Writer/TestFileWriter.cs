@@ -21,8 +21,8 @@ namespace Syringe.Core.Xml.Writer
 
                 using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
                 {
-                    XElement testCasesElement = new XElement("tests");
-                    testCasesElement.Add(new XAttribute("repeat", testFile.Repeat.ToString()));
+                    XElement testsElement = new XElement("tests");
+                    testsElement.Add(new XAttribute("repeat", testFile.Repeat.ToString()));
 
                     if (testFile.Variables.Count > 0)
                     {
@@ -40,26 +40,26 @@ namespace Syringe.Core.Xml.Writer
 							variableElements.Add(variableElement);
                         }
 
-                        testCasesElement.Add(variableElements);
+                        testsElement.Add(variableElements);
                     }
 
-                    foreach (Test testCase in testFile.Tests)
+                    foreach (Test test in testFile.Tests)
                     {
-                        XElement headersElement = GetHeadersElement(testCase);
-                        XElement postbodyElement = GetPostBodyElement(testCase);
-                        XElement parseResponsesElement = GetParseResponsesElement(testCase);
-                        XElement assertionElement = GetAssertionsElement(testCase);
+                        XElement headersElement = GetHeadersElement(test);
+                        XElement postbodyElement = GetPostBodyElement(test);
+                        XElement parseResponsesElement = GetParseResponsesElement(test);
+                        XElement assertionElement = GetAssertionsElement(test);
 
-                        XElement caseElement = GetCaseElement(testCase);
-                        caseElement.Add(headersElement);
-                        caseElement.Add(postbodyElement);
-                        caseElement.Add(parseResponsesElement);
-                        caseElement.Add(assertionElement);
+                        XElement testElement = GetTestElement(test);
+                        testElement.Add(headersElement);
+                        testElement.Add(postbodyElement);
+                        testElement.Add(parseResponsesElement);
+                        testElement.Add(assertionElement);
 
-                        testCasesElement.Add(caseElement);
+                        testsElement.Add(testElement);
                     }
 
-                    XDocument doc = new XDocument(testCasesElement);
+                    XDocument doc = new XDocument(testsElement);
                     doc.WriteTo(xmlWriter);
                 }
 
@@ -67,26 +67,26 @@ namespace Syringe.Core.Xml.Writer
             }
         }
 
-        private XElement GetCaseElement(Test testTest)
+        private XElement GetTestElement(Test test)
         {
             XElement element = new XElement("test");
 
-            element.Add(new XAttribute("shortdescription", testTest.ShortDescription ?? ""));
-            element.Add(new XAttribute("longdescription", testTest.LongDescription ?? ""));
-            element.Add(new XAttribute("url", testTest.Url ?? ""));
-            element.Add(new XAttribute("method", testTest.Method ?? ""));
-            element.Add(new XAttribute("posttype", testTest.PostType ?? ""));
-            element.Add(new XAttribute("verifyresponsecode", (int)testTest.VerifyResponseCode));
-            element.Add(new XAttribute("errormessage", testTest.ErrorMessage ?? ""));
+            element.Add(new XAttribute("shortdescription", test.ShortDescription ?? ""));
+            element.Add(new XAttribute("longdescription", test.LongDescription ?? ""));
+            element.Add(new XAttribute("url", test.Url ?? ""));
+            element.Add(new XAttribute("method", test.Method ?? ""));
+            element.Add(new XAttribute("posttype", test.PostType ?? ""));
+            element.Add(new XAttribute("verifyresponsecode", (int)test.VerifyResponseCode));
+            element.Add(new XAttribute("errormessage", test.ErrorMessage ?? ""));
 
             return element;
         }
 
-        private XElement GetHeadersElement(Test testTest)
+        private XElement GetHeadersElement(Test test)
         {
             XElement headerElement = new XElement("headers");
 
-            foreach (HeaderItem keyValuePair in testTest.Headers)
+            foreach (HeaderItem keyValuePair in test.Headers)
             {
                 if (!string.IsNullOrEmpty(keyValuePair.Key))
                 {
@@ -102,21 +102,21 @@ namespace Syringe.Core.Xml.Writer
             return headerElement;
         }
 
-        private XElement GetPostBodyElement(Test testTest)
+        private XElement GetPostBodyElement(Test test)
         {
             XElement postBodyElement = new XElement("postbody");
 
-            if (!string.IsNullOrEmpty(testTest.PostBody))
-                postBodyElement.Add(new XCData(testTest.PostBody));
+            if (!string.IsNullOrEmpty(test.PostBody))
+                postBodyElement.Add(new XCData(test.PostBody));
 
             return postBodyElement;
         }
 
-        private XElement GetParseResponsesElement(Test testTest)
+        private XElement GetParseResponsesElement(Test test)
         {
             XElement parseresponsesElement = new XElement("capturedvariables");
 
-            foreach (CapturedVariable item in testTest.CapturedVariables)
+            foreach (CapturedVariable item in test.CapturedVariables)
             {
                 if (!string.IsNullOrEmpty(item.Regex))
                 {
@@ -131,11 +131,11 @@ namespace Syringe.Core.Xml.Writer
             return parseresponsesElement;
         }
 
-        private XElement GetAssertionsElement(Test testTest)
+        private XElement GetAssertionsElement(Test test)
         {
             XElement headerElement = new XElement("assertions");
 
-            foreach (Assertion verifyItem in testTest.VerifyPositives.Union(testTest.VerifyNegatives))
+            foreach (Assertion verifyItem in test.VerifyPositives.Union(test.VerifyNegatives))
             {
                 if (!string.IsNullOrEmpty(verifyItem.Description))
                 {

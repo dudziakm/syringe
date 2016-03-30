@@ -13,30 +13,30 @@ using Syringe.Web.Models;
 namespace Syringe.Tests.Unit.Web
 {
     [TestFixture]
-    public class TestCaseControllerTests
+    public class TestControllerTests
     {
         private TestController _testController;
-        private Mock<ITestService> ICaseServiceMock;
+        private Mock<ITestService> ITestServiceMock;
         private Mock<IUserContext> IUserContextMock;
-        private Mock<ITestFileMapper> ITestCaseMapperMock;
+        private Mock<ITestFileMapper> ITestFileMapperMock;
 
         [SetUp]
         public void Setup()
         {
-            ICaseServiceMock = new Mock<ITestService>();
+            ITestServiceMock = new Mock<ITestService>();
             IUserContextMock = new Mock<IUserContext>();
-            ITestCaseMapperMock = new Mock<ITestFileMapper>();
+            ITestFileMapperMock = new Mock<ITestFileMapper>();
 
             IUserContextMock.Setup(x => x.DefaultBranchName).Returns("master");
-            ITestCaseMapperMock.Setup(x => x.BuildTestCases(It.IsAny<IEnumerable<Test>>()));
-            ITestCaseMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
-            ICaseServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), IUserContextMock.Object.DefaultBranchName)).Returns(new TestFile());
-            ICaseServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
-            ICaseServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
-            ICaseServiceMock.Setup(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()));
-            ICaseServiceMock.Setup(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()));
+            ITestFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()));
+            ITestFileMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
+            ITestServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), IUserContextMock.Object.DefaultBranchName)).Returns(new TestFile());
+            ITestServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
+            ITestServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
+            ITestServiceMock.Setup(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()));
+            ITestServiceMock.Setup(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()));
 
-            _testController = new TestController(ICaseServiceMock.Object, IUserContextMock.Object, ITestCaseMapperMock.Object);
+            _testController = new Syringe.Web.Controllers.TestController(ITestServiceMock.Object, IUserContextMock.Object, ITestFileMapperMock.Object);
         }
 
         [Test]
@@ -46,8 +46,8 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            ICaseServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            ITestCaseMapperMock.Verify(x => x.BuildTestCases(It.IsAny<IEnumerable<Test>>()), Times.Once);
+            ITestServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            ITestFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()), Times.Once);
             Assert.AreEqual("View", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
@@ -59,8 +59,8 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Edit(It.IsAny<string>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            ICaseServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Once);
-            ITestCaseMapperMock.Verify(x => x.BuildViewModel(It.IsAny<Test>()), Times.Once);
+            ITestServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+            ITestFileMapperMock.Verify(x => x.BuildViewModel(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
         }
@@ -75,8 +75,8 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = _testController.Edit(new TestViewModel()) as RedirectToRouteResult;
 
             // then
-            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
-            ICaseServiceMock.Verify(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Once);
+            ITestFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
+            ITestServiceMock.Verify(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
 
@@ -90,8 +90,8 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Edit(new TestViewModel()) as ViewResult;
 
             // then
-            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
-            ICaseServiceMock.Verify(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Never);
+            ITestFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
+            ITestServiceMock.Verify(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
         }
@@ -103,7 +103,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.EditXml(It.IsAny<string>()) as ViewResult;
 
             // then 
-            ICaseServiceMock.Verify(x => x.GetXml(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            ITestServiceMock.Verify(x => x.GetXml(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("EditXml", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
@@ -115,7 +115,7 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = _testController.Delete(It.IsAny<int>(), It.IsAny<string>()) as RedirectToRouteResult;
 
             // then
-            ICaseServiceMock.Verify(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            ITestServiceMock.Verify(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
 
@@ -140,8 +140,8 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = _testController.Add(new TestViewModel()) as RedirectToRouteResult;
 
             // then
-            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
-            ICaseServiceMock.Verify(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Once);
+            ITestFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
+            ITestServiceMock.Verify(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
 
@@ -155,8 +155,8 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Add(new TestViewModel()) as ViewResult;
 
             // then
-            ITestCaseMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
-            ICaseServiceMock.Verify(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Never);
+            ITestFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
+            ITestServiceMock.Verify(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Edit", viewResult.ViewName);
 
         }
@@ -176,7 +176,7 @@ namespace Syringe.Tests.Unit.Web
         public void AddParseResponseItem_should_return_correct_view()
         {
             // given + when
-            var viewResult = _testController.AddParseResponseItem() as PartialViewResult;
+            var viewResult = _testController.AddCapturedVariableItem() as PartialViewResult;
 
             // then
             Assert.AreEqual("EditorTemplates/VariableViewModel", viewResult.ViewName);

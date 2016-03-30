@@ -246,9 +246,7 @@ interface Guid {
   */
 declare module Syringe.Service.Api.Hubs {
 interface TaskState {
-
-    TotalCases : number;
-
+    TotalTests : number;
 }
 } // end module
 

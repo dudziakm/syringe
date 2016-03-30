@@ -17,18 +17,18 @@ namespace Syringe.Service
 		protected IDisposable WebApplication;
 		private readonly IDependencyResolver _webDependencyResolver;
 		private readonly IConfiguration _configuration;
-		private readonly ITestSessionQueue _testSessionQueue;
+		private readonly ITestFileQueue _testFileQueue;
 		private readonly Microsoft.AspNet.SignalR.IDependencyResolver _signalRDependencyResolver;
 
 		public SyringeService(
 			IDependencyResolver webDependencyResolver,
 			IConfiguration configuration,
-			ITestSessionQueue testSessionQueue,
+			ITestFileQueue testFileQueue,
 			Microsoft.AspNet.SignalR.IDependencyResolver signalRDependencyResolver)
 		{
 			_webDependencyResolver = webDependencyResolver;
 			_configuration = configuration;
-			_testSessionQueue = testSessionQueue;
+			_testFileQueue = testFileQueue;
 			_signalRDependencyResolver = signalRDependencyResolver;
 		}
 
@@ -40,7 +40,7 @@ namespace Syringe.Service
 
 		public void Stop()
 		{
-			_testSessionQueue.StopAll();
+			_testFileQueue.StopAll();
 			WebApplication.Dispose();
 		}
 

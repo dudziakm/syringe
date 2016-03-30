@@ -77,12 +77,12 @@ namespace Syringe.Client
 			return DeserializeOrThrow<bool>(response);
 		}
 
-        public bool CreateTest(Test testTest, string branchName)
+        public bool CreateTest(Test test, string branchName)
         {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("CreateTest");
             request.Method = Method.POST;
-            request.AddJsonBody(testTest);
+            request.AddJsonBody(test);
             request.AddQueryParameter("branchName", branchName);
 
             IRestResponse response = client.Execute(request);
@@ -155,13 +155,15 @@ namespace Syringe.Client
             return DeserializeOrThrow<TestFileResult>(response);
         }
 
-	    public Task DeleteAsync(Guid sessionId)
+	    public Task DeleteResultAsync(Guid id)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("DeleteAsync");
+
+            IRestRequest request = CreateRequest("DeleteResultAsync");
             request.Method = Method.POST;
-            request.AddQueryParameter("sessionId", sessionId.ToString());
+            request.AddQueryParameter("id", id.ToString());
             IRestResponse response = client.Execute(request);
+
             return DeserializeOrThrow<Task>(response);
         }
 

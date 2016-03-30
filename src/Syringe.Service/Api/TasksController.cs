@@ -8,46 +8,46 @@ namespace Syringe.Service.Api
 	// TODO: Tests
 	public class TasksController : ApiController, ITasksService
 	{
-		private readonly ITestSessionQueue _sessionQueue;
+		private readonly ITestFileQueue _fileQueue;
 
-		public TasksController(ITestSessionQueue sessionQueue)
+		public TasksController(ITestFileQueue fileQueue)
 		{
-			_sessionQueue = sessionQueue;
+			_fileQueue = fileQueue;
 		}
 
 		[Route("api/tasks/Start")]
 		[HttpPost]
 		public int Start(TaskRequest item)
 		{
-			return _sessionQueue.Add(item);
+			return _fileQueue.Add(item);
 		}
 
 		[Route("api/tasks/Stop")]
 		[HttpGet]
 		public string Stop(int id)
 		{
-			return _sessionQueue.Stop(id);
+			return _fileQueue.Stop(id);
 		}
 
 		[Route("api/tasks/StopAll")]
 		[HttpGet]
 		public List<string> StopAll()
 		{
-			return _sessionQueue.StopAll();
+			return _fileQueue.StopAll();
 		}
 
 		[Route("api/tasks/GetRunningTasks")]
 		[HttpGet]
 		public IEnumerable<TaskDetails> GetRunningTasks()
 		{
-			return _sessionQueue.GetRunningTasks();
+			return _fileQueue.GetRunningTasks();
 		}
 
 		[Route("api/tasks/GetRunningTaskDetails")]
 		[HttpGet]
 		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
-			return _sessionQueue.GetRunningTaskDetails(taskId);
+			return _fileQueue.GetRunningTaskDetails(taskId);
 		}
 	}
 }

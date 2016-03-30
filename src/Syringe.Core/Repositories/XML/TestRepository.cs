@@ -29,8 +29,8 @@ namespace Syringe.Core.Repositories.XML
 
             using (var stringReader = new StringReader(xml))
             {
-                TestFile collection = _testFileReader.Read(stringReader);
-                Test testTest = collection.Tests.ElementAtOrDefault(position);
+                TestFile testFile = _testFileReader.Read(stringReader);
+                Test testTest = testFile.Tests.ElementAtOrDefault(position);
 
                 if (testTest == null)
                 {
@@ -111,23 +111,23 @@ namespace Syringe.Core.Repositories.XML
             string fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
-            TestFile collection;
+            TestFile testFile;
 
             using (var stringReader = new StringReader(xml))
             {
-                collection = _testFileReader.Read(stringReader);
+                testFile = _testFileReader.Read(stringReader);
 
-                Test testTestToDelete = collection.Tests.ElementAtOrDefault(position);
+                Test testToDelete = collection.Tests.ElementAtOrDefault(position);
 
-                if (testTestToDelete == null)
+                if (testToDelete == null)
                 {
                     throw new NullReferenceException(string.Concat("could not find test case:", position));
                 }
 
-                collection.Tests = collection.Tests.Where(x => x != testTestToDelete);
+                testFile.Tests = collection.Tests.Where(x => x != testTestToDelete);
             }
 
-            string contents = _testFileWriter.Write(collection);
+            string contents = _testFileWriter.Write(testFile);
 
             return _fileHandler.WriteAllText(fullPath, contents);
         }

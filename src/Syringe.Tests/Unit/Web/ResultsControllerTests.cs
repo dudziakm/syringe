@@ -32,7 +32,7 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void Html_should_return_404_not_found_if_case_doesnt_exist()
+        public void Html_should_return_404_not_found_if_test_doesnt_exist()
         {
             // given
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
@@ -42,7 +42,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);
-            Assert.AreEqual("Could not locate the specified case.", actionResult.StatusDescription);
+            Assert.AreEqual("Could not locate the specified test.", actionResult.StatusDescription);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void Raw_should_return_404_not_found_if_case_doesnt_exist()
+        public void Raw_should_return_404_not_found_if_test_doesnt_exist()
         {
             // given
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult>() }));
@@ -67,7 +67,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             Assert.AreEqual((int)HttpStatusCode.NotFound, actionResult.StatusCode);
-            Assert.AreEqual("Could not locate the specified case.", actionResult.StatusDescription);
+            Assert.AreEqual("Could not locate the specified test.", actionResult.StatusDescription);
         }
 
         [Test]
