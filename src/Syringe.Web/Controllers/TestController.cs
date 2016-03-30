@@ -91,9 +91,9 @@ namespace Syringe.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Delete(int index, string fileName)
+		public ActionResult Delete(int position, string fileName)
 		{
-			_testsClient.DeleteTest(index, fileName, _userContext.DefaultBranchName);
+			_testsClient.DeleteTest(position, fileName, _userContext.DefaultBranchName);
 
 			return RedirectToAction("View", new { filename = fileName });
 		}
@@ -105,7 +105,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult AddParseResponseItem()
 		{
-			return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
+			return PartialView("EditorTemplates/VariableViewModel", new CapturedVariableItem());
 		}
 
 		public ActionResult AddHeaderItem()
