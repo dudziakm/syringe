@@ -1,18 +1,18 @@
 ﻿@model TestViewModel
 @{
-	ViewBag.Title = "Editing " + Model.ParentFilename;
+	ViewBag.Title = "Editing " + Model.Filename;
 }
 <div class="container" id="edit-test">
 	<div class="row">
 
 	    <ul class="breadcrumb">
 	        <li><a title="View" href="/">Test tests</a></li>
-	        <li><a title="View" href="@Url.Action("View", "Test", new {filename = Model.ParentFilename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.ParentFilename</a></li>
+	        <li><a title="View" href="@Url.Action("View", "Test", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
 	        <li>@(Model.ShortDescription ?? "Add")</li>
 	    </ul>
 
        
-        @Html.Partial("Partials/_Variables", Model.AvailableVariables)
+        @Html.Partial("Partials/_Variables", Model.CapturedVariables)
 	    <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 
 			@Html.ValidationSummary(false, "", new {@class = "alert alert-danger"})
@@ -21,8 +21,6 @@
 					<h3 class="panel-title">General</h3>
 				</div>
 				<div class="panel-body">
-					@Html.HiddenFor(x => x.ParentFilename)
-					@Html.HiddenFor(x => x.Id)
 					<div class="form-group">
 						@Html.LabelFor(x => x.ShortDescription, new {@class = "col-sm-2 control-label"})
 						<div class="col-sm-4">
@@ -100,7 +98,7 @@
 		    </div>
 
 		    <div class="pull-right">
-				<a href="@Url.Action("View", new {filename = Model.ParentFilename})" class="btn btn-primary">Cancel</a>
+				<a href="@Url.Action("View", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
 				<input type="submit" value="Save" class="btn btn-primary" />    
 		    </div>
 		</form>

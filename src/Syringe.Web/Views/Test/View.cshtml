@@ -13,7 +13,7 @@
     </div>
     <div class="row">
         <nav class="col-xs-8">
-            @Html.Partial("Partials/_TestPager.cshtml")
+            @Html.Partial("Partials/_TestPager")
         </nav>
         <div class="col-xs-4 text-right">
             <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Add</a>
@@ -44,12 +44,12 @@
                         <td>
                             @using (Html.BeginForm("Delete", "Test"))
                             {
-	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, testCaseId = testCase.Id, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
+	                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = testCase.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
 									<i class="material-icons">mode_edit</i>
 	                            </a>
 
                                 <input type="hidden" name="filename" value="@Model.Filename" />
-                                <input type="hidden" name="testId" value="@testCase.Id" />
+                                <input type="hidden" name="testId" value="@testCase.Position" />
 	                            <button class="btn btn-sm btn-danger" type="submit">
 									<i class="material-icons">delete</i>
 	                            </button>
@@ -60,6 +60,6 @@
             </tbody>
         </table>
 
-        @Html.Partial("Partials/_TestPager.cshtml")
+        @Html.Partial("Partials/_TestPager")
     }
 </div>
