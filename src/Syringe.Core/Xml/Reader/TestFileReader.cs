@@ -37,6 +37,7 @@ namespace Syringe.Core.Xml.Reader
             {
                 XElement element = elements[i];
                 Test test = GetTest(element);
+                test.Position = i;
                 testCases.Add(test);
             }
             testFile.Tests = testCases;
@@ -78,7 +79,6 @@ namespace Syringe.Core.Xml.Reader
             var test = new Test();
 
             // Required Properties
-            test.Id = XmlHelper.AttributeAsGuid(element, "id");
             test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
                 throw new TestCaseException("The url parameter is missing for test case {0}", test.Id);

@@ -39,20 +39,20 @@ namespace Syringe.Tests.Unit.Repositories
         }
 
         [Test]
-        public void GetTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
+        public void GetTestCase_should_throw_null_reference_exception_when_position_is_invalid()
         {
             // given + when
             _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile());
 
             // then
-            Assert.Throws<NullReferenceException>(() => _testRepository.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()));
+            Assert.Throws<NullReferenceException>(() => _testRepository.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
         }
 
         [Test]
         public void GetTestCase_should_set_parent_filename_when_testcase_is_found()
         {
             // given + when
-            Test test = _testRepository.GetTest("parentFileName", It.IsAny<string>(), It.IsAny<Guid>());
+            var testCase = _testRepository.GetTestCase("parentFileName", It.IsAny<string>(), It.IsAny<int>());
 
             // then
             Assert.AreEqual("parentFileName", test.ParentFilename);
@@ -61,7 +61,7 @@ namespace Syringe.Tests.Unit.Repositories
         }
 
         [Test]
-        public void SaveTestCase_should_throw_null_reference_exception_when_caseId_is_invalid()
+        public void SaveTestCase_should_throw_null_reference_exception_when_position_is_invalid()
         {
             // given + when + then
             Assert.Throws<ArgumentNullException>(() => _testRepository.SaveTest(null, It.IsAny<string>()));
@@ -87,12 +87,6 @@ namespace Syringe.Tests.Unit.Repositories
             Assert.Throws<ArgumentNullException>(() => _testRepository.CreateTest(null, It.IsAny<string>()));
         }
 
-        [Test]
-        public void CreateTestCase_should_throw_exception_when_testcase_already_exists()
-        {
-            // given + when + then
-            Assert.Throws<Exception>(() => _testRepository.CreateTest(new Test(), It.IsAny<string>()),"case already exists");
-        }
 
         [Test]
         public void CreateTestCase_should_return_true_when_testcase_is_saved()
@@ -124,7 +118,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void DeleteTestCase_should_return_true_when_testCase_exists()
         {
             // given + when
-            var testCase = _testRepository.DeleteTest(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>());
+            var testCase = _testRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -133,14 +127,6 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Verify(x=>x.WriteAllText(It.IsAny<string>(),It.IsAny<string>()));
             _testFileReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
             Assert.IsTrue(testCase);
-        }
-
-        [Test]
-        public void DeleteTestCase_should_throw_null_reference_exception_when_test_case_is_missing()
-        {
-            // given + when + then
-            _testFileReader.Setup(x=>x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Tests = new List<Test>() });
-            Assert.Throws<NullReferenceException>(()=>_testRepository.DeleteTest(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()));
         }
 
         [Test]

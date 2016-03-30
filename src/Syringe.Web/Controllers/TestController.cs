@@ -50,10 +50,9 @@ namespace Syringe.Web.Controllers
 			return View("View", caseList);
 		}
 
-		public ActionResult Edit(string filename, Guid testId)
+		public ActionResult Edit(string filename, int position)
 		{
-			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
-			Test test = _testsClient.GetTest(filename, _userContext.DefaultBranchName, testId);
+			Test test = _testsClient.GetTest(filename, _userContext.TeamName, position);
 			TestViewModel model = _testFileMapper.BuildViewModel(test);
 
 			return View("Edit", model);
@@ -66,7 +65,7 @@ namespace Syringe.Web.Controllers
 			{
 				Test test = _testFileMapper.BuildCoreModel(model);
 				_testsClient.EditTest(test, _userContext.DefaultBranchName);
-				return RedirectToAction("View", new { filename = model.ParentFilename });
+				return RedirectToAction("View", new { filename = model.Filename });
 			}
 
 			return View("Edit", model);
@@ -74,7 +73,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Add(string filename)
 		{
-			var model = new TestViewModel { ParentFilename = filename, Id = Guid.NewGuid() };
+			var model = new TestViewModel { Filename = filename };
 			return View("Edit", model);
 		}
 
@@ -83,18 +82,18 @@ namespace Syringe.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Test testTest = _testFileMapper.BuildCoreModel(model);
-				_testsClient.CreateTest(testTest, _userContext.DefaultBranchName);
-				return RedirectToAction("View", new { filename = model.ParentFilename });
+				Test test = _testFileMapper.BuildCoreModel(model);
+                _testsClient.CreateTest(test, _userContext.TeamName);
+				return RedirectToAction("View", new { filename = model.Filename });
 			}
 
 			return View("Edit", model);
 		}
 
 		[HttpPost]
-		public ActionResult Delete(Guid testCaseId, string fileName)
+		public ActionResult Delete(int index, string fileName)
 		{
-			_testsClient.DeleteTest(testCaseId, fileName, _userContext.DefaultBranchName);
+			_testsClient.DeleteTest(index, fileName, _userContext.DefaultBranchName);
 
 			return RedirectToAction("View", new { filename = fileName });
 		}

@@ -46,16 +46,16 @@ namespace Syringe.Tests.Unit.Web
 			{
 				const string fileName = "Some file";
 				const string teamName = "My team";
-			    Guid testCase1 = Guid.NewGuid();
-			    Guid testCase2 = Guid.NewGuid();
+			    var testCase1 = 1;
+			    var testCase2 = 2;
 				var cases =
 					Mock.Of<TestFile>(
 						c =>
 							c.Tests ==
 							new[]
 							{
-								new Test {Id = testCase1, ShortDescription = "Desc1"},
-								new Test {Id = testCase2, ShortDescription = "Desc2"}
+								new Test { Position = testCase1, ShortDescription = "Desc1"},
+								new Test { Position = testCase2, ShortDescription = "Desc2"}
 							});
 
 				var caseService =
@@ -68,7 +68,7 @@ namespace Syringe.Tests.Unit.Web
 				viewModel.Run(Mock.Of<IUserContext>(c => c.DefaultBranchName == teamName), fileName);
 
 				Assert.That(viewModel.Tests, Is.Not.Null);
-				Assert.That(viewModel.Tests.Select(c => new { c.Id, c.Description }), Is.EquivalentTo(new[]
+				Assert.That(viewModel.Tests.Select(c => new { c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
 					new { Id = testCase1, Description = "Desc1" },
 					new { Id = testCase2, Description = "Desc2" }

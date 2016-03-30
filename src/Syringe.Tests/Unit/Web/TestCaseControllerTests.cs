@@ -31,8 +31,8 @@ namespace Syringe.Tests.Unit.Web
             ITestCaseMapperMock.Setup(x => x.BuildTestCases(It.IsAny<IEnumerable<Test>>()));
             ITestCaseMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
             ICaseServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), IUserContextMock.Object.DefaultBranchName)).Returns(new TestFile());
-            ICaseServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()));
-            ICaseServiceMock.Setup(x => x.DeleteTest(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()));
+            ICaseServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
+            ICaseServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
             ICaseServiceMock.Setup(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()));
             ICaseServiceMock.Setup(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()));
 
@@ -56,10 +56,10 @@ namespace Syringe.Tests.Unit.Web
         public void Edit_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _testController.Edit(It.IsAny<string>(), It.IsAny<Guid>()) as ViewResult;
+            var viewResult = _testController.Edit(It.IsAny<string>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            ICaseServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()), Times.Once);
+            ICaseServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Once);
             ITestCaseMapperMock.Verify(x => x.BuildViewModel(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
@@ -112,10 +112,10 @@ namespace Syringe.Tests.Unit.Web
         public void Delete_should_return_correct_redirection_to_view()
         {
             // given + when
-            var redirectToRouteResult = _testController.Delete(It.IsAny<Guid>(), It.IsAny<string>()) as RedirectToRouteResult;
+            var redirectToRouteResult = _testController.Delete(It.IsAny<int>(), It.IsAny<string>()) as RedirectToRouteResult;
 
             // then
-            ICaseServiceMock.Verify(x => x.DeleteTest(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            ICaseServiceMock.Verify(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
 

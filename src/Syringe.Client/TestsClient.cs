@@ -29,13 +29,13 @@ namespace Syringe.Client
 			return DeserializeOrThrow<IEnumerable<string>>(response);
 		}
 
-		public Test GetTest(string filename, string branchName, Guid testId)
+		public Test GetTest(string filename, string branchName, int index)
 		{
 			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("GetTest");
 			request.AddParameter("filename", filename);
 			request.AddParameter("branchName", branchName);
-			request.AddParameter("testId", testId);
+			request.AddParameter("index", index);
 
 			IRestResponse response = client.Execute(request);
 			return DeserializeOrThrow<Test>(response);
@@ -89,12 +89,12 @@ namespace Syringe.Client
             return DeserializeOrThrow<bool>(response);
         }
 
-	    public bool DeleteTest(Guid testId, string fileName, string branchName)
+	    public bool DeleteTest(int position, string fileName, string branchName)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = CreateRequest("DeleteTest");
             request.Method = Method.POST;
-            request.AddQueryParameter("testId", testId.ToString());
+            request.AddQueryParameter("position", position.ToString());
             request.AddQueryParameter("fileName", fileName);
             request.AddQueryParameter("branchName", branchName);
 

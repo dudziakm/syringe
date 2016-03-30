@@ -150,7 +150,7 @@ namespace Syringe.Core.Runner
 					}
 					catch (Exception ex)
 					{
-						Log.Error(ex, "An exception occurred running case {0}", testCase.Id);
+						Log.Error(ex, "An exception occurred running case {0}", testCase.Position);
 						ReportError(ex);
 					}
 					finally

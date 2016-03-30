@@ -8,7 +8,7 @@ namespace Syringe.Web.Models
     public class TestViewModel
     {
         [Required]
-        public Guid Id { get; set; }
+        public int  Position { get; set; }
 
         [Display(Name = "Short Description")]
         [Required]
@@ -39,7 +39,7 @@ namespace Syringe.Web.Models
         public List<AssertionViewModel> Assertions { get; set; }
 
         [Required]
-        public string ParentFilename { get; set; }
+        public string Filename { get; set; }
 
         public TestViewModel()
         {

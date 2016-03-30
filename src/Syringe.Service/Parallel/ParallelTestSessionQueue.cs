@@ -51,6 +51,7 @@ namespace Syringe.Service.Parallel
 			taskInfo.StartTime = DateTime.UtcNow;
 			taskInfo.Username = item.Username;
 			taskInfo.TeamName = item.TeamName;
+			taskInfo.Position = item.Position;
 
 		    Task childTask = StartSessionAsync(taskInfo);
 
@@ -68,7 +69,6 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				string username = item.Username;
 				string teamName = item.TeamName;
 
 				// Read in the XML file from the team folder, e.g. "c:\testcases\myteam\test1.xml"
@@ -80,7 +80,11 @@ namespace Syringe.Service.Parallel
 				{
 					var testCaseReader = new TestFileReader();
 					TestFile testFile = testCaseReader.Read(stringReader);
-					testFile.Filename = xmlFilename;
+                    if (item.Position.HasValue)
+                    {
+                        caseCollection.Tests = caseCollection.TestCases.Where(x => x.Position == item.Position);
+                    }
+                    testFile.Filename = xmlFilename;
 
 					var httpClient = new HttpClient(new RestClient());
 

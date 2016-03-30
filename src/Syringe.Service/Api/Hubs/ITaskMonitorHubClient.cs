@@ -16,7 +16,7 @@ namespace Syringe.Service.Api.Hubs
 		public Guid ResultId { get; set; }
 		public bool Success { get; set; }
 		public HttpResponse HttpResponse { get; set; }
-		public Guid CaseId { get; set; }
+		public int  Position { get; set; }
 		public string ExceptionMessage { get; set; }
         public List<Assertion> Verifications { get; set; }    
 	}
