@@ -23,7 +23,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testViewModel.Headers.Count, build.Headers.Count);
 			Assert.AreEqual(testViewModel.Position, build.Position);
 			Assert.AreEqual(testViewModel.LongDescription, build.LongDescription);
-			Assert.AreEqual(testViewModel.Filename, build.ParentFilename);
+			Assert.AreEqual(testViewModel.Filename, build.Filename);
 			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
 			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
 			Assert.AreEqual(1, build.VerifyNegatives.Count);
@@ -113,7 +113,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
 				VerifyNegatives = new List<Assertion> { new Assertion() },
 				VerifyPositives = new List<Assertion> { new Assertion() },
-				ParentFilename = "test.xml",
+				Filename = "test.xml",
 			};
 
 			// when
@@ -129,7 +129,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
 			Assert.AreEqual(PostType.GET, testViewModel.PostType);
 			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
-			Assert.AreEqual(test.ParentFilename, testViewModel.Filename);
+			Assert.AreEqual(test.Filename, testViewModel.Filename);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
 			Assert.AreEqual(2, testViewModel.Assertions.Count);

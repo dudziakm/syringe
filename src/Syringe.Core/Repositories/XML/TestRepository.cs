@@ -37,7 +37,7 @@ namespace Syringe.Core.Repositories.XML
                     throw new NullReferenceException("Could not find specified Test Case:" + position);
                 }
 
-                testTest.ParentFilename = filename;
+                testTest.Filename = filename;
 
                 return testTest;
             }
@@ -50,7 +50,7 @@ namespace Syringe.Core.Repositories.XML
                 throw new ArgumentNullException("test");
             }
 
-            string fullPath = _fileHandler.GetFileFullPath(branchName, test.ParentFilename);
+            string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             TestFile collection;
@@ -74,7 +74,7 @@ namespace Syringe.Core.Repositories.XML
                 throw new ArgumentNullException("test");
             }
 
-            string fullPath = _fileHandler.GetFileFullPath(branchName, test.ParentFilename);
+            string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             TestFile collection;
@@ -90,7 +90,7 @@ namespace Syringe.Core.Repositories.XML
                 item.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
                 item.LongDescription = test.LongDescription;
                 item.Method = test.Method;
-                item.ParentFilename = test.ParentFilename;
+                item.Filename = test.Filename;
                 item.CapturedVariables = test.CapturedVariables;
                 item.PostBody = test.PostBody;
                 item.VerifyPositives = test.VerifyPositives;

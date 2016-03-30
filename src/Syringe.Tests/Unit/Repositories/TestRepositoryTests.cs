@@ -55,7 +55,7 @@ namespace Syringe.Tests.Unit.Repositories
             var test = _testRepository.GetTest("parentFileName", It.IsAny<string>(), It.IsAny<int>());
 
             // then
-            Assert.AreEqual("parentFileName", test.ParentFilename);
+            Assert.AreEqual("parentFileName", test.Filename);
             _fileHandler.Verify(x=>x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()),Times.Once);
             _fileHandler.Verify(x=>x.ReadAllText(It.IsAny<string>()),Times.Once);
         }

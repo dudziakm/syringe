@@ -39,7 +39,8 @@ namespace Syringe.Web.ModelBuilders
 				ShortDescription = test.ShortDescription,
 				Url = test.Url,
 				Assertions = verifications,
-				Filename = test.ParentFilename,
+				Filename = test.Filename,
+                AvailableVariables = test.AvailableVariables.Select(x=> new VariableViewModel {Name = x.Name,Value = x.Value}).ToList()
 			};
 
 			return model;
@@ -85,7 +86,7 @@ namespace Syringe.Web.ModelBuilders
 				ErrorMessage = testModel.ErrorMessage,
 				Headers = testModel.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
 				LongDescription = testModel.LongDescription,
-				ParentFilename = testModel.Filename,
+				Filename = testModel.Filename,
 				CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Description, x.Regex)).ToList(),
 				PostBody = testModel.PostBody,
 				VerifyPositives = testModel.Assertions.Where(x => x.AssertionType == AssertionType.Positive).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),

@@ -21,14 +21,16 @@ namespace Syringe.Core.Tests
 		public List<Assertion> VerifyPositives { get; set; }
 		public List<Assertion> VerifyNegatives { get; set; }
 
-		public string ParentFilename { get; set; }
+		public string Filename { get; set; }
+	    public List<Variable> AvailableVariables { get; set; }
 
-		public Test()
+	    public Test()
 		{
 			Headers = new List<HeaderItem>();
 			CapturedVariables = new List<CapturedVariable>();
 			VerifyPositives = new List<Assertion>();
 			VerifyNegatives = new List<Assertion>();
+            AvailableVariables = new List<Variable>();
 		}
 
 		public void AddHeader(string key, string value)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
@@ -37,6 +38,7 @@ namespace Syringe.Web.Models
         public List<HeaderItem> Headers { get; set; }
         public List<CapturedVariableItem> CapturedVariables { get; set; }
         public List<AssertionViewModel> Assertions { get; set; }
+        public List<VariableViewModel> AvailableVariables { get; set; }
 
         [Required]
         public string Filename { get; set; }
@@ -46,6 +48,8 @@ namespace Syringe.Web.Models
             Headers = new List<HeaderItem>();
             CapturedVariables = new List<CapturedVariableItem>();
             Assertions = new List<AssertionViewModel>();
-		}
+            AvailableVariables = new List<VariableViewModel>();
+
+        }
     }
 }
