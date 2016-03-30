@@ -75,7 +75,7 @@ namespace Syringe.Tests.Unit.Web
 
 				// then
 				Assert.That(viewModel.Tests, Is.Not.Null);
-				Assert.That(viewModel.Tests.Select(c => new { c.Position, c.Description }), Is.EquivalentTo(new[]
+				Assert.That(viewModel.Tests.Select(c => new { Position = c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
 					new { Position = test1, Description = "Desc1" },
 					new { Position = test2, Description = "Desc2" }

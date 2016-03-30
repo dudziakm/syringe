@@ -83,7 +83,7 @@ interface ITaskMonitorHubClient
 declare module Syringe.Service.Api.Hubs {
 interface CompletedTaskInfo {
     ActualUrl : string;
-    ResultId : System.Guid;
+    ResultId : number;
     Success : boolean;
     HttpResponse : Syringe.Core.Http.HttpResponse;
     Position : number;
@@ -148,15 +148,6 @@ declare module System.Collections.Generic {
 interface KeyValuePair_String_String_ {
     Key : string;
     Value : string;
-}
-} // end module
-
-
-/**
-  * Data contract for System.Guid
-  */
-declare module System {
-interface Guid {
 }
 } // end module
 

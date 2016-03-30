@@ -22,9 +22,9 @@ namespace Syringe.Web.Controllers
 	        _urlHelper = urlHelper;
 	    }
 
-	    public ActionResult Html(int taskId, Guid id)
+	    public ActionResult Html(int taskId, int position)
         {
-            var taskCase = FindTestCaseResult(taskId, id);
+            var taskCase = FindTestCaseResult(taskId, position);
 
             if (taskCase == null)
             {
@@ -42,17 +42,17 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        private TestResult FindTestCaseResult(int taskId, Guid id)
+        private TestResult FindTestCaseResult(int taskId, int position)
         {
             TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
 
-            TestResult task = taskDetails.Results.First(x => x.Id == id);
+            TestResult task = taskDetails.Results.ElementAtOrDefault(position);
             return task;
         }
 
-        public ActionResult Raw(int taskId, Guid id)
+        public ActionResult Raw(int taskId, int position)
         {
-            var taskCase = FindTestCaseResult(taskId, id);
+            var taskCase = FindTestCaseResult(taskId, position);
 
             if (taskCase == null)
             {
