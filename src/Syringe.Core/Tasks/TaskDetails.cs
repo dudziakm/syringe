@@ -8,11 +8,11 @@ namespace Syringe.Core.Tasks
 		public int TaskId { get; set; }
 		public string Filename { get; set; }
 		public string Username { get; set; }
-		public string TeamName { get; set; }
+		public string DefaultBranchName { get; set; }
 
 		public string Status { get; set; }
 		public int CurrentIndex { get; set; }
-		public int TotalCases { get; set; }
+		public int TotalTests { get; set; }
 
 		public List<TestResult> Results { get; set; }
 		public string Errors { get; set; }

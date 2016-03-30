@@ -82,7 +82,7 @@ namespace Syringe.Service.Parallel
 					TestFile testFile = testCaseReader.Read(stringReader);
                     if (item.Position.HasValue)
                     {
-                        caseCollection.Tests = caseCollection.TestCases.Where(x => x.Position == item.Position);
+                        testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);
                     }
                     testFile.Filename = xmlFilename;
 
@@ -113,10 +113,10 @@ namespace Syringe.Service.Parallel
 				{
 					TaskId = task.Id,
 					Username = task.Username,
-					TeamName = task.TeamName,
+					DefaultBranchName = task.TeamName,
 					Status = task.CurrentTask.Status.ToString(),
 					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
-					TotalCases = (runner != null) ? task.Runner.TotalTests : 0,
+					TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
 				};
 			});
 		}
@@ -139,11 +139,11 @@ namespace Syringe.Service.Parallel
 			{
 				TaskId = task.Id,
 				Username = task.Username,
-				TeamName = task.TeamName,
+				DefaultBranchName = task.TeamName,
 				Status = task.CurrentTask.Status.ToString(),
 				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
 				CurrentIndex = (runner != null) ? runner.TestsRun : 0,
-				TotalCases = (runner != null) ? runner.TotalTests : 0,
+				TotalTests = (runner != null) ? runner.TotalTests : 0,
 				Errors = task.Errors
 			};
 		}

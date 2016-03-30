@@ -22,7 +22,7 @@ namespace Syringe.Core.Repositories.XML
             _fileHandler = fileHandler;
         }
 
-        public Test GetTest(string filename, string branchName, Guid caseId)
+        public Test GetTest(string filename, string branchName, int position)
         {
             string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
             string xml = _fileHandler.ReadAllText(fullPath);
@@ -30,11 +30,11 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 TestFile collection = _testFileReader.Read(stringReader);
-                Test testTest = collection.Tests.FirstOrDefault(x => x.Id == caseId);
+                Test testTest = collection.Tests.ElementAtOrDefault(position);
 
                 if (testTest == null)
                 {
-                    throw new NullReferenceException("Could not find specified Test Case:" + caseId);
+                    throw new NullReferenceException("Could not find specified Test Case:" + position);
                 }
 
                 testTest.ParentFilename = filename;
@@ -58,13 +58,6 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 collection = _testFileReader.Read(stringReader);
-
-                Test item = collection.Tests.FirstOrDefault(x => x.Id == test.Id);
-
-                if (item != null)
-                {
-                    throw new Exception("case already exists");
-                }
 
                 collection.Tests = collection.Tests.Concat(new[] { test });
             }
@@ -90,9 +83,8 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testFileReader.Read(stringReader);
 
-                Test item = collection.Tests.FirstOrDefault(x => x.Id == test.Id);
+                Test item = collection.Tests.ElementAt(test.Position);
 
-                item.Id = test.Id;
                 item.ShortDescription = test.ShortDescription;
                 item.ErrorMessage = test.ErrorMessage;
                 item.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
@@ -114,7 +106,7 @@ namespace Syringe.Core.Repositories.XML
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool DeleteTest(Guid testCaseId, string fileName, string branchName)
+        public bool DeleteTest(int position, string fileName, string branchName)
         {
             string fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
             string xml = _fileHandler.ReadAllText(fullPath);
@@ -125,14 +117,14 @@ namespace Syringe.Core.Repositories.XML
             {
                 collection = _testFileReader.Read(stringReader);
 
-                Test testTestToDelete = collection.Tests.FirstOrDefault(x => x.Id == testCaseId);
+                Test testTestToDelete = collection.Tests.ElementAtOrDefault(position);
 
                 if (testTestToDelete == null)
                 {
-                    throw new NullReferenceException(string.Concat("could not find test case:", testCaseId));
+                    throw new NullReferenceException(string.Concat("could not find test case:", position));
                 }
 
-                collection.Tests = collection.Tests.Where(x => x.Id != testCaseId);
+                collection.Tests = collection.Tests.Where(x => x != testTestToDelete);
             }
 
             string contents = _testFileWriter.Write(collection);

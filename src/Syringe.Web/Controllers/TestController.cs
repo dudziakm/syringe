@@ -52,7 +52,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Edit(string filename, int position)
 		{
-			Test test = _testsClient.GetTest(filename, _userContext.TeamName, position);
+			Test test = _testsClient.GetTest(filename, _userContext.DefaultBranchName, position);
 			TestViewModel model = _testFileMapper.BuildViewModel(test);
 
 			return View("Edit", model);
@@ -83,7 +83,7 @@ namespace Syringe.Web.Controllers
 			if (ModelState.IsValid)
 			{
 				Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.CreateTest(test, _userContext.TeamName);
+                _testsClient.CreateTest(test, _userContext.DefaultBranchName);
 				return RedirectToAction("View", new { filename = model.Filename });
 			}
 

@@ -36,8 +36,7 @@ namespace Syringe.Core.Xml.Reader
             for (int i = 0; i < elements.Count; i++)
             {
                 XElement element = elements[i];
-                Test test = GetTest(element);
-                test.Position = i;
+                Test test = GetTest(element, i);
                 testCases.Add(test);
             }
             testFile.Tests = testCases;
@@ -74,14 +73,15 @@ namespace Syringe.Core.Xml.Reader
             return variables;
         }
 
-        private Test GetTest(XElement element)
+        private Test GetTest(XElement element, int position)
         {
             var test = new Test();
 
             // Required Properties
+            test.Position = position;
             test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
-                throw new TestCaseException("The url parameter is missing for test case {0}", test.Id);
+                throw new TestCaseException("The url parameter is missing for test case {0}", test.Position);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
@@ -165,7 +165,7 @@ namespace Syringe.Core.Xml.Reader
             var items = new List<Assertion>();
             var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "assertions");
 
-            foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assertion"))
+            foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assert"))
             {
                 XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
                 string description = "";

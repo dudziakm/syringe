@@ -70,8 +70,8 @@ namespace Syringe.Tests.Unit.Web
 				Assert.That(viewModel.Tests, Is.Not.Null);
 				Assert.That(viewModel.Tests.Select(c => new { c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
-					new { Id = testCase1, Description = "Desc1" },
-					new { Id = testCase2, Description = "Desc2" }
+					new { Position = testCase1, Description = "Desc1" },
+					new { Position = testCase2, Description = "Desc2" }
 				}));
 			}
 

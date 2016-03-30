@@ -9,12 +9,12 @@ namespace Syringe.Core.Services
 	public interface ITestService
 	{
 		IEnumerable<string> ListFilesForTeam(string branchName);
-		Test GetTest(string filename, string branchName, Guid testId);
+		Test GetTest(string filename, string branchName, int position);
 		TestFile GetTestFile(string filename, string branchName);
 	    string GetXml(string filename, string branchName);
         bool EditTest(Test test, string branchName);
 	    bool CreateTest(Test testTest, string branchName);
-        bool DeleteTest(Guid testId, string fileName, string branchName);
+        bool DeleteTest(int position, string fileName, string branchName);
 	    bool CreateTestFile(TestFile testFile, string branchName);
 	    bool UpdateTestFile(TestFile testFile, string branchName);
 	    IEnumerable<TestFileResultSummary> GetSummariesForToday();

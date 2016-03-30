@@ -29,13 +29,13 @@ namespace Syringe.Client
 			return DeserializeOrThrow<IEnumerable<string>>(response);
 		}
 
-		public Test GetTest(string filename, string branchName, int index)
+		public Test GetTest(string filename, string branchName, int position)
 		{
 			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("GetTest");
 			request.AddParameter("filename", filename);
 			request.AddParameter("branchName", branchName);
-			request.AddParameter("index", index);
+			request.AddParameter("position", position);
 
 			IRestResponse response = client.Execute(request);
 			return DeserializeOrThrow<Test>(response);

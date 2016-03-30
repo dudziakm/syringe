@@ -29,9 +29,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/GetTest")]
         [HttpGet]
-        public Test GetTest(string filename, string branchName, Guid testId)
+        public Test GetTest(string filename, string branchName, int position)
         {
-            return _testRepository.GetTest(filename, branchName, testId);
+            return _testRepository.GetTest(filename, branchName, position);
         }
 
         [Route("api/tests/GetTestFile")]
@@ -63,9 +63,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/DeleteTest")]
         [HttpPost]
-        public bool DeleteTest(Guid testId, string fileName, string branchName)
+        public bool DeleteTest(int position, string fileName, string branchName)
         {
-            return _testRepository.DeleteTest(testId, fileName, branchName);
+            return _testRepository.DeleteTest(position, fileName, branchName);
         }
 
         [Route("api/tests/CreateTestFile")]

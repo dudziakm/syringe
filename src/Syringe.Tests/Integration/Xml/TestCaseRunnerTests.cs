@@ -30,7 +30,7 @@ namespace Syringe.Tests.Integration.Xml
 			// Arrange
 			var httpClient = new HttpClient(new RestClient());
 
-			string xml = TestHelpers.ReadEmbeddedFile("parseresponses.xml", XmlExamplesFolder);
+			string xml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);
 			var stringReader = new StringReader(xml);
 			var reader = new TestFileReader();
 			var caseCollection = reader.Read(stringReader);

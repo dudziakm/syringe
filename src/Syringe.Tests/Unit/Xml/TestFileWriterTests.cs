@@ -56,7 +56,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			var testCase = new Test()
 			{
-				Id = Guid.Empty,
+				Position = 1,
 				ShortDescription = "short description",
 				LongDescription = "long description",
 				Url = "http://myserver",
@@ -81,7 +81,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("headers.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
+			var testCase = new Test() { Position = 0 };
 			testCase.AddHeader("key1", "value1");
 			testCase.AddHeader("key2", "some <marvellous> HTML &&&&.");
 
@@ -101,7 +101,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			var testCase = new Test() {Id = Guid.Empty};
+			var testCase = new Test() { Position = 0};
 			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
 			TestFile testFile = CreateTestFile(testCase);
 			TestFileWriter xmlWriter = CreateTestCaseWriter();
@@ -119,7 +119,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
+			var testCase = new Test() { Position = 0 };
 			testCase.CapturedVariables.Add(new CapturedVariable("1", "here is (.*?) regex"));
 			testCase.CapturedVariables.Add(new CapturedVariable("2", "plain text"));
 			testCase.CapturedVariables.Add(new CapturedVariable("3", "This is encoded <test> &."));
@@ -140,7 +140,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("assertions.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Id = Guid.Empty };
+			var testCase = new Test() { Position = 0 };
 			testCase.VerifyPositives.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
 			testCase.VerifyPositives.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
 			testCase.VerifyPositives.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
@@ -172,7 +172,7 @@ namespace Syringe.Tests.Unit.Xml
 			{
 				var testCase = new Test()
 				{
-					Id = Guid.Empty,
+                    Position = 0,
 					ShortDescription = "short description" +i,
 					LongDescription = "long description",
 					Url = "http://myserver",

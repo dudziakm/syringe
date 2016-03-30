@@ -27,18 +27,18 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            var testCase = _caseService.GetTestCase(fileName, userContext.TeamName, index);
+            var testCase = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
 
-            var verifications = new List<VerificationItem>();
+            var verifications = new List<Assertion>();
             verifications.AddRange(testCase.VerifyNegatives);
             verifications.AddRange(testCase.VerifyPositives);
-            _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Position, testCase.ShortDescription, verifications));
+            _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
 
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,
                 Username = userContext.FullName,
-                TeamName = userContext.TeamName,
+                TeamName = userContext.DefaultBranchName,
                 Position = index,
             };
 
@@ -57,7 +57,7 @@ namespace Syringe.Web.Models
                 var verifications = new List<Assertion>();
                 verifications.AddRange(testCase.VerifyNegatives);
                 verifications.AddRange(testCase.VerifyPositives);
-                _runningTestCases.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
+                _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest

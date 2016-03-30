@@ -69,7 +69,7 @@ namespace Syringe.Core.Xml.Writer
 
         private XElement GetCaseElement(Test testTest)
         {
-            XElement element = new XElement("case");
+            XElement element = new XElement("test");
 
             element.Add(new XAttribute("shortdescription", testTest.ShortDescription ?? ""));
             element.Add(new XAttribute("longdescription", testTest.LongDescription ?? ""));

@@ -132,6 +132,7 @@ interface CompletedTaskInfo {
     Position : number;
 
     ExceptionMessage : string;
+
     Verifications : Syringe.Core.Tests.Assertion[];
 
 }
@@ -144,6 +145,7 @@ interface CompletedTaskInfo {
   */
 declare module Syringe.Core.Tests {
 interface Assertion {
+
     Description : string;
 
     Regex : string;
@@ -151,6 +153,7 @@ interface Assertion {
     TransformedRegex : string;
 
     Success : boolean;
+
     AssertionType : Syringe.Core.Tests.AssertionType;
 
     Log : string;
@@ -363,6 +366,7 @@ enum HttpStatusCode {
   */
 declare module Syringe.Core.Tests {
 enum AssertionType {
+
     Negative = 0,
 
     Positive = 1,

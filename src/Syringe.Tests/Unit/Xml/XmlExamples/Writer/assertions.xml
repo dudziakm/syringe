@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests repeat="0">
 	<test
-		id="00000000-0000-0000-0000-000000000000"
 		shortdescription=""
 		longdescription=""
 		url=""
@@ -13,7 +12,7 @@
 
 		<headers/>
 		<postbody/>
-		<parseresponses />
+		<capturedvariables />
 
 		<assertions>
 			<assertion type="positive" description="p90-1">regex1</assertion>

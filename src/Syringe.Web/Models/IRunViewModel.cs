@@ -9,7 +9,7 @@ namespace Syringe.Web.Models
 		void Run(IUserContext userContext, string fileName);
 	    void RunTest(IUserContext userContext, string fileName, int index);
 
-        IEnumerable<RunningTestCaseViewModel> Tests { get; }
+        IEnumerable<RunningTestViewModel> Tests { get; }
 		int CurrentTaskId { get; }
 		string FileName { get; }
 	    string SignalRUrl { get; }

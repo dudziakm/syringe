@@ -52,7 +52,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void GetTestCase_should_set_parent_filename_when_testcase_is_found()
         {
             // given + when
-            var testCase = _testRepository.GetTestCase("parentFileName", It.IsAny<string>(), It.IsAny<int>());
+            var test = _testRepository.GetTest("parentFileName", It.IsAny<string>(), It.IsAny<int>());
 
             // then
             Assert.AreEqual("parentFileName", test.ParentFilename);
@@ -118,7 +118,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void DeleteTestCase_should_return_true_when_testCase_exists()
         {
             // given + when
-            var testCase = _testRepository.DeleteTestCase(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
+            var testCase = _testRepository.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);

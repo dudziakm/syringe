@@ -21,9 +21,9 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			Assert.AreEqual(testViewModel.ErrorMessage, build.ErrorMessage);
 			Assert.AreEqual(testViewModel.Headers.Count, build.Headers.Count);
-			Assert.AreEqual(testViewModel.Id, build.Id);
+			Assert.AreEqual(testViewModel.Position, build.Position);
 			Assert.AreEqual(testViewModel.LongDescription, build.LongDescription);
-			Assert.AreEqual(testViewModel.ParentFilename, build.ParentFilename);
+			Assert.AreEqual(testViewModel.Filename, build.ParentFilename);
 			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
 			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
 			Assert.AreEqual(1, build.VerifyNegatives.Count);
@@ -63,14 +63,14 @@ namespace Syringe.Tests.Unit.ModelBuilders
 		{
 			// given
 			var testFileMapper = new TestFileMapper();
-			var testFileId1 = Guid.NewGuid();
-			var testFileId2 = Guid.NewGuid();
+		    var testFileId1 = 1;
+		    var testFileId2 = 2;
 			var testFile = new TestFile
 			{
 				Tests = new List<Test>
 				{
-					new Test {Id = testFileId1, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
-					new Test {Id = testFileId2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
+					new Test {Position = testFileId1, ShortDescription = "Short Description 1", Url = "http://www.google.com"},
+					new Test {Position = testFileId2, ShortDescription = "Short Description 2", Url = "http://www.arsenal.com"},
 				}
 			};
 
@@ -82,12 +82,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(2, viewModels.Count());
 
 			var firstCase = viewModels.First();
-			Assert.AreEqual(testFileId1, firstCase.Id);
+			Assert.AreEqual(testFileId1, firstCase.Position);
 			Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
 			Assert.AreEqual("http://www.google.com", firstCase.Url);
 
 			var lastCase = viewModels.Last();
-			Assert.AreEqual(testFileId2, lastCase.Id);
+			Assert.AreEqual(testFileId2, lastCase.Position);
 			Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
 			Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
 		}
@@ -100,7 +100,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			var test = new Test
 			{
-				Id = Guid.NewGuid(),
+                Position = 1,
 				ShortDescription = "Short Description",
 				Url = "http://www.google.com",
 				ErrorMessage = "Error",
@@ -121,7 +121,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			// then
 			Assert.NotNull(testViewModel);
-			Assert.AreEqual(test.Id, testViewModel.Id);
+			Assert.AreEqual(test.Position, testViewModel.Position);
 			Assert.AreEqual(test.ShortDescription, testViewModel.ShortDescription);
 			Assert.AreEqual(test.Url, testViewModel.Url);
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
@@ -129,7 +129,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
 			Assert.AreEqual(PostType.GET, testViewModel.PostType);
 			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
-			Assert.AreEqual(test.ParentFilename, testViewModel.ParentFilename);
+			Assert.AreEqual(test.ParentFilename, testViewModel.Filename);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
 			Assert.AreEqual(2, testViewModel.Assertions.Count);
@@ -144,9 +144,9 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				{
 					ErrorMessage = "error",
 					Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
-					Id = Guid.Empty,
+                    Position = 1,
 					LongDescription = "long description",
-					ParentFilename = "Test.xml",
+					Filename = "Test.xml",
 					CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Description = "Description", Regex = "Regex" } },
 					PostBody = "Post Body",
 					Assertions = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
