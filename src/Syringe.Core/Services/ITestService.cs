@@ -13,13 +13,13 @@ namespace Syringe.Core.Services
 		TestFile GetTestFile(string filename, string branchName);
 	    string GetXml(string filename, string branchName);
         bool EditTest(Test test, string branchName);
-	    bool CreateTest(Test testTest, string branchName);
+	    bool CreateTest(Test test, string branchName);
         bool DeleteTest(Guid testId, string fileName, string branchName);
 	    bool CreateTestFile(TestFile testFile, string branchName);
 	    bool UpdateTestFile(TestFile testFile, string branchName);
 	    IEnumerable<TestFileResultSummary> GetSummariesForToday();
 	    IEnumerable<TestFileResultSummary> GetSummaries();
         TestFileResult GetResultById(Guid id);
-        Task DeleteAsync(Guid sessionId);
+        Task DeleteResultAsync(Guid id);
 	}
 }

@@ -26,9 +26,9 @@ namespace Syringe.Tests.Unit.Runner
 			TestHelpers.EnableLogging();
 		}
 
-		private ITestCaseSessionRepository GetRepository()
+		private ITestFileResultRepository GetRepository()
 		{
-			return new TestCaseSessionRepositoryMock();
+			return new TestFileResultRepositoryMock();
 		}
 
 		[Test]
@@ -284,7 +284,7 @@ namespace Syringe.Tests.Unit.Runner
 		public async Task Run_should_save_testcasesession_to_repository()
 		{
 			// Arrange
-			var repository = new TestCaseSessionRepositoryMock();
+			var repository = new TestFileResultRepositoryMock();
 
 			TestFileRunner runner = CreateRunner();
 			runner.Repository = repository;

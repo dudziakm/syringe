@@ -90,7 +90,7 @@ namespace Syringe.Web.Controllers
         public async Task<ActionResult> DeleteResult(Guid id)
         {
             TestFileResult session = _testsClient.GetResultById(id);
-            await _testsClient.DeleteAsync(session.Id);
+            await _testsClient.DeleteResultAsync(session.Id);
 
             return RedirectToAction("AllResults");
         }

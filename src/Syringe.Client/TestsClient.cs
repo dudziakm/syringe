@@ -155,13 +155,15 @@ namespace Syringe.Client
             return DeserializeOrThrow<TestFileResult>(response);
         }
 
-	    public Task DeleteAsync(Guid sessionId)
+	    public Task DeleteResultAsync(Guid id)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = CreateRequest("DeleteAsync");
+
+            IRestRequest request = CreateRequest("DeleteResultAsync");
             request.Method = Method.POST;
-            request.AddQueryParameter("sessionId", sessionId.ToString());
+            request.AddQueryParameter("id", id.ToString());
             IRestResponse response = client.Execute(request);
+
             return DeserializeOrThrow<Task>(response);
         }
 

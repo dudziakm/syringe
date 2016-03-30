@@ -21,7 +21,7 @@ namespace Syringe.Core.Runner
 		private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers =
 			new Dictionary<Guid, TestSessionRunnerSubscriber>();
 
-		public ITestCaseSessionRepository Repository { get; set; }
+		public ITestFileResultRepository Repository { get; set; }
 		public Guid SessionId { get; internal set; }
 
 		public IEnumerable<TestResult> CurrentResults
@@ -39,7 +39,7 @@ namespace Syringe.Core.Runner
 		public int TotalTests { get; set; }
 		public int RepeatCount { get; set; }
 
-		public TestFileRunner(IHttpClient httpClient, ITestCaseSessionRepository repository)
+		public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository)
 		{
 			if (httpClient == null)
 				throw new ArgumentNullException("httpClient");

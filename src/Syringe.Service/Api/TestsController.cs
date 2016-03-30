@@ -12,12 +12,12 @@ namespace Syringe.Service.Api
     public class TestsController : ApiController, ITestService
     {
         private readonly ITestRepository _testRepository;
-        private readonly ITestCaseSessionRepository _testCaseSessionRepository;
+        private readonly ITestFileResultRepository _testFileResultRepository;
 
-        public TestsController(ITestRepository testRepository, ITestCaseSessionRepository testCaseSessionRepository)
+        public TestsController(ITestRepository testRepository, ITestFileResultRepository testFileResultRepository)
         {
             _testRepository = testRepository;
-            _testCaseSessionRepository = testCaseSessionRepository;
+            _testFileResultRepository = testFileResultRepository;
         }
 
         [Route("api/tests/ListForTeam")]
@@ -56,9 +56,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/CreateTest")]
         [HttpPost]
-        public bool CreateTest([FromBody]Test testTest, [FromUri]string branchName)
+        public bool CreateTest([FromBody]Test test, [FromUri]string branchName)
         {
-            return _testRepository.CreateTest(testTest, branchName);
+            return _testRepository.CreateTest(test, branchName);
         }
 
         [Route("api/tests/DeleteTest")]
@@ -86,28 +86,28 @@ namespace Syringe.Service.Api
         [HttpGet]
         public IEnumerable<TestFileResultSummary> GetSummariesForToday()
         {
-            return _testCaseSessionRepository.GetSummariesForToday();
+            return _testFileResultRepository.GetSummariesForToday();
         }
 
         [Route("api/tests/GetSummaries")]
         [HttpGet]
         public IEnumerable<TestFileResultSummary> GetSummaries()
         {
-            return _testCaseSessionRepository.GetSummaries();
+            return _testFileResultRepository.GetSummaries();
         }
 
         [Route("api/tests/GetById")]
         [HttpGet]
         public TestFileResult GetResultById(Guid id)
         {
-            return _testCaseSessionRepository.GetById(id);
+            return _testFileResultRepository.GetById(id);
         }
 
-        [Route("api/tests/DeleteAsync")]
+        [Route("api/tests/DeleteResultAsync")]
         [HttpPost]
-        public Task DeleteAsync(Guid sessionId)
+        public Task DeleteResultAsync(Guid id)
         {
-            return _testCaseSessionRepository.DeleteAsync(sessionId);
+            return _testFileResultRepository.DeleteAsync(id);
         }
     }
 }

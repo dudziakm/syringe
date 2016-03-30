@@ -19,9 +19,9 @@ namespace Syringe.Tests.Integration.Xml
 	{
 		public static string XmlExamplesFolder = typeof(TestCaseRunnerTests).Namespace + ".XmlExamples.Runner.";
 
-		private ITestCaseSessionRepository GetRepository()
+		private ITestFileResultRepository GetRepository()
 		{
-			return new TestCaseSessionRepositoryMock();
+			return new TestFileResultRepositoryMock();
 		}
 
 		[Test]

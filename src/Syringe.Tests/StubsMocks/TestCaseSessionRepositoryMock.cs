@@ -6,11 +6,11 @@ using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.StubsMocks
 {
-	internal class TestCaseSessionRepositoryMock : ITestCaseSessionRepository
+	internal class TestFileResultRepositoryMock : ITestFileResultRepository
 	{
 		public TestFileResult SavedSession { get; set; }
 
-		public Task DeleteAsync(Guid session)
+		public Task DeleteAsync(Guid testFileResultId)
 		{
 			return Task.FromResult<object>(null);
 		}
@@ -35,9 +35,9 @@ namespace Syringe.Tests.StubsMocks
 			return new List<TestFileResultSummary>();
 		}
 
-		public Task AddAsync(TestFileResult session)
+		public Task AddAsync(TestFileResult testFileResult)
 		{
-			SavedSession = session;
+			SavedSession = testFileResult;
 		    return Task.FromResult<object>(null);
 		}
 	}

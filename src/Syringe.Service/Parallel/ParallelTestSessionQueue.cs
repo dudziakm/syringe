@@ -25,10 +25,10 @@ namespace Syringe.Service.Parallel
 		private int _lastTaskId;
 		private readonly ConcurrentDictionary<int, SessionRunnerTaskInfo> _currentTasks;
 		private readonly IConfiguration _configuration;
-		private readonly ITestCaseSessionRepository _repository;
+		private readonly ITestFileResultRepository _repository;
 	    private readonly ITaskPublisher _taskPublisher;
 
-	    public ParallelTestSessionQueue(ITestCaseSessionRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
+	    public ParallelTestSessionQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
 		{
 			_currentTasks = new ConcurrentDictionary<int, SessionRunnerTaskInfo>();
 			_configuration = configuration;
