@@ -41,7 +41,7 @@ namespace Syringe.Web.Controllers
 			TestFileViewModel caseList = new TestFileViewModel
 			{
 				PageNumbers = testCases.Tests.GetPageNumbersToShow(noOfResults),
-				Tests = _testFileMapper.BuildTestCases(pagedTestCases),
+				Tests = _testFileMapper.BuildTests(pagedTestCases),
 				Filename = filename,
 				PageNumber = pageNumber,
 				NoOfResults = noOfResults

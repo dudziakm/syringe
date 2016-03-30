@@ -13,20 +13,20 @@ namespace Syringe.Tests.Unit.Web
     public class JsonControllerTests
     {
         private Mock<ITasksService> _tasksClient;
-        private Mock<ITestService> _casesClient;
+        private Mock<ITestService> _testsClient;
         private Mock<IUserContext> _userContext;
         private JsonController jsonController;
         [SetUp]
         public void Setup()
         {
             _tasksClient = new Mock<ITasksService>();
-            _casesClient = new Mock<ITestService>();
+            _testsClient = new Mock<ITestService>();
             _userContext = new Mock<IUserContext>();
 
             _tasksClient.Setup(x => x.Start(It.IsAny<TaskRequest>())).Returns(10);
             _tasksClient.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns(new TaskDetails());
-            _casesClient.Setup(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>())).Returns(new TestFile());
-            jsonController = new JsonController(_tasksClient.Object, _casesClient.Object, _userContext.Object);
+            _testsClient.Setup(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>())).Returns(new TestFile());
+            jsonController = new JsonController(_tasksClient.Object, _testsClient.Object, _userContext.Object);
         }
 
         [Test]
@@ -52,13 +52,13 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void GetCases_should_return_correct_json()
+        public void GetTests_should_return_correct_json()
         {
             // given + when
             var actionResult = jsonController.GetTests(It.IsAny<string>()) as ContentResult;
 
             // then
-            _casesClient.Verify(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>()), Times.Once);
+            _testsClient.Verify(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>()), Times.Once);
             Assert.AreEqual("{\"Repeat\":0,\"Tests\":[],\"Filename\":null,\"Variables\":[]}", actionResult.Content);
         }
     }

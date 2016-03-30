@@ -7,7 +7,7 @@ namespace Syringe.Web.ModelBuilders
     public interface ITestFileMapper
     {
         TestViewModel BuildViewModel(Test test);
-        IEnumerable<TestViewModel> BuildTestCases(IEnumerable<Test> tests);
+        IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests);
         Test BuildCoreModel(TestViewModel testModel);
     }
 }

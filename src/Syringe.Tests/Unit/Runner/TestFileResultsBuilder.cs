@@ -5,60 +5,60 @@ using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Unit.Runner
 {
-	internal class TestCaseResultsBuilder
+	internal class TestFileResultsBuilder
 	{
-		private readonly List<TestResult> _testCases;
+		private readonly List<TestResult> _testResults;
 		private TestResult _currentTestResult;
 
-		public TestCaseResultsBuilder()
+		public TestFileResultsBuilder()
 		{
-			_testCases = new List<TestResult>();
+			_testResults = new List<TestResult>();
 		}
 
-		public TestCaseResultsBuilder New()
+		public TestFileResultsBuilder New()
 		{
 			_currentTestResult = new TestResult();
 			return this;
 		}
 
-		public TestCaseResultsBuilder WithSuccess()
+		public TestFileResultsBuilder WithSuccess()
 		{
 			_currentTestResult.ResponseCodeSuccess = true;
 			return this;
 		}
 
-		public TestCaseResultsBuilder WithFail()
+		public TestFileResultsBuilder WithFail()
 		{
 			_currentTestResult.ResponseCodeSuccess = false;
 			return this;
 		}
 
-		public TestCaseResultsBuilder AddPositiveVerify(bool success = true)
+		public TestFileResultsBuilder AddPositiveVerify(bool success = true)
 		{
 			_currentTestResult.PositiveAssertionResults.Add(new Assertion("item " + DateTime.Now, "regex",
 				AssertionType.Positive) {Success = success});
 			return this;
 		}
 
-		public TestCaseResultsBuilder AddNegativeVerify(bool success = true)
+		public TestFileResultsBuilder AddNegativeVerify(bool success = true)
 		{
 			_currentTestResult.NegativeAssertionResults.Add(new Assertion("item " + DateTime.Now, "regex",
 				AssertionType.Negative) {Success = success});
 			return this;
 		}
 
-		public TestCaseResultsBuilder Add()
+		public TestFileResultsBuilder Add()
 		{
-			_testCases.Add(_currentTestResult);
+			_testResults.Add(_currentTestResult);
 			return this;
 		}
 
 		public List<TestResult> GetCollection()
 		{
-			return _testCases;
+			return _testResults;
 		}
 
-		public TestCaseResultsBuilder WithMessage(string message)
+		public TestFileResultsBuilder WithMessage(string message)
 		{
 			_currentTestResult.Message = message;
 			return this;

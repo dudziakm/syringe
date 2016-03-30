@@ -12,9 +12,9 @@ using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
 {
-	public class TestCaseSessionRepositoryTests
+	public class TestFileResultRepositoryTests
 	{
-		private TestFileResultRepository CreateTestCaseSessionRepository()
+		private TestFileResultRepository TestFileResultRepository()
 		{
 			return new TestFileResultRepository(new MongoDBConfiguration() { DatabaseName = "Syringe-Tests"});	
 		}
@@ -22,7 +22,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		[SetUp]
 		public void SetUp()
 		{
-			CreateTestCaseSessionRepository().Wipe();
+			TestFileResultRepository().Wipe();
 		}
 
 		[Test]
@@ -32,7 +32,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var fixture = new Fixture();
 			var session = fixture.Create<TestFileResult>();
 
-			TestFileResultRepository repository = CreateTestCaseSessionRepository();
+			TestFileResultRepository repository = TestFileResultRepository();
 
 			// Act
 			await repository.AddAsync(session);
@@ -49,7 +49,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var fixture = new Fixture();
 			var session = fixture.Create<TestFileResult>();
 
-			TestFileResultRepository repository = CreateTestCaseSessionRepository();
+			TestFileResultRepository repository = TestFileResultRepository();
 			await repository.AddAsync(session);
 
 			// Act
@@ -67,7 +67,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var fixture = new Fixture();
 			var expectedSession = fixture.Create<TestFileResult>();
 
-			TestFileResultRepository repository = CreateTestCaseSessionRepository();
+			TestFileResultRepository repository = TestFileResultRepository();
 			await repository.AddAsync(expectedSession);
 
 			// Act
@@ -89,7 +89,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			var session1 = fixture.Create<TestFileResult>();
 			var session2 = fixture.Create<TestFileResult>();
 
-			TestFileResultRepository repository = CreateTestCaseSessionRepository();
+			TestFileResultRepository repository = TestFileResultRepository();
 			await repository.AddAsync(session1);
 			await repository.AddAsync(session2);
 
@@ -126,7 +126,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			otherSession2.StartTime = DateTime.Today.AddDays(-2);
 			otherSession2.EndTime = otherSession2.StartTime.AddMinutes(10);
 
-			TestFileResultRepository repository = CreateTestCaseSessionRepository();
+			TestFileResultRepository repository = TestFileResultRepository();
 			await repository.AddAsync(todaySession1);
 			await repository.AddAsync(todaySession2);
 			await repository.AddAsync(otherSession1);

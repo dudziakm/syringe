@@ -11,7 +11,7 @@ namespace Syringe.Tests.Unit.Xml
 {
 	public class TestFileWriterTests
 	{
-		public static string XmlExamplesFolder = "Syringe.Tests.Unit.Xml.XmlExamples.Writer.";
+		public static string XmlExamplesFolder = typeof(TestFileReaderTests).Namespace + ".XmlExamples.Writer.";
 
 		[Test]
 		public void write_should_add_variables()
@@ -165,12 +165,12 @@ namespace Syringe.Tests.Unit.Xml
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("large-file.xml", XmlExamplesFolder);
 
-			var caseCollection = new TestFile();
+			var testFile = new TestFile();
 			var list = new List<Test>();
 
 			for (int i = 0; i < 100; i++)
 			{
-				var testCase = new Test()
+				var test = new Test()
 				{
 					Id = Guid.Empty,
 					ShortDescription = "short description" + i,
@@ -182,14 +182,14 @@ namespace Syringe.Tests.Unit.Xml
 					ErrorMessage = "my error message",
 				};
 
-				list.Add(testCase);
+				list.Add(test);
 			}
 
-			caseCollection.Tests = list;
+			testFile.Tests = list;
 			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
-			string actualXml = xmlWriter.Write(caseCollection);
+			string actualXml = xmlWriter.Write(testFile);
 
 			// Assert
 			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));

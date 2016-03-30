@@ -57,7 +57,7 @@ namespace Syringe.Web.ModelBuilders
 						});
 		}
 
-		public IEnumerable<TestViewModel> BuildTestCases(IEnumerable<Test> tests)
+		public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests)
 		{
 			if (tests == null)
 			{

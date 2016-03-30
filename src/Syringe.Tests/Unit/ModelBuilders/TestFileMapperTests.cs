@@ -16,8 +16,8 @@ namespace Syringe.Tests.Unit.ModelBuilders
 		[Test]
 		public void Build_should_set_correct_properties_when_model_is_populated()
 		{
-			var testCaseMapper = new TestFileMapper();
-			var build = testCaseMapper.BuildCoreModel(testViewModel);
+			var testFileMapper = new TestFileMapper();
+			var build = testFileMapper.BuildCoreModel(testViewModel);
 
 			Assert.AreEqual(testViewModel.ErrorMessage, build.ErrorMessage);
 			Assert.AreEqual(testViewModel.Headers.Count, build.Headers.Count);
@@ -35,31 +35,31 @@ namespace Syringe.Tests.Unit.ModelBuilders
 		}
 
 		[Test]
-		public void BuildTestCase_should_throw_argumentnullexception_when_testcase_is_null()
+		public void BuildCoreModel_should_throw_argumentnullexception_when_test_is_null()
 		{
-			var testCaseMapper = new TestFileMapper();
+			var testFileMapper = new TestFileMapper();
 
-			Assert.Throws<ArgumentNullException>(() => testCaseMapper.BuildCoreModel(null));
+			Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildCoreModel(null));
 		}
 
 		[Test]
-		public void BuildViewModel_should_throw_argumentnullexception_when_testcase_is_null()
+		public void BuildViewModel_should_throw_argumentnullexception_when_test_is_null()
 		{
-			var testCaseMapper = new TestFileMapper();
+			var testFileMapper = new TestFileMapper();
 
-			Assert.Throws<ArgumentNullException>(() => testCaseMapper.BuildViewModel(null));
+			Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildViewModel(null));
 		}
 
 		[Test]
-		public void BuildTestCases_should_throw_argumentnullexception_when_testcase_is_null()
+		public void BuildTests_should_throw_argumentnullexception_when_test_is_null()
 		{
-			var testCaseMapper = new TestFileMapper();
+			var testFileMapper = new TestFileMapper();
 
-			Assert.Throws<ArgumentNullException>(() => testCaseMapper.BuildTestCases(null));
+			Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTests(null));
 		}
 
 		[Test]
-		public void BuildTestCases_should_return_correct_model_values_from_casecollection()
+		public void BuildTests_should_return_correct_model_values_from_testfile()
 		{
 			// given
 			var testFileMapper = new TestFileMapper();
@@ -75,28 +75,28 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			};
 
 			// when
-			IEnumerable<TestViewModel> viewModels = testFileMapper.BuildTestCases(testFile.Tests);
+			IEnumerable<TestViewModel> viewModels = testFileMapper.BuildTests(testFile.Tests);
 
 			// then
 			Assert.NotNull(viewModels);
 			Assert.AreEqual(2, viewModels.Count());
 
-			var firstCase = viewModels.First();
-			Assert.AreEqual(testFileId1, firstCase.Id);
-			Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
-			Assert.AreEqual("http://www.google.com", firstCase.Url);
+			var first = viewModels.First();
+			Assert.AreEqual(testFileId1, first.Id);
+			Assert.AreEqual("Short Description 1", first.ShortDescription);
+			Assert.AreEqual("http://www.google.com", first.Url);
 
-			var lastCase = viewModels.Last();
-			Assert.AreEqual(testFileId2, lastCase.Id);
-			Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
-			Assert.AreEqual("http://www.arsenal.com", lastCase.Url);
+			var last = viewModels.Last();
+			Assert.AreEqual(testFileId2, last.Id);
+			Assert.AreEqual("Short Description 2", last.ShortDescription);
+			Assert.AreEqual("http://www.arsenal.com", last.Url);
 		}
 
 		[Test]
-		public void BuildViewModel_should_return_correct_model_values_from_case()
+		public void BuildViewModel_should_return_correct_model_values_from_test()
 		{
 			// given
-			var testCaseMapper = new TestFileMapper();
+			var fileMapper = new TestFileMapper();
 
 			var test = new Test
 			{
@@ -117,7 +117,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			};
 
 			// when
-			TestViewModel testViewModel = testCaseMapper.BuildViewModel(test);
+			TestViewModel testViewModel = fileMapper.BuildViewModel(test);
 
 			// then
 			Assert.NotNull(testViewModel);
