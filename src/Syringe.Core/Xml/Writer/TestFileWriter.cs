@@ -21,8 +21,8 @@ namespace Syringe.Core.Xml.Writer
 
                 using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
                 {
-                    XElement testCasesElement = new XElement("tests");
-                    testCasesElement.Add(new XAttribute("repeat", testFile.Repeat.ToString()));
+                    XElement testsElement = new XElement("tests");
+                    testsElement.Add(new XAttribute("repeat", testFile.Repeat.ToString()));
 
                     if (testFile.Variables.Count > 0)
                     {
@@ -40,26 +40,26 @@ namespace Syringe.Core.Xml.Writer
 							variableElements.Add(variableElement);
                         }
 
-                        testCasesElement.Add(variableElements);
+                        testsElement.Add(variableElements);
                     }
 
-                    foreach (Test testCase in testFile.Tests)
+                    foreach (Test test in testFile.Tests)
                     {
-                        XElement headersElement = GetHeadersElement(testCase);
-                        XElement postbodyElement = GetPostBodyElement(testCase);
-                        XElement parseResponsesElement = GetParseResponsesElement(testCase);
-                        XElement assertionElement = GetAssertionsElement(testCase);
+                        XElement headersElement = GetHeadersElement(test);
+                        XElement postbodyElement = GetPostBodyElement(test);
+                        XElement parseResponsesElement = GetParseResponsesElement(test);
+                        XElement assertionElement = GetAssertionsElement(test);
 
-                        XElement caseElement = GetCaseElement(testCase);
-                        caseElement.Add(headersElement);
-                        caseElement.Add(postbodyElement);
-                        caseElement.Add(parseResponsesElement);
-                        caseElement.Add(assertionElement);
+                        XElement testElement = GetTestElement(test);
+                        testElement.Add(headersElement);
+                        testElement.Add(postbodyElement);
+                        testElement.Add(parseResponsesElement);
+                        testElement.Add(assertionElement);
 
-                        testCasesElement.Add(caseElement);
+                        testsElement.Add(testElement);
                     }
 
-                    XDocument doc = new XDocument(testCasesElement);
+                    XDocument doc = new XDocument(testsElement);
                     doc.WriteTo(xmlWriter);
                 }
 
@@ -67,7 +67,7 @@ namespace Syringe.Core.Xml.Writer
             }
         }
 
-        private XElement GetCaseElement(Test test)
+        private XElement GetTestElement(Test test)
         {
             XElement element = new XElement("test");
 

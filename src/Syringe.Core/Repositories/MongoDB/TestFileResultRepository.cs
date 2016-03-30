@@ -9,7 +9,7 @@ namespace Syringe.Core.Repositories.MongoDB
 {
     public class TestFileResultRepository : ITestFileResultRepository
     {
-        private static readonly string COLLECTION_NAME = "TestCaseSessions";
+        private static readonly string MONGDB_COLLECTION_NAME = "TestFileResults";
         private readonly MongoDBConfiguration _mongoDbConfiguration;
         private readonly MongoClient _mongoClient;
         private readonly IMongoDatabase _database;
@@ -20,7 +20,7 @@ namespace Syringe.Core.Repositories.MongoDB
             _mongoDbConfiguration = mongoDbConfiguration;
             _mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
             _database = _mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
-            _collection = _database.GetCollection<TestFileResult>(COLLECTION_NAME);
+            _collection = _database.GetCollection<TestFileResult>(MONGDB_COLLECTION_NAME);
         }
 
         public async Task AddAsync(TestFileResult testFileResult)
@@ -46,7 +46,7 @@ namespace Syringe.Core.Repositories.MongoDB
                                 {
                                     Id = x.Id,
                                     DateRun = x.StartTime,
-                                    TestCaseFileName = x.Filename,
+                                    FileName = x.Filename,
                                     TotalRunTime = x.TotalRunTime,
                                     TotalPassed = x.TotalTestsPassed,
                                     TotalFailed = x.TotalTestsFailed,
@@ -64,7 +64,7 @@ namespace Syringe.Core.Repositories.MongoDB
                                 {
                                     Id = x.Id,
                                     DateRun = x.StartTime,
-                                    TestCaseFileName = x.Filename,
+                                    FileName = x.Filename,
                                     TotalRunTime = x.TotalRunTime,
                                     TotalPassed = x.TotalTestsPassed,
                                     TotalFailed = x.TotalTestsFailed,
@@ -74,11 +74,11 @@ namespace Syringe.Core.Repositories.MongoDB
         }
 
         /// <summary>
-        /// Removes all TestCaseSession objects from the database.
+        /// Removes all objects from the database.
         /// </summary>
         public void Wipe()
         {
-            _database.DropCollectionAsync(COLLECTION_NAME).Wait();
+            _database.DropCollectionAsync(MONGDB_COLLECTION_NAME).Wait();
         }
     }
 }

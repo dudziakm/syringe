@@ -155,7 +155,6 @@
     <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="Tests\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
-    <Compile Include="Schedule\ScheduledJob.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ITestService.cs" />
     <Compile Include="Services\ITasksService.cs" />

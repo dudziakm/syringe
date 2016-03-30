@@ -62,9 +62,9 @@ namespace Syringe.Core.Runner
 				currentSubscribers = _subscribers.ToDictionary(k => k.Key, v => v.Value);
 			}
 
-			foreach (var testCaseSessionSubscriber in currentSubscribers.Values)
+			foreach (var subscriber in currentSubscribers.Values)
 			{
-				observerAction(testCaseSessionSubscriber.Observer);
+				observerAction(subscriber.Observer);
 			}
 		}
 
@@ -92,15 +92,15 @@ namespace Syringe.Core.Runner
 				resultsCopy = _currentResults.ToArray();
 			}
 
-			foreach (var testCaseResult in resultsCopy)
+			foreach (TestResult testResult in resultsCopy)
 			{
-				observer.OnNext(testCaseResult);
+				observer.OnNext(testResult);
 			}
 
 			return new TestSessionRunnerSubscriber(observer, _subscribers);
 		}
 
-		public async Task<TestFileResult> RunAsync(TestFile testCollection)
+		public async Task<TestFileResult> RunAsync(TestFile testFile)
 		{
 			_isStopPending = false;
 			lock (_currentResults)
@@ -108,39 +108,39 @@ namespace Syringe.Core.Runner
 				_currentResults = new List<TestResult>();
 			}
 
-			var session = new TestFileResult();
-			session.Filename = testCollection.Filename;
-			session.StartTime = DateTime.UtcNow;
+			var testFileResult = new TestFileResult();
+			testFileResult.Filename = testFile.Filename;
+			testFileResult.StartTime = DateTime.UtcNow;
 
-			// Add all config variables and ones in this <testcase>
+			// Add all config variables and ones in this <test>
 			var variables = new CapturedVariableProvider();
-			variables.AddOrUpdateVariables(testCollection.Variables);
+			variables.AddOrUpdateVariables(testFile.Variables);
 
 			var verificationsMatcher = new AssertionsMatcher(variables);
 
 			// Ensure we loop atleast once:
-			int repeatTotal = (testCollection.Repeat > 0) ? testCollection.Repeat : 1;
-			List<Test> testCases = testCollection.Tests.ToList();
+			int repeatTotal = (testFile.Repeat > 0) ? testFile.Repeat : 1;
+			List<Test> tests = testFile.Tests.ToList();
 
 			TimeSpan minResponseTime = TimeSpan.MaxValue;
 			TimeSpan maxResponseTime = TimeSpan.MinValue;
-			int totalCasesRun = 0;
+			int totalTestsRun = 0;
 			TestsRun = 0;
-			TotalTests = testCases.Count;
+			TotalTests = tests.Count;
 			RepeatCount = 0;
-			bool saveSession = true;
+			bool shouldSave = true;
 
 			for (int i = 0; i < repeatTotal; i++)
 			{
-				foreach (Test testCase in testCases)
+				foreach (Test test in tests)
 				{
 					if (_isStopPending)
 						break;
 
 					try
 					{
-						TestResult result = await RunCaseAsync(testCase, variables, verificationsMatcher);
-						AddResult(session, result);
+						TestResult result = await RunTestAsync(test, variables, verificationsMatcher);
+						AddResult(testFileResult, result);
 
 						if (result.ResponseTime < minResponseTime)
 							minResponseTime = result.ResponseTime;
@@ -150,12 +150,12 @@ namespace Syringe.Core.Runner
 					}
 					catch (Exception ex)
 					{
-						Log.Error(ex, "An exception occurred running case {0}", testCase.Id);
+						Log.Error(ex, "An exception occurred running test {0}", test.Id);
 						ReportError(ex);
 					}
 					finally
 					{
-						totalCasesRun++;
+						totalTestsRun++;
 						TestsRun++;
 						RepeatCount = i;
 					}
@@ -163,25 +163,25 @@ namespace Syringe.Core.Runner
 
 				if (_isStopPending)
 				{
-					saveSession = false;
+					shouldSave = false;
 					break;
 				}
 			}
 
-			session.EndTime = DateTime.UtcNow;
-			session.TotalRunTime = session.EndTime - session.StartTime;
-			session.TotalTestsRun = totalCasesRun;
-			session.MinResponseTime = minResponseTime;
-			session.MaxResponseTime = maxResponseTime;
+			testFileResult.EndTime = DateTime.UtcNow;
+			testFileResult.TotalRunTime = testFileResult.EndTime - testFileResult.StartTime;
+			testFileResult.TotalTestsRun = totalTestsRun;
+			testFileResult.MinResponseTime = minResponseTime;
+			testFileResult.MaxResponseTime = maxResponseTime;
 
 			NotifySubscribersOfCompletion();
 
-			if (saveSession)
+			if (shouldSave)
 			{
-				await Repository.AddAsync(session);
+				await Repository.AddAsync(testFileResult);
 			}
 
-			return session;
+			return testFileResult;
 		}
 
 		private void AddResult(TestFileResult session, TestResult result)
@@ -199,25 +199,25 @@ namespace Syringe.Core.Runner
 			NotifySubscribers(observer => observer.OnError(exception));
 		}
 
-		internal async Task<TestResult> RunCaseAsync(Test testTest, CapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+		internal async Task<TestResult> RunTestAsync(Test test, CapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
 		{
 			var testResult = new TestResult();
 			testResult.SessionId = SessionId;
-			testResult.TestTest = testTest;
+			testResult.TestTest = test;
 
 			try
 			{
-				string resolvedUrl = variables.ReplacePlainTextVariablesIn(testTest.Url);
+				string resolvedUrl = variables.ReplacePlainTextVariablesIn(test.Url);
 				testResult.ActualUrl = resolvedUrl;
 
 				var httpLogWriter = new HttpLogWriter();
-				HttpResponse response = await _httpClient.ExecuteRequestAsync(testTest.Method, resolvedUrl, testTest.PostType, testTest.PostBody, testTest.Headers, httpLogWriter);
+				HttpResponse response = await _httpClient.ExecuteRequestAsync(test.Method, resolvedUrl, test.PostType, test.PostBody, test.Headers, httpLogWriter);
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
 				testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
 				testResult.HttpContent = response.Content;
 
-				if (response.StatusCode == testTest.VerifyResponseCode)
+				if (response.StatusCode == test.VerifyResponseCode)
 				{
 					testResult.ResponseCodeSuccess = true;
 					string content = response.ToString();
@@ -227,7 +227,7 @@ namespace Syringe.Core.Runner
 					logger.WriteLine("");
 					logger.WriteLine("Parsing variables");
 					logger.WriteLine("--------------------------");
-					List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(testTest.CapturedVariables, content, logger);
+					List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
 					variables.AddOrUpdateVariables(parsedVariables);
 					if (parsedVariables.Count == 0)
 					{
@@ -235,7 +235,7 @@ namespace Syringe.Core.Runner
 					}
 
 					// Verify positives
-					testResult.PositiveAssertionResults = assertionMatcher.MatchPositive(testTest.VerifyPositives, content);
+					testResult.PositiveAssertionResults = assertionMatcher.MatchPositive(test.VerifyPositives, content);
 					logger.WriteLine("");
 					logger.WriteLine("Positive verifications");
 					logger.WriteLine("--------------------------");
@@ -252,7 +252,7 @@ namespace Syringe.Core.Runner
 					}
 
 					// Verify Negatives
-					testResult.NegativeAssertionResults = assertionMatcher.MatchNegative(testTest.VerifyNegatives, content);
+					testResult.NegativeAssertionResults = assertionMatcher.MatchNegative(test.VerifyNegatives, content);
 					logger.WriteLine("");
 					logger.WriteLine("Negative verifications");
 					logger.WriteLine("--------------------------");
@@ -279,7 +279,7 @@ namespace Syringe.Core.Runner
 
 				if (testResult.Success == false)
 				{
-					testResult.Message = testTest.ErrorMessage;
+					testResult.Message = test.ErrorMessage;
 				}
 			}
 			catch (Exception ex)

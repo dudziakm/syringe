@@ -22,19 +22,19 @@ namespace Syringe.Core.Repositories.XML
             _fileHandler = fileHandler;
         }
 
-        public Test GetTest(string filename, string branchName, Guid caseId)
+        public Test GetTest(string filename, string branchName, Guid testId)
         {
             string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
             string xml = _fileHandler.ReadAllText(fullPath);
 
             using (var stringReader = new StringReader(xml))
             {
-                TestFile collection = _testFileReader.Read(stringReader);
-                Test testTest = collection.Tests.FirstOrDefault(x => x.Id == caseId);
+                TestFile testFile = _testFileReader.Read(stringReader);
+                Test testTest = testFile.Tests.FirstOrDefault(x => x.Id == testId);
 
                 if (testTest == null)
                 {
-                    throw new NullReferenceException("Could not find specified Test Case:" + caseId);
+                    throw new NullReferenceException("Could not find specified test id:" + testId);
                 }
 
                 testTest.ParentFilename = filename;
@@ -63,7 +63,7 @@ namespace Syringe.Core.Repositories.XML
 
                 if (item != null)
                 {
-                    throw new Exception("case already exists");
+                    throw new Exception("test already exists");
                 }
 
                 collection.Tests = collection.Tests.Concat(new[] { test });
@@ -114,28 +114,28 @@ namespace Syringe.Core.Repositories.XML
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool DeleteTest(Guid testCaseId, string fileName, string branchName)
+        public bool DeleteTest(Guid testId, string fileName, string branchName)
         {
             string fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
             string xml = _fileHandler.ReadAllText(fullPath);
 
-            TestFile collection;
+            TestFile testFile;
 
             using (var stringReader = new StringReader(xml))
             {
-                collection = _testFileReader.Read(stringReader);
+                testFile = _testFileReader.Read(stringReader);
 
-                Test testTestToDelete = collection.Tests.FirstOrDefault(x => x.Id == testCaseId);
+                Test testTestToDelete = testFile.Tests.FirstOrDefault(x => x.Id == testId);
 
                 if (testTestToDelete == null)
                 {
-                    throw new NullReferenceException(string.Concat("could not find test case:", testCaseId));
+                    throw new NullReferenceException(string.Concat("could not find test id:", testId));
                 }
 
-                collection.Tests = collection.Tests.Where(x => x.Id != testCaseId);
+                testFile.Tests = testFile.Tests.Where(x => x.Id != testId);
             }
 
-            string contents = _testFileWriter.Write(collection);
+            string contents = _testFileWriter.Write(testFile);
 
             return _fileHandler.WriteAllText(fullPath, contents);
         }

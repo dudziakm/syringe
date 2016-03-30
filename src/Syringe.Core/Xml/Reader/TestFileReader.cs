@@ -16,7 +16,7 @@ namespace Syringe.Core.Xml.Reader
             var testFile = new TestFile();
             XDocument doc = XDocument.Load(textReader);
 
-            // Check for <testcases>
+            // Check for <tests>
             XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "tests");
             if (rootElement == null)
                 throw new TestException("<tests> node is missing from the config file.");
@@ -31,15 +31,15 @@ namespace Syringe.Core.Xml.Reader
             testFile.Variables = GetVariables(rootElement);
 
             // <tests> - add each one and re-order them by their id="" attribute.
-            var testCases = new List<Test>();
+            var tests = new List<Test>();
             var elements = rootElement.Elements().Where(x => x.Name.LocalName == "test").ToList();
             for (int i = 0; i < elements.Count; i++)
             {
                 XElement element = elements[i];
                 Test test = GetTest(element);
-                testCases.Add(test);
+                tests.Add(test);
             }
-            testFile.Tests = testCases;
+            testFile.Tests = tests;
 
             return testFile;
         }
@@ -81,7 +81,7 @@ namespace Syringe.Core.Xml.Reader
             test.Id = XmlHelper.AttributeAsGuid(element, "id");
             test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
-                throw new TestException("The url parameter is missing for test case {0}", test.Id);
+                throw new TestException("The url parameter is missing for test id {0}", test.Id);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
@@ -104,11 +104,11 @@ namespace Syringe.Core.Xml.Reader
             return test;
         }
 
-        private List<HeaderItem> GetHeaders(XElement caseElement)
+        private List<HeaderItem> GetHeaders(XElement testElement)
         {
             var headers = new List<HeaderItem>();
 
-            var variableElement = caseElement.Elements().Where(x => x.Name.LocalName == "headers");
+            var variableElement = testElement.Elements().Where(x => x.Name.LocalName == "headers");
 
             foreach (XElement element in variableElement.Elements().Where(x => x.Name.LocalName == "header"))
             {
@@ -128,9 +128,9 @@ namespace Syringe.Core.Xml.Reader
             return (attributeValue.Equals("true", StringComparison.OrdinalIgnoreCase));
         }
 
-        private HttpStatusCode GetVerifyResponseCode(XElement caseElement)
+        private HttpStatusCode GetVerifyResponseCode(XElement testElement)
         {
-            int attributeValue = XmlHelper.AttributeAsInt(caseElement, "verifyresponsecode", 200);
+            int attributeValue = XmlHelper.AttributeAsInt(testElement, "verifyresponsecode", 200);
 
             HttpStatusCode statusCode = HttpStatusCode.OK;
             if (Enum.IsDefined(typeof(HttpStatusCode), attributeValue))
@@ -141,10 +141,10 @@ namespace Syringe.Core.Xml.Reader
             return statusCode;
         }
 
-        private List<CapturedVariable> GetCapturedVariables(XElement caseElement)
+        private List<CapturedVariable> GetCapturedVariables(XElement testElement)
         {
             var items = new List<CapturedVariable>();
-            var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "capturedvariables");
+            var parentElement = testElement.Elements().Where(x => x.Name.LocalName == "capturedvariables");
 
             foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "variable"))
             {
@@ -160,10 +160,10 @@ namespace Syringe.Core.Xml.Reader
             return items;
         }
 
-        private List<Assertion> GetAssertions(XElement caseElement)
+        private List<Assertion> GetAssertions(XElement testElement)
         {
             var items = new List<Assertion>();
-            var parentElement = caseElement.Elements().Where(x => x.Name.LocalName == "assertions");
+            var parentElement = testElement.Elements().Where(x => x.Name.LocalName == "assertions");
 
             foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assertion"))
             {
