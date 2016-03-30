@@ -193,9 +193,9 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
-    <Compile Include="ModelBuilders\ITestCaseMapper.cs" />
-    <Compile Include="Controllers\TestCaseController.cs" />
-    <Compile Include="ModelBuilders\TestCaseMapper.cs" />
+    <Compile Include="ModelBuilders\ITestFileMapper.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="ModelBuilders\TestFileMapper.cs" />
     <Compile Include="Models\HeaderItem.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Controllers\JsonController.cs" />
@@ -204,13 +204,12 @@
     <Compile Include="Models\PostType.cs" />
     <Compile Include="Models\RunningTestCaseViewModel.cs" />
     <Compile Include="Models\RunViewModel.cs" />
-    <Compile Include="Models\TestCaseViewModel.cs" />
-    <Compile Include="Models\ParseResponseItem.cs" />
+    <Compile Include="Models\TestViewModel.cs" />
+    <Compile Include="Models\CapturedVariableItem.cs" />
     <Compile Include="Models\TestFileViewModel.cs" />
-    <Compile Include="Models\TestFileVariableModel.cs" />
-    <Compile Include="Models\VariableModel.cs" />
+    <Compile Include="Models\VariableViewModel.cs" />
     <Compile Include="Models\AuthenticationViewModel.cs" />
-    <Compile Include="Models\VerificationItemModel.cs" />
+    <Compile Include="Models\AssertionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Css\bootstrap-sass\javascripts\bootstrap-sprockets.js" />
@@ -414,7 +413,7 @@
     </Content>
     <Content Include="Views\Authentication\Login.cshtml" />
     <Content Include="Views\Shared\Partials\_Variables.cshtml" />
-    <Content Include="Views\TestCase\EditXml.cshtml" />
+    <Content Include="Views\Test\EditXml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Syringe.css">
@@ -446,9 +445,9 @@
     <Content Include="Views\Home\AllResults.cshtml" />
     <Content Include="Views\Home\ViewResult.cshtml" />
     <Content Include="Views\Home\Run.cshtml" />
-    <Content Include="Views\Shared\Partials\_TestCasePager.cshtml" />
+    <Content Include="Views\Shared\Partials\_TestPager.cshtml" />
     <Content Include="Views\TestFile\Add.cshtml" />
-    <Content Include="Views\TestFile\EditorTemplates\TestFileVariableModel.cshtml" />
+    <Content Include="Views\TestFile\EditorTemplates\VariableViewModel.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Case.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\HeaderItem.ts" />
@@ -473,11 +472,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.11.3.min.map" />
-    <Content Include="Views\TestCase\EditorTemplates\HeaderItem.cshtml" />
-    <Content Include="Views\TestCase\EditorTemplates\ParseResponseItem.cshtml" />
-    <Content Include="Views\TestCase\EditorTemplates\VerificationItemModel.cshtml" />
-    <Content Include="Views\TestCase\Edit.cshtml" />
-    <Content Include="Views\TestCase\View.cshtml" />
+    <Content Include="Views\Test\EditorTemplates\HeaderItem.cshtml" />
+    <Content Include="Views\Test\EditorTemplates\VariableViewModel.cshtml" />
+    <Content Include="Views\Test\EditorTemplates\AssertionViewModel.cshtml" />
+    <Content Include="Views\Test\Edit.cshtml" />
+    <Content Include="Views\Test\View.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\Run.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\TaskState.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />

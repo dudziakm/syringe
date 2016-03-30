@@ -6,6 +6,7 @@ namespace Syringe.Web.Models
     {
         [Required]
         public string Key { get; set; }
+
         [Required]
         public string Value { get; set; }
     }

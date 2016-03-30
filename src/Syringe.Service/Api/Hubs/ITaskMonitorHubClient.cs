@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Syringe.Core.Http;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Service.Api.Hubs
 {
@@ -18,6 +18,6 @@ namespace Syringe.Service.Api.Hubs
 		public HttpResponse HttpResponse { get; set; }
 		public int  Position { get; set; }
 		public string ExceptionMessage { get; set; }
-        public List<VerificationItem> Verifications { get; set; }    
+        public List<Assertion> Verifications { get; set; }    
 	}
 }

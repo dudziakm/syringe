@@ -18,7 +18,7 @@ namespace Syringe.Service.Parallel
 		public string TeamName { get; set; }
 		public DateTime StartTime { get; set; }
 		public TaskRequest Request { get; set; }
-		public TestSessionRunner Runner { get; set; }
+		public TestFileRunner Runner { get; set; }
 
 		public CancellationTokenSource CancelTokenSource { get; set; }
 		public Task CurrentTask { get; set; }

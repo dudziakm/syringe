@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Core.Xml.Reader
 {
-	public interface ITestCaseReader
+	public interface ITestFileReader
     {
-		CaseCollection Read(TextReader textReader);
+		TestFile Read(TextReader textReader);
     }
 }

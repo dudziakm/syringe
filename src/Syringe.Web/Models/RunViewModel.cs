@@ -4,20 +4,20 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Core.TestCases;
+using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
     public class RunViewModel : IRunViewModel
     {
         private readonly ITasksService _tasksService;
-        private readonly ICaseService _caseService;
-        private readonly List<RunningTestCaseViewModel> _runningTestCases = new List<RunningTestCaseViewModel>();
+        private readonly ITestService _testService;
+        private readonly List<RunningTestViewModel> _runningTests = new List<RunningTestViewModel>();
 
-        public RunViewModel(ITasksService tasksService, ICaseService caseService)
+        public RunViewModel(ITasksService tasksService, ITestService testService)
         {
             _tasksService = tasksService;
-            _caseService = caseService;
+            _testService = testService;
 
 	        var mvcConfiguration = new MvcConfiguration();
 			SignalRUrl = mvcConfiguration.SignalRUrl;
@@ -27,18 +27,18 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            var testCase = _caseService.GetTestCase(fileName, userContext.TeamName, index);
+            var testCase = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
 
-            var verifications = new List<VerificationItem>();
+            var verifications = new List<Assertion>();
             verifications.AddRange(testCase.VerifyNegatives);
             verifications.AddRange(testCase.VerifyPositives);
-            _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Position, testCase.ShortDescription, verifications));
+            _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
 
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,
                 Username = userContext.FullName,
-                TeamName = userContext.TeamName,
+                TeamName = userContext.DefaultBranchName,
                 Position = index,
             };
 
@@ -50,29 +50,29 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            CaseCollection caseCollection = _caseService.GetTestCaseCollection(fileName, userContext.TeamName);
+            TestFile testFile = _testService.GetTestFile(fileName, userContext.DefaultBranchName);
 
-            foreach (var testCase in caseCollection.TestCases)
+            foreach (var testCase in testFile.Tests)
             {
-                var verifications = new List<VerificationItem>();
+                var verifications = new List<Assertion>();
                 verifications.AddRange(testCase.VerifyNegatives);
                 verifications.AddRange(testCase.VerifyPositives);
-                _runningTestCases.Add(new RunningTestCaseViewModel(testCase.Position, testCase.ShortDescription, verifications));
+                _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,
                 Username = userContext.FullName,
-                TeamName = userContext.TeamName,
+                TeamName = userContext.DefaultBranchName,
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);
         }
 
-        public IEnumerable<RunningTestCaseViewModel> TestCases
+        public IEnumerable<RunningTestViewModel> Tests
         {
-            get { return _runningTestCases; }
+            get { return _runningTests; }
         }
 
         public int CurrentTaskId { get; private set; }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testcases repeat="0">
-    <case
+<tests repeat="0">
+    <test
         shortdescription="short description"
         longdescription="long description"
         url="http://myserver"
@@ -12,7 +12,7 @@
 
 		<headers/>
 		<postbody/>
-		<parseresponses />
-		<verifications />
-    </case>
-</testcases>
+		<capturedvariables />
+		<assertions />
+    </test>
+</tests>

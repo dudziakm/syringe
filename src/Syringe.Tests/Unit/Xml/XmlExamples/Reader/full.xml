@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testcases repeat="10">
-    <variables>
-        <variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
-        <variable name="LOGIN1" environment="DevTeam2">bob</variable>
-        <variable name="PASSWD1" environment="DevTeam1">sponge</variable>
-        <variable name="SUCCESSFULL_TEST_TEXT" environment="DevTeam2">Welcome Bob</variable>
-    </variables>
+<tests repeat="10">
+	<variables>
+		<variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
+		<variable name="LOGIN1" environment="DevTeam2">bob</variable>
+		<variable name="PASSWD1" environment="DevTeam1">sponge</variable>
+		<variable name="SUCCESSFULL_TEST_TEXT" environment="DevTeam2">Welcome Bob</variable>
+	</variables>
 
-    <case
+	<test
 		id="1"
 		shortdescription="short description 1"
 		longdescription="long description"
@@ -16,52 +16,53 @@
 		logrequest="true"
 		logresponse="true"
 	>
-        <postbody>
-            <![CDATA[username=corey&password=welcome]]>
-        </postbody>
-        
-        <verifications>
-            <verify type="positive" description="1">verify this string exists</verify>
-			<verify type="negative" description="1">verify this string does not exist</verify>
-		</verifications>
-      <parseresponses>
-        <parseresponse description="test">/d</parseresponse>
-      </parseresponses>
-    </case>
+		<postbody>
+			<![CDATA[username=corey&password=welcome]]>
+		</postbody>
 
-    <case
+		<assertions>
+			<verify type="positive" description="1">verify this string exists</verify>
+			<verify type="negative" description="1">verify this string does not exist</verify>
+		</assertions>
+		
+		<capturedvariables>
+			<variable description="test">/d</variable>
+		</capturedvariables>
+	</test>
+
+	<test
 		id="300"
 		shortdescription="short description 300"
 		longdescription="long description"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
-		<verifications>
-			<verify type="positive" id="1">verify this string exists</verify>
-        </verifications>
-    </case>
+		<assertions>
+			<assertion type="positive" id="1">verify this string exists</assertion>
+		</assertions>
+	</test>
 
-    <case
+	<test
 		id="20"
 		shortdescription="short description 20"
 		longdescription="long description"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
-		<verifications>
-			<verify type="positive" description="1">verify this string exists</verify>
-        </verifications>
-    </case>
+		<assertions>
+			<assertion type="positive" description="1">verify this string exists</assertion>
+		</assertions>
+	</test>
 
-    <case
+	<test
 		id="9"
 		shortdescription="short description 9"
 		longdescription="long description 9"
 		method="post"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
-		<verifications>
-			<verify type="positive" description="1">verify this string exists</verify>
-        </verifications>
-    </case>
-</testcases>
+		<assertions>
+			<assertion type="positive" description="1">verify this string exists</assertion>
+		</assertions>
+	</test>
+</tests>

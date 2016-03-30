@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Syringe.Core.Results;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Core.Repositories
 {
 	public interface ITestCaseSessionRepository
 	{
-		Task AddAsync(TestCaseSession session);
+		Task AddAsync(TestFileResult session);
 		Task DeleteAsync(Guid sessionId);
-		TestCaseSession GetById(Guid id);
+		TestFileResult GetById(Guid id);
 		void Wipe();
-		IEnumerable<SessionInfo> GetSummaries();
-		IEnumerable<SessionInfo> GetSummariesForToday();
+		IEnumerable<TestFileResultSummary> GetSummaries();
+		IEnumerable<TestFileResultSummary> GetSummariesForToday();
 	}
 }

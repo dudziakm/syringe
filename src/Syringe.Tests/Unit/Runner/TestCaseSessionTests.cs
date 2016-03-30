@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Syringe.Core.Results;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Unit.Runner
 {
@@ -16,11 +16,11 @@ namespace Syringe.Tests.Unit.Runner
 								.New().WithFail().Add()
 								.New().WithFail().Add();
 
-			var testSession = new TestCaseSession();
-			testSession.TestCaseResults = builder.GetCollection();
+			var testSession = new TestFileResult();
+			testSession.TestResults = builder.GetCollection();
 
 			// Act + Assert
-			Assert.That(testSession.TotalCasesPassed, Is.EqualTo(3));
+			Assert.That(testSession.TotalTestsPassed, Is.EqualTo(3));
 		}
 
 		[Test]
@@ -34,11 +34,11 @@ namespace Syringe.Tests.Unit.Runner
 								.New().WithFail().Add()
 								.New().WithFail().Add();
 
-			var testSession = new TestCaseSession();
-			testSession.TestCaseResults = builder.GetCollection();
+			var testSession = new TestFileResult();
+			testSession.TestResults = builder.GetCollection();
 
 			// Act + Assert
-			Assert.That(testSession.TotalCasesFailed, Is.EqualTo(3));
+			Assert.That(testSession.TotalTestsFailed, Is.EqualTo(3));
 		}
 
 		[Test]
@@ -51,11 +51,11 @@ namespace Syringe.Tests.Unit.Runner
 								.New().AddPositiveVerify(false).Add()
 								.New().AddNegativeVerify(false).Add();
 
-			var testSession = new TestCaseSession();
-			testSession.TestCaseResults = builder.GetCollection();
+			var testSession = new TestFileResult();
+			testSession.TestResults = builder.GetCollection();
 
 			// Act + Assert
-			Assert.That(testSession.TotalVerificationsPassed, Is.EqualTo(2));
+			Assert.That(testSession.TotalAssertionsPassed, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -67,11 +67,11 @@ namespace Syringe.Tests.Unit.Runner
 								.New().AddPositiveVerify(false).Add()
 								.New().AddNegativeVerify(false).Add();
 
-			var testSession = new TestCaseSession();
-			testSession.TestCaseResults = builder.GetCollection();
+			var testSession = new TestFileResult();
+			testSession.TestResults = builder.GetCollection();
 
 			// Act + Assert
-			Assert.That(testSession.TotalVerificationsFailed, Is.EqualTo(2));
+			Assert.That(testSession.TotalAssertionsFailed, Is.EqualTo(2));
 		}
 	}
 }

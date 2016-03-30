@@ -8,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Syringe.Core.Repositories.MongoDB;
-using Syringe.Core.Results;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
 {
@@ -30,7 +30,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			var fixture = new Fixture();
-			var session = fixture.Create<TestCaseSession>();
+			var session = fixture.Create<TestFileResult>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
 
@@ -38,7 +38,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session);
 
 			// Assert
-			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
+			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
 			Assert.That(summaries.Count(), Is.EqualTo(1));
 		}
 
@@ -47,7 +47,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			var fixture = new Fixture();
-			var session = fixture.Create<TestCaseSession>();
+			var session = fixture.Create<TestFileResult>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
 			await repository.AddAsync(session);
@@ -56,7 +56,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.DeleteAsync(session.Id);
 
 			// Assert
-			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
+			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
 			Assert.That(summaries.Count(), Is.EqualTo(0));
 		}
 
@@ -65,13 +65,13 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			var fixture = new Fixture();
-			var expectedSession = fixture.Create<TestCaseSession>();
+			var expectedSession = fixture.Create<TestFileResult>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
 			await repository.AddAsync(expectedSession);
 
 			// Act
-			TestCaseSession actualSession = repository.GetById(expectedSession.Id);
+			TestFileResult actualSession = repository.GetById(expectedSession.Id);
 
 			// Assert
 			Assert.That(actualSession, Is.Not.Null, "couldn't find the session");
@@ -86,15 +86,15 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			var fixture = new Fixture();
-			var session1 = fixture.Create<TestCaseSession>();
-			var session2 = fixture.Create<TestCaseSession>();
+			var session1 = fixture.Create<TestFileResult>();
+			var session2 = fixture.Create<TestFileResult>();
 
 			TestCaseSessionRepository repository = CreateTestCaseSessionRepository();
 			await repository.AddAsync(session1);
 			await repository.AddAsync(session2);
 
 			// Act
-			IEnumerable<SessionInfo> summaries = repository.GetSummaries();
+			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
 
 			// Assert
 			Assert.That(summaries.Count(), Is.EqualTo(2));
@@ -109,10 +109,10 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		{
 			// Arrange
 			var fixture = new Fixture();
-			var todaySession1 = fixture.Create<TestCaseSession>();
-			var todaySession2 = fixture.Create<TestCaseSession>();
-			var otherSession1 = fixture.Create<TestCaseSession>();
-			var otherSession2 = fixture.Create<TestCaseSession>();
+			var todaySession1 = fixture.Create<TestFileResult>();
+			var todaySession2 = fixture.Create<TestFileResult>();
+			var otherSession1 = fixture.Create<TestFileResult>();
+			var otherSession2 = fixture.Create<TestFileResult>();
 
 			todaySession1.StartTime = DateTime.Today;
 			todaySession1.EndTime = todaySession1.StartTime.AddMinutes(5);
@@ -133,7 +133,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(otherSession2);
 
 			// Act
-			IEnumerable<SessionInfo> summaries = repository.GetSummariesForToday();
+			IEnumerable<TestFileResultSummary> summaries = repository.GetSummariesForToday();
 
 			// Assert
 			Assert.That(summaries.Count(), Is.EqualTo(2));
