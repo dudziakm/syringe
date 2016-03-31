@@ -8,10 +8,10 @@
     private addRow = (e) => {
         e.preventDefault();
 
-        var testCase = e.data.testCase;
+        var test = e.data.test;
 
-        $.get(testCase.URL, function (html) {
-            var panelBody = testCase.$Button.parent().next();
+        $.get(test.URL, function (html) {
+            var panelBody = test.$Button.parent().next();
             var formGroup = panelBody.find(".form-group:last-child"), rowNumber = 0;
 
             if (formGroup.length !== 0) {
@@ -22,15 +22,15 @@
             }
 
             // replace the name value with the correct prefix and row number so it can be posted to the server 
-            var newHtml = html.replace(/name="/g, "name=\"" + testCase.Prefix + "[" + rowNumber + "].");
+            var newHtml = html.replace(/name="/g, "name=\"" + test.Prefix + "[" + rowNumber + "].");
             panelBody.append(newHtml);
         });
     }
 
     public setupButtons = () => {
         for (let i = 0; i < this.rowsToAdd.length; i++) {
-            let iTestCase = this.rowsToAdd[i];
-            iTestCase.$Button.on("click", { testCase: iTestCase }, this.addRow);
+            let testRow = this.rowsToAdd[i];
+            testRow.$Button.on("click", { test: testRow }, this.addRow);
         }
     }
 }

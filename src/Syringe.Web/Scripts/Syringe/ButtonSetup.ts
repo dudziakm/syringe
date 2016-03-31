@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     const rowsToAdd = [
-        { $Button: $("#addVerification"), URL: "/Test/AddVerification", Prefix: "Assertions" },
+        { $Button: $("#addVerification"), URL: "/Test/AddAssertion", Prefix: "Assertions" },
         { $Button: $("#addParsedItem"), URL: "/Test/AddCapturedVariableItem", Prefix: "CapturedVariables" },
         { $Button: $("#addHeaderItem"), URL: "/Test/AddHeaderItem", Prefix: "Headers" },
         { $Button: $("#addVariableItem"), URL: "/TestFile/AddVariableItem", Prefix: "Variables" }

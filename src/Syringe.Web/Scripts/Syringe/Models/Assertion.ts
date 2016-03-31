@@ -1,8 +1,8 @@
-interface VerificationItem
+interface Assertion
 {
 	Description: string;
 	Regex: string;
 	TransformedRegex: string;
 	Success: boolean;
-	VerifyType: VerifyType;
+	VerifyType: AssertionType;
 }

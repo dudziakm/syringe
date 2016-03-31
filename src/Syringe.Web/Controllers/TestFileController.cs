@@ -31,13 +31,13 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var caseCollection = new TestFile
+                var testFile = new TestFile
                 {
                     Filename = model.Filename,
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
                 };
 
-                bool createdTestFile = _testsClient.CreateTestFile(caseCollection, _userContext.DefaultBranchName);
+                bool createdTestFile = _testsClient.CreateTestFile(testFile, _userContext.DefaultBranchName);
                 if (createdTestFile)
                     return RedirectToAction("Index", "Home");
             }
@@ -64,13 +64,13 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var caseCollection = new TestFile
+                var testFile = new TestFile
                 {
                     Filename = model.Filename,
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
 				};
 
-                bool updateTestFile = _testsClient.UpdateTestFile(caseCollection, _userContext.DefaultBranchName);
+                bool updateTestFile = _testsClient.UpdateTestFile(testFile, _userContext.DefaultBranchName);
                 if (updateTestFile)
                     return RedirectToAction("Index", "Home");
             }

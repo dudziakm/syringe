@@ -1,4 +1,4 @@
-interface ParseResponseItem
+interface CapturedVariable
 {
 	Description: string;
 	Regex: string;

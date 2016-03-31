@@ -24,49 +24,48 @@ namespace Syringe.Web.Controllers
 
 	    public ActionResult Html(int taskId, int position)
         {
-            var taskCase = FindTestCaseResult(taskId, position);
+            TestResult testResult = FindTestResult(taskId, position);
 
-            if (taskCase == null)
+            if (testResult == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
-	        var baseUrl = _urlHelper.GetBaseUrl(taskCase.ActualUrl);
+	        var baseUrl = _urlHelper.GetBaseUrl(testResult.ActualUrl);
 
             var viewModel = new ResultsViewModel
             {
-                ActualUrl = taskCase.ActualUrl,
-                Content = taskCase.HttpResponse == null ? string.Empty : _urlHelper.AddUrlBase(baseUrl, taskCase.HttpResponse.Content)
+                ActualUrl = testResult.ActualUrl,
+                Content = testResult.HttpResponse == null ? string.Empty : _urlHelper.AddUrlBase(baseUrl, testResult.HttpResponse.Content)
             };
 
             return View(viewModel);
         }
 
-        private TestResult FindTestCaseResult(int taskId, int position)
+        private TestResult FindTestResult(int taskId, int position)
         {
             TaskDetails taskDetails = _tasksClient.GetRunningTaskDetails(taskId);
-
             TestResult task = taskDetails.Results.ElementAtOrDefault(position);
+
             return task;
         }
 
         public ActionResult Raw(int taskId, int position)
         {
-            var taskCase = FindTestCaseResult(taskId, position);
+            TestResult testResult = FindTestResult(taskId, position);
 
-            if (taskCase == null)
+            if (testResult == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
             var viewModel = new ResultsViewModel
             {
-                ActualUrl = taskCase.ActualUrl,
-                Content = taskCase.HttpResponse == null ? string.Empty : taskCase.HttpResponse.Content
+                ActualUrl = testResult.ActualUrl,
+                Content = testResult.HttpResponse == null ? string.Empty : testResult.HttpResponse.Content
             };
 
             return View(viewModel);
         }
-
 	}
 }

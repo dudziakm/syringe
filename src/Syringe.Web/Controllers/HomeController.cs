@@ -106,10 +106,10 @@ namespace Syringe.Web.Controllers
             return RedirectToAction("AllResults");
         }
 
-		public ActionResult ViewHtml(Guid testCaseSessionId, int resultId)
+		public ActionResult ViewHtml(Guid testFileResultId, int resultId)
 		{
-			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
-		    TestResult result = session.TestResults.ElementAtOrDefault(resultId);
+			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+		    TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
 			if (result != null)
 			{
 				string html = result.HttpContent;
@@ -122,20 +122,20 @@ namespace Syringe.Web.Controllers
 			return Content("Result Id not found");
 		}
 
-		public ActionResult ViewHttpLog(Guid testCaseSessionId, int resultId)
+		public ActionResult ViewHttpLog(Guid testFileResultId, int resultId)
 		{
-			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
-			TestResult result = session.TestResults.ElementAtOrDefault(resultId);
+			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+			TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
             if (result != null)
 				return Content(result.HttpLog, "text/plain");
 
 			return Content("Result Id not found");
 		}
 
-		public ActionResult ViewLog(Guid testCaseSessionId, int resultId)
+		public ActionResult ViewLog(Guid testFileResultId, int resultId)
 		{
-			TestFileResult session = _testsClient.GetResultById(testCaseSessionId);
-			TestResult result = session.TestResults.ElementAtOrDefault(resultId);
+			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+			TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
             if (result != null)
 				return Content(result.Log, "text/plain");
 

@@ -165,7 +165,7 @@ namespace Syringe.Tests.Unit.Web
         public void AddVerification_should_return_correct_view()
         {
             // given + when
-            var viewResult = _testController.AddVerification() as PartialViewResult;
+            var viewResult = _testController.AddAssertion() as PartialViewResult;
 
             // then
             Assert.AreEqual("EditorTemplates/AssertionViewModel", viewResult.ViewName);

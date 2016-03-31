@@ -1,118 +1,117 @@
-﻿@using Syringe.Core.Tests.Results
-@model TestFileResult
+﻿@model TestFileResult
 @{
-    ViewBag.Title = "Run";
+	ViewBag.Title = "Run";
 }
-<div class="container" id="testcase-result">
-    <div class="row">
-        <div class="col-xs-12">
-            <form action="@Url.Action("DeleteResult", "Home")" method="POST">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button class="btn btn-danger btn-sm pull-right" onclick="return confirm('Are you sure?');">
-                    Delete
-                </button>
-            </form>
-            <h1>
-                Results for @Model.Filename
-            </h1>
-            <h4>
-                @Model.StartTime.ToString("ddd dd MMM yyyy HH:mm")
-            </h4>
+<div class="container" id="test-result">
+	<div class="row">
+		<div class="col-xs-12">
+			<form action="@Url.Action("DeleteResult", "Home")" method="POST">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<button class="btn btn-danger btn-sm pull-right" onclick="return confirm('Are you sure?');">
+					Delete
+				</button>
+			</form>
+			<h1>
+				Results for @Model.Filename
+			</h1>
+			<h4>
+				@Model.StartTime.ToString("ddd dd MMM yyyy HH:mm")
+			</h4>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="#" class="btn btn-primary" id="all-tests-count">
-                        All Tests
-                    </a>
-                    <a href="#" class="btn btn-success" id="tests-passed-count">
-                        @Model.TotalTestsPassed tests passed
-                    </a>
-                    <a href="#" class="btn btn-danger" id="tests-failed-count">
-                        @Model.TotalTestsFailed tests failed
-                    </a>
-                    <a href="#" class="btn btn-info">
-                        Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
-                    </a>
-                </div>
-            </div>
+			<div class="row">
+				<div class="col-md-12">
+					<a href="#" class="btn btn-primary" id="all-tests-count">
+						All Tests
+					</a>
+					<a href="#" class="btn btn-success" id="tests-passed-count">
+						@Model.TotalTestsPassed tests passed
+					</a>
+					<a href="#" class="btn btn-danger" id="tests-failed-count">
+						@Model.TotalTestsFailed tests failed
+					</a>
+					<a href="#" class="btn btn-info">
+						Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
+					</a>
+				</div>
+			</div>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        @foreach (TestResult result in Model.TestResults)
-                        {
-                            <div class="panel @(result.Success ? "test-passed panel-success" : "test-failed panel-danger")">
-                                <div class="panel-heading" role="tab" id="heading@(result.Position)">
-                                    <h3 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
-                                            @result.TestTest.ShortDescription
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div id="collapse@(result.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Position)">
-	                                <div class="panel-body">
-		                                <ul>
-			                                <li><a href="@result.ActualUrl" target="_new">@result.ActualUrl</a></li>
-			                                <li>Took @result.ResponseTime.MinutesAndSecondsFormat()</li>
-			                                <li>Response Code Success: @result.ResponseCodeSuccess</li>
-		                                </ul>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+						@foreach (TestResult result in Model.TestResults)
+						{
+							<div class="panel @(result.Success ? "test-passed panel-success" : "test-failed panel-danger")">
+								<div class="panel-heading" role="tab" id="heading@(result.Position)">
+									<h3 class="panel-title">
+										<a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
+											@result.TestTest.ShortDescription
+										</a>
+									</h3>
+								</div>
+								<div id="collapse@(result.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Position)">
+									<div class="panel-body">
+										<ul>
+											<li><a href="@result.ActualUrl" target="_new">@result.ActualUrl</a></li>
+											<li>Took @result.ResponseTime.MinutesAndSecondsFormat()</li>
+											<li>Response Code Success: @result.ResponseCodeSuccess</li>
+										</ul>
 
-		                                <p>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testCaseSessionId = Model.Id, resultId = result.Position})">View Log</a>
-			                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testCaseSessionId = Model.Id, resultId = result.Position})">View HTTP Log</a>
-			                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testCaseSessionId = Model.Id, resultId = result.Position})">View HTML</a>
-		                                </p>
+										<p>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTTP Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTML</a>
+										</p>
 
-		                                @if (!string.IsNullOrEmpty(result.Message))
-		                                {
-			                                <p>
-												<strong>Error Message:</strong><br/>
+										@if (!string.IsNullOrEmpty(result.Message))
+										{
+											<p>
+												<strong>Error Message:</strong><br />
 												@result.Message
-			                                </p>
-		                                }
+											</p>
+										}
 
 										@if (!string.IsNullOrEmpty(result.ExceptionMessage))
 										{
 											<p>
-												<strong>Exception in the test:</strong><br/>
+												<strong>Exception in the test:</strong><br />
 												@result.ExceptionMessage
 											</p>
 										}
 
-		                                @if (result.ResponseCodeSuccess)
-		                                {
-			                                result.NegativeAssertionResults.AddRange(result.PositiveAssertionResults);
+										@if (result.ResponseCodeSuccess)
+										{
+											result.NegativeAssertionResults.AddRange(result.PositiveAssertionResults);
 
-			                                <table class="table table-bordered table-striped">
-				                                <tr>
-					                                <td>Verify Type</td>
-					                                <td>Description</td>
-					                                <td>Regex</td>
-				                                </tr>
+											<table class="table table-bordered table-striped">
+												<tr>
+													<td>Verify Type</td>
+													<td>Description</td>
+													<td>Regex</td>
+												</tr>
 
-				                                @foreach (var item in result.NegativeAssertionResults)
-				                                {
-					                                <tr class="@(item.Success ? "success" : "danger")">
-						                                <td>
-							                                @item.AssertionType.ToString()
-						                                </td>
-						                                <td>
-							                                @item.Description
-						                                </td>
-						                                <td>
-							                                @item.Regex
-						                                </td>
-					                                </tr>
-				                                }
-			                                </table>
-		                                }
-	                                </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+												@foreach (var item in result.NegativeAssertionResults)
+												{
+													<tr class="@(item.Success ? "success" : "danger")">
+														<td>
+															@item.AssertionType.ToString()
+														</td>
+														<td>
+															@item.Description
+														</td>
+														<td>
+															@item.Regex
+														</td>
+													</tr>
+												}
+											</table>
+										}
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

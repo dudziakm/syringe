@@ -32,7 +32,7 @@
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @foreach (RunningTestViewModel test in Model.Tests)
                         {
-                            <div class="panel" id="case-@test.Position">
+                            <div class="panel" id="test-@test.Position">
                                 <div class="panel-heading" role="tab" id="heading@(test.Position)">
                                     <h3 class="panel-title">
                                         <a role="button" data-toggle="collapse" href="#collapse@(test.Position)" aria-expanded="false" aria-controls="collapse@(test.Position)">
@@ -43,14 +43,14 @@
                                 <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
                                     <div class="panel-body">
                                         <div>
-                                            <div class="pull-left case-result-url"></div>
+                                            <div class="pull-left test-result-url"></div>
                                             <div class="pull-right">
                                                 <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View HTML</a>
                                                 <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View raw</a>
                                             </div>
                                         </div>
-                                        <div class="case-result-errors">
-                                            <div class="hidden case-result-exception">
+                                        <div class="test-result-errors">
+                                            <div class="hidden test-result-exception">
                                                 <h2 class="label label-danger">Error</h2>
                                                 <textarea></textarea>
                                             </div>

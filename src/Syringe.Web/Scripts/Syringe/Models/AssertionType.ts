@@ -1,4 +1,4 @@
-enum VerifyType
+enum AssertionType
 {
 	Negative,
 	Positive

@@ -5,8 +5,8 @@ module Syringe.Web {
     export class Progress {
         private proxy: Service.Api.Hubs.TaskMonitorHub;
         private signalRUrl: string;
-        private totalCases: number;
-        private completedCases: number;
+        private totalTests: number;
+        private completedTests: number;
 
         constructor(signalRUrl: string) {
             this.signalRUrl = signalRUrl;
@@ -23,21 +23,21 @@ module Syringe.Web {
             this.proxy = $.connection.taskMonitorHub;
 
             this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
-                ++this.completedCases;
+                ++this.completedTests;
 
-                console.log(`Completed task ${taskInfo.Position} (${this.completedCases} of ${this.totalCases}).`);
+                console.log(`Completed task ${taskInfo.Position} (${this.completedTests} of ${this.totalTests}).`);
 
-                if (this.totalCases > 0) {
-                    var percentage = (this.completedCases / this.totalCases) * 100;
+                if (this.totalTests > 0) {
+                    var percentage = (this.completedTests / this.totalTests) * 100;
                     $(".progress-bar").css("width", percentage + "%");
                     $(".progress-bar .sr-only").text(`${percentage}% Complete`);
                 }
 
-                var selector = `#case-${taskInfo.Position}`;
+                var selector = `#test-${taskInfo.Position}`;
                 var $selector = $(selector);
 
                 // Url
-                var $urlSelector = $(".case-result-url", $selector);
+                var $urlSelector = $(".test-result-url", $selector);
                 $urlSelector.text(taskInfo.ActualUrl);
 
                 // Change background color
@@ -45,8 +45,8 @@ module Syringe.Web {
 
                 // Exceptions
                 if (taskInfo.ExceptionMessage !== null) {
-                    $(".case-result-exception", $selector).removeClass("hidden");
-                    $(".case-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
+                    $(".test-result-exception", $selector).removeClass("hidden");
+                    $(".test-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
                     $("table tr.result-row", $selector).addClass("warning");
                 }
                 else {
@@ -69,11 +69,11 @@ module Syringe.Web {
 
             $.connection.hub.start()
                 .done(() => {
-                    this.totalCases = 0;
-                    this.completedCases = 0;
+                    this.totalTests = 0;
+                    this.completedTests = 0;
                     this.proxy.server.startMonitoringTask(taskId)
                         .done(taskState => {
-                            this.totalCases = taskState.TotalTests;
+                            this.totalTests = taskState.TotalTests;
                             console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalTests} tests.`);
                         });
                 });

@@ -14,7 +14,12 @@ namespace Syringe.Web.Models
         private readonly ITestService _testService;
         private readonly List<RunningTestViewModel> _runningTests = new List<RunningTestViewModel>();
 
-        public RunViewModel(ITasksService tasksService, ITestService testService)
+		public IEnumerable<RunningTestViewModel> Tests => _runningTests;
+		public int CurrentTaskId { get; private set; }
+		public string FileName { get; private set; }
+		public string SignalRUrl { get; private set; }
+
+		public RunViewModel(ITasksService tasksService, ITestService testService)
         {
             _tasksService = tasksService;
             _testService = testService;
@@ -27,12 +32,12 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            var testCase = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
+            Test test = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
 
             var verifications = new List<Assertion>();
-            verifications.AddRange(testCase.VerifyNegatives);
-            verifications.AddRange(testCase.VerifyPositives);
-            _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
+            verifications.AddRange(test.VerifyNegatives);
+            verifications.AddRange(test.VerifyPositives);
+            _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
 
             var taskRequest = new TaskRequest
             {
@@ -52,12 +57,12 @@ namespace Syringe.Web.Models
 
             TestFile testFile = _testService.GetTestFile(fileName, userContext.DefaultBranchName);
 
-            foreach (var testCase in testFile.Tests)
+            foreach (Test test in testFile.Tests)
             {
                 var verifications = new List<Assertion>();
-                verifications.AddRange(testCase.VerifyNegatives);
-                verifications.AddRange(testCase.VerifyPositives);
-                _runningTests.Add(new RunningTestViewModel(testCase.Position, testCase.ShortDescription, verifications));
+                verifications.AddRange(test.VerifyNegatives);
+                verifications.AddRange(test.VerifyPositives);
+                _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
             }
 
             var taskRequest = new TaskRequest
@@ -69,14 +74,5 @@ namespace Syringe.Web.Models
 
             CurrentTaskId = _tasksService.Start(taskRequest);
         }
-
-        public IEnumerable<RunningTestViewModel> Tests
-        {
-            get { return _runningTests; }
-        }
-
-        public int CurrentTaskId { get; private set; }
-        public string FileName { get; private set; }
-        public string SignalRUrl { get; private set; }
     }
 }

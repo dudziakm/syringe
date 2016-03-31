@@ -1,4 +1,4 @@
-interface Case
+interface Test
 {
 	Id: number;
 	Method: string;
@@ -14,7 +14,7 @@ interface Case
 	ShortDescription: string;
 	LongDescription: string;
 
-	ParseResponses: ParseResponseItem[];
-	VerifyPositives: VerificationItem[];
-	VerifyNegatives: VerificationItem[];
+	ParseResponses: CapturedVariable[];
+	VerifyPositives: Assertion[];
+	VerifyNegatives: Assertion[];
 }

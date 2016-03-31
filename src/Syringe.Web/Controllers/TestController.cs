@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;
@@ -35,19 +36,19 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
 		{
-			TestFile testCases = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
-			var pagedTestCases = testCases.Tests.GetPaged(noOfResults, pageNumber);
+			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+			IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 
-			TestFileViewModel caseList = new TestFileViewModel
+			TestFileViewModel viewModel = new TestFileViewModel
 			{
-				PageNumbers = testCases.Tests.GetPageNumbersToShow(noOfResults),
-				Tests = _testFileMapper.BuildTests(pagedTestCases),
+				PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
+				Tests = _testFileMapper.BuildTests(tests),
 				Filename = filename,
 				PageNumber = pageNumber,
 				NoOfResults = noOfResults
 			};
 
-			return View("View", caseList);
+			return View("View", viewModel);
 		}
 
 		public ActionResult Edit(string filename, int position)
@@ -98,7 +99,7 @@ namespace Syringe.Web.Controllers
 			return RedirectToAction("View", new { filename = fileName });
 		}
 
-		public ActionResult AddVerification()
+		public ActionResult AddAssertion()
 		{
 			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
 		}
