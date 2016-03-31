@@ -1,10 +1,10 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ output extension=".d.ts" #>
 <# /* Update this line to match your version of SignalR */ #>
-<#@ assembly name="c:\code\syringe\packages\Newtonsoft.Json.8.0.3\lib\net45\NewtonSoft.Json.dll" #>
-<#@ assembly name="c:\code\syringe\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll" #>
+<#@ assembly name="C:\Code\syringe\packages\Newtonsoft.Json.8.0.3\lib\net45\NewtonSoft.Json.dll" #>
+<#@ assembly name="C:\Code\syringe\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll" #>
 <# /* Load the Service project's DLL to make sure the DefaultHubManager can find things */ #>
-<#@ assembly name="c:\code\syringe\src\Syringe.Service\bin\debug\Syringe.Service.exe" #>
+<#@ assembly name="C:\Code\syringe\src\Syringe.Service\bin\Debug\Syringe.Service.exe" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Web" #>
 <#@ assembly name="System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>

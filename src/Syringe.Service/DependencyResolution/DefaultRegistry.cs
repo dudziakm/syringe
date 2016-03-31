@@ -18,6 +18,7 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Infrastructure;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;

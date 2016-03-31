@@ -86,8 +86,8 @@
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -102,12 +102,12 @@
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.1.2.386, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.1.2.386\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap.Net4, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=4.1.2.386, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.1.2.386\lib\net40\StructureMap.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -402,7 +402,6 @@
     </None>
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
-    <Content Include="Scripts\typings\TextTransform.exe" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />
@@ -449,13 +448,7 @@
     <Content Include="Views\TestFile\Add.cshtml" />
     <Content Include="Views\TestFile\EditorTemplates\VariableViewModel.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\TestFile.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\TaskDetails.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\Test.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\HeaderItem.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\HttpResponse.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\CapturedVariable.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Progress.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
@@ -479,12 +472,7 @@
     <Content Include="Views\Test\EditorTemplates\AssertionViewModel.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\View.cshtml" />
-    <TypeScriptCompile Include="Scripts\Syringe\TestRunner.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\TaskState.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\TestResult.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\Assertion.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Models\AssertionType.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts">
       <AutoGen>True</AutoGen>
@@ -576,12 +564,15 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\..\build\TransformOnBuild.targets" Condition="Exists('..\..\build\TransformOnBuild.targets')" />
   <Import Project="..\..\packages\OctoPack.3.0.44\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.44\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
     <Error Condition="!Exists('..\..\packages\OctoPack.3.0.44\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\..\packages\OctoPack.3.0.44\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

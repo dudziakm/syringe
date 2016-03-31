@@ -15,6 +15,9 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using StructureMap;
+using StructureMap.Graph.Scanning;
+
 namespace Syringe.Web.DependencyResolution {
     using System;
     using System.Web.Mvc;
@@ -34,5 +37,9 @@ namespace Syringe.Web.DependencyResolution {
         }
 
         #endregion
+
+	    public void ScanTypes(TypeSet types, Registry registry)
+	    {
+	    }
     }
 }

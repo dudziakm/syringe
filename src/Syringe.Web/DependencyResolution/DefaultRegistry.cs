@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using StructureMap;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Helpers;

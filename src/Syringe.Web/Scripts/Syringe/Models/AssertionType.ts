@@ -1,5 +1,0 @@
-enum AssertionType
-{
-	Negative,
-	Positive
-}
