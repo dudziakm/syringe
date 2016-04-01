@@ -16,10 +16,7 @@ namespace Syringe.Web.ModelBuilders
                 throw new ArgumentNullException(nameof(test));
             }
 
-            var verifications = new List<AssertionViewModel>();
-            var verifyPositives = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType });
-
-            verifications.AddRange(verifyPositives);
+            var verifications = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType }).ToList();
 
             var headerList = new List<Models.HeaderItem>(test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }));
             var capturedVariables = new List<CapturedVariableItem>(test.CapturedVariables.Select(x => new CapturedVariableItem { Description = x.Name, Regex = x.Regex }));
