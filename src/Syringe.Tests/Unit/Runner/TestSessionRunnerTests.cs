@@ -130,7 +130,7 @@ namespace Syringe.Tests.Unit.Runner
 					{
 						new CapturedVariable("1", "some content")
 					},
-					VerifyPositives = new List<Assertion>()
+                    Assertions = new List<Assertion>()
 					{
 						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive)
 					},
@@ -187,7 +187,7 @@ namespace Syringe.Tests.Unit.Runner
 					{
 						new CapturedVariable("2", @"(SECRET_KEY)")
 					},
-					VerifyPositives = new List<Assertion>()
+                    Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
 						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive)
@@ -197,7 +197,7 @@ namespace Syringe.Tests.Unit.Runner
 				{
 					Url = "test3",
 					VerifyResponseCode = HttpStatusCode.OK,
-					VerifyPositives = new List<Assertion>()
+                    Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
 						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive)
@@ -316,14 +316,11 @@ namespace Syringe.Tests.Unit.Runner
 				{
 					Url = "foo1",
 					VerifyResponseCode = HttpStatusCode.OK,
-					VerifyPositives = new List<Assertion>()
+                    Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "some content", AssertionType.Positive)
-					},
-					VerifyNegatives = new List<Assertion>()
-					{
-						new Assertion("negative-1", "no text like this", AssertionType.Negative)
-					}
+						new Assertion("positive-1", "some content", AssertionType.Positive),
+                        new Assertion("negative-1", "no text like this", AssertionType.Negative)
+                    }
 				},
 			});
 

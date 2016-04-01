@@ -26,8 +26,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testViewModel.Filename, build.Filename);
 			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
 			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
-			Assert.AreEqual(1, build.VerifyNegatives.Count);
-			Assert.AreEqual(1, build.VerifyPositives.Count);
+			Assert.AreEqual(2, build.Assertions.Count);
 			Assert.AreEqual(testViewModel.ShortDescription, build.ShortDescription);
 			Assert.AreEqual(testViewModel.Url, build.Url);
 			Assert.AreEqual(testViewModel.PostType.ToString(), build.PostType);
@@ -111,8 +110,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
-				VerifyNegatives = new List<Assertion> { new Assertion() },
-				VerifyPositives = new List<Assertion> { new Assertion() },
+				Assertions = new List<Assertion> { new Assertion() },
 				Filename = "test.xml",
 			};
 
@@ -132,7 +130,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.Filename, testViewModel.Filename);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
-			Assert.AreEqual(2, testViewModel.Assertions.Count);
+			Assert.AreEqual(1, testViewModel.Assertions.Count);
 			Assert.AreEqual(1, test.Headers.Count);
 		}
 

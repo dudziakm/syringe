@@ -35,8 +35,7 @@ namespace Syringe.Web.Models
             Test test = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
 
             var verifications = new List<Assertion>();
-            verifications.AddRange(test.VerifyNegatives);
-            verifications.AddRange(test.VerifyPositives);
+            verifications.AddRange(test.Assertions);
             _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
 
             var taskRequest = new TaskRequest
@@ -60,8 +59,7 @@ namespace Syringe.Web.Models
             foreach (Test test in testFile.Tests)
             {
                 var verifications = new List<Assertion>();
-                verifications.AddRange(test.VerifyNegatives);
-                verifications.AddRange(test.VerifyPositives);
+                verifications.AddRange(test.Assertions);
                 _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
             }
 

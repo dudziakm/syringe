@@ -18,8 +18,7 @@ namespace Syringe.Core.Tests
 		public List<HeaderItem> Headers { get; set; }
 
 		public List<CapturedVariable> CapturedVariables { get; set; }
-		public List<Assertion> VerifyPositives { get; set; }
-		public List<Assertion> VerifyNegatives { get; set; }
+		public List<Assertion> Assertions { get; set; }
 
 		public string Filename { get; set; }
 	    public List<Variable> AvailableVariables { get; set; }
@@ -28,8 +27,7 @@ namespace Syringe.Core.Tests
 		{
 			Headers = new List<HeaderItem>();
 			CapturedVariables = new List<CapturedVariable>();
-			VerifyPositives = new List<Assertion>();
-			VerifyNegatives = new List<Assertion>();
+			Assertions = new List<Assertion>();
             AvailableVariables = new List<Variable>();
 		}
 

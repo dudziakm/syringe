@@ -17,11 +17,9 @@ namespace Syringe.Web.ModelBuilders
 			}
 
 			var verifications = new List<AssertionViewModel>();
-			IEnumerable<AssertionViewModel> verifyPositives = GetVerificationItems(test.VerifyPositives);
-			IEnumerable<AssertionViewModel> verifyNegatives = GetVerificationItems(test.VerifyNegatives);
+			IEnumerable<AssertionViewModel> verifyPositives = GetVerificationItems(test.Assertions);
 
 			verifications.AddRange(verifyPositives);
-			verifications.AddRange(verifyNegatives);
 
 			var headerList = new List<Models.HeaderItem>(test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }));
 			var capturedVariables = new List<Models.CapturedVariableItem>(test.CapturedVariables.Select(x => new Models.CapturedVariableItem { Description = x.Name, Regex = x.Regex }));
@@ -89,8 +87,7 @@ namespace Syringe.Web.ModelBuilders
 				Filename = testModel.Filename,
 				CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Description, x.Regex)).ToList(),
 				PostBody = testModel.PostBody,
-				VerifyPositives = testModel.Assertions.Where(x => x.AssertionType == AssertionType.Positive).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
-				VerifyNegatives = testModel.Assertions.Where(x => x.AssertionType == AssertionType.Negative).Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
+				Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
 				ShortDescription = testModel.ShortDescription,
 				Url = testModel.Url,
 				PostType = testModel.PostType.ToString(),

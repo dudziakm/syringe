@@ -93,8 +93,7 @@ namespace Syringe.Core.Repositories.XML
                 item.Filename = test.Filename;
                 item.CapturedVariables = test.CapturedVariables;
                 item.PostBody = test.PostBody;
-                item.VerifyPositives = test.VerifyPositives;
-                item.VerifyNegatives = test.VerifyNegatives;
+                item.Assertions = test.Assertions;
                 item.ShortDescription = test.ShortDescription;
                 item.Url = test.Url;
                 item.PostType = test.PostType;

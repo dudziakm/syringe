@@ -141,13 +141,13 @@ namespace Syringe.Tests.Unit.Xml
 			string expectedXml = TestHelpers.ReadEmbeddedFile("assertions.xml", XmlExamplesFolder);
 
 			var test = new Test() { Position = 0 };
-            test.VerifyPositives.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
-            test.VerifyPositives.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
-            test.VerifyPositives.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
+            test.Assertions.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
+            test.Assertions.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
+            test.Assertions.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
 
-			test.VerifyNegatives.Add(new Assertion("negev1", "regex1", AssertionType.Negative));
-			test.VerifyNegatives.Add(new Assertion("negev2", "regex2", AssertionType.Negative));
-			test.VerifyNegatives.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative));
+			test.Assertions.Add(new Assertion("negev1", "regex1", AssertionType.Negative));
+			test.Assertions.Add(new Assertion("negev2", "regex2", AssertionType.Negative));
+			test.Assertions.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative));
 
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();

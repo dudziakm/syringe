@@ -339,7 +339,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_populate_verifypositive()
+		public void Read_should_populate_assertions()
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
@@ -351,29 +351,14 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Test test = testFile.Tests.First();
-            Assert.That(test.VerifyPositives.Count, Is.EqualTo(3));
-			Assert.That(test.VerifyPositives[0].Regex, Is.EqualTo("positive 1"));
-			Assert.That(test.VerifyPositives[1].Regex, Is.EqualTo("positive 22"));
-			Assert.That(test.VerifyPositives[2].Regex, Is.EqualTo("positive 99"));
-		}
+            Assert.That(test.Assertions.Count, Is.EqualTo(6));
+			Assert.That(test.Assertions[0].Regex, Is.EqualTo("positive 1"));
+			Assert.That(test.Assertions[1].Regex, Is.EqualTo("positive 22"));
+			Assert.That(test.Assertions[2].Regex, Is.EqualTo("positive 99"));
+            Assert.That(test.Assertions[3].Regex, Is.EqualTo("negative 1"));
+            Assert.That(test.Assertions[4].Regex, Is.EqualTo("negative 6"));
+            Assert.That(test.Assertions[5].Regex, Is.EqualTo("negative 66"));
+        }
 
-		[Test]
-		public void Read_should_populate_verifynegative()
-		{
-			// Arrange
-			string xml = GetSingleTestExample();
-			var stringReader = new StringReader(xml);
-			var testFileReader = GetTestFileReader();
-
-			// Act
-			TestFile testFile = testFileReader.Read(stringReader);
-
-			// Assert
-			Test test = testFile.Tests.First();
-            Assert.That(test.VerifyNegatives.Count, Is.EqualTo(3));
-			Assert.That(test.VerifyNegatives[0].Regex, Is.EqualTo("negative 1"));
-			Assert.That(test.VerifyNegatives[1].Regex, Is.EqualTo("negative 6"));
-			Assert.That(test.VerifyNegatives[2].Regex, Is.EqualTo("negative 66"));
-		}
     }
 }

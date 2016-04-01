@@ -135,7 +135,7 @@ namespace Syringe.Core.Xml.Writer
         {
             XElement headerElement = new XElement("assertions");
 
-            foreach (Assertion verifyItem in test.VerifyPositives.Union(test.VerifyNegatives))
+            foreach (Assertion verifyItem in test.Assertions)
             {
                 if (!string.IsNullOrEmpty(verifyItem.Description))
                 {

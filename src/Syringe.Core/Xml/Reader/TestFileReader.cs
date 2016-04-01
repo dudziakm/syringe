@@ -99,9 +99,7 @@ namespace Syringe.Core.Xml.Reader
 
             test.CapturedVariables = GetCapturedVariables(element);
 
-            List<Assertion> verifications = GetAssertions(element);
-            test.VerifyPositives = verifications.Where(x => x.AssertionType == AssertionType.Positive).ToList();
-            test.VerifyNegatives = verifications.Where(x => x.AssertionType == AssertionType.Negative).ToList();
+            test.Assertions = GetAssertions(element);
 
             return test;
         }
