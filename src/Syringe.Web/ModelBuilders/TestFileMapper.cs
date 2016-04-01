@@ -16,24 +16,19 @@ namespace Syringe.Web.ModelBuilders
                 throw new ArgumentNullException(nameof(test));
             }
 
-            var verifications = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType }).ToList();
-
-            var headerList = new List<Models.HeaderItem>(test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }));
-            var capturedVariables = new List<CapturedVariableItem>(test.CapturedVariables.Select(x => new CapturedVariableItem { Description = x.Name, Regex = x.Regex }));
-
             var model = new TestViewModel
             {
                 Position = test.Position,
                 ErrorMessage = test.ErrorMessage,
-                Headers = headerList,
+                Headers = test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }).ToList(),
                 LongDescription = test.LongDescription,
-                CapturedVariables = capturedVariables,
+                CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Description = x.Name, Regex = x.Regex }).ToList(),
                 PostBody = test.PostBody,
                 PostType = (PostType)Enum.Parse(typeof(PostType), test.PostType),
                 VerifyResponseCode = test.VerifyResponseCode,
                 ShortDescription = test.ShortDescription,
                 Url = test.Url,
-                Assertions = verifications,
+                Assertions = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType }).ToList(),
                 Filename = test.Filename,
                 AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList()
             };
