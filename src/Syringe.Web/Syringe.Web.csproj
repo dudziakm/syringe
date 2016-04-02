@@ -396,10 +396,6 @@
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.woff" />
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.woff2" />
     <Content Include="Css\font-awesome-4.4.0\fonts\FontAwesome.otf" />
-    <None Include="Scripts\typings\Hubs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Hubs.d.ts</LastGenOutput>
-    </None>
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
     <Content Include="Views\Results\Html.cshtml" />
@@ -474,11 +470,7 @@
     <Content Include="Views\Test\View.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
-    <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Hubs.tt</DependentUpon>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
