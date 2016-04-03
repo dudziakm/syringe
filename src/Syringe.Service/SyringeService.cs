@@ -32,9 +32,13 @@ namespace Syringe.Service
 			_signalRDependencyResolver = signalRDependencyResolver;
 		}
 
-		public void Start()
+		public void Start(string bindingUrl = "")
 		{
-			string bindingUrl = _configuration.ServiceUrl;
+			if (string.IsNullOrEmpty(bindingUrl))
+				bindingUrl = _configuration.ServiceUrl;
+
+			Console.WriteLine("bindingUrl: {0}", bindingUrl);
+
 			WebApplication = WebApp.Start(bindingUrl, Configuration);
 		}
 
@@ -46,8 +50,8 @@ namespace Syringe.Service
 
 		public void Configuration(IAppBuilder application)
 		{
-			var config = new HttpConfiguration();
-			config.EnableSwagger(swaggerConfig =>
+			var httpConfiguration = new HttpConfiguration();
+			httpConfiguration.EnableSwagger(swaggerConfig =>
 			{
 				swaggerConfig
 					.SingleApiVersion("v1", "Syringe REST API")
@@ -55,9 +59,8 @@ namespace Syringe.Service
 
 			}).EnableSwaggerUi();
 
-			config.MapHttpAttributeRoutes();
-
-			config.DependencyResolver = _webDependencyResolver;
+			httpConfiguration.MapHttpAttributeRoutes();
+			httpConfiguration.DependencyResolver = _webDependencyResolver;
 
 			var corsOptions = new CorsOptions
 			{
@@ -76,19 +79,30 @@ namespace Syringe.Service
 				}
 			};
 
-            application.Map("/signalr", map =>
+			//application.Map("", config =>
+			//{
+			//	config.Run(context =>
+			//	{
+			//		if (context.Request.Uri.PathAndQuery == "/")
+			//		{
+			//			return Task.Run(() => context.Response.Redirect("/swagger/ui/index"));
+			//		}
+			//	});
+			//});
+
+			application.Map("/signalr", config =>
             {
-                map.UseCors(CorsOptions.AllowAll);
+                config.UseCors(CorsOptions.AllowAll);
                 var hubConfiguration = new HubConfiguration
                 {
                     EnableDetailedErrors = true,
                     Resolver = _signalRDependencyResolver
                 };
-                map.RunSignalR(hubConfiguration);
+                config.RunSignalR(hubConfiguration);
             });
 
             application.UseCors(corsOptions);
-			application.UseWebApi(config);
+			application.UseWebApi(httpConfiguration);
 		}
 	}
 }

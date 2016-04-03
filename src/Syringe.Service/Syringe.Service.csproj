@@ -158,6 +158,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\HomeController.cs" />
     <Compile Include="Api\ConfigurationController.cs" />
     <Compile Include="Api\Hubs\ITaskMonitorHubClient.cs" />
     <Compile Include="Api\Hubs\TaskGroupProvider.cs" />
@@ -177,7 +178,6 @@
     <Compile Include="Api\Hubs\ITaskGroupProvider.cs" />
     <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />
-    <Compile Include="Api\TeamController.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
     <Compile Include="Parallel\TaskPublisher.cs" />
     <Compile Include="Parallel\TestFileRunnerTaskInfo.cs" />

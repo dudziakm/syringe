@@ -1,4 +1,5 @@
-﻿using Syringe.Service.DependencyResolution;
+﻿using System;
+using Syringe.Service.DependencyResolution;
 using Topshelf;
 
 namespace Syringe.Service
@@ -19,10 +20,15 @@ namespace Syringe.Service
 
 			TopshelfExitCode exitCode = HostFactory.Run(host =>
 			{
+				string bindingUrl = "";
+				host.AddCommandLineDefinition("bindingurl", s => bindingUrl = s);
+				host.AddCommandLineDefinition("bindingUrl", s => bindingUrl = s);
+				host.ApplyCommandLine();
+
 				host.Service<SyringeService>(service =>
 				{
 					service.ConstructUsing(() => container.GetInstance<SyringeService>());
-					service.WhenStarted(x => x.Start());
+					service.WhenStarted(x => x.Start(bindingUrl));
 					service.WhenStopped(x => x.Stop());
 				});
 
