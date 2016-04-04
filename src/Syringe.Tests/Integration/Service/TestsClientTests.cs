@@ -47,6 +47,8 @@ namespace Syringe.Tests.Integration.Service
 
 			string args = $"-bindingUrl={SERVICE_URL} -mongoDbDatabaseName={MONGODB_DATABASE_NAME} -testFilesBaseDirectory={xmlFilesPath}";
 			_serviceProcess = Process.Start(servicePath, args);
+			Console.WriteLine("Launched {0} {1}", servicePath, args);
+			Console.WriteLine("(id: {0})", _serviceProcess.Id);
 
 			// Give the service a few seconds to startup
 			Thread.Sleep(TimeSpan.FromSeconds(2));
@@ -55,6 +57,8 @@ namespace Syringe.Tests.Integration.Service
 		[SetUp]
 		public void Setup()
 		{
+			Console.WriteLine("Wiping MongoDB database {0}", MONGODB_DATABASE_NAME);
+
 			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = MONGODB_DATABASE_NAME });
 			repository.Wipe();
 		}
@@ -84,7 +88,7 @@ namespace Syringe.Tests.Integration.Service
 		}
 
 		[Test]
-		public void CreateTest_should_do_create_test_for_existing_file()
+		public void CreateTest_should_create_test_for_existing_file()
 		{
 			// given
 			string filename = GetXmlFilename();
