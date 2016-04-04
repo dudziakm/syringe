@@ -1,14 +1,19 @@
+using Syringe.Core.Configuration;
+
 namespace Syringe.Core.Repositories.MongoDB
 {
-	public class MongoDBConfiguration
+	public class MongoDbConfiguration
 	{
 		public string ConnectionString { get; set; }
 		public string DatabaseName { get; set; }
 
-		public MongoDBConfiguration()
+		public MongoDbConfiguration(IConfiguration configuration)
 		{
 			ConnectionString = "mongodb://localhost:27017";
 			DatabaseName = "Syringe";
-        }
+
+			if (!string.IsNullOrEmpty(configuration.MongoDbDatabaseName))
+				DatabaseName = configuration.MongoDbDatabaseName;
+		}
 	}
 }

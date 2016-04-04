@@ -145,7 +145,7 @@
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestFileResultRepository.cs" />
-    <Compile Include="Repositories\MongoDB\MongoDBConfiguration.cs" />
+    <Compile Include="Repositories\MongoDB\MongoDbConfiguration.cs" />
     <Compile Include="Tests\Results\TestFileResultSummary.cs" />
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
