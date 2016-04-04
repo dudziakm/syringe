@@ -37,7 +37,12 @@ namespace Syringe.Tests.Integration.Service
 
 		private void StartServiceProcess(string xmlFilesPath)
 		{
-			string servicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Syringe.Service", "bin", "debug", "Syringe.Service.exe");
+			string buildFolder = "debug";
+#if !DEBUG
+			buildFolder = "release";
+#endif
+
+			string servicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Syringe.Service", "bin", buildFolder, "Syringe.Service.exe");
 			servicePath = new DirectoryInfo(servicePath).FullName; // resolves the ..
 
 			string args = $"-bindingUrl={SERVICE_URL} -mongoDbDatabaseName={MONGODB_DATABASE_NAME} -testFilesBaseDirectory={xmlFilesPath}";
