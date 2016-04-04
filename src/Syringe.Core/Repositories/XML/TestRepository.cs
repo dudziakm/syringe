@@ -30,16 +30,16 @@ namespace Syringe.Core.Repositories.XML
             using (var stringReader = new StringReader(xml))
             {
                 TestFile testFile = _testFileReader.Read(stringReader);
-                Test testTest = testFile.Tests.ElementAtOrDefault(position);
+                Test test = testFile.Tests.ElementAtOrDefault(position);
 
-                if (testTest == null)
+                if (test == null)
                 {
                     throw new NullReferenceException("Could not find specified Test Case:" + position);
                 }
 
-                testTest.Filename = filename;
+                test.Filename = filename;
 
-                return testTest;
+                return test;
             }
         }
 
