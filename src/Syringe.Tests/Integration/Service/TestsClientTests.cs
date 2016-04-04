@@ -46,7 +46,24 @@ namespace Syringe.Tests.Integration.Service
 			servicePath = new DirectoryInfo(servicePath).FullName; // resolves the ..
 
 			string args = $"-bindingUrl={SERVICE_URL} -mongoDbDatabaseName={MONGODB_DATABASE_NAME} -testFilesBaseDirectory={xmlFilesPath}";
-			_serviceProcess = Process.Start(servicePath, args);
+
+			var info = new ProcessStartInfo(servicePath, args);
+			info.RedirectStandardError = true;
+			info.UseShellExecute = false;
+
+			_serviceProcess = new Process();
+			_serviceProcess.StartInfo = info;
+
+			try
+			{
+				_serviceProcess.Start();
+			}
+			catch(Exception)
+			{
+				Console.WriteLine(_serviceProcess.StandardError.ReadToEnd());
+				Assert.Fail();
+			}
+
 			Console.WriteLine("Launched {0} {1}", servicePath, args);
 			Console.WriteLine("(id: {0})", _serviceProcess.Id);
 
@@ -66,7 +83,8 @@ namespace Syringe.Tests.Integration.Service
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
-			_serviceProcess.Kill();
+			if (_serviceProcess != null)
+				_serviceProcess.Kill();
 		}
 
 		[Test]
