@@ -205,11 +205,11 @@ namespace Syringe.Tests.Unit.Xml
 			return new TestFile();
 		}
 
-		private TestFile CreateTestFile(Test testTest)
+		private TestFile CreateTestFile(Test test)
 		{
 			var testFile = new TestFile();
 			var list = new List<Test>();
-			list.Add(testTest);
+			list.Add(test);
 			testFile.Tests = list;
 
 			return testFile;

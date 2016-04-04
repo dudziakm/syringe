@@ -9,7 +9,7 @@ namespace Syringe.Core.Tests.Results
 	{
 		public int Position { get; set; }
 		public Guid SessionId { get; set; }
-	    public Test TestTest { get; set; }
+	    public Test Test { get; set; }
 		public string ActualUrl { get; set; }
 	    public string Message { get; set; }
 	    public TimeSpan ResponseTime { get; set; }

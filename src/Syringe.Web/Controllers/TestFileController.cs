@@ -47,13 +47,13 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            TestFile testTestFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
 
             TestFileViewModel model = new TestFileViewModel
             {
                 Filename = fileName,
                 Variables =
-                    testTestFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
+                    testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
             };
 
             return View("Update", model);

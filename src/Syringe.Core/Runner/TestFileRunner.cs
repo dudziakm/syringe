@@ -203,7 +203,7 @@ namespace Syringe.Core.Runner
         {
             var testResult = new TestResult();
             testResult.SessionId = SessionId;
-            testResult.TestTest = test;
+            testResult.Test = test;
 
             try
             {

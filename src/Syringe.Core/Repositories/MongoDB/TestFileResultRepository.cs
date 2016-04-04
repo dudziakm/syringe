@@ -35,7 +35,7 @@ namespace Syringe.Core.Repositories.MongoDB
 
         public TestFileResult GetById(Guid id)
         {
-            return _collection.AsQueryable().ToList().FirstOrDefault(x => x.Id == id);
+            return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<TestFileResultSummary> GetSummaries()
