@@ -182,7 +182,7 @@
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\CapturedVariableProvider.cs" />
     <Compile Include="Tests\AssertionType.cs" />
-    <Compile Include="Xml\Reader\ITestCaseReader.cs" />
+    <Compile Include="Xml\Reader\ITestFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
