@@ -47,7 +47,7 @@ namespace Syringe.Core.Repositories.XML
         {
             if (test == null)
             {
-                throw new ArgumentNullException("test");
+                throw new ArgumentNullException(nameof(test));
             }
 
             string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
@@ -71,7 +71,7 @@ namespace Syringe.Core.Repositories.XML
         {
             if (test == null)
             {
-                throw new ArgumentNullException("test");
+                throw new ArgumentNullException(nameof(test));
             }
 
             string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
