@@ -27,12 +27,15 @@ namespace Syringe.Service
 				string mongoDbDatabaseName = "";
 				host.AddCommandLineDefinition("mongoDbDatabaseName", s => mongoDbDatabaseName = s);
 
+				string testFilesBaseDirectory = "";
+				host.AddCommandLineDefinition("testFilesBaseDirectory", s => testFilesBaseDirectory = s);
+
 				host.ApplyCommandLine();
 
 				host.Service<SyringeService>(service =>
 				{
 					service.ConstructUsing(() => container.GetInstance<SyringeService>());
-					service.WhenStarted(x => x.Start(bindingUrl, mongoDbDatabaseName));
+					service.WhenStarted(x => x.Start(bindingUrl, mongoDbDatabaseName, testFilesBaseDirectory));
 					service.WhenStopped(x => x.Stop());
 				});
 

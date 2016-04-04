@@ -125,6 +125,7 @@
     <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
+    <Compile Include="Integration\Service\TestsClientTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\IO\FIleHandlerTests.cs" />
@@ -160,6 +161,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj">
+      <Project>{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}</Project>
+      <Name>Syringe.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
       <Project>{543b728d-5dc3-45a8-9c01-7ba5ae07e861}</Project>
       <Name>Syringe.Core</Name>
@@ -231,7 +236,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Integration\Configuration\" />
     <Folder Include="Unit\Security\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
