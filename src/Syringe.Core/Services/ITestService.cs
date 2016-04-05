@@ -21,5 +21,6 @@ namespace Syringe.Core.Services
 	    IEnumerable<TestFileResultSummary> GetSummaries();
         TestFileResult GetResultById(Guid id);
         Task DeleteResultAsync(Guid id);
+	    bool DeleteFile(string fileName, string branchName);
 	}
 }

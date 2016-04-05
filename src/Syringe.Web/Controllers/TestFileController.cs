@@ -60,6 +60,14 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Delete(string fileName)
+        {
+            _testsClient.DeleteFile(fileName,_userContext.DefaultBranchName);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
         public ActionResult Update(TestFileViewModel model)
         {
             if (ModelState.IsValid)

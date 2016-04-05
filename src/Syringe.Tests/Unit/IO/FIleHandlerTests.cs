@@ -17,6 +17,7 @@ namespace Syringe.Tests.Unit.IO
         private readonly string _testTeamDirectory = TestContext.CurrentContext.TestDirectory + "\\test";
         private readonly string _testFileFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\test.xml";
         private readonly string _testWriteFileFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\testWrite.xml";
+        private readonly string _testFileToDeleteFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\fileToDelete.xml";
         private readonly string _teamName = "test";
 
 
@@ -31,6 +32,14 @@ namespace Syringe.Tests.Unit.IO
                 using (StreamWriter sw = File.CreateText(_testFileFullPath))
                 {
                     sw.WriteLine("Test Data");
+                }
+            }
+
+            if (!File.Exists(_testFileToDeleteFullPath))
+            {
+                using (StreamWriter sw = File.CreateText(_testFileToDeleteFullPath))
+                {
+                    sw.WriteLine("Delete file");
                 }
             }
         }
@@ -217,6 +226,19 @@ namespace Syringe.Tests.Unit.IO
 
             // then
             Assert.IsFalse(allText);
+        }
+
+        [Test]
+        public void DeleteFile_should_return_true_when_file_is_deleted()
+        {
+            // given
+            var fileHandler = new FileHandler(_configurationMock.Object);
+
+            // when
+            var allText = fileHandler.DeleteFile(_testFileToDeleteFullPath);
+
+            // then
+            Assert.IsTrue(allText);
         }
 
         [TestFixtureTearDown]

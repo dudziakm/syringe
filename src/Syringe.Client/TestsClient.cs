@@ -167,7 +167,20 @@ namespace Syringe.Client
             return DeserializeOrThrow<Task>(response);
         }
 
-	    private T DeserializeOrThrow<T>(IRestResponse response)
+        public bool DeleteFile(string fileName, string branchName)
+        {
+            var client = new RestClient(_serviceUrl);
+
+            IRestRequest request = CreateRequest("DeleteFile");
+            request.Method = Method.POST;
+            request.AddQueryParameter("filename", fileName);
+            request.AddQueryParameter("branchName", branchName);
+            IRestResponse response = client.Execute(request);
+
+            return DeserializeOrThrow<bool>(response);
+        }
+
+        private T DeserializeOrThrow<T>(IRestResponse response)
         {
             if (response.StatusCode == HttpStatusCode.OK)
 			{

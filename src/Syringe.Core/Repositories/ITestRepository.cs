@@ -15,5 +15,6 @@ namespace Syringe.Core.Repositories
         bool CreateTestFile(TestFile testFile, string branchName);
         bool UpdateTestFile(TestFile testFile, string branchName);
         string GetXml(string filename, string branchName);
+        bool DeleteFile(string fileName, string branchName);
     }
 }
