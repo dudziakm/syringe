@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Web
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), _userContextMock.Object.DefaultBranchName)).Returns(new TestFile());
             _testServiceMock.Setup(x => x.UpdateTestFile(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
             _testServiceMock.Setup(x => x.CreateTestFile(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
-
+            _testServiceMock.Setup(x => x.DeleteFile(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _testFileController = new TestFileController(_testServiceMock.Object, _userContextMock.Object);
         }
 
@@ -149,6 +149,18 @@ namespace Syringe.Tests.Unit.Web
             // then
             Assert.AreEqual("EditorTemplates/VariableViewModel", viewResult.ViewName);
             Assert.IsInstanceOf<VariableViewModel>(viewResult.Model);
+        }
+
+        [Test]
+        public void Delete_should_redirect_to_view_when_file_deleted()
+        {
+            // given + when
+            var redirectToRouteResult = _testFileController.Delete(It.IsAny<string>()) as RedirectToRouteResult;
+
+            // then
+            _testServiceMock.Verify(x => x.DeleteFile(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
         }
     }
 }

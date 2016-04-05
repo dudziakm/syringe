@@ -17,7 +17,7 @@
         </nav>
         <div class="col-xs-3 text-right">
             <a title="Add" class="btn btn-sm btn-primary" href="@Url.Action("Add", "TestFile")">
-				<i class="material-icons">add</i>
+                <i class="material-icons">add</i>
             </a>
         </div>
     </div>
@@ -29,22 +29,30 @@
             </tr>
         </thead>
         <tbody>
-            @using (Html.BeginForm("Run", "Home"))
+
+            @foreach (string filename in Model.Files)
             {
-                foreach (string filename in Model.Files)
-                {
-                    <tr>
-                        <td class="filename">@filename</td>
-                        <td>
-                            <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "Test", new {filename = filename})">
-                                <i class="material-icons">description</i>
-                            </a>
+                <tr>
+                    <td class="filename">@filename</td>
+                    <td>
+                        <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "Test", new {filename = filename})">
+                            <i class="material-icons">description</i>
+                        </a>
+                        @using (Html.BeginForm("Run", "Home"))
+                        {
                             <button title="Run" class="btn btn-sm btn-success" type="submit" name="filename" value="@filename">
                                 <i class="material-icons">play_arrow</i>
                             </button>
-                        </td>
-                    </tr>
-                }
+                        }
+                        @using (Html.BeginForm("Delete", "TestFile"))
+                        {
+                            <button title="Run" class="btn btn-sm btn-danger" type="submit" name="filename" value="@filename">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
             }
         </tbody>
     </table>

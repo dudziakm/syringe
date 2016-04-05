@@ -195,5 +195,31 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
             Assert.AreEqual("<xml></xml>", xml);
         }
+
+        [Test]
+        public void DeleteFile_should_return_true_if_file_deleted()
+        {
+            // given + when
+            _fileHandler.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(true);
+            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>(), It.IsAny<string>());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.DeleteFile(It.IsAny<string>()), Times.Once);
+            Assert.IsTrue(deleteFile);
+        }
+
+        [Test]
+        public void DeleteFile_should_return_false_if_file_did_not_deleted()
+        {
+            // given + when
+            _fileHandler.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(false);
+            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>(), It.IsAny<string>());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.DeleteFile(It.IsAny<string>()), Times.Once);
+            Assert.IsFalse(deleteFile);
+        }
     }
 }

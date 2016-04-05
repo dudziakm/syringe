@@ -109,5 +109,12 @@ namespace Syringe.Service.Api
         {
             return _testFileResultRepository.DeleteAsync(id);
         }
+
+        [Route("api/tests/DeleteFile")]
+        [HttpPost]
+        public bool DeleteFile(string fileName, string branchName)
+        {
+            return _testRepository.DeleteFile(fileName,branchName);
+        }
     }
 }

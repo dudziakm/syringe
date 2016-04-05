@@ -87,5 +87,21 @@ namespace Syringe.Core.IO
 
             return filename;
         }
+
+        public bool DeleteFile(string path)
+        {
+            try
+            {
+                File.Delete(path);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                //todo log error
+                Log.Error(exception, exception.Message);
+            }
+
+            return false;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace Syringe.Core.IO
         bool FileExists(string filePath);
         string CreateFileFullPath(string branchName, string fileName);
         string CreateFilename(string filename);
+        bool DeleteFile(string path);
     }
 }
