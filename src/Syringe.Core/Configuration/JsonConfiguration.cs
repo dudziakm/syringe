@@ -14,6 +14,9 @@ namespace Syringe.Core.Configuration
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string TestFilesBaseDirectory { get; set; }
 
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public string MongoDbDatabaseName { get; set; }
+
 		public OAuthConfiguration OAuthConfiguration { get; set; }
 		public GitConfiguration GitConfiguration { get; set; }
 
@@ -23,6 +26,8 @@ namespace Syringe.Core.Configuration
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
 			TestFilesBaseDirectory = @"D:\Syringe\";
+			MongoDbDatabaseName = "Syringe";
+
 			OAuthConfiguration = new OAuthConfiguration();
 			GitConfiguration = new GitConfiguration();
 		}
