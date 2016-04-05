@@ -15,6 +15,7 @@ namespace Syringe.Tests.Integration.Service
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
+			ServiceConfig.CreateXmlDirectory();
 			ServiceConfig.StartSelfHostedOwin();
 		}
 	

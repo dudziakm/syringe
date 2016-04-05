@@ -46,9 +46,6 @@ namespace Syringe.Tests.Integration.Service
 				{
 					string integrationFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration");
 					_xmlDirectoryPath = Path.Combine(integrationFolder, BranchName);
-
-					if (!Directory.Exists(_xmlDirectoryPath))
-						Directory.CreateDirectory(_xmlDirectoryPath);
 				}
 
 				return _xmlDirectoryPath;
@@ -75,6 +72,12 @@ namespace Syringe.Tests.Integration.Service
 
 			// Start it up
 			OwinServer = WebApp.Start(BaseUrl, service.Configuration);
+		}
+
+		public static void CreateXmlDirectory()
+		{
+			if (!Directory.Exists(XmlDirectoryPath))
+				Directory.CreateDirectory(XmlDirectoryPath);
 		}
 	}
 }
