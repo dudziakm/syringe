@@ -12,7 +12,7 @@ using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace Syringe.Service
 {
-	public class SyringeService
+	public class Startup
 	{
 		protected IDisposable WebApplication;
 		private readonly IDependencyResolver _webDependencyResolver;
@@ -20,7 +20,7 @@ namespace Syringe.Service
 		private readonly ITestFileQueue _testFileQueue;
 		private readonly Microsoft.AspNet.SignalR.IDependencyResolver _signalRDependencyResolver;
 
-		public SyringeService(
+		public Startup(
 			IDependencyResolver webDependencyResolver,
 			IConfiguration configuration,
 			ITestFileQueue testFileQueue,
@@ -32,22 +32,9 @@ namespace Syringe.Service
 			_signalRDependencyResolver = signalRDependencyResolver;
 		}
 
-		public void Start(string bindingUrl = "", string mongoDbDatabaseName = "", string testFilesBaseDirectory = "")
+		public void Start()
 		{
-			if (string.IsNullOrEmpty(bindingUrl))
-				bindingUrl = _configuration.ServiceUrl;
-
-			if (!string.IsNullOrEmpty(mongoDbDatabaseName))
-				_configuration.MongoDbDatabaseName = mongoDbDatabaseName;
-
-			if (!string.IsNullOrEmpty(testFilesBaseDirectory))
-				_configuration.TestFilesBaseDirectory = testFilesBaseDirectory;
-
-			Console.WriteLine("bindingUrl: {0}", bindingUrl);
-			Console.WriteLine("mongoDbDatabaseName: {0}", _configuration.MongoDbDatabaseName);
-			Console.WriteLine("testFilesBaseDirectory: {0}", _configuration.TestFilesBaseDirectory);
-
-			WebApplication = WebApp.Start(bindingUrl, Configuration);
+			WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
 		}
 
 		public void Stop()

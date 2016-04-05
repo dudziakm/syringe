@@ -20,22 +20,12 @@ namespace Syringe.Service
 
 			TopshelfExitCode exitCode = HostFactory.Run(host =>
 			{
-				string bindingUrl = "";
-				host.AddCommandLineDefinition("bindingurl", s => bindingUrl = s);
-				host.AddCommandLineDefinition("bindingUrl", s => bindingUrl = s);
-
-				string mongoDbDatabaseName = "";
-				host.AddCommandLineDefinition("mongoDbDatabaseName", s => mongoDbDatabaseName = s);
-
-				string testFilesBaseDirectory = "";
-				host.AddCommandLineDefinition("testFilesBaseDirectory", s => testFilesBaseDirectory = s);
-
 				host.ApplyCommandLine();
 
-				host.Service<SyringeService>(service =>
+				host.Service<Startup>(service =>
 				{
-					service.ConstructUsing(() => container.GetInstance<SyringeService>());
-					service.WhenStarted(x => x.Start(bindingUrl, mongoDbDatabaseName, testFilesBaseDirectory));
+					service.ConstructUsing(() => container.GetInstance<Startup>());
+					service.WhenStarted(x => x.Start());
 					service.WhenStopped(x => x.Stop());
 				});
 

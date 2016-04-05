@@ -49,7 +49,7 @@ namespace Syringe.Service.DependencyResolution
             For<IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>().Singleton();
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
 
-            For<SyringeService>().Use<SyringeService>().Singleton();
+            For<Startup>().Use<Startup>().Singleton();
 
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
