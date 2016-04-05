@@ -2,14 +2,15 @@
 	"ServiceUrl": "http://*:1981",
 	"WebsiteUrl": "http://localhost:1980",
 	"TestCasesBaseDirectory": "D:\\Syringe\\",
-  "OAuthConfiguration": {
-    "GithubAuthClientId": "",
-    "GithubAuthClientSecret": "",
-    "GoogleAuthClientId": "",
-    "GoogleAuthClientSecret": "",
-    "MicrosoftAuthClientId": "",
-    "MicrosoftAuthClientSecret": ""
-  },
+	"MongoDbDatabaseName": "Syringe",
+	"OAuthConfiguration": {
+		"GithubAuthClientId": "",
+		"GithubAuthClientSecret": "",
+		"GoogleAuthClientId": "",
+		"GoogleAuthClientSecret": "",
+		"MicrosoftAuthClientId": "",
+		"MicrosoftAuthClientSecret": ""
+	},
 	"GitConfiguration": {
 		"RepositoryUrl": ""
 	}

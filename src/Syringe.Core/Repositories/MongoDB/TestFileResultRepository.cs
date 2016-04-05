@@ -10,16 +10,16 @@ namespace Syringe.Core.Repositories.MongoDB
     public class TestFileResultRepository : ITestFileResultRepository
     {
         private static readonly string MONGDB_COLLECTION_NAME = "TestFileResults";
-        private readonly MongoDBConfiguration _mongoDbConfiguration;
-        private readonly MongoClient _mongoClient;
-        private readonly IMongoDatabase _database;
+        private readonly MongoDbConfiguration _mongoDbConfiguration;
+	    private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestFileResult> _collection;
 
-        public TestFileResultRepository(MongoDBConfiguration mongoDbConfiguration)
+        public TestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
         {
-            _mongoDbConfiguration = mongoDbConfiguration;
-            _mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
-            _database = _mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
+	        _mongoDbConfiguration = mongoDbConfiguration;
+            var mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
+
+            _database = mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
             _collection = _database.GetCollection<TestFileResult>(MONGDB_COLLECTION_NAME);
         }
 

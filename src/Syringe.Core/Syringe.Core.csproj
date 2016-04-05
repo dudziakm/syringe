@@ -145,7 +145,7 @@
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestFileResultRepository.cs" />
-    <Compile Include="Repositories\MongoDB\MongoDBConfiguration.cs" />
+    <Compile Include="Repositories\MongoDB\MongoDbConfiguration.cs" />
     <Compile Include="Tests\Results\TestFileResultSummary.cs" />
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
@@ -182,7 +182,7 @@
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\CapturedVariableProvider.cs" />
     <Compile Include="Tests\AssertionType.cs" />
-    <Compile Include="Xml\Reader\ITestCaseReader.cs" />
+    <Compile Include="Xml\Reader\ITestFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />

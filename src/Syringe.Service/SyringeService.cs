@@ -32,12 +32,20 @@ namespace Syringe.Service
 			_signalRDependencyResolver = signalRDependencyResolver;
 		}
 
-		public void Start(string bindingUrl = "")
+		public void Start(string bindingUrl = "", string mongoDbDatabaseName = "", string testFilesBaseDirectory = "")
 		{
 			if (string.IsNullOrEmpty(bindingUrl))
 				bindingUrl = _configuration.ServiceUrl;
 
+			if (!string.IsNullOrEmpty(mongoDbDatabaseName))
+				_configuration.MongoDbDatabaseName = mongoDbDatabaseName;
+
+			if (!string.IsNullOrEmpty(testFilesBaseDirectory))
+				_configuration.TestFilesBaseDirectory = testFilesBaseDirectory;
+
 			Console.WriteLine("bindingUrl: {0}", bindingUrl);
+			Console.WriteLine("mongoDbDatabaseName: {0}", _configuration.MongoDbDatabaseName);
+			Console.WriteLine("testFilesBaseDirectory: {0}", _configuration.TestFilesBaseDirectory);
 
 			WebApplication = WebApp.Start(bindingUrl, Configuration);
 		}
@@ -78,17 +86,6 @@ namespace Syringe.Service
 					}
 				}
 			};
-
-			//application.Map("", config =>
-			//{
-			//	config.Run(context =>
-			//	{
-			//		if (context.Request.Uri.PathAndQuery == "/")
-			//		{
-			//			return Task.Run(() => context.Response.Redirect("/swagger/ui/index"));
-			//		}
-			//	});
-			//});
 
 			application.Map("/signalr", config =>
             {

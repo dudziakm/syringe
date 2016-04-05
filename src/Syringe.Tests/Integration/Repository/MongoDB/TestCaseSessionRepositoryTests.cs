@@ -7,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Syringe.Core.Configuration;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Tests.Results;
 
@@ -16,7 +17,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 	{
 		private TestFileResultRepository TestFileResultRepository()
 		{
-			return new TestFileResultRepository(new MongoDBConfiguration() { DatabaseName = "Syringe-Tests"});	
+			return new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = "Syringe-Tests"});	
 		}
 
 		[SetUp]
