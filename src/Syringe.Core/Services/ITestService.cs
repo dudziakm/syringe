@@ -8,7 +8,7 @@ namespace Syringe.Core.Services
 {
 	public interface ITestService
 	{
-		IEnumerable<string> ListFilesForTeam(string branchName);
+		IEnumerable<string> ListFilesForBranch(string branchName);
 		Test GetTest(string filename, string branchName, int position);
 		TestFile GetTestFile(string filename, string branchName);
 	    string GetXml(string filename, string branchName);

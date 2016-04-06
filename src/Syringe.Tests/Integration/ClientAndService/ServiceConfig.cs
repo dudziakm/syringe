@@ -8,7 +8,7 @@ using Syringe.Core.Configuration;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
 
-namespace Syringe.Tests.Integration.Service
+namespace Syringe.Tests.Integration.ClientAndService
 {
 	public class ServiceConfig
 	{
@@ -38,6 +38,9 @@ namespace Syringe.Tests.Integration.Service
 			}
 		}
 
+		/// <summary>
+		/// The full branch path, e.g. ...\bin\debug\integration\master
+		/// </summary>
 		public static string XmlDirectoryPath
 		{
 			get
@@ -74,10 +77,14 @@ namespace Syringe.Tests.Integration.Service
 			OwinServer = WebApp.Start(BaseUrl, service.Configuration);
 		}
 
-		public static void CreateXmlDirectory()
+		public static void RecreateXmlDirectory()
 		{
-			if (!Directory.Exists(XmlDirectoryPath))
-				Directory.CreateDirectory(XmlDirectoryPath);
+			Console.WriteLine("Deleting and creating {0}", ServiceConfig.XmlDirectoryPath);
+
+			if (Directory.Exists(XmlDirectoryPath))
+				Directory.Delete(XmlDirectoryPath, true);
+			
+			Directory.CreateDirectory(XmlDirectoryPath);
 		}
 	}
 }

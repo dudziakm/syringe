@@ -172,7 +172,10 @@ namespace Syringe.Core.Repositories.XML
 
             using (var stringReader = new StringReader(xml))
             {
-                return _testFileReader.Read(stringReader);
+                TestFile testFile = _testFileReader.Read(stringReader);
+	            testFile.Filename = filename;
+
+	            return testFile;
             }
         }
 

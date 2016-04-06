@@ -19,7 +19,7 @@ namespace Syringe.Client
 			_serviceUrl = serviceUrl;
 		}
 
-		public IEnumerable<string> ListFilesForTeam(string branchName)
+		public IEnumerable<string> ListFilesForBranch(string branchName)
 		{
 			var client = new RestClient(_serviceUrl);
 			IRestRequest request = CreateRequest("ListForTeam");

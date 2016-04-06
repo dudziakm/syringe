@@ -22,7 +22,7 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/ListForTeam")]
         [HttpGet]
-        public IEnumerable<string> ListFilesForTeam(string branchName)
+        public IEnumerable<string> ListFilesForBranch(string branchName)
         {
             return _testRepository.ListFilesForBranch(branchName);
         }

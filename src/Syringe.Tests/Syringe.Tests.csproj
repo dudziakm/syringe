@@ -170,9 +170,9 @@
     <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
-    <Compile Include="Integration\Service\ServiceConfig.cs" />
-    <Compile Include="Integration\Service\ConfigurationClientTests.cs" />
-    <Compile Include="Integration\Service\TestsClientTests.cs" />
+    <Compile Include="Integration\ClientAndService\ServiceConfig.cs" />
+    <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
+    <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\IO\FIleHandlerTests.cs" />
@@ -286,9 +286,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unit\Security\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

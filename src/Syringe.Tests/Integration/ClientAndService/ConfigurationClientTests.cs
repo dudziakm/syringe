@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Syringe.Client;
 
-namespace Syringe.Tests.Integration.Service
+namespace Syringe.Tests.Integration.ClientAndService
 {
 	[TestFixture]
 	public class ConfigurationClientTests

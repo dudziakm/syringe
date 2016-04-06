@@ -42,7 +42,7 @@ namespace Syringe.Web.Controllers
 
 			ViewBag.Title = "All test files";
 
-			IList<string> files = _testsClient.ListFilesForTeam(_userContext.DefaultBranchName).ToList();
+			IList<string> files = _testsClient.ListFilesForBranch(_userContext.DefaultBranchName).ToList();
 
             var model = new IndexViewModel
             {
