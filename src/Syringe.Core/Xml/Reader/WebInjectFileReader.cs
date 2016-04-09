@@ -9,7 +9,7 @@ using Syringe.Core.Tests;
 
 namespace Syringe.Core.Xml.Reader
 {
-    public class TestFileReader : ITestFileReader
+    public class WebInjectFileReader : ITestFileReader
     {
         public TestFile Read(TextReader textReader)
         {
@@ -17,22 +17,16 @@ namespace Syringe.Core.Xml.Reader
             XDocument doc = XDocument.Load(textReader);
 
             // Check for <tests>
-            XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "tests");
+            XElement rootElement = doc.Elements().FirstOrDefault(i => i.Name.LocalName == "testcases");
             if (rootElement == null)
-                throw new TestException("<tests> node is missing from the config file.");
+                throw new TestException("<testcases> node is missing from the config file.");
 
-            // Repeats
-            int repeatValue = 0;
-            string repeatAttribute = XmlHelper.GetOptionalAttribute(rootElement, "repeat");
-            int.TryParse(repeatAttribute, out repeatValue);
-            testFile.Repeat = repeatValue;
 
             // <variables>
             testFile.Variables = GetVariables(rootElement);
 
-            // <tests> - add each one and re-order them by their id="" attribute.
             var tests = new List<Test>();
-            var elements = rootElement.Elements().Where(x => x.Name.LocalName == "test").ToList();
+            List<XElement> elements = doc.Elements().Where(x => x.Name.LocalName == "case").ToList();
             for (int i = 0; i < elements.Count; i++)
             {
                 XElement element = elements[i];
@@ -94,8 +88,8 @@ namespace Syringe.Core.Xml.Reader
             test.Headers = GetHeaders(element);
 
             // Descriptions
-            test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
-            test.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
+            test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "description1");
+            test.LongDescription = XmlHelper.GetOptionalAttribute(element, "description2");
 
             test.CapturedVariables = GetCapturedVariables(element);
 
@@ -157,25 +151,11 @@ namespace Syringe.Core.Xml.Reader
         private List<Assertion> GetAssertions(XElement testElement)
         {
             var items = new List<Assertion>();
-            var parentElement = testElement.Elements().Where(x => x.Name.LocalName == "assertions");
 
-            foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "assertion"))
+            foreach (XAttribute element in testElement.Attributes().Where(x => x.Name.LocalName.Contains("verify")))
             {
-                XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
-                string description = "";
-
-                if (descriptionAttribute != null)
-                    description = descriptionAttribute.Value;
-
-                XAttribute verifyTypeAttribute = element.Attributes("type").FirstOrDefault();
-                AssertionType assertionType = AssertionType.Positive;
-
-                if (verifyTypeAttribute != null)
-                {
-                    Enum.TryParse(verifyTypeAttribute.Value, true, out assertionType);
-                }
-
-                items.Add(new Assertion(description, element.Value, assertionType));
+                AssertionType assertionType = testElement.Name.LocalName.Contains("positive") ? AssertionType.Positive : AssertionType.Negative;
+                items.Add(new Assertion(element.Name.LocalName, element.Value, assertionType));
             }
 
             return items;
