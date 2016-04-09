@@ -47,17 +47,13 @@ namespace Syringe.Core.Xml.Reader
             // </variables>
 
             var variables = new List<Variable>();
-            var variableElement = rootElement.Elements().Where(x => x.Name.LocalName == "variables");
 
-            foreach (XElement element in variableElement.Elements().Where(x => x.Name.LocalName == "variable"))
+            foreach (XElement element in rootElement.Elements().Where(x => x.Name.LocalName == "testvar"))
             {
-                XAttribute nameAttribute = element.Attributes("name").FirstOrDefault();
+                XAttribute nameAttribute = element.Attributes("varname").FirstOrDefault();
                 if (nameAttribute != null)
                 {
-					XAttribute environmentAttribute = element.Attributes("environment").FirstOrDefault();
 	                string environment = "";
-	                if (environmentAttribute != null)
-		                environment = environmentAttribute.Value;
 
 					if (!variables.Any(x => x.Name.Equals(nameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
 					{
