@@ -7,6 +7,7 @@ using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {
@@ -28,86 +29,24 @@ namespace Syringe.Tests.Integration.ClientAndService
 		[SetUp]
 		public void Setup()
 		{
-			Console.WriteLine("Wiping MongoDB database {0}", ServiceConfig.MongodbDatabaseName);
+			Console.WriteLine("Wiping MongoDB results database {0}", ServiceConfig.MongodbDatabaseName);
 			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
 			repository.Wipe();
 
 			ServiceConfig.RecreateXmlDirectory();
 		}
 
-		private string GetXmlFilename()
-		{
-			return $"{DateTime.Now.Ticks}.xml";
-		}
-
-		private string GetFullPath(string filename)
-		{
-			return Path.Combine(ServiceConfig.XmlDirectoryPath, filename);
-		}
-
-		private TestsClient CreateTestsClient()
-		{
-			var client = new TestsClient(ServiceConfig.BaseUrl);
-			return client;
-		}
-
-		private TestFile CreateTestFileAndTest(TestsClient client)
-		{
-			string filename = GetXmlFilename();
-			var test1 = new Test()
-			{
-				Filename = filename,
-				Assertions = new List<Assertion>(),
-				AvailableVariables = new List<Variable>(),
-				CapturedVariables = new List<CapturedVariable>(),
-				ErrorMessage = "my error message 2",
-				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 1",
-				LongDescription = "long desc 1",
-				Method = "POST",
-				Url = "url 1"
-			};
-
-			var test2 = new Test()
-			{
-				Filename = filename,
-				Assertions = new List<Assertion>(),
-				AvailableVariables = new List<Variable>(),
-				CapturedVariables = new List<CapturedVariable>(),
-				ErrorMessage = "my error message 2",
-				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 2",
-				LongDescription = "long desc 2",
-				Method = "POST",
-				Url = "url 2"
-			};
-
-			var testFile = new TestFile() { Filename = filename };
-			client.CreateTestFile(testFile, ServiceConfig.BranchName);
-			client.CreateTest(test1, ServiceConfig.BranchName);
-			client.CreateTest(test2, ServiceConfig.BranchName);
-
-			var tests = new List<Test>()
-			{
-				test1,
-				test2
-			};
-			testFile.Tests = tests;
-
-			return testFile;
-		}
-
 		[Test]
 		public void ListFilesForBranch_should_list_all_files()
 		{
 			// given
-			string testFilepath1 = GetFullPath(GetXmlFilename());
+			string testFilepath1 = Helpers.GetFullPath(Helpers.GetXmlFilename());
 			File.WriteAllText(testFilepath1, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
-			string testFilepath2 = GetFullPath(GetXmlFilename());
+			string testFilepath2 = Helpers.GetFullPath(Helpers.GetXmlFilename());
 			File.WriteAllText(testFilepath2, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
-			TestsClient client = CreateTestsClient();
+			TestsClient client = Helpers.CreateTestsClient();
 
 			// when
 			IEnumerable<string> files = client.ListFilesForBranch(ServiceConfig.BranchName);
@@ -122,8 +61,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		{
 			// given
 			int testIndex = 1;
-			TestsClient client = CreateTestsClient();
-			TestFile testFile = CreateTestFileAndTest(client);
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 			Test expectedTest = testFile.Tests.ToList()[testIndex];
 			
 			// when
@@ -140,8 +79,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void GetTestFile_should_return_expected_testfile()
 		{
 			// given
-			TestsClient client = CreateTestsClient();
-			TestFile testFile = CreateTestFileAndTest(client);
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
 			TestFile actualTestFile = client.GetTestFile(testFile.Filename, ServiceConfig.BranchName);
@@ -156,8 +95,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void GetXml_should_return_expected_source()
 		{
 			// given
-			TestsClient client = CreateTestsClient();
-			TestFile testFile = CreateTestFileAndTest(client);
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
 			string xml = client.GetXml(testFile.Filename, ServiceConfig.BranchName);
@@ -173,8 +112,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void EditTest_should_save_changes_to_test()
 		{
 			// given
-			TestsClient client = CreateTestsClient();
-			TestFile testFile = CreateTestFileAndTest(client);
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 			Test expectedTest = testFile.Tests.FirstOrDefault();
 			expectedTest.ShortDescription = "new description";
 
@@ -192,8 +131,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void CreateTest_should_create_test_for_existing_file()
 		{
 			// given
-			string filename = GetXmlFilename();
-			TestsClient client = CreateTestsClient();
+			string filename = Helpers.GetXmlFilename();
+			TestsClient client = Helpers.CreateTestsClient();
 			client.CreateTestFile(new TestFile() { Filename = filename }, ServiceConfig.BranchName);
 
 			var test = new Test()
@@ -213,7 +152,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			bool success = client.CreateTest(test, ServiceConfig.BranchName);
 
 			// then
-			string fullPath = GetFullPath(filename);
+			string fullPath = Helpers.GetFullPath(filename);
 
 			Assert.True(success);
 			Assert.True(File.Exists(fullPath));
@@ -225,8 +164,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void DeleteTest_should_save_changes_to_test()
 		{
 			// given
-			TestsClient client = CreateTestsClient();
-			TestFile expectedTestFile = CreateTestFileAndTest(client);
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile expectedTestFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
 			bool success = client.DeleteTest(0, expectedTestFile.Filename, ServiceConfig.BranchName);
@@ -242,18 +181,195 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public void CreateTestFile_should_write_file()
 		{
 			// given
-			string filename = GetXmlFilename();
-			TestsClient client = CreateTestsClient();
+			string filename = Helpers.GetXmlFilename();
+			TestsClient client = Helpers.CreateTestsClient();
 
 			// when
 			bool success = client.CreateTestFile(new TestFile() { Filename = filename }, ServiceConfig.BranchName);
 
 			// then
-			string fullPath = GetFullPath(filename);
+			string fullPath = Helpers.GetFullPath(filename);
 
 			Assert.True(success);
 			Assert.True(File.Exists(fullPath));
 			Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
+		}
+
+		//--------------------------
+		[Test]
+		public void UpdateTestFile_should_store_changes()
+		{
+			// given
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+			testFile.Tests = new List<Test>();
+
+			// when
+			bool success = client.UpdateTestFile(testFile, ServiceConfig.BranchName);
+
+			// then
+			Assert.True(success);
+
+			TestFile actualTestFile = client.GetTestFile(testFile.Filename, ServiceConfig.BranchName);
+			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void GetSummariesForToday_should_only_return_todays_results()
+		{
+			// given
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+
+			var yesterdayResult = new TestFileResult()
+			{
+				StartTime = DateTime.Now.AddDays(-1),
+				EndTime = DateTime.Now.AddDays(-1).AddSeconds(1),
+				Filename = testFile.Filename
+			};
+			var todayResult1 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+			var todayResult2 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+
+			repository.AddAsync(yesterdayResult).Wait();
+			repository.AddAsync(todayResult1).Wait();
+			repository.AddAsync(todayResult2).Wait();
+
+			// when
+			IEnumerable<TestFileResultSummary> results = client.GetSummariesForToday();
+
+			// then
+			Assert.That(results.Count(), Is.EqualTo(2));
+		}
+
+		[Test]
+		public void GetSummaries_should_return_all_results()
+		{
+			// given
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+
+			var result1 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+			var result2 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+
+			repository.AddAsync(result1).Wait();
+			repository.AddAsync(result2).Wait();
+
+			// when
+			IEnumerable<TestFileResultSummary> results = client.GetSummaries();
+
+			// then
+			Assert.That(results.Count(), Is.EqualTo(2));
+		}
+
+		[Test]
+		public void GetResultById_should_return_expected_result()
+		{
+			// given
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+
+			var result1 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+			var result2 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+
+			repository.AddAsync(result1).Wait();
+			repository.AddAsync(result2).Wait();
+
+			// when
+			TestFileResult actualResult = client.GetResultById(result2.Id);
+
+			// then
+			Assert.That(actualResult, Is.Not.Null);
+			Assert.That(actualResult.Id, Is.EqualTo(result2.Id));
+		}
+
+		[Test]
+		public void DeleteResultAsync_should_delete_expected_result()
+		{
+			// given
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+
+			var result1 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+			var result2 = new TestFileResult()
+			{
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now.AddSeconds(1),
+				Filename = testFile.Filename
+			};
+
+			repository.AddAsync(result1).Wait();
+			repository.AddAsync(result2).Wait();
+
+			// when
+			client.DeleteResultAsync(result2.Id).Wait();
+
+			// then
+			TestFileResult deletedResult = client.GetResultById(result2.Id);
+			Assert.That(deletedResult, Is.Null);
+
+			TestFileResult otherResult = client.GetResultById(result1.Id);
+			Assert.That(otherResult, Is.Not.Null);
+		}
+
+		[Test]
+		public void DeleteFile_should_delete_file_from_disk()
+		{
+			// given
+			string filename = Helpers.GetXmlFilename();
+			TestsClient client = Helpers.CreateTestsClient();
+			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+			// when
+			bool success = client.DeleteFile(testFile.Filename, ServiceConfig.BranchName);
+
+			// then
+			string fullPath = Helpers.GetFullPath(filename);
+
+			Assert.True(success);
+			Assert.False(File.Exists(fullPath));
 		}
 	}
 }

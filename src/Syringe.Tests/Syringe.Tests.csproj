@@ -167,6 +167,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
+    <Compile Include="Integration\ClientAndService\Helpers.cs" />
     <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
