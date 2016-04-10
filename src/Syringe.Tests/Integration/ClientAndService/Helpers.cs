@@ -10,7 +10,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 	{
 		public static string GetXmlFilename()
 		{
-			return $"{DateTime.Now.Ticks}.xml";
+			Guid guid = Guid.NewGuid();
+			return $"{guid}.xml";
 		}
 
 		public static string GetFullPath(string filename)
