@@ -104,7 +104,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then 
             ITestServiceMock.Verify(x => x.GetXml(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            Assert.AreEqual("EditXml", viewResult.ViewName);
+            Assert.AreEqual("ViewXml", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
 
