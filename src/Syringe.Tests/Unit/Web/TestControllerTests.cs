@@ -97,10 +97,10 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void EditXml_should_return_correct_view_and_model()
+        public void ViewXml_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _testController.EditXml(It.IsAny<string>()) as ViewResult;
+            var viewResult = _testController.ViewXml(It.IsAny<string>()) as ViewResult;
 
             // then 
             ITestServiceMock.Verify(x => x.GetXml(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
