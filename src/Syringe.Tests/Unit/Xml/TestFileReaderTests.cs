@@ -42,21 +42,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_repeat_attribute()
-		{
-			// Arrange
-			string xml = GetFullExample();
-			var stringReader = new StringReader(xml);;
-			var testFileReader = GetTestFileReader();
-
-			// Act
-			TestFile testFile = testFileReader.Read(stringReader);
-
-			// Assert
-			Assert.That(testFile.Repeat, Is.EqualTo(10));
-		}
-
-		[Test]
 		public void Read_should_parse_test_vars()
 		{
 			// Arrange

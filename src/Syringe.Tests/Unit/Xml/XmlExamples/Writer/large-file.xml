@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<tests repeat="0">
+<tests>
 	<test shortdescription="short description0" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />

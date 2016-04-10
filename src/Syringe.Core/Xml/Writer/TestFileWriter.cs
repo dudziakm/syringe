@@ -22,7 +22,6 @@ namespace Syringe.Core.Xml.Writer
                 using (XmlWriter xmlWriter = XmlTextWriter.Create(stringWriter, settings))
                 {
                     XElement testsElement = new XElement("tests");
-                    testsElement.Add(new XAttribute("repeat", testFile.Repeat.ToString()));
 
                     if (testFile.Variables.Count > 0)
                     {

@@ -159,7 +159,6 @@ namespace Syringe.Core.Repositories.XML
 
 				updatedTestFile.Tests = testFile.Tests;
 				updatedTestFile.Variables = testFile.Variables;
-				updatedTestFile.Repeat = testFile.Repeat;
 
 				string contents = _testFileWriter.Write(updatedTestFile);
 				return _fileHandler.WriteAllText(fileFullPath, contents);

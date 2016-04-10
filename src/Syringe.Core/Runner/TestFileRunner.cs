@@ -37,15 +37,14 @@ namespace Syringe.Core.Runner
 
         public int TestsRun { get; set; }
         public int TotalTests { get; set; }
-        public int RepeatCount { get; set; }
 
         public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository)
         {
             if (httpClient == null)
-                throw new ArgumentNullException("httpClient");
+                throw new ArgumentNullException(nameof(httpClient));
 
             if (repository == null)
-                throw new ArgumentNullException("repository");
+                throw new ArgumentNullException(nameof(repository));
 
             _httpClient = httpClient;
             _currentResults = new List<TestResult>();
@@ -119,7 +118,6 @@ namespace Syringe.Core.Runner
             var verificationsMatcher = new AssertionsMatcher(variables);
 
             // Ensure we loop atleast once:
-            int repeatTotal = (testFile.Repeat > 0) ? testFile.Repeat : 1;
             List<Test> tests = testFile.Tests.ToList();
 
             TimeSpan minResponseTime = TimeSpan.MaxValue;
@@ -127,46 +125,42 @@ namespace Syringe.Core.Runner
             int totalTestsRun = 0;
             TestsRun = 0;
             TotalTests = tests.Count;
-            RepeatCount = 0;
             bool shouldSave = true;
 
-            for (int i = 0; i < repeatTotal; i++)
+
+            foreach (Test test in tests)
             {
-                foreach (Test test in tests)
-                {
-                    if (_isStopPending)
-                        break;
-
-                    try
-                    {
-                        TestResult result = await RunTestAsync(test, variables, verificationsMatcher);
-                        AddResult(testFileResult, result);
-
-                        if (result.ResponseTime < minResponseTime)
-                            minResponseTime = result.ResponseTime;
-
-                        if (result.ResponseTime > maxResponseTime)
-                            maxResponseTime = result.ResponseTime;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, "An exception occurred running case {0}", test.Position);
-                        ReportError(ex);
-                    }
-                    finally
-                    {
-                        totalTestsRun++;
-                        TestsRun++;
-                        RepeatCount = i;
-                    }
-                }
-
                 if (_isStopPending)
-                {
-                    shouldSave = false;
                     break;
+
+                try
+                {
+                    TestResult result = await RunTestAsync(test, variables, verificationsMatcher);
+                    AddResult(testFileResult, result);
+
+                    if (result.ResponseTime < minResponseTime)
+                        minResponseTime = result.ResponseTime;
+
+                    if (result.ResponseTime > maxResponseTime)
+                        maxResponseTime = result.ResponseTime;
                 }
-            }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "An exception occurred running case {0}", test.Position);
+                    ReportError(ex);
+                }
+                finally
+                {
+                    totalTestsRun++;
+                    TestsRun++;
+                }
+
+				if (_isStopPending)
+				{
+					shouldSave = false;
+					break;
+				}
+			}
 
             testFileResult.EndTime = DateTime.UtcNow;
             testFileResult.TotalRunTime = testFileResult.EndTime - testFileResult.StartTime;

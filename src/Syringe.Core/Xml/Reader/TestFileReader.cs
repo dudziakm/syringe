@@ -21,12 +21,6 @@ namespace Syringe.Core.Xml.Reader
             if (rootElement == null)
                 throw new TestException("<tests> node is missing from the config file.");
 
-            // Repeats
-            int repeatValue = 0;
-            string repeatAttribute = XmlHelper.GetOptionalAttribute(rootElement, "repeat");
-            int.TryParse(repeatAttribute, out repeatValue);
-            testFile.Repeat = repeatValue;
-
             // <variables>
             testFile.Variables = GetVariables(rootElement);
 

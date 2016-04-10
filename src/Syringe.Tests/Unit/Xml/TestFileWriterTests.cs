@@ -32,23 +32,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void write_should_add_repeat_attribute()
-		{
-			// Arrange
-			string expectedXml = TestHelpers.ReadEmbeddedFile("repeat.xml", XmlExamplesFolder);
-
-			TestFile testFile = CreateTestFile();
-			testFile.Repeat = 10;
-			TestFileWriter xmlWriter = CreateTestFileWriter();
-
-			// Act
-			string actualXml = xmlWriter.Write(testFile);
-
-			// Assert
-			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
-		}
-
-		[Test]
 		public void write_should_add_all_test_attributes()
 		{
 			// Arrange

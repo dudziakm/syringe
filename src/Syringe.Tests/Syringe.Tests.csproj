@@ -250,11 +250,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\repeat.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\XmlExamples\Writer\all-attributes.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

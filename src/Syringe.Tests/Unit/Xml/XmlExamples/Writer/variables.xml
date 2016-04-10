@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<tests repeat="0">
+<tests>
 	<variables>
 		<variable name="name1" environment="env1">value1</variable>
 		<variable name="name2" environment="env2">value2</variable>

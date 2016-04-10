@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<tests repeat="10">
+<tests>
 	<variables>
 		<variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
 		<variable name="LOGIN1" environment="DevTeam2">bob</variable>

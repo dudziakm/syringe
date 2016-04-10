@@ -32,25 +32,6 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_repeat_tests_from_repeat_property()
-		{
-			// Arrange
-			TestFileRunner runner = CreateRunner();
-
-			var testFile = CreateTestFile(new[]
-			{
-				new Test() { Url = "foo1" },
-			});
-			testFile.Repeat = 10;
-
-			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
-
-			// Assert
-			Assert.That(session.TestResults.Count(), Is.EqualTo(10));
-		}
-
-		[Test]
 		public async Task Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
 		{
 			// Arrange
