@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿/// <reference path="../typings/bootbox.d.ts" />
+$(document).ready(function ()
+{
     const rowsToAdd = [
         { $Button: $("#addVerification"), URL: "/Test/AddAssertion", Prefix: "Assertions" },
         { $Button: $("#addParsedItem"), URL: "/Test/AddCapturedVariableItem", Prefix: "CapturedVariables" },
@@ -12,4 +14,15 @@
         e.preventDefault();
         $(this).closest(".form-group").remove();
     });
+
+	$(".delete-button").on("click", function()
+	{
+		var success = false;
+		bootbox.confirm("Are you sure you want delete?", function (result)
+		{
+			success = result;
+		});
+
+		return success;
+	});
 });
