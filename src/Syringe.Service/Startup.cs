@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using System.Web.Cors;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
+using Syringe.Core.Logging;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace Syringe.Service
@@ -54,6 +56,10 @@ namespace Syringe.Service
 
 			}).EnableSwaggerUi();
 
+			// Log to bin/errors.log
+			Log.UseAllTargets();
+			httpConfiguration.Services.Add(typeof(IExceptionLogger), new ServiceExceptionLogger());
+
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.DependencyResolver = _webDependencyResolver;
 
@@ -87,6 +93,15 @@ namespace Syringe.Service
 
             application.UseCors(corsOptions);
 			application.UseWebApi(httpConfiguration);
+		}
+	}
+
+	public class ServiceExceptionLogger : ExceptionLogger
+	{
+		public override void Log(ExceptionLoggerContext context)
+		{
+			Syringe.Core.Logging.Log.Error(context.Exception, "Service exception");
+			base.Log(context);
 		}
 	}
 }

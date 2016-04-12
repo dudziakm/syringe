@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.Owin;
@@ -11,6 +13,7 @@ using Syringe.Web;
 using Owin.Security.Providers.GitHub;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Core.Logging;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -25,6 +28,7 @@ namespace Syringe.Web
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+			Log.UseAllTargets();
 			ConfigureOAuth(app);
 		}
 

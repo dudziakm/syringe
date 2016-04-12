@@ -30,7 +30,7 @@ namespace Syringe.Core.Logging
 
 			configurationBuilder.AddConsoleLogging("Syringe-Errors");
 			configurationBuilder.AddChainSawLogging("Syringe-Errors");
-			configurationBuilder.AddTextfileLogging("Syringe-Errors", "syringe.log");
+			configurationBuilder.AddTextfileLogging("Syringe-Errors", "errors.log");
 
 			LogManager.Configuration = configuration;
 		}
