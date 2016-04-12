@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.VisualBasic.FileIO;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
 
@@ -92,7 +93,7 @@ namespace Syringe.Core.IO
         {
             try
             {
-                File.Delete(path);
+				FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);
                 return true;
             }
             catch (Exception exception)
