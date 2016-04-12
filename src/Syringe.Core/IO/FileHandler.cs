@@ -66,7 +66,7 @@ namespace Syringe.Core.IO
 
         public IEnumerable<string> GetFileNames(string fullPath)
         {
-            foreach (string file in Directory.EnumerateFiles(fullPath))
+            foreach (string file in Directory.EnumerateFiles(fullPath, "*.xml"))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;
