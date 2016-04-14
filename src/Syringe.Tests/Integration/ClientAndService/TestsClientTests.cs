@@ -211,7 +211,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Assert.True(success);
 
 			TestFile actualTestFile = client.GetTestFile(testFile.Filename, ServiceConfig.BranchName);
-			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(0));
+			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
 		}
 
 		[Test]
