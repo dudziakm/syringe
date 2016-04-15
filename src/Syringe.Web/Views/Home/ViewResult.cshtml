@@ -57,9 +57,9 @@
 										</ul>
 
 										<p>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View Log</a>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTTP Log</a>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTML</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
 										</p>
 
 										@if (!string.IsNullOrEmpty(result.Message))
